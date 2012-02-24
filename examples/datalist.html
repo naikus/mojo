@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title></title>
+      <!--[if LT IE 8]>
+         <script type="text/javascript" src="uSelector.js"></script>
+         <script type="text/javascript">
+            window.selectorEngine = $u;
+         </script>
+      <![endif]-->
+      <script type="text/javascript" src ="h5.min.js"></script>
+      <script type="text/javascript" src ="../src/template.js"></script>
+      <script type="text/javascript" src ="../src/datalist.js"></script>
+      
+      <script id="mytemplate" type="text/x-mojo-template">
+         <p class='vcard'>{person.firstname} {person.lastname}</p>
+      </script>
+      <script type="text/javascript">
+         $.ready(function() {
+            var data = [], list, oList, itempl = $("#mytemplate").template();
+            
+            for(var i = 0; i < 5; i++) {
+               data[i] = {
+                  address: "Cube " + i,
+                  person: {
+                     firstname: "Firstname-" + i,
+                     lastname: "Lastname-" + i,
+                     fullname: function() {
+                        return this.firstname + " " + this.lastname;
+                     }
+                  }
+               };
+            }
+            
+            list = $("#mylist").DataList({
+               render: function(list, item, idx, datum) {
+                  return itempl.process(datum);
+               }
+            });
+            list.setItems(data);
+            list.selectItemAt(0);
+            
+            oList = $('#otherList').DataList();
+            oList.setItems(["One", "Two", "Three", "Four", "Five"]);
+            oList.selectItemAt(0);
+         });
+      </script>
+      <style type="text/css">
+         html, body {
+            font-family: Verdana, sans;
+            font-size: 13px;
+         }
+         .list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border: 5px solid #eee;
+            border-radius: 3px;
+         }
+         .list-item {
+            background-color: #444;
+            border-bottom: 1px solid #333;
+            border-top: 1px solid #555;
+            color: #fefefe;
+
+            
+            padding: 10px;
+            cursor: pointer;
+         }
+         
+         .list-item p {
+            padding: 5px;
+            margin: 0;
+         }
+         
+         .list-item.selected {
+            background-color: #97E6F4;
+            box-shadow: inset 0px 0px 5px #084C6B;
+            color: #444; 
+            font-weight: bold;
+         }
+         
+         #otherList {
+            overflow: auto;
+            height: auto;
+            float: left;
+         }
+         #otherList .list-item {
+            float: left;
+         }
+         #otherList .list-item.selected {
+            font-weight: normal;
+         }
+      </style>
+   </head>
+   <body>
+      <p class="info">A List</p>
+      <ul tabindex="1" id="mylist">
+         
+      </ul>
+      
+      <p class="info">A Horizontal List</p>
+      <ul tabindex="2" id="otherList">
+         
+      </ul>
+   </body>
+</html>
