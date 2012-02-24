@@ -11,7 +11,7 @@
  *    getAge: function() {
  *       return new Date().getYear() - this.birthYear;
  *    },
- *    address {
+ *    address: {
  *       street: "1st"
  *    } 
  * });
@@ -26,7 +26,7 @@
  * var out = templ.process({
  *    firstName: "John",
  *    lastName:  "Doe",
- *    address {
+ *    address: {
  *       street: "1st"
  *    } 
  * });

@@ -1,14 +1,14 @@
 /**
  * The DataList widget. Creates a selectable list from the specified data
  * @Usage 
- * $.("selector").DataList(options);
+ * $("selector").DataList(options);
  * The options object takes the following:
  * values:
  * {
  *    listClass: css class for list, default "list",
  *    itemClass: css class for list item, default "list-item",
  *    data: The data array, default empty array
- *    render: A function to render list item "function(list-widget, $(curr-item), index, data[i])"
+ *    render: A function to render list item "function(list-widget, $(curr-item), index, data[index])"
  *    onselectionchange: a handler function called when list selection changes
  * }
  * @author aniket
@@ -69,7 +69,6 @@
        */
       function render() {
          allItems = [];
-         // @TODO remove all event listeners before removing items
          listRoot.html("");
          
          if(data && data.length)   {
