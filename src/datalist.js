@@ -21,7 +21,7 @@
       render: function(list, item, idx, datum) {
          return "" + datum + "";
       },
-      onselectionchange: function() {}
+      onselectionchange: function(currItem, oldItem) {}
    },
    isTypeOf = $.isTypeOf,
    forEach = $.forEach,
@@ -54,8 +54,11 @@
       // these are our final options
       var opts = $.extend({}, defaults, options),
       // copy the data array
-      data = opts.data.slice(0), 
-      selectedItem, allItems,
+      data = opts.data.slice(0),
+      // the current selected item
+      selectedItem, 
+      // all the items in our list
+      allItems,
       // our root element, create it if not present
       listRoot,
       // support touch/tap events?

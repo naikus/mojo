@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Todo App</title>
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no" />
+      <script type="text/javascript" src ="../h5.js"></script>
+      <script type="text/javascript" src ="../../src/template.js"></script>
+      <script type="text/javascript" src ="../../src/datalist.js"></script>
+      <script type="text/javascript" src ="../../src/app.js"></script>
+      <link rel="stylesheet" href="../../src/style/app.css" />
+      <style>
+         .list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-touch-callout: none;
+         }
+         .list-item {
+            background-color: #444;
+            border-bottom: 1px solid #333;
+            border-top: 1px solid #555;
+            color: #fefefe;
+            padding: 1.9em 0.5em;
+            cursor: pointer;
+         }
+         
+         .list-item p {
+            padding: 5px;
+            margin: 0;
+         }
+         
+         .list-item.selected {
+            background-color: #97E6F4;
+            box-shadow: inset 0px 0px 5px #084C6B;
+            color: #444; 
+            font-weight: bold;
+         }
+      </style>
+      <script type="text/javascript">
+         $.ready(function() {
+            var app = mojo.App({
+               startView: "main"
+            });
+            app.registerView("main", function(app, ui) {
+               var list, viewUi = ui, application = app;
+               return {
+                  initialize: function(data) {
+                     list = $("#mylist").DataList({
+                        onselectionchange: function() {
+                           application.pushView("another", ["Hello",  "World"]);
+                        },
+                        data: [
+                           "Item 1", "Item 2", "Item 3", "Item 4"
+                           ,"Item 5", "Item 6", "Item 7", "Item 8"
+                        ]
+                     });
+                  },
+                  activate: function(data) {
+                     if(data) {
+                        list.setItems(data);
+                     }
+                  },
+                  deactivate: function() {
+                     console.log("main: deactivated");
+                  },
+                  destroy: function() {
+                     console.log("main: destroyed");
+                  }
+               };
+            });
+            
+            
+            app.registerView("another", function(app, ui) {
+               var list, application = app, viewUi = ui;
+               return {
+                  initialize: function(data) {
+                     list = $("#myOlist").DataList({
+                        data: data,
+                        onselectionchange: function(currItem, oldItem) {
+                           if(list.getSelectedIndex() === 0) {
+                              application.popView(["Messaage", "Acknowledged!"]);
+                           }else {
+                              application.pushView("yetanother");
+                           }
+                        }
+                     });
+                     viewUi.on("swipe", function(e) {
+                        if(e.movement.dir === "right") {
+                           application.popView(["Messaage", "Acknowledged!"]);
+                        }
+                     });
+                  },
+                  activate: function(data) {
+                     if(data) {
+                        list.setItems(data);
+                     }
+                  },
+                  deactivate: function() {
+                     console.log("another: deactivated");
+                  },
+                  destroy: function() {
+                     console.log("another: destroyed")
+                  }
+               };
+            });
+            
+            app.registerView("yetanother", function(app, ui) {
+               return {
+                  initialize: function() {
+                     var action = document.createTouch ? "tap" : "click";
+                     ui.on(action, function(e) {
+                        if(app.getCurrentViewId() === "yetanother") {
+                           app.popView(["From", "Yet", "Another", "View"]);
+                           e.stopPropagation();
+                           e.preventDefault();
+                        }
+                     });
+                  }
+               };
+            });
+            
+            app.start();
+         });
+      </script>
+   </head>
+   <body>
+      <div class="view" id="main">
+         <style scoped="scoped">
+            #main {
+               background-color: #ccc;
+            }
+         </style>
+         <ul id="mylist"></ul>
+      </div>
+      
+      <div class="view" id="another">
+         <style scoped="scoped">
+            #another .list-item {
+               background-color: #f2f2f2;
+               border-bottom: 1px solid #ccc;
+               border-top: 1px solid #fefefe;
+               color: #333;
+               padding: 1.9em 0.5em;
+               cursor: pointer;
+            }
+
+            #another .list-item p {
+               padding: 5px;
+               margin: 0;
+            }
+
+            #another .list-item.selected {
+               background-color: #97E6F4;
+               box-shadow: inset 0px 0px 5px #073b5a;
+               color: #444; 
+               font-weight: bold;
+            }
+         </style>
+         <ul id="myOlist"></ul>
+      </div>
+      
+      
+      <div class="view" id="yetanother">
+         <style scoped="scoped">
+            #yetanother {
+               background-color: #eee;
+               -moz-transform: translateX(0);
+               -moz-transform: translateY(100%);
+               
+               -o-transform: translateX(0);
+               -o-transform: translateY(100%);
+               
+               -webkit-transform: translateX(0);
+               -webkit-transform: translateY(100%);
+            }
+            #yetanother.in {
+               -moz-transform: translateY(0%);
+               
+               -o-transform: translateY(0%);
+               
+               -webkit-transform: translateY(0%);
+            }
+            #yetanother.out {
+               -moz-transform: translateY(-100%);
+               
+               -o-transform: translateY(-100%);
+               
+               -webkit-transform: translateY(-100%);
+            }
+            #yetanother.pop.out {
+               -moz-transform: translateY(100%);
+               
+               -o-transform: translateY(100%);
+               
+               -webkit-transform: translateY(100%);
+            }
+
+         </style>
+         <div id="yetDiv">
+            <h1>Yet another view. Click to pop this view</h1>
+         </div>
+      </div>
+   </body>
+</html>

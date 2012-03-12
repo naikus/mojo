@@ -1,0 +1,66 @@
+*{
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+   -webkit-touch-callout: none;
+}
+
+html, body {
+   width: 100%;
+   min-height: 100%;
+   margin: 0;
+   padding: 0;
+   position: absolute;
+   background-color: #666;
+   overflow-x: hidden;
+}
+
+.view {
+   display: none;
+   position: absolute;
+   left: 0;
+   top: 0;
+
+   overflow-x: hidden;
+
+   width: 100%;
+   min-height: 100%;
+
+   -moz-transform: translateX(100%);
+   -webkit-transform: translateX(100%);
+   -o-transform: translateX(100%);
+   transform: translateX(100%);
+}
+.view.active {
+   z-index: 999;
+   display: block;
+}
+
+.transition {
+   -moz-transition: -moz-transform 450ms ease;
+   -webkit-transition: -webkit-transform 450ms ease;
+   -o-transition: -o-transform 450ms ease;
+   /*
+   -moz-transition: left 200ms ease;
+   -webkit-transition: left 200ms ease;
+   -o-transition: left 200ms ease;
+   */
+}
+
+.view.in {
+   -moz-transform: translateX(0%);
+   -o-transform: translateX(0%);
+   -webkit-transform: translateX(0%);
+   /*left: 0;*/
+}
+
+.view.out {
+   -moz-transform: translateX(-100%);
+   -webkit-transform: translateX(-100%);
+   -o-transform: translateX(-100%);
+   /*left: -100%;*/
+}
+
+.view.pop.out {
+   -moz-transform: translateX(100%);
+   -webkit-transform: translateX(100%);
+   -o-transform: translateX(-100%);
+}
