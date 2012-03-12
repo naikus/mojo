@@ -62,5 +62,5 @@ html, body {
 .view.pop.out {
    -moz-transform: translateX(100%);
    -webkit-transform: translateX(100%);
-   -o-transform: translateX(-100%);
+   -o-transform: translateX(100%);
 }
