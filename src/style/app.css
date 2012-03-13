@@ -9,10 +9,11 @@ html, body {
    margin: 0;
    padding: 0;
    position: absolute;
-   background-color: #666;
    overflow-x: hidden;
 }
 
+
+/* ------------------------------------- Default transition effects for views ------------------------------------ */
 .view {
    display: none;
    position: absolute;
@@ -38,25 +39,18 @@ html, body {
    -moz-transition: -moz-transform 450ms ease;
    -webkit-transition: -webkit-transform 450ms ease;
    -o-transition: -o-transform 450ms ease;
-   /*
-   -moz-transition: left 200ms ease;
-   -webkit-transition: left 200ms ease;
-   -o-transition: left 200ms ease;
-   */
 }
 
 .view.in {
    -moz-transform: translateX(0%);
-   -o-transform: translateX(0%);
    -webkit-transform: translateX(0%);
-   /*left: 0;*/
+   -o-transform: translateX(0%);
 }
 
 .view.out {
    -moz-transform: translateX(-100%);
    -webkit-transform: translateX(-100%);
    -o-transform: translateX(-100%);
-   /*left: -100%;*/
 }
 
 .view.pop.out {

@@ -1,23 +1,42 @@
+/**
+ * The Application module. This module is responsible for managing the application's views and their lifecycle
+ * The application is responsible for following:
+ * <ul>
+ *    <li>Creating and instantiating the views from registered factory objects</li>
+ *    <li>Pushing, popping views</li>
+ *    <li>Transitioning views</li>
+ * </ul>
+ * 
+ */
 (function(window, $) {
    "use strict";
    if(window.mojo) {
       return;
    }
-   
+   // the global mojo namespace
    var mojo = {};
       
    mojo.App = function(opts) {
       var noop = function() {},
+         // default application options, overriden in opts
          defaults = {
             startView: "main"
          },
          options = $.extend({}, defaults, opts),
+         // all the views are stored here keyed by view ids
          views = {},
+         // current views on the stack to manage transitions. This stores the view ids
          viewStack = [],
+         // the applicatin object
          app;
          
+      /**
+       * Just ensures that all the lifecycle methods are available for the specified view object
+       * If not adds them
+       * @param view The view object
+       */
       function ensureLifecycle(view) {
-         view.init = view.init || noop;
+         view.initialize = view.initialize || noop;
          view.activate = view.activate || noop;
          view.deactivate = view.deactivate || noop;
          view.destroy = view.destroy || noop;
@@ -38,6 +57,19 @@
          return isNaN(idx) ? -1 : idx;
       }
       
+      /**
+       * Pushes the view specified by 'id' and makes the view active. Following are the steps:
+       * <ol>
+       *    <li>Find and create (if necessary from the supplied factory function) the view object</li>
+       *    <li>If newly created, initialize the view by calling 'initialize(app) function</li>
+       *    <li>Activate the view by calling the activate(data) function on the view object</li>
+       *    <li>Transition the current view out of view port</li>
+       *    <li>Deactivate the transitioned view on completion of the transition</li>
+       * </ol>
+       * 
+       * @param {String} id The view id
+       * @param {Object} data The data for the new view
+       */
       function pushView(id, data) {
          var nInfo = views[id], 
             nView, 
@@ -82,6 +114,18 @@
          console.log("stack: " + viewStack.join(","));
       }
       
+      /**
+       * Pops the current view and restores the previous view. Following are the sequence of actions taken:
+       * <ol>
+       *    <li>Pop the current view from the stack</li>
+       *    <li>Activate the last view on the stack by calling activate method on the view</li>
+       *    <li>Transition the popped view out of the view port</li>
+       *    <li>Transition the restored view into the view port</li>
+       *    <li>After transition completes, deactivate the popped view</li>
+       * </ol>
+       * 
+       * @param {Object} data The data to provide to the restored view. This is passed to the activate() function
+       */
       function popView(data) {
          var nInfo, current;
          if(viewStack.length === 1) {
@@ -109,6 +153,9 @@
          console.log("stack: " + viewStack.join(","));
       }
       
+      /**
+       * Handles some actions after views transition in or out of the view port
+       */
       function handleViewTransition(evt) {
          var target = evt.target, el = $(target), viewId = target.id, view = views[viewId].view;
          if(el.hasClass("view")) {
@@ -125,6 +172,30 @@
       }
        
       app = {
+         /**
+          * Registeres a view with this application. The id of the view and a factory function is
+          * provided for registeration. 
+          * At the time of instantiation, a DOM element corrosponding to the view (whose id is the same
+          * as view id) has to exist or it will cause an exception to be thrown
+          * @param {String} id The id of the new view
+          * @param {Function} fac The factory function that creates the view object. This function is
+          * passed two parameters, the application object and the h5 UI element
+          * @example 
+          * application.registerView("myView", function(app, ui) {
+          *    return {
+          *       initialize: function() {
+          *          var action = document.createTouch ? "tap" : "click";
+          *          ui.on(action, function(e) {
+          *             if(app.getCurrentViewId() === "yetanother") {
+          *                app.popView(["From", "Yet", "Another", "View"]);
+          *                e.stopPropagation();
+          *                e.preventDefault();
+          *             }
+          *          });
+          *       }
+          *    };
+          * });
+          */
          registerView: function(id, fac) {
             var uiView, info, old = views[id];
             
@@ -157,19 +228,51 @@
             views[id] = info;
          },
          
+         /**
+          * Pushes the view specified by 'id' and makes the view active. Following are the steps:
+          * <ol>
+          *    <li>Find and create (if necessary from the supplied factory function) the view object</li>
+          *    <li>If newly created, initialize the view by calling 'initialize(app) function</li>
+          *    <li>Activate the view by calling the activate(data) function on the view object</li>
+          *    <li>Transition the current view out of view port</li>
+          *    <li>Deactivate the transitioned view on completion of the transition</li>
+          * </ol>
+          * 
+          * @param {String} id The view id
+          * @param {Object} viewData The data for the new view
+          */
          pushView: function(id, viewData) {
             pushView(id, viewData);
          },
          
+         /**
+          * Pops the current view and restores the previous view. Following are the sequence of actions taken:
+          * <ol>
+          *    <li>Pop the current view from the stack</li>
+          *    <li>Activate the last view on the stack by calling activate method on the view</li>
+          *    <li>Transition the popped view out of the view port</li>
+          *    <li>Transition the restored view into the view port</li>
+          *    <li>After transition completes, deactivate the popped view</li>
+          * </ol>
+          * 
+          * @param {Object} viewResult The data to provide to the restored view. This is passed to the activate() function
+          */
          popView: function(viewResult) {
             popView(viewResult);
          },
          
+         /**
+          * Gets the id of the currently active view
+          */
          getCurrentViewId: function() {
             var len = viewStack.length;
             return len ? viewStack[len - 1] : null;
          },
          
+         /**
+          * Starts this application loading the startView specified in the options.
+          * The default value of startView is "main"
+          */
          start: function() {
             this.pushView(options.startView);
          }
@@ -182,3 +285,6 @@
    
    window.mojo = mojo;
 })(window, h5)
+
+
+
