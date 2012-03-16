@@ -2,7 +2,6 @@
  * Simple CSS based toggle control
  */
 (function($) {
-   var action = document.createTouch ? "tap" : "click";
    $.extension("toggle", function(isOn) {
       var state = !!isOn, elem = this;
       
@@ -14,7 +13,7 @@
          }
       }
       
-      elem.on(action, function() {
+      elem.on("tap", function() {
          state = !state;
          // elem.dispatch("change");
          renderUi();
