@@ -3,9 +3,11 @@
   <target name="combine">
     <!-- Order is important here -->
     <concat destfile="mojo.js">
+      <fileset dir="." includes="LICENSE" />
       <filelist dir="src">
         <file name="template.js"/>
         <file name="datalist.js"/>
+        <file name="form.js"/>
         <file name="app.js"/>
       </filelist>
     </concat>
