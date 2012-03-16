@@ -31,7 +31,7 @@
  *    } 
  * });
  * 
- * @author aniket
+ * @author aniketn3@gmail.com
  */
 (function($) {
    var regExp = /\{([^\{\}]+)\}/g;

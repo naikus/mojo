@@ -11,7 +11,7 @@
  *    render: A function to render list item "function(list-widget, $(curr-item), index, data[index])"
  *    onselectionchange: a handler function called when list selection changes
  * }
- * @author aniket
+ * @author aniketn3@gmail.com
  */
 (function($) {
    var defaults = {
@@ -61,8 +61,7 @@
       allItems,
       // our root element, create it if not present
       listRoot,
-      // support touch/tap events?
-      action = document.createTouch ? "tap" : "click",
+
       enabled = true,
       element = this.get(0), 
       ul, widget;
@@ -118,7 +117,7 @@
       }
       listRoot.addClass(opts.listClass);
       
-      listRoot.on(action, function(e) {
+      listRoot.on("tap", function(e) {
          var t = e.target, parent = t.parentNode, idx, item;
          if(parent === ul) {
             item = t;

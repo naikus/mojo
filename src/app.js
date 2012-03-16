@@ -7,6 +7,7 @@
  *    <li>Transitioning views</li>
  * </ul>
  * 
+ * @author aniketn3@gmail.com
  */
 (function(window, $) {
    "use strict";
@@ -78,7 +79,7 @@
             len = viewStack.length,
             cId = len ? viewStack[len - 1] : null;
          if(!nInfo) {
-            throw new Error("No such view")
+            throw new Error("No such view: " + id);
          }
          
          console.log("pushing: " + id);
@@ -242,6 +243,9 @@
           * @param {Object} viewData The data for the new view
           */
          pushView: function(id, viewData) {
+            if(this.getCurrentViewId() === id) {
+               return;
+            }
             pushView(id, viewData);
          },
          
