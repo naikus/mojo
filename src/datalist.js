@@ -25,7 +25,8 @@
    },
    isTypeOf = $.isTypeOf,
    forEach = $.forEach,
-   uuid = $.uuid;
+   uuid = $.uuid,
+   action = "ontouchstart" in document.documentElement ? "tap" : "click"; 
    
    /**
     * Render each item using the specified renderer
@@ -61,7 +62,6 @@
       allItems,
       // our root element, create it if not present
       listRoot,
-
       enabled = true,
       element = this.get(0), 
       ul, widget;
@@ -117,7 +117,7 @@
       }
       listRoot.addClass(opts.listClass);
       
-      listRoot.on("tap", function(e) {
+      listRoot.on(action, function(e) {
          var t = e.target, parent = t.parentNode, idx, item;
          if(parent === ul) {
             item = t;

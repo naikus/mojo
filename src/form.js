@@ -2,8 +2,11 @@
  * Simple CSS based toggle control
  */
 (function($) {
-   $.extension("toggle", function(isOn) {
-      var state = !!isOn, elem = this;
+   var action = "ontouchstart" in document.documentElement ? "tap" : "click",
+      noop = function() {};
+      
+   $.extension("toggle", function(opts) {
+      var state = !!opts.on, elem = this, onchange = opts.onchange || noop, widget;
       
       function renderUi() {
          if(state) {
@@ -13,15 +16,15 @@
          }
       }
       
-      elem.on("tap", function() {
+      elem.on(action, function() {
          state = !state;
-         // elem.dispatch("change");
          renderUi();
+         onchange.call(widget, state);
       });
       
       renderUi();
       
-      return {
+      widget = {
          toggle: function() {
             state = !state;
             renderUi();
@@ -34,6 +37,8 @@
             return state;
          }
       };
+      
+      return widget;
    });
 })(h5);
 
