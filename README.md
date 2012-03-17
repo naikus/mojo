@@ -27,4 +27,4 @@ mojo provides following features out-of-the-box
 
 ### Documentation
 -----
-Please refer to the [wiki](wiki/Creating-a-Simple-Application) for documentation.
+Please refer to the [wiki](mojo/wiki) for documentation.
