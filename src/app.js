@@ -82,7 +82,7 @@
             throw new Error("No such view: " + id);
          }
          
-         console.log("pushing: " + id);
+         // console.log("pushing view: " + id);
          
          nUi = nInfo.ui;
          
@@ -112,7 +112,7 @@
          }, 40);
          
          viewStack.push(id);
-         console.log("stack: " + viewStack.join(","));
+         // console.log("view stack: " + viewStack.join(","));
       }
       
       /**
@@ -128,30 +128,29 @@
        * @param {Object} data The data to provide to the restored view. This is passed to the activate() function
        */
       function popView(data) {
-         var nInfo, current;
-         if(viewStack.length === 1) {
+         var nInfo, current, nui, len = viewStack.length;
+         if(len === 1) {
             console.log("Can't pop, last in stack");
             return;
          }
          current = views[viewStack.pop()];
-         nInfo = views[viewStack[viewStack.length - 1]];
+         nInfo = views[viewStack[len - 2]]; // because we popped, the last item is at len - 1 - 1 
          
-         console.log("popping: " + current.id + ", showing: " + nInfo.id);
+         // console.log("popping: " + current.id + ", showing: " + nInfo.id);
          
-         // deactivate the current view
-         // current.view.deactivate();
+         nui = nInfo.ui;
          
          // activate the new view
          nInfo.view.activate(data);
-         nInfo.ui.addClass("active");
+         nui.addClass("active");
          
          // transition the views
          setTimeout(function() {
             current.ui.removeClass("in").addClass("pop")
-            nInfo.ui.removeClass("out").addClass("in");
+            nui.removeClass("out").addClass("in");
          }, 40);
          
-         console.log("stack: " + viewStack.join(","));
+         // console.log("view stack: " + viewStack.join(","));
       }
       
       /**
