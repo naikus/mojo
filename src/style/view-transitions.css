@@ -23,6 +23,10 @@ html, body {
 
    width: 100%;
    min-height: 100%;
+   
+   /* Avoid flickering in webkit browsers, thanks stackoverflow */
+   /* -webkit-perspective: 1000; */
+   -webkit-backface-visibility: hidden;  
 
    -moz-transform: translateX(100%);
    -webkit-transform: translateX(100%);
