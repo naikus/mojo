@@ -18,9 +18,8 @@
       listClass: "list",
       itemClass: "list-item",
       data: [],
-      render: function(list, item, idx, datum) {
-         return "" + datum + "";
-      },
+      template: null,
+      render: null,
       onselectionchange: function(currItem, oldItem) {}
    },
    isTypeOf = $.isTypeOf,
@@ -66,6 +65,10 @@
       element = this.get(0), 
       ul, widget;
       
+      opts.render = opts.render || function(list, item, idx, datum) {
+         return opts.template ? opts.template.process(datum) : datum + "";
+      };
+      
       /**
        * Render the entire list widget
        */
@@ -101,7 +104,9 @@
                old.removeClass("selected");
             }
             selectedItem = item;
-            selectedItem.addClass("selected");
+            if(selectedItem) {
+               selectedItem.addClass("selected");
+            }
          }else {
             selectedItem = old;
          }
@@ -196,6 +201,10 @@
                   }
                }
             }
+         },
+         
+         clearSelection: function() {
+            fireSelectionChanged(null);
          }
       };
       

@@ -83,7 +83,6 @@
          }
          
          // console.log("pushing view: " + id);
-         
          nUi = nInfo.ui;
          
          // create and initialize new view if applicable
@@ -156,7 +155,7 @@
       /**
        * Handles some actions after views transition in or out of the view port
        */
-      function handleViewTransition(evt) {
+      function handleViewTransitionEnd(evt) {
          var target = evt.target, el = $(target), viewId = target.id, view = views[viewId].view;
          if(el.hasClass("view")) {
             if(el.hasClass("out")) {
@@ -214,9 +213,9 @@
             //ensureLifecycle(view);
             
             // add transition handling listener
-            uiView.on("transitionend", handleViewTransition)
-               .on("webkitTransitionEnd", handleViewTransition)
-               .on("OTransitionEnd", handleViewTransition);
+            uiView.on("transitionend", handleViewTransitionEnd)
+               .on("webkitTransitionEnd", handleViewTransitionEnd)
+               .on("OTransitionEnd", handleViewTransitionEnd);
             
             // maintain the state of this view in a secret :) object
             info = {
