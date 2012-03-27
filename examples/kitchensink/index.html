@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Kitchen Sink App</title>
+      <meta name="HandheldFriendly" content="True">
+      <meta name="MobileOptimized" content="480">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      
+      <script type="text/javascript" src ="lib/h5.js"> </script>
+      <script type="text/javascript" src ="../../src/template.js"> </script>
+      <script type="text/javascript" src ="../../src/datalist.js"> </script>
+      <script type="text/javascript" src ="../../src/form.js"> </script>
+      <script type="text/javascript" src ="../../src/app.js"> </script>
+      <!-- <script type="text/javascript" src ="lib/iscroll-lite.js"> </script> -->
+      
+      <link rel="stylesheet" type="text/css" href="../../src/style/view-transitions.css" />
+      <link rel="stylesheet" type="text/css" href="../../src/style/theme.css" />
+      
+      <style type="text/css">
+         *{
+            font-family: sans;
+         }
+         
+         .dark .list > li {
+            border-bottom: 1px solid #222;
+            border-top: 1px solid #444;
+         }
+         
+         .content {
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+         }
+         
+         nav > header {
+            padding: 10px;
+         }
+      
+         #viewPort {
+            padding: 0;
+            margin: 0;
+            
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+         }
+      
+         /* Smart phones */
+         @media only screen and (min-width: 320px) and (max-width: 480px) {           
+            #nav {
+               width: 85%;
+            }
+         }
+         
+         /* Tablets */
+         @media only screen and (min-width: 500px) {
+            
+            #nav {
+               position: absolute;
+               left: 0;
+               width: 15%;
+               height: 100%;
+               z-index: 199;
+               box-shadow: inset -2px 0px 5px #111;
+            }
+            
+            #viewPort {
+               left: 15%;
+               width: 85%;
+            }            
+         }
+      </style>
+      
+      <script>
+         var kitchenSink = mojo.App({
+            startView: "splash",
+         });
+         $.ready(function() {
+            kitchenSink.start();
+         });
+      </script>
+   </head>
+   <body>
+   
+      <aside class="dark" id="nav">
+         <nav id="navigation">
+            <header>Navigation</header>
+            <ul class="list">
+               <li>View Transitions</li>
+               <li>Form Controls</li>
+            </ul>
+         </nav>
+      </aside>
+   
+      <div id="viewPort">
+         <!-- ================================== Splash screen ================================= -->
+         <article class="view" id="splash">
+            <style>
+               #splash {
+                  -moz-transform: translateX(0%);
+                  -webkit-transform: translateX(0%);
+                  -o-transform: translateX(0%);
+                  -ms-transform: translateX(0%);
+                  transform: translateX(0%);
+               }
+               #splash.out {
+                  -moz-transform: translateX(-100%);
+                  -webkit-transform: translateX(-100%);
+                  -o-transform: translateX(-100%);
+                  -ms-transform: translateX(-100%);
+                  transform: translateX(-100%);
+               }
+               
+               #splash .content {
+                  margin: 0;
+                  padding: 0;
+                  height: 300px;
+                  text-align: center;
+                  background-image: url('style/images/sink.png');
+                  background-repeat: no-repeat;
+                  background-position: center 100px
+               }
+               
+               #splash .content h2 {
+                  text-shadow: 2px 2px 2px #fff;
+                  margin-top: 200px;
+               }
+            </style>
+            <script>
+               kitchenSink.registerView("splash", function(app, viewUi) {
+                  return {
+                     activate: function() {
+                        setTimeout(function() {
+                           app.pushView("main");
+                        }, 2000);
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <h2>Kitchen Sink</h2>
+            </div>
+         </article>
+         
+         <article class="view" id="main">
+            <style>
+               #main {
+                  background-color: #999;
+               }
+            </style>
+            <script>
+               kitchenSink.registerView("main", function(app, viewUi) {
+                  return {};
+               });
+            </script>
+         </article>
+      </div>
+   </body>
+</html>
