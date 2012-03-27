@@ -11,6 +11,14 @@
         <file name="app.js"/>
       </filelist>
     </concat>
+    
+    <concat destfile="mojo.css">
+      <fileset dir="." includes="LICENSE" />
+      <filelist dir="src">
+        <file name="style/view-transitions.css"/>
+        <file name="style/theme.css"/>
+      </filelist>
+    </concat>
   </target>
   
   <target name="build" depends="clean,combine">
