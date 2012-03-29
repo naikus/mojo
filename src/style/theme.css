@@ -3,6 +3,8 @@ html, body {
    min-height: 100%;
    margin: 0;
    padding: 0;
+   position: absolute;
+   font-family: Verdana, sans;
 }
 
 ul {
@@ -80,6 +82,7 @@ section {
 }
 
 section > header {
+   font-weight: bold;
    margin: 0;
    margin-bottom: 5px;
    padding: 8px;
@@ -99,7 +102,7 @@ input[type=text], input[type=password] {
    padding: 2px;
    display: block;
    border: none;
-   /* font-size: 16px; */
+   font-size: 15px;
    background: transparent;
    -webkit-appearance:caret;
    width: 100%;
