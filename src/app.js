@@ -43,19 +43,20 @@
          view.destroy = view.destroy || noop;
       }
       
-      function indexOf(array, obj) {
-         for(var i = 0, len = array.len; i < len && array[i] === obj; i++);
+      function getViewIndexOnStack(id) {
+         for(var i = 0, len = viewStack.len; i < len && viewStack[i] !== id; i++);
          return i === len ? -1 : i;
       }
       
-      function getViewIndex(url) {
-         var hash = url.lastIndexOf("#"), frag, idx;
-         if(hash === -1) {
-            return -1;
+      function getViewId(url) {
+         if(!url) {
+            return null;
          }
-         frag = url.substring(hash + 1);
-         idx = Number(frag);
-         return isNaN(idx) ? -1 : idx;
+         var hash = url.lastIndexOf("#");
+         if(hash === -1) {
+            return null;
+         }
+         return url.substring(hash + 1);
       }
       
       /**
@@ -156,19 +157,62 @@
        * Handles some actions after views transition in or out of the view port
        */
       function handleViewTransitionEnd(evt) {
-         var target = evt.target, el = $(target), viewId = target.id, view = views[viewId].view;
-         if(el.hasClass("view")) {
-            if(el.hasClass("out")) {
-               view.deactivate();
-               el.removeClass("active");
-            }
-            
-            if(el.hasClass("pop")) {
-               view.deactivate();
-               el.removeClass("active").removeClass("transition").removeClass("pop");
-            }
+         var target = evt.target, viewId = target.id, viewInfo = views[viewId], view, el;
+         
+         if(!viewInfo) {
+            return; // not a view
+         }
+         
+         el = viewInfo.ui;
+         view = viewInfo.view;
+         
+         if(el.hasClass("out")) {
+            view.deactivate();
+            el.removeClass("active");
+         }
+         
+         if(el.hasClass("pop")) {
+            view.deactivate();
+            el.removeClass("active").removeClass("transition").removeClass("pop");
+         }
+         
+         if(el.hasClass("in")) {
+            window.location.hash = viewId;
          }
       }
+      
+      function getCurrentViewId() {
+         var len = viewStack.length;
+         return len ? viewStack[len - 1] : null;
+      }
+      
+      /**
+       * Handle back button
+       */
+      (function() {
+         // some browsers do not support hashchange's event.oldURL and event.newURL 
+         var oUrl = null, nUrl = window.location.href;
+         
+         $(window).on("hashchange", function(e) {
+            oUrl = nUrl;
+            nUrl = window.location.href;
+            
+            var startId = options.startView, 
+               id = getViewId(nUrl) || startId, 
+               oId = getViewId(oUrl) || startId, 
+               curId = getCurrentViewId(), 
+               lastId;
+               
+            if(curId !== id) { // either front or back button is pressed
+               lastId = viewStack[viewStack.length - 2];
+               if(lastId === id) { // back button pressed
+                  popView();
+               }else {
+                  pushView(id);
+               }
+            }
+         });
+      })();
        
       app = {
          /**
@@ -266,10 +310,7 @@
          /**
           * Gets the id of the currently active view
           */
-         getCurrentViewId: function() {
-            var len = viewStack.length;
-            return len ? viewStack[len - 1] : null;
-         },
+         getCurrentViewId: getCurrentViewId,
          
          /**
           * Starts this application loading the startView specified in the options.
@@ -279,8 +320,6 @@
             this.pushView(options.startView);
          }
       };
-      
-      // $(window).on("hashchange", pushOrPopView);
       
       return app;
    };
