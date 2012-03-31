@@ -17,30 +17,47 @@
    // the global mojo namespace
    var mojo = {};
       
-   mojo.App = function(opts) {
+   /**
+    * The view port object. The view port provides various features for managing views and their
+    * lifecycle. It allows for registering views with the viewport and switching between views
+    */
+   mojo.Application = function() {
       var noop = function() {},
          // default application options, overriden in opts
          defaults = {
             startView: "main"
          },
-         options = $.extend({}, defaults, opts),
+         options, 
          // all the views are stored here keyed by view ids
          views = {},
          // current views on the stack to manage transitions. This stores the view ids
          viewStack = [],
-         // the applicatin object
-         app;
+         // the view port object
+         app,
+         
+         viewPort,
+         
+         defController = {
+            initialize: noop,
+            activate: noop,
+            deactivate: noop,
+            destroy: noop
+         };
+         
+      function defViewFactory() {
+         return defController;
+      }
          
       /**
        * Just ensures that all the lifecycle methods are available for the specified view object
        * If not adds them
-       * @param view The view object
+       * @param controller The view object
        */
-      function ensureLifecycle(view) {
-         view.initialize = view.initialize || noop;
-         view.activate = view.activate || noop;
-         view.deactivate = view.deactivate || noop;
-         view.destroy = view.destroy || noop;
+      function ensureLifecycle(controller) {
+         controller.initialize = controller.initialize || noop;
+         controller.activate = controller.activate || noop;
+         controller.deactivate = controller.deactivate || noop;
+         controller.destroy = controller.destroy || noop;
       }
       
       function getViewIndexOnStack(id) {
@@ -74,7 +91,7 @@
        */
       function pushView(id, data) {
          var nInfo = views[id], 
-            nView, 
+            nController, 
             nUi,
             current, 
             len = viewStack.length,
@@ -85,18 +102,31 @@
          
          // console.log("pushing view: " + id);
          nUi = nInfo.ui;
-         
+         nController = nInfo.controller;
+
          // create and initialize new view if applicable
-         nView = nInfo.view;
-         if(!nView) {
-            nView = nInfo.view = nInfo.factory(app, nUi);
-            ensureLifecycle(nView);
+         if(!nUi) {
+            // see if the wrapper element for this view exists
+            nUi = nInfo.ui = $("#" + id);
+            if(!nUi.count()) {
+               delete views[id];
+               throw new Error("Wrapper element for view " + id + " not found");
+            }
+            
+            // add transition handling listener
+            nUi.on("transitionend", handleViewTransitionEnd)
+               .on("webkitTransitionEnd", handleViewTransitionEnd)
+               .on("OTransitionEnd", handleViewTransitionEnd);
+            
+            
+            nController = nInfo.controller = nInfo.factory(app, nUi);
+            ensureLifecycle(nController);
             // initialize the newly created view
-            nView.initialize(data);
+            nController.initialize(data);
          }
          
          // activate the new view
-         nView.activate(data);
+         nController.activate(data);
          nUi.addClass("active");
          
          // transition views
@@ -141,12 +171,12 @@
          nui = nInfo.ui;
          
          // activate the new view
-         nInfo.view.activate(data);
+         nInfo.controller.activate(data);
          nui.addClass("active");
          
          // transition the views
          setTimeout(function() {
-            current.ui.removeClass("in").addClass("pop")
+            current.ui.removeClass("in").addClass("pop");
             nui.removeClass("out").addClass("in");
          }, 40);
          
@@ -157,25 +187,26 @@
        * Handles some actions after views transition in or out of the view port
        */
       function handleViewTransitionEnd(evt) {
-         var target = evt.target, viewId = target.id, viewInfo = views[viewId], view, el;
+         var target = evt.target, viewId = target.id, viewInfo = views[viewId], controller, el;
          
          if(!viewInfo) {
             return; // not a view
          }
          
          el = viewInfo.ui;
-         view = viewInfo.view;
+         controller = viewInfo.controller;
          
          if(el.hasClass("out")) {
-            view.deactivate();
+            controller.deactivate();
             el.removeClass("active");
          }
          
          if(el.hasClass("pop")) {
-            view.deactivate();
+            controller.deactivate();
             el.removeClass("active").removeClass("transition").removeClass("pop");
          }
          
+         // for history support, experimental!
          if(el.hasClass("in")) {
             window.location.hash = viewId;
          }
@@ -202,6 +233,10 @@
                oId = getViewId(oUrl) || startId, 
                curId = getCurrentViewId(), 
                lastId;
+               
+            if(!views[id]) { // this hash change was triggered by some link or something else
+               return;
+            }
                
             if(curId !== id) { // either front or back button is pressed
                lastId = viewStack[viewStack.length - 2];
@@ -240,33 +275,20 @@
           * });
           */
          registerView: function(id, fac) {
-            var uiView, info, old = views[id];
+            var info, old = views[id];
             
             // check if this view is trying to register itself again
             old = views[id];
             if(old) {
-               throw new Error("View " + id + " is already exists");
+               throw new Error("View " + id + " already exists");
             }
-            
-            // see if the wrapper element for this view exists
-            uiView = $("#" + id);
-            if(!uiView.count()) {
-               throw new Error("Wrapper element for view " + id + " not found");
-            }
-            
-            //ensureLifecycle(view);
-            
-            // add transition handling listener
-            uiView.on("transitionend", handleViewTransitionEnd)
-               .on("webkitTransitionEnd", handleViewTransitionEnd)
-               .on("OTransitionEnd", handleViewTransitionEnd);
             
             // maintain the state of this view in a secret :) object
             info = {
                id: id,
-               ui: uiView,
-               view: null,
-               factory: fac
+               ui: null,
+               controller: null,
+               factory: fac || defViewFactory
             };
             views[id] = info;
          },
@@ -312,11 +334,18 @@
           */
          getCurrentViewId: getCurrentViewId,
          
+         
+         showOverlay: function(oId) {
+            
+         },
+         
          /**
           * Starts this application loading the startView specified in the options.
           * The default value of startView is "main"
           */
-         start: function() {
+         initialize: function(opts) {
+            options = $.extend({}, defaults, opts);
+            viewPort = options.viewPort || $(document.body);
             this.pushView(options.startView);
          }
       };
