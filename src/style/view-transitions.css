@@ -5,6 +5,16 @@
 
 /* ------------------------------------- Default transition effects for views ------------------------------------ */
 .view {
+   display: none;
+   position: absolute;
+   left: 0;
+   top: 0;
+
+   overflow-x: hidden;
+
+   width: 100%;
+   min-height: 100%;
+   
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
    /* -webkit-perspective: 1000; */
    -webkit-backface-visibility: hidden;  

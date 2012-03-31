@@ -32,16 +32,6 @@ li {
 
 
 .view {
-   display: none;
-   position: absolute;
-   left: 0;
-   top: 0;
-
-   overflow-x: hidden;
-
-   width: 100%;
-   min-height: 100%;
-   
    background-color: #efefef;
    color: #3d3d3d;
 }
