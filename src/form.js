@@ -6,7 +6,7 @@
       noop = function() {};
       
    $.extension("toggle", function(opts) {
-      var state = !!opts.on, elem = this, onchange = opts.onchange || noop, widget;
+      var state = !!opts.value, elem = this, onchange = opts.onchange || noop, widget;
       
       function renderUi() {
          if(state) {
@@ -35,6 +35,9 @@
          },
          isOn: function() {
             return state;
+         },
+         getValue: function() {
+            return state;            
          }
       };
       
