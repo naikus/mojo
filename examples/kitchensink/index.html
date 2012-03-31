@@ -75,11 +75,11 @@
       </style>
       
       <script>
-         var kitchenSink = mojo.App({
-            startView: "splash",
-         });
+         var kitchenSink = mojo.Application();
          $.ready(function() {
-            kitchenSink.start();
+            kitchenSink.initialize({
+               startView: "splash"
+            });
          });
       </script>
    </head>

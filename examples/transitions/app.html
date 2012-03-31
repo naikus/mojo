@@ -52,9 +52,7 @@
       </style>
       <script type="text/javascript">
          $.ready(function() {
-            var app = mojo.App({
-               startView: "main"
-            });
+            var app = mojo.Application();
             app.registerView("main", function(app, ui) {
                var list, viewUi = ui, application = app;
                return {
@@ -147,7 +145,9 @@
                };
             });
             
-            app.start();
+            app.initialize({
+               startView: "main"
+            });
          });
       </script>
    </head>
