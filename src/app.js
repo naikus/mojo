@@ -76,6 +76,31 @@
          return url.substring(hash + 1);
       }
       
+      function initialize(id, info) {
+         // see if the wrapper element for this view exists
+         var ui = info.ui = $("#" + id), controller;
+         if(!ui.count()) {
+            delete views[id];
+            throw new Error("Wrapper element for " + id + " not found");
+         }
+
+         // add transition handling listener
+         if(info.overlay) {
+            ui.on("transitionend", onOverlayTransitionEnd)
+               .on("webkitTransitionEnd", onOverlayTransitionEnd)
+               .on("OTransitionEnd", onOverlayTransitionEnd);
+         }else {
+            ui.on("transitionend", onViewTransitionEnd)
+               .on("webkitTransitionEnd", onViewTransitionEnd)
+               .on("OTransitionEnd", onViewTransitionEnd);
+         }
+
+         controller = info.controller = info.factory(app, ui);
+         ensureLifecycle(controller);
+         // initialize the newly created controller
+         controller.initialize();
+      }
+      
       /**
        * Pushes the view specified by 'id' and makes the view active. Following are the steps:
        * <ol>
@@ -90,56 +115,42 @@
        * @param {Object} data The data for the new view
        */
       function pushView(id, data) {
-         var nInfo = views[id], 
-            nController, 
-            nUi,
-            current, 
+         var nxtInfo = views[id], 
+            nxtUi,
+            currInfo, 
             len = viewStack.length,
-            cId = len ? viewStack[len - 1] : null;
-         if(!nInfo) {
+            currId = len ? viewStack[len - 1] : null;
+            
+         if(currId === id) {
+            return;
+         }
+            
+         // check if the view exists
+         if(!nxtInfo) {
             throw new Error("No such view: " + id);
          }
          
-         // console.log("pushing view: " + id);
-         nUi = nInfo.ui;
-         nController = nInfo.controller;
-
          // create and initialize new view if applicable
-         if(!nUi) {
-            // see if the wrapper element for this view exists
-            nUi = nInfo.ui = $("#" + id);
-            if(!nUi.count()) {
-               delete views[id];
-               throw new Error("Wrapper element for view " + id + " not found");
-            }
-            
-            // add transition handling listener
-            nUi.on("transitionend", handleViewTransitionEnd)
-               .on("webkitTransitionEnd", handleViewTransitionEnd)
-               .on("OTransitionEnd", handleViewTransitionEnd);
-            
-            
-            nController = nInfo.controller = nInfo.factory(app, nUi);
-            ensureLifecycle(nController);
-            // initialize the newly created view
-            nController.initialize(data);
+         if(!nxtInfo.ui) {
+            initialize(id, nxtInfo);
          }
-         
+
+         nxtUi = nxtInfo.ui;
          // activate the new view
-         nController.activate(data);
-         nUi.addClass("active");
+         nxtInfo.controller.activate(data);
+         nxtUi.addClass("active");
          
          // transition views
          setTimeout(function() {
             // transition out the old view, this is not the same as popping a view
-            if(cId) {
-               current = views[cId];
+            if(currId) {
+               currInfo = views[currId];
                // transition out the current view
-               current.ui.addClass("out").removeClass("in");
+               currInfo.ui.addClass("out").removeClass("in");
             }
             // transition in the new view
-            nUi.addClass("transition").addClass("in");
-         }, 40);
+            nxtUi.addClass("transition").addClass("in");
+         }, 100);
          
          viewStack.push(id);
          // console.log("view stack: " + viewStack.join(","));
@@ -158,35 +169,43 @@
        * @param {Object} data The data to provide to the restored view. This is passed to the activate() function
        */
       function popView(data) {
-         var nInfo, current, nui, len = viewStack.length;
+         var prevInfo, prevUi, currInfo, len = viewStack.length;
          if(len === 1) {
             console.log("Can't pop, last in stack");
             return;
          }
-         current = views[viewStack.pop()];
-         nInfo = views[viewStack[len - 2]]; // because we popped, the last item is at len - 1 - 1 
+         currInfo = views[viewStack.pop()];
+         prevInfo = views[viewStack[len - 2]]; // because we popped, the last item is at len - 1 - 1 
          
-         // console.log("popping: " + current.id + ", showing: " + nInfo.id);
+         // console.log("popping: " + currInfo.id + ", showing: " + prevInfo.id);
          
-         nui = nInfo.ui;
+         prevUi = prevInfo.ui;
          
          // activate the new view
-         nInfo.controller.activate(data);
-         nui.addClass("active");
+         prevInfo.controller.activate(data);
+         prevUi.addClass("active");
          
          // transition the views
          setTimeout(function() {
-            current.ui.removeClass("in").addClass("pop");
-            nui.removeClass("out").addClass("in");
-         }, 40);
+            currInfo.ui.removeClass("in").addClass("pop");
+            prevUi.removeClass("out").addClass("in");
+         }, 100);
          
          // console.log("view stack: " + viewStack.join(","));
+      }
+      
+      function pushOverlay(id, data) {
+         
+      }
+      
+      function popOverlay(data) {
+         
       }
       
       /**
        * Handles some actions after views transition in or out of the view port
        */
-      function handleViewTransitionEnd(evt) {
+      function onViewTransitionEnd(evt) {
          var target = evt.target, viewId = target.id, viewInfo = views[viewId], controller, el;
          
          if(!viewInfo) {
@@ -196,11 +215,14 @@
          el = viewInfo.ui;
          controller = viewInfo.controller;
          
+         // deactivate if the view has transitioned out
          if(el.hasClass("out")) {
             controller.deactivate();
             el.removeClass("active");
          }
          
+         // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
+         // returned to its original position
          if(el.hasClass("pop")) {
             controller.deactivate();
             el.removeClass("active").removeClass("transition").removeClass("pop");
@@ -212,9 +234,33 @@
          }
       }
       
+      function onOverlayTransitionEnd(evt) {
+         
+      }
+      
       function getCurrentViewId() {
          var len = viewStack.length;
          return len ? viewStack[len - 1] : null;
+      }
+      
+      function register(id, fac, bOverlay) {
+         var info, old = views[id];
+
+         // check if this view is trying to register itself again
+         old = views[id];
+         if(old) {
+            throw new Error("View " + id + " already exists");
+         }
+
+         // maintain the state of this view in a secret :) object
+         info = {
+            id: id,
+            ui: null,
+            controller: null,
+            overlay: !!bOverlay,
+            factory: fac || defViewFactory
+         };
+         views[id] = info;
       }
       
       /**
@@ -275,22 +321,7 @@
           * });
           */
          registerView: function(id, fac) {
-            var info, old = views[id];
-            
-            // check if this view is trying to register itself again
-            old = views[id];
-            if(old) {
-               throw new Error("View " + id + " already exists");
-            }
-            
-            // maintain the state of this view in a secret :) object
-            info = {
-               id: id,
-               ui: null,
-               controller: null,
-               factory: fac || defViewFactory
-            };
-            views[id] = info;
+            register(id, fac);
          },
          
          /**
@@ -306,10 +337,7 @@
           * @param {String} id The view id
           * @param {Object} viewData The data for the new view
           */
-         pushView: function(id, viewData) {
-            if(this.getCurrentViewId() === id) {
-               return;
-            }
+         showView: function(id, viewData) {
             pushView(id, viewData);
          },
          
@@ -346,7 +374,7 @@
          initialize: function(opts) {
             options = $.extend({}, defaults, opts);
             viewPort = options.viewPort || $(document.body);
-            this.pushView(options.startView);
+            pushView(options.startView);
          }
       };
       
