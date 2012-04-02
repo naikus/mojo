@@ -36,6 +36,12 @@ li {
    color: #3d3d3d;
 }
 
+.overlay {
+   background-color: #444;
+   color: #f3f3f3;
+   border-top: 1px solid #f4f4f4;
+}
+
 .toolbar {
    height: 48px;
 }
