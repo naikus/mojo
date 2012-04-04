@@ -34,5 +34,6 @@
   <target name="clean">
     <delete file="mojo.js" />
     <delete file="mojo.min.js" />
+    <delete file="mojo.css" />
   </target>
 </project>

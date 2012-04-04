@@ -62,24 +62,28 @@
    -moz-transition: -moz-transform 300ms ease;
    -webkit-transition: -webkit-transform 300ms ease;
    -o-transition: -o-transform 300ms ease;
+   transition: -o-transform 300ms ease;
 }
 
 .view.in {
    -moz-transform: translateX(0%);
    -webkit-transform: translateX(0%);
    -o-transform: translateX(0%);
+   transform: translateX(0%);
 }
 
 .view.out {
    -moz-transform: translateX(-100%);
    -webkit-transform: translateX(-100%);
    -o-transform: translateX(-100%);
+   transform: translateX(-100%);
 }
 
 .view.pop {
    -moz-transform: translateX(100%);
    -webkit-transform: translateX(100%);
    -o-transform: translateX(100%);
+   transform: translateX(100%);
 }
 
 
@@ -87,10 +91,12 @@
    -moz-transform: translateY(0%);
    -webkit-transform: translateY(0%);
    -o-transform: translateY(0%);
+   transform: translateY(0%);
 }
 
 .overlay.pop {
    -moz-transform: translateY(100%);
    -webkit-transform: translateY(100%);
    -o-transform: translateY(100%);
+   transform: translateY(100%);
 }

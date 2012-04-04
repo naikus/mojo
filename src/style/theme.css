@@ -60,6 +60,10 @@ li {
    border-bottom: 1px solid #ddd;
 }
 
+.list > li.selected {
+   background-color: #0099cc;
+}
+
 section, header {
    display: block;
 }

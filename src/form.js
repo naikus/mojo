@@ -6,6 +6,7 @@
       noop = function() {};
       
    $.extension("toggle", function(opts) {
+      opts = opts || {};
       var state = !!opts.value, elem = this, onchange = opts.onchange || noop, widget;
       
       function renderUi() {

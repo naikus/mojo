@@ -362,11 +362,6 @@
           */
          getCurrentViewId: getCurrentViewId,
          
-         
-         showOverlay: function(oId) {
-            
-         },
-         
          /**
           * Starts this application loading the startView specified in the options.
           * The default value of startView is "main"

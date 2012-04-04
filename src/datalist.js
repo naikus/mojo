@@ -35,8 +35,10 @@
       item.data("model", objItem);
       item.data("index", itemIdx);
 
-      item.addClass(opts.itemClass);
-      item.attr("id", "li" + uuid());
+      if(opts.itemClass) { 
+         item.addClass(opts.itemClass);
+      }
+      // item.attr("id", objItem.id || "li" + uuid());
       content = opts.render(widget, item, itemIdx, objItem);
 
       // check if the renderer has already appended
@@ -54,7 +56,7 @@
       // these are our final options
       var opts = $.extend({}, defaults, options),
       // copy the data array
-      data = opts.data.slice(0),
+      data = (opts.data || []).slice(0),
       // the current selected item
       selectedItem, 
       // all the items in our list
