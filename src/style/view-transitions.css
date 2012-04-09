@@ -16,7 +16,7 @@
 .view {
    left: 0;
    top: 0;
-   overflow-x: hidden;
+   /*overflow-x: hidden;*/
    min-height: 100%;
    
    -moz-transform: translateX(100%);
@@ -24,7 +24,7 @@
    -o-transform: translateX(100%);
    transform: translateX(100%);
 }
-.view.active {
+.view.showing {
    z-index: 99;
    display: block;
 }
@@ -53,7 +53,7 @@
    left: 0;
    z-index: 199;
 }
-.overlay.active {
+.overlay.showing {
    z-index: 299;
    display: block;
 }

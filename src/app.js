@@ -58,6 +58,9 @@
          controller.activate = controller.activate || noop;
          controller.deactivate = controller.deactivate || noop;
          controller.destroy = controller.destroy || noop;
+         
+         controller.onTransitionIn = controller.onTransitionIn || noop;
+         controller.onTransitionOut = controller.onTransitionOut || noop;
       }
       
       function getViewIndexOnStack(id) {
@@ -138,13 +141,14 @@
          nxtUi = nxtInfo.ui;
          // activate the new view
          nxtInfo.controller.activate(data);
-         nxtUi.addClass("active");
+         nxtUi.addClass("showing");
          
          // transition views
          setTimeout(function() {
             // transition out the old view, this is not the same as popping a view
             if(currId) {
                currInfo = views[currId];
+               currInfo.controller.deactivate();
                // transition out the current view
                currInfo.ui.addClass("out").removeClass("in");
             }
@@ -183,11 +187,13 @@
          
          // activate the new view
          prevInfo.controller.activate(data);
-         prevUi.addClass("active");
+         prevUi.addClass("showing");
          
          // transition the views
          setTimeout(function() {
+            currInfo.controller.deactivate();
             currInfo.ui.removeClass("in").addClass("pop");
+            
             prevUi.removeClass("out").addClass("in");
          }, 100);
          
@@ -217,19 +223,20 @@
          
          // deactivate if the view has transitioned out
          if(el.hasClass("out")) {
-            controller.deactivate();
-            el.removeClass("active");
+            controller.onTransitionOut();
+            el.removeClass("showing");
          }
          
          // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
          // returned to its original position
          if(el.hasClass("pop")) {
-            controller.deactivate();
-            el.removeClass("active").removeClass("transition").removeClass("pop");
+            controller.onTransitionOut();
+            el.removeClass("showing").removeClass("transition").removeClass("pop");
          }
          
          // for history support, experimental!
          if(el.hasClass("in")) {
+            controller.onTransitionIn();
             window.location.hash = viewId;
          }
       }
