@@ -26,8 +26,9 @@
          
       </style>
       <script type="text/javascript">
+         var app = mojo.Application();
          $.ready(function() {
-            var app = mojo.Application();
+            
             app.registerView("main", function(app, ui) {
                var list, viewUi = ui, application = app;
                return {
@@ -97,28 +98,15 @@
                      var action = document.createTouch ? "tap" : "click";
                      ui.on(action, function(e) {
                         if(app.getCurrentViewId() === "yetanother") {
-                           app.showView("final");
+                           /*app.loadView("final", "final.html", function() {
+                              app.showView("final");
+                           });*/
                         }
                      });
                   }
                };
             });
             
-            
-            app.registerView("final", function(app, ui) {
-               return {
-                  initialize: function() {
-                     var action = document.createTouch ? "tap" : "click";
-                     ui.on(action, function(e) {
-                        if(app.getCurrentViewId() === "final") {
-                           app.popView();
-                           e.stopPropagation();
-                           e.preventDefault();
-                        }
-                     });
-                  }
-               };
-            });
             
             app.initialize({
                startView: "main"
@@ -181,47 +169,6 @@
          </div>
       </div>
 
-      <div class="view" id="final">
-         <style scoped="scoped">
-            #final {
-               background-color: #333;
-               color: #eee;
-               -moz-transform: translateX(0);
-               -moz-transform: scale(0, 0);
-               
-               -o-transform: translateX(0);
-               -o-transform: scale(0, 0);
-               
-               -webkit-transform: translateX(0);
-               -webkit-transform: scale(0, 0);
-            }
-            #final.in {
-               -moz-transform: scale(1, 1);
-               
-               -o-transform: scale(1, 1);
-               
-               -webkit-transform: scale(1, 1);
-            }
-            #final.out {
-               -moz-transform: scale(0, 0);
-               
-               -o-transform: scale(0, 0);
-               
-               -webkit-transform: scale(0, 0);
-            }
-            #final.pop.out {
-               -moz-transform: scale(0, 0);
-               
-               -o-transform: scale(0, 0);
-               
-               -webkit-transform: scale(0, 0);
-            }
-
-         </style>
-         <div class="header">3. Yet Another View</div>
-         <div id="finalDiv">
-            <h3>Tap to pop</h3>
-         </div>
-      </div>
+      
    </body>
 </html>

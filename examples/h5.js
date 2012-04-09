@@ -1,20 +1,28 @@
-/*jslint
-    nomen: false,
-    debug: true,
-    indent: 3,
-    plusplus: false,
-    evil: true, 
-    onevar: true,
-    browser: true,
-    white: false
-*/
-/*global
-    window: true,
-    navigator: true,
-    XMLHttpRequest: true,
-    ActiveXObject: true,
-    unescape: true
-*/
+/*
+ * The MIT License
+ * 
+ * Copyright (c) 2011-2013 h5 Authors. All rights reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
+ 
 /**
  * @fileOverview h5 is a compact and lightweight html5 library 
  * @author <a href="mailto:aniket3@gmail.com">Aniket Naik</a>
@@ -28,7 +36,7 @@
    var undef,
       AProto = Array.prototype,
       OProto = Object.prototype,
-
+      
       slice = AProto.slice,
       nSlice = slice,
       objToString = OProto.toString,
@@ -127,6 +135,10 @@
    function uuid() {
       return huid++;
    }
+   
+   function trim(s) {
+      return s.replace(/(^\s+)|\s+$/g, "");
+   }   
     
    // normalize the slice function
    (function() {
@@ -408,6 +420,7 @@
       nodelist.slice = function(arrayLike, start, end) {
          return slice.call(arrayLike, start, end);
       };
+      nodelist.trim = String.prototype.trim ? function(str) {return str.trim();} : function(str) {return trim(str);}
       nodelist.extend = extend;
       nodelist.getFragments = fragments;
       nodelist.uuid = uuid;
@@ -448,6 +461,7 @@
 /**
  * The event module. Provides methods to add, remove, delegate and fire events and othe convenicence
  * methods
+ * @author aniketn3@gmail.com
  */
 (function($) {
    var forEach = $.forEach,
@@ -681,6 +695,7 @@
 /**
  * The DOM manipulation module. This provides various convenience methods for working with DOM and
  * css
+ * @author aniketn3@gmail.com
  */
 (function($) {
    var undef,
@@ -691,6 +706,7 @@
       isTypeOf = $.isTypeOf,
       isArray = $.isArray,
       getTypeOf = $.getTypeOf,
+      trim = $.trim,
       clsRegExps = {};
      
    /**
@@ -1131,7 +1147,7 @@
       addClass: function(cl)  {
          var elements = this.elements;
          forEach(elements, function(el) {
-            if(!addClass(el, cl) || !hasClass(el, cl)) {
+            if(!hasClass(el, cl) && !addClass(el, cl)) {
                el.className += " " + cl;
             }
          });
@@ -1152,8 +1168,8 @@
       removeClass: function(cl)  {
          forEach(this.elements, function(el) {
             var cName;
-            if(!removeClass(el, cl) && hasClass(el, cl)) {
-               el.className = el.className.replace(classRe(cl), "$1");
+            if(hasClass(el, cl) && !removeClass(el, cl)) {
+               el.className = trim(el.className.replace(classRe(cl), "$1"));
             }        
          });
          return this;
@@ -1241,6 +1257,7 @@
  * tap, dbltap, taphold, swipe, swipeleft, swiperight
  * @author aniketn3@gmail.com 
  */
+
 /**
  * Tap event definition
  */
@@ -1447,7 +1464,7 @@
             touch = touches[0];
             if(state.id === touch.identifier && (m = state.movement)) {
                evtData = {movement: m};
-               $(te.target).dispatch("swipe", evtData);
+               $(te.target).dispatch("swipe", evtData); // available as event.movement
                clearState();
             }
             break;
@@ -1472,6 +1489,10 @@
 
 
 
+/**
+ * Convenience wrapper around XMLHttpRequest
+ * @author aniketn3@gmail.com
+ */
 (function($) {
    var forEach = $.forEach,
       isTypeOf = $.isTypeOf,
@@ -1494,18 +1515,18 @@
        * from the server
        */
       handlers = {
-         xml: function(xhr) {
-            var rDoc = xhr.responseXML, root = rDoc.documentElement;
+         xml: function(req) {
+            var rDoc = req.responseXML, root = rDoc.documentElement;
             if(root && root.nodeName === "parseerror") {
                throw new Error("parseerror");
             }
             return rDoc;
          },
-         json: function(xhr) {
-            return JSON.parse(xhr.responseText);
+         json: function(req) {
+            return JSON.parse(req.responseText);
          },
-         text: function(xhr) {
-            return xhr.responseText;
+         text: function(req) {
+            return req.responseText;
          }
       },
       
@@ -1518,7 +1539,7 @@
          contentType: "application/x-www-form-urlencoded",
          async: true,
          data: null,
-         dataType: "text",
+         dataType: "xml",
          //timeout: -1,
          headers: {},
          success: noop,
@@ -1576,18 +1597,18 @@
                dispatch("ajaxsuccess", url);
                handler = handlers[dType] || handlers.text;
                try {
-                  data = handler(xhr);
+                  data = handler(req);
                }catch(error) {
                   err = error;
                }
                if(err) {
-                  opt.error(err, xhr);
+                  opt.error(err, req);
                }else {
-                  opt.success(data, xhr);
+                  opt.success(data, req);
                }
             }else {
                dispatch("ajaxerror", {data: {url: url, status: code}});
-               opt.error(code, xhr);
+               opt.error(code, req);
             }
             
             // dispatch an ajax complete event on document
@@ -1606,7 +1627,7 @@
             req.setRequestHeader("Content-Type", mime);
          }catch(e) {}
       }
-      xhr.send(data);
+      req.send(data);
    }
    
    /**
@@ -1632,7 +1653,7 @@
     *                          completion of request. options.success(data, xhr-object)
     *
     * error       (function)   The (optional) handler thats called when an error occurs during
-    *                          ajax request. options.error(code | error, xhr)
+    *                          ajax request. options.error(code | error, xhr-object)
     * </pre>
     * @function
     */
@@ -1654,10 +1675,11 @@
     * A convenience function to GET data from server
     * @param {String} url The url to get data from
     * @param {Function} success The function thats called when ajax succeeds
+    * @param {Function} error The function thats called when ajax has an error
     * All the other parameters are set to default
     */
-   $.get = function(url, success) {
-      xhr({url:url, success: success});
+   $.get = function(url, success, error) {
+      xhr({url:url, success: success, error: error});
    };
    
    /**
@@ -1702,10 +1724,10 @@
       if(elems.length > 0) {
          xhr({
             url: url, 
-            success: function(data, xhr) {
+            success: function(data, req) {
                me.html(sel ? $(document.createElement("div")).html(data).find(sel) : data);
                if(callback) {
-                  callback(data, xhr);
+                  callback(data, req);
                }
             }
          });

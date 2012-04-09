@@ -15,7 +15,8 @@
       return;
    }
    // the global mojo namespace
-   var mojo = {};
+   var forEach = $.forEach,
+      mojo = {};
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -347,6 +348,46 @@
          showView: function(id, viewData) {
             pushView(id, viewData);
          },
+         
+         /**
+          * Experimental!!!
+          */
+         /*
+         loadView: function(id, url, callback) {
+            if(views[id]) {
+               callback(url);
+               return;
+            }
+            $.xhr({
+               url: url, 
+               method: "GET", 
+               dataType: "text", 
+               success: function(content) {
+                  var html = $(content), scripts = html.find("script"), view, exeScripts = [];
+                  scripts.forEach(function(script) {
+                     var scr = $(script), type = scr.attr("type"), isJs = (!type || type.indexOf("/javascript") !== -1);
+                     if(!scr.attr("src") && isJs) {
+                        html.remove(script);
+                        exeScripts[exeScripts.length] = script;
+                     }
+                  });
+                  
+                  viewPort.append(html);
+                  view = $("#" + id);
+                  
+                  forEach(exeScripts, function(script) {
+                     var s = document.createElement("script");
+                     s.textContent = script.textContent;
+                     view.append(s);
+                  });
+                  
+                  if(callback) {
+                     callback(url);
+                  }
+               }
+            });
+         },
+         */
          
          /**
           * Pops the current view and restores the previous view. Following are the sequence of actions taken:
