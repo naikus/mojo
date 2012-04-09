@@ -53,16 +53,35 @@ li {
    background-color: #ddd;
 }
 
-.list > li, .row {
-   height: 32px;
+.list, .rich-list {
+   overflow: auto;
+}
+
+.rich-list > li, .list > li, .row {
+   min-height: 32px;
    padding: 5px;
-   padding-top: 10px;
+   padding-top: 15px;
+   border: 1px solid transparent;
    border-bottom: 1px solid #ddd;
+   overflow: auto;
+}
+
+.rich-list > li {
+   padding: 10px 5px;
+}
+
+.rich-list .label, .list .label, .rich-list .desc, .list .desc {
+   margin: 0;
+   padding: 0 5px;
+}
+.rich-list .desc, .list .desc {
+   font-size: 11px;
 }
 
 .list > li.selected {
    background-color: #0099cc;
 }
+
 
 section, header {
    display: block;
