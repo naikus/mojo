@@ -425,7 +425,7 @@
    };
    
    window.mojo = mojo;
-})(window, h5)
+})(window, h5);
 
 
 

@@ -35,8 +35,10 @@
       item.data("model", objItem);
       item.data("index", itemIdx);
 
-      if(opts.itemClass) { 
-         item.addClass(opts.itemClass);
+      if(opts.itemClass) {
+         forEach(opts.itemClass, function(cl) {
+            item.addClass(cl);
+         });
       }
       // item.attr("id", objItem.id || "li" + uuid());
       content = opts.render(widget, item, itemIdx, objItem);
@@ -63,9 +65,15 @@
       allItems,
       // our root element, create it if not present
       listRoot,
+      
+      listClass = opts.listClass,
+      
       enabled = true,
       element = this.get(0), 
       ul, widget;
+      
+      opts.listClass = listClass = listClass ? listClass.split(" ") : null;
+      opts.itemClass = opts.itemClass ? opts.itemClass.split(" ") : null;
       
       opts.render = opts.render || function(list, item, idx, datum) {
          return opts.template ? opts.template.process(datum) : datum + "";
@@ -122,7 +130,12 @@
          this.append(ul);
          listRoot = $(ul);
       }
-      listRoot.addClass(opts.listClass);
+      
+      if(listClass) {
+         forEach(listClass, function(cl) {
+            listRoot.addClass(cl);
+         });
+      }
       
       listRoot.on(action, function(e) {
          var t = e.target, parent = t.parentNode, idx, item;
