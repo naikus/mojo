@@ -33,7 +33,7 @@
                var list, viewUi = ui, application = app;
                return {
                   initialize: function(data) {
-                     list = $("#mylist").DataList({
+                     list = $("#mylist").datalist({
                         onselectionchange: function() {
                            application.showView("another", ["Go Back",  "Open a new view"]);
                         },
@@ -62,7 +62,7 @@
                var list, application = app, viewUi = ui;
                return {
                   initialize: function(data) {
-                     list = $("#myOlist").DataList({
+                     list = $("#myOlist").datalist({
                         data: data,
                         onselectionchange: function(currItem, oldItem) {
                            if(list.getSelectedIndex() === 0) {
@@ -95,12 +95,14 @@
             app.registerView("yetanother", function(app, ui) {
                return {
                   initialize: function() {
-                     var action = document.createTouch ? "tap" : "click";
+                     var action = "ontouchstart" in document.documentElement ? "tap" : "click";
                      ui.on(action, function(e) {
+                        alert("Event " + e + ", target: " + e.target);
+                           
                         if(app.getCurrentViewId() === "yetanother") {
-                           /*app.loadView("final", "final.html", function() {
-                              app.showView("final");
-                           });*/
+                           app.loadView("remoteView", "remoteView.html", function() {
+                              app.showView("remoteView");
+                           });
                         }
                      });
                   }

@@ -36,7 +36,7 @@
                };
             }
             
-            list = $("#mylist").DataList({
+            list = $("#mylist").datalist({
                render: function(list, item, idx, datum) {
                   return itempl.process(datum);
                }
@@ -44,7 +44,7 @@
             list.setItems(data);
             list.selectItemAt(0);
             
-            oList = $('#otherList').DataList({
+            oList = $('#otherList').datalist({
                render: function(list, item, idx, datum) {
                   /* item.setStyle({
                      width: Math.round(($("#otherList").offsets().width / 5)) + "px"

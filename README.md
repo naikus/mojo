@@ -1,5 +1,5 @@
 # mojo
-#### A simple javascript mobile framework useful for building *small, single page mobile web applications*
+#### A simple javascript mobile library useful for building *small, single page mobile web apps*
 
 
 

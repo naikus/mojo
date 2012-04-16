@@ -1539,7 +1539,7 @@
          contentType: "application/x-www-form-urlencoded",
          async: true,
          data: null,
-         dataType: "xml",
+         dataType: "text",
          //timeout: -1,
          headers: {},
          success: noop,

@@ -1515,18 +1515,18 @@
        * from the server
        */
       handlers = {
-         xml: function(xhr) {
-            var rDoc = xhr.responseXML, root = rDoc.documentElement;
+         xml: function(req) {
+            var rDoc = req.responseXML, root = rDoc.documentElement;
             if(root && root.nodeName === "parseerror") {
                throw new Error("parseerror");
             }
             return rDoc;
          },
-         json: function(xhr) {
-            return JSON.parse(xhr.responseText);
+         json: function(req) {
+            return JSON.parse(req.responseText);
          },
-         text: function(xhr) {
-            return xhr.responseText;
+         text: function(req) {
+            return req.responseText;
          }
       },
       
@@ -1597,18 +1597,18 @@
                dispatch("ajaxsuccess", url);
                handler = handlers[dType] || handlers.text;
                try {
-                  data = handler(xhr);
+                  data = handler(req);
                }catch(error) {
                   err = error;
                }
                if(err) {
-                  opt.error(err, xhr);
+                  opt.error(err, req);
                }else {
-                  opt.success(data, xhr);
+                  opt.success(data, req);
                }
             }else {
                dispatch("ajaxerror", {data: {url: url, status: code}});
-               opt.error(code, xhr);
+               opt.error(code, req);
             }
             
             // dispatch an ajax complete event on document
@@ -1627,7 +1627,7 @@
             req.setRequestHeader("Content-Type", mime);
          }catch(e) {}
       }
-      xhr.send(data);
+      req.send(data);
    }
    
    /**
@@ -1653,7 +1653,7 @@
     *                          completion of request. options.success(data, xhr-object)
     *
     * error       (function)   The (optional) handler thats called when an error occurs during
-    *                          ajax request. options.error(code | error, xhr)
+    *                          ajax request. options.error(code | error, xhr-object)
     * </pre>
     * @function
     */
@@ -1675,10 +1675,11 @@
     * A convenience function to GET data from server
     * @param {String} url The url to get data from
     * @param {Function} success The function thats called when ajax succeeds
+    * @param {Function} error The function thats called when ajax has an error
     * All the other parameters are set to default
     */
-   $.get = function(url, success) {
-      xhr({url:url, success: success});
+   $.get = function(url, success, error) {
+      xhr({url:url, success: success, error: error});
    };
    
    /**
@@ -1723,10 +1724,10 @@
       if(elems.length > 0) {
          xhr({
             url: url, 
-            success: function(data, xhr) {
+            success: function(data, req) {
                me.html(sel ? $(document.createElement("div")).html(data).find(sel) : data);
                if(callback) {
-                  callback(data, xhr);
+                  callback(data, req);
                }
             }
          });
