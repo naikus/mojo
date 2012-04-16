@@ -54,7 +54,7 @@
       return item;
    }
    
-   $.extension("DataList", function(options) {
+   $.extension("datalist", function(options) {
       // these are our final options
       var opts = $.extend({}, defaults, options),
       // copy the data array

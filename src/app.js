@@ -350,9 +350,13 @@
          },
          
          /**
+          * Loads a remote view (in a different file) inside the view port and calls the specified
+          * callback after the view is loaded
           * Experimental!!!
+          * @param {String} id The view id
+          * @param {String} url The url of the remote view
+          * @param {Function} callback The callback function to call if the view loads successfully
           */
-         /*
          loadView: function(id, url, callback) {
             if(views[id]) {
                callback(url);
@@ -365,8 +369,8 @@
                success: function(content) {
                   var html = $(content), scripts = html.find("script"), view, exeScripts = [];
                   scripts.forEach(function(script) {
-                     var scr = $(script), type = scr.attr("type"), isJs = (!type || type.indexOf("/javascript") !== -1);
-                     if(!scr.attr("src") && isJs) {
+                     var scr = $(script), type = scr.attr("type");
+                     if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
                         html.remove(script);
                         exeScripts[exeScripts.length] = script;
                      }
@@ -387,7 +391,6 @@
                }
             });
          },
-         */
          
          /**
           * Pops the current view and restores the previous view. Following are the sequence of actions taken:
