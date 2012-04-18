@@ -97,9 +97,9 @@
                   initialize: function() {
                      var action = "ontouchstart" in document.documentElement ? "tap" : "click";
                      ui.on(action, function(e) {
-                        alert("Event " + e + ", target: " + e.target);
+                        // alert("Event " + e + ", target: " + e.target);
                            
-                        if(app.getCurrentViewId() === "yetanother") {
+                        if(e.target === ui.get(0) && app.getCurrentViewId() === "yetanother") {
                            app.loadView("remoteView", "remoteView.html", function() {
                               app.showView("remoteView");
                            });
@@ -166,6 +166,11 @@
 
          </style>
          <div class="header">3. Yet Another View</div>
+         <div>
+            <select class="row">
+               <option>Choose One</option>
+            </select>
+         </div>
          <div id="yetDiv">
             <h3>Yet another view. Tap to open another view with different transition</h3>
          </div>
