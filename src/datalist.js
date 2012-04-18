@@ -8,6 +8,8 @@
  *    listClass: css class for list, default "list",
  *    itemClass: css class for list item, default "list-item",
  *    data: The data array, default empty array
+ *    selectedIndex: The index of the item that needs to be selected by default,
+ *    template: The template to use to render each item
  *    render: A function to render list item "function(list-widget, $(curr-item), index, data[index])"
  *    onselectionchange: a handler function called when list selection changes
  * }
@@ -18,6 +20,7 @@
       listClass: "list",
       itemClass: "list-item",
       data: [],
+      selectedIndex: -1,
       template: null,
       render: null,
       onselectionchange: function(currItem, oldItem) {}
@@ -65,6 +68,8 @@
       allItems,
       // our root element, create it if not present
       listRoot,
+      // existing children of this list root
+      children,
       
       listClass = opts.listClass,
       
@@ -82,7 +87,7 @@
       /**
        * Render the entire list widget
        */
-      function render() {
+      function render(selIndex) {
          allItems = [];
          listRoot.html("");
          
@@ -92,6 +97,12 @@
                var $li = renderItem(widget, datum, i, opts);
                items.appendChild($li.get(0));
                allItems[allItems.length] = $li;
+               
+               if(i === selIndex) {
+                  selectedItem = $li;
+                  $li.addClass("selected");
+               }
+               
             });
             listRoot.append(items);
          }
@@ -124,7 +135,7 @@
       
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
-         ul =listRoot.get(0);
+         ul = listRoot.get(0);
       }else {
          ul = document.createElement("ul");
          this.append(ul);
@@ -160,11 +171,11 @@
             return listRoot;
          },
          
-         setItems: function(itemData) {
+         setItems: function(itemData, selIndex) {
             listRoot.html("");
             data = itemData || [];
             selectedItem = null;
-            render();
+            render(selIndex);
          },
          
          setEnabled: function(bEnabled)  {
@@ -223,7 +234,21 @@
          }
       };
       
-      render();
+      // some initialization code (for lists with existing item markup) Experimental!!!
+      children = listRoot.find("li:nth-child(n+1)");
+      if(children.count()) { // we have children
+         allItems = data = [];
+         children.forEach(function(li, i) {
+            var $li = $(li);
+            $li.data("index", i);
+            allItems[allItems.length] = $li;
+            if($li.hasClass("selected")) {
+               selectedItem = $li;
+            }
+         });
+      }else {
+         render(opts.selectedIndex);
+      }
       
       return widget;
    });
