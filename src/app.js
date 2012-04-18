@@ -359,7 +359,7 @@
           */
          loadView: function(id, url, callback) {
             if(views[id]) {
-               callback(url);
+               callback(id);
                return;
             }
             $.xhr({
@@ -386,7 +386,7 @@
                   });
                   
                   if(callback) {
-                     callback(url);
+                     callback(id);
                   }
                }
             });
