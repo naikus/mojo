@@ -29,11 +29,15 @@
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
         <arg line="-o mojo.min.js --preserve-semi mojo.js"/>
     </java>
+    <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
+        <arg line="-o mojo.min.css --preserve-semi mojo.css"/>
+    </java>    
   </target>
 
   <target name="clean">
     <delete file="mojo.js" />
     <delete file="mojo.min.js" />
     <delete file="mojo.css" />
+    <delete file="mojo.min.css" />
   </target>
 </project>
