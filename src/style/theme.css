@@ -130,6 +130,7 @@ input[type=text], input[type=password] {
 }
 
 button, .button {
+   display: inline-block;
    border: none;
    background-color: #d4d4d4;
    font-size: 14px;
@@ -141,7 +142,7 @@ button, .button {
 }
 button:active, .button:active {
    box-shadow: inset 0px 0px 5px #000;
-   -webkit-box-shadow: 0px 0px 5px #555;
+   -webkit-box-shadow: inset 0px 0px 5px #555;
 }
 button.primary, .button.primary {
    /*
