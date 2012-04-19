@@ -161,7 +161,6 @@ select {
    background: transparent;
    -webkit-appearance: none;
    -moz-appearance: statusbar;
-   padding: 10px;
 }
 
 option {
