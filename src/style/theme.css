@@ -164,6 +164,10 @@ select {
    padding: 10px;
 }
 
+option {
+   padding: 10px;
+}
+
 .list select, .row select, select.row {
    display: block;
    width: 100%;
