@@ -143,6 +143,7 @@ button, .button {
 button:active, .button:active {
    box-shadow: inset 0px 0px 5px #000;
    -webkit-box-shadow: inset 0px 0px 5px #555;
+   background-color: #93cff2;
 }
 button.primary, .button.primary {
    /*
@@ -162,14 +163,16 @@ select {
    background: transparent;
    -webkit-appearance: none;
    -moz-appearance: statusbar;
+   border: none;
 }
 
 option {
    padding: 5px;
+   padding-left: 0;
 }
 
 .list select, .row select, select.row {
-   display: block;
+   display: inline-block;
    width: 100%;
 }
 
