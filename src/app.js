@@ -16,7 +16,36 @@
    }
    // the global mojo namespace
    var forEach = $.forEach,
+      
+      style = window.document.createElement("div").style,
+      hasTransitionSupport = false,
+      transitionEvts = {
+         "": "transitionend", 
+         "Webkit": "webkitTransitionEnd",
+         "Moz": "transitionend",
+         "O": "oTransitionEnd",
+         "ms": "MSTransitionEnd"
+      },
+      transitionEndEvent,
+      
+      hasHashChange = ("onhashchange" in window),
+      
       mojo = {};
+      
+      
+   // check for CSS transition support
+   (function() {
+      forEach(transitionEvts, function(evt, pfx) {
+         if(typeof style[pfx + "Transition"] !== "undefined") {
+            transitionEndEvent = evt;
+            hasTransitionSupport = true;
+         }
+      });
+      if(!hasTransitionSupport) {
+         transitionEndEvent = "transitionend";
+      }
+      // console.log("Hashchange supported: " + hasHashChange + ", Transition Supported: " + hasTransitionSupport + ", Transition Event: " + transitionEndEvent);      
+   }());
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -89,15 +118,7 @@
          }
 
          // add transition handling listener
-         if(info.overlay) {
-            ui.on("transitionend", onOverlayTransitionEnd)
-               .on("webkitTransitionEnd", onOverlayTransitionEnd)
-               .on("OTransitionEnd", onOverlayTransitionEnd);
-         }else {
-            ui.on("transitionend", onViewTransitionEnd)
-               .on("webkitTransitionEnd", onViewTransitionEnd)
-               .on("OTransitionEnd", onViewTransitionEnd);
-         }
+         ui.on(transitionEndEvent, info.overlay ? onOverlayTransitionEnd : onViewTransitionEnd);
 
          controller = info.controller = info.factory(app, ui);
          ensureLifecycle(controller);
@@ -152,9 +173,17 @@
                currInfo.controller.deactivate();
                // transition out the current view
                currInfo.ui.addClass("out").removeClass("in");
+               // if no transition support dispatch custom event
+               if(!hasTransitionSupport) {
+                  currInfo.ui.dispatch("transitionend");
+               }
             }
             // transition in the new view
             nxtUi.addClass("transition").addClass("in");
+            // if no transition support dispatch custom event
+            if(!hasTransitionSupport) {
+               nxtUi.dispatch("transitionend");
+            }
          }, 100);
          
          viewStack.push(id);
@@ -202,11 +231,11 @@
       }
       
       function pushOverlay(id, data) {
-         
+         // @TODO: Implement
       }
       
       function popOverlay(data) {
-         
+         // @TODO: Implement
       }
       
       /**
@@ -243,7 +272,7 @@
       }
       
       function onOverlayTransitionEnd(evt) {
-         
+         // @TODO: Implement
       }
       
       function getCurrentViewId() {
@@ -418,8 +447,11 @@
           * The default value of startView is "main"
           */
          initialize: function(opts) {
+            var port, body = window.document.body;
             options = $.extend({}, defaults, opts);
-            viewPort = options.viewPort || $(document.body);
+            port = options.viewPort;
+            viewPort = port ? $("#" + port) : $(body);
+            // show the start view
             pushView(options.startView);
          }
       };
