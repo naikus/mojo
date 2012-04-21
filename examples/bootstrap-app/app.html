@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title></title>
+      <meta name="HandheldFriendly" content="True">
+      <meta name="MobileOptimized" content="480">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      
+      <script type="text/javascript" src ="js/h5.js"> </script>
+      <script type="text/javascript" src ="js/mojo.js"> </script>
+      
+      <link rel="stylesheet" type="text/css" href="css/mojo.css" />
+      
+      <style type="text/css">
+         *{
+            font-family: Helvetica;
+         }
+         
+         #viewPort {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            background-color: #eee;
+         }
+      </style>
+      
+      <script>
+         var application = mojo.Application();
+         $.ready(function() {
+            application.initialize({
+               startView: "main", // default is 'main'
+               viewPort: "viewPort",
+            });
+         });
+      </script>
+   </head>
+   <body>
+      <div id="viewPort">
+         <!-- A sample view -->
+         <article class="view" id="main">
+            <!-- View specific style sheets -->
+            <style scoped>
+               #main {}
+            </style>
+            <script>
+               application.registerView("main", function(app, viewUi) {
+                  // our view controller object, all methods are optional
+                  return {
+                     initialize: function() {
+                        $("#listButt").on("tap", function() {
+                           app.showView("listView", {
+                              selectedIndex: 3,
+                              items: ["Zero", "One", "Two", "Three", "Four"],
+                              title: "List of Numbers"
+                           });
+                        });
+                     },
+                     activate: function() {},
+                     deactivate: function() {},
+                     onTransitionOut: function() {},
+                     onTransitionIn: function() {},
+                     destroy: function() {}
+                  };
+               });
+            </script>
+            <div class="content">
+               <a id="listButt" class="button col-one">Show Me A list</a>
+            </div>
+         </article>
+         
+         <!-- 
+            A list view: The list view takes following data:
+            {
+               items: [], // an array of items
+               selectedIndex: -1, // index that needs to be initially selected
+            }
+            
+            When the user selects an item, the list view is popped and returns
+            following data to calling view
+            {
+               selectedItem: {}, // the item that was selected
+               selectedIndex: 0, // the index of the newly selected item by user
+            }
+         -->
+         <article class="view" id="listView">
+            <style scoped>
+               #listView {}
+            </style>
+            <script>
+               application.registerView("listView", function(app, viewUi) {
+                  var dataList, listTitle;
+                  return {
+                     initialize: function() {
+                        dataList = $("#dataList").datalist({
+                           itemClass: "activable",
+                           onselectionchange: function(currItem, oldItem) {
+                              if(typeof currItem != "undefined" && typeof oldItem !== "undefined") {
+                                 app.popView({
+                                    selectedItem: currItem,
+                                    selectedIndex: dataList.getSelectedIndex()
+                                 });
+                              }
+                           }
+                        });
+                        listTitle = $("#listTitle");
+                     },
+                     activate: function(data) {
+                        if(!data) {return}
+                        dataList.setItems(data.items);
+                        listTitle.html(data.title || "List");
+                     },
+                     onTransitionOut: function() {
+                        dataList.setItems(null);
+                        listTitle.html("List");
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <section>
+                  <header id="listTitle"></header>
+                  <div id="dataList">
+                     
+                  </div>
+               </section>
+            </div>
+         </article>
+      </div>
+   </body>
+</html>
