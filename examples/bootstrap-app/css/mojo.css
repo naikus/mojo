@@ -31,7 +31,7 @@
 .viewport {
    position: absolute;
    width: 100%;
-   min-height: 112%; /* For automatically hiding the URL bar */
+   min-height: 100%; /* For automatically hiding the URL bar */
 }
 
 /* ------------------------------------- Default transition effects for views ------------------------------------ */

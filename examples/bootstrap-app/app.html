@@ -23,6 +23,7 @@
             top: 0;
             left: 0;
             width: 100%;
+            min-height: 115%;
             background-color: #eee;
          }
          
@@ -45,6 +46,18 @@
             application.initialize({
                startView: "main", // default is 'main'
                viewPort: "viewPort" // default is body
+            });
+            
+            // hide the URL bar when a view transitions in
+            $("#viewPort").on("viewtransitionin", function() {
+               var doc = window.document, 
+                  yOffset = window.pageYOffset || doc.compatMode === "CSS1Compat" && 
+                            doc.documentElement.scrollTop || doc.body.scrollTop || 0;               
+               setTimeout(function() {
+                  if(yOffset < 20) {
+                     window.scrollTo(0, 1);
+                  }
+               }, 30);
             });
          });
       </script>
@@ -80,8 +93,6 @@
                            : "No item selected");
                      },
                      deactivate: function() {},
-                     onTransitionOut: function() {},
-                     onTransitionIn: function() {},
                      destroy: function() {}
                   };
                });
@@ -115,6 +126,14 @@
             <script>
                application.registerView("listView", function(app, viewUi) {
                   var dataList, listTitle;
+                  
+                  function clearList(e) {
+                     if(e.view === "listView") {
+                        dataList.setItems(null);
+                        listTitle.html("List");
+                     }
+                  }
+                  
                   return {
                      initialize: function() {
                         dataList = $("#dataList").datalist({
@@ -129,15 +148,16 @@
                            }
                         });
                         listTitle = $("#listTitle");
+                        
+                        app.getViewPort().on("viewtransitionout", clearList);
                      },
                      activate: function(data) {
                         if(!data) {return}
                         dataList.setItems(data.items);
                         listTitle.html(data.title || "List");
                      },
-                     onTransitionOut: function() {
-                        dataList.setItems(null);
-                        listTitle.html("List");
+                     destroy: function() {
+                        app.getViewPort().un("viewtransitionout", clearList);
                      }
                   };
                });
