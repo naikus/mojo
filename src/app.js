@@ -55,7 +55,8 @@
       var noop = function() {},
          // default application options, overriden in opts
          defaults = {
-            startView: "main"
+            startView: "main",
+            hideUrlBar: true
          },
          options, 
          // all the views are stored here keyed by view ids
@@ -67,11 +68,29 @@
          
          viewPort,
          
+         // scroll top thanks to html mobile boilerplate
+         hideUrlBar = function() {
+            var doc = window.document, 
+               yOffset = window.pageYOffset || doc.compatMode === "CSS1Compat" && 
+               doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+               
+            if(yOffset < 20) {
+               window.scrollTo(0, 1);
+            }
+         },
+         
+         controllerMethods = [
+            "initialize", "activate", "deactivate", 
+            "destroy", "onTransitionIn", "onTransitionOut"
+         ],
+         
          defController = {
             initialize: noop,
             activate: noop,
             deactivate: noop,
-            destroy: noop
+            destroy: noop,
+            onTransitionIn: noop,
+            onTransitionOut: noop
          };
          
       function defViewFactory() {
@@ -84,13 +103,12 @@
        * @param controller The view object
        */
       function ensureLifecycle(controller) {
-         controller.initialize = controller.initialize || noop;
-         controller.activate = controller.activate || noop;
-         controller.deactivate = controller.deactivate || noop;
-         controller.destroy = controller.destroy || noop;
-         
-         controller.onTransitionIn = controller.onTransitionIn || noop;
-         controller.onTransitionOut = controller.onTransitionOut || noop;
+         forEach(controllerMethods, function(m) {
+            var method = controller[m];
+            if(!method) {
+               controller[m] = noop;
+            }
+         });
       }
       
       function getViewIndexOnStack(id) {
@@ -102,14 +120,14 @@
          if(!url) {
             return null;
          }
-         var hash = url.lastIndexOf("#");
-         if(hash === -1) {
+         var hashViewIdx = url.lastIndexOf("#view:"); 
+         if(hashViewIdx === -1) {
             return null;
          }
-         return url.substring(hash + 1);
+         return url.substring(hashViewIdx + 6); // 6 is "#view:".length
       }
       
-      function initialize(id, info) {
+      function initialize(id, info, data) {
          // see if the wrapper element for this view exists
          var ui = info.ui = $("#" + id), controller;
          if(!ui.count()) {
@@ -123,7 +141,7 @@
          controller = info.controller = info.factory(app, ui);
          ensureLifecycle(controller);
          // initialize the newly created controller
-         controller.initialize();
+         controller.initialize(data);
       }
       
       /**
@@ -157,7 +175,7 @@
          
          // create and initialize new view if applicable
          if(!nxtInfo.ui) {
-            initialize(id, nxtInfo);
+            initialize(id, nxtInfo, data);
          }
 
          nxtUi = nxtInfo.ui;
@@ -185,7 +203,6 @@
                nxtUi.dispatch("transitionend");
             }
          }, 100);
-         
          viewStack.push(id);
          // console.log("view stack: " + viewStack.join(","));
       }
@@ -225,6 +242,12 @@
             currInfo.ui.removeClass("in").addClass("pop");
             
             prevUi.removeClass("out").addClass("in");
+            
+            // if no transition support dispatch custom event
+            if(!hasTransitionSupport) {
+               currInfo.ui.dispatch("transitionend");
+            }
+            
          }, 100);
          
          // console.log("view stack: " + viewStack.join(","));
@@ -267,7 +290,10 @@
          // for history support, experimental!
          if(el.hasClass("in")) {
             controller.onTransitionIn();
-            window.location.hash = viewId;
+            // don't have the hash value same as the view id. This will cause the  URL bar to be shown
+            // on every hashchange event
+            window.location.hash = "view:"+ viewId;
+            hideUrlBar();
          }
       }
       
@@ -329,7 +355,7 @@
                   pushView(id);
                }
             }
-         });
+         });         
       })();
        
       app = {
@@ -449,8 +475,19 @@
          initialize: function(opts) {
             var port, body = window.document.body;
             options = $.extend({}, defaults, opts);
+            
+            // configure viewport
             port = options.viewPort;
             viewPort = port ? $("#" + port) : $(body);
+            
+            // configure url bar behaviour
+            if(options.hideUrlBar) {
+               // this will make the view port height a little more than 100%
+               viewPort.addClass("viewport");
+            }else {
+               hideUrlBar = noop;
+            }
+            
             // show the start view
             pushView(options.startView);
          }

@@ -3,6 +3,12 @@
    -webkit-touch-callout: none;
 }
 
+.viewport {
+   position: absolute;
+   width: 100%;
+   min-height: 112%; /* For automatically hiding the URL bar */
+}
+
 /* ------------------------------------- Default transition effects for views ------------------------------------ */
 .view, .overlay {
    position: absolute;
