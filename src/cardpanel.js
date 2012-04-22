@@ -7,7 +7,7 @@
       action = "ontouchstart" in document.documentElement ? "tap" : "click",
       defaults = {
          oncardchange: noop,
-         activeCard: 0,
+         activeCard: 0
       };
     
     $.extension("cardpanel", function(opts) {
