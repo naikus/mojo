@@ -68,29 +68,13 @@
          
          viewPort,
          
-         // scroll top thanks to html mobile boilerplate
-         hideUrlBar = function() {
-            var doc = window.document, 
-               yOffset = window.pageYOffset || doc.compatMode === "CSS1Compat" && 
-               doc.documentElement.scrollTop || doc.body.scrollTop || 0;
-               
-            if(yOffset < 20) {
-               window.scrollTo(0, 1);
-            }
-         },
-         
-         controllerMethods = [
-            "initialize", "activate", "deactivate", 
-            "destroy", "onTransitionIn", "onTransitionOut"
-         ],
+         controllerMethods = ["initialize", "activate", "deactivate", "destroy"],
          
          defController = {
             initialize: noop,
             activate: noop,
             deactivate: noop,
-            destroy: noop,
-            onTransitionIn: noop,
-            onTransitionOut: noop
+            destroy: noop
          };
          
       function defViewFactory() {
@@ -276,24 +260,23 @@
          
          // deactivate if the view has transitioned out
          if(el.hasClass("out")) {
-            controller.onTransitionOut();
             el.removeClass("showing");
+            viewPort.dispatch("viewtransitionout", {view: viewId});
          }
          
          // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
          // returned to its original position
          if(el.hasClass("pop")) {
-            controller.onTransitionOut();
             el.removeClass("showing").removeClass("transition").removeClass("pop");
+            viewPort.dispatch("viewtransitionout", {view: viewId});
          }
          
          // for history support, experimental!
          if(el.hasClass("in")) {
-            controller.onTransitionIn();
             // don't have the hash value same as the view id. This will cause the  URL bar to be shown
             // on every hashchange event
             window.location.hash = "view:"+ viewId;
-            hideUrlBar();
+            viewPort.dispatch("viewtransitionin", {view: viewId});
          }
       }
       
@@ -404,6 +387,10 @@
             pushView(id, viewData);
          },
          
+         getViewPort: function() {
+            return viewPort;
+         },
+         
          /**
           * Loads a remote view (in a different file) inside the view port and calls the specified
           * callback after the view is loaded
@@ -479,14 +466,6 @@
             // configure viewport
             port = options.viewPort;
             viewPort = port ? $("#" + port) : $(body);
-            
-            // configure url bar behaviour
-            if(options.hideUrlBar) {
-               // this will make the view port height a little more than 100%
-               viewPort.addClass("viewport");
-            }else {
-               hideUrlBar = noop;
-            }
             
             // show the start view
             pushView(options.startView);
