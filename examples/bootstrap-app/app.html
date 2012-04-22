@@ -2,9 +2,10 @@
 <html>
    <head>
       <title></title>
-      <meta name="HandheldFriendly" content="True">
-      <meta name="MobileOptimized" content="480">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <meta name="HandheldFriendly" content="True" />
+      <meta name="MobileOptimized" content="480" />
+      <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       
       <script type="text/javascript" src ="js/h5.js"> </script>
@@ -22,24 +23,39 @@
             top: 0;
             left: 0;
             width: 100%;
-            min-height: 100%;
             background-color: #eee;
+         }
+         
+         .content {
+            padding: 5px;
+            padding-top: 10px;
          }
       </style>
       
       <script>
-         var application = mojo.Application();
+         // set the default user action event (tap in touch enabled browsers or fallback to click
+         var TAP = ("ontouchstart" in document.documentElement) ? "tap" : "click", 
+         
+            // create an instance of the application, this can be done before ready. This has an added 
+            // advantage that views can be registered as they are parsed before the DOM is ready
+            application = mojo.Application();
+            
+         // initialize our application on ready   
          $.ready(function() {
             application.initialize({
                startView: "main", // default is 'main'
-               viewPort: "viewPort",
+               viewPort: "viewPort" // default is body
             });
          });
       </script>
    </head>
    <body>
       <div id="viewPort">
-         <!-- A sample view -->
+         
+         <!-- 
+            This is a sample view. Below is a recommended structure for views for mojo library. Each view MUST
+            have the CSS class 'view' and MUST have an id
+         -->
          <article class="view" id="main">
             <!-- View specific style sheets -->
             <style scoped>
@@ -50,7 +66,7 @@
                   // our view controller object, all methods are optional
                   return {
                      initialize: function() {
-                        $("#listButt").on("tap", function() {
+                        $("#listButt").on(TAP, function() {
                            app.showView("listView", {
                               selectedIndex: 3,
                               items: ["Zero", "One", "Two", "Three", "Four"],
@@ -58,7 +74,11 @@
                            });
                         });
                      },
-                     activate: function() {},
+                     activate: function(data) {
+                        $("#result").html(data ? 
+                           "Selected Item: " + data.selectedItem + ", Index: " + data.selectedIndex
+                           : "No item selected");
+                     },
                      deactivate: function() {},
                      onTransitionOut: function() {},
                      onTransitionIn: function() {},
@@ -68,6 +88,7 @@
             </script>
             <div class="content">
                <a id="listButt" class="button col-one">Show Me A list</a>
+               <div id="result" class="row"></div>
             </div>
          </article>
          
@@ -84,6 +105,8 @@
                selectedItem: {}, // the item that was selected
                selectedIndex: 0, // the index of the newly selected item by user
             }
+            If the user hits the back button, the list view, is popped and no data is returned to the view
+            below
          -->
          <article class="view" id="listView">
             <style scoped>
@@ -99,7 +122,7 @@
                            onselectionchange: function(currItem, oldItem) {
                               if(typeof currItem != "undefined" && typeof oldItem !== "undefined") {
                                  app.popView({
-                                    selectedItem: currItem,
+                                    selectedItem: currItem.data("model"),
                                     selectedIndex: dataList.getSelectedIndex()
                                  });
                               }
