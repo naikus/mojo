@@ -44,6 +44,29 @@
             list.setItems(data);
             list.selectItemAt(0);
             
+            $("#insertItem").on("click", function() {
+               var idx = $("#index").val(), name = $("#newItem").val(); data;
+               
+               idx = isNaN(idx) ? 0 : idx;
+               
+               list.insertItemAt({
+                  address: "Inserted Cube: " + idx,
+                  person: {
+                     firstname: name,
+                     lastname: ""
+                  }
+               }, idx);
+            });
+            
+            $("#removeItem").on("click", function() {
+               var idx = $("#index").val();
+               
+               idx = isNaN(idx) ? 0 : idx;
+               
+               list.removeItemAt(idx);
+            });
+            
+            
             oList = $('#otherList').datalist({
                render: function(list, item, idx, datum) {
                   /* item.setStyle({
@@ -136,19 +159,25 @@
       </style>
    </head>
    <body>
-      <p class="info">A List</p>
+      <p class="info">
+         Name: <input type="text" id="newItem" /><br />
+         Index: <input type="text" id="index" /><br />
+         <button id="insertItem">Insert</button>
+         <button id="removeItem">Remove</button>
+      </p>
       <!-- ul  tabindex="2" id="mylist"></ul -->
       <ul id="mylist">
          
       </ul>
       
+      
       <p class="info">
          A list parsed from HTML
       </p>
       <ul class="list" id="htmlList">
-         <li class="list-item">One</li>
-         <li class="list-item selected">Two</li>
-         <li class="list-item">Three</li>
+         <li id="one" class="list-item">One</li>
+         <li id="two" class="list-item selected">Two</li>
+         <li id="three" class="list-item">Three</li>
       </ul>
       
       <p class="info">A Horizontal List</p>
