@@ -179,23 +179,28 @@
    isTypeOf = $.isTypeOf,
    forEach = $.forEach,
    uuid = $.uuid,
+   UI_KEY = "uiItem",
+   MODEL_KEY = "model",
    action = "ontouchstart" in document.documentElement ? "tap" : "click"; 
    
    /**
     * Render each item using the specified renderer
     */
    function renderItem(widget, objItem, itemIdx, opts)  {
-      var li = document.createElement("li"), item = $(li), content;
-      item.data("model", objItem);
-      item.data("index", itemIdx);
+      var li = document.createElement("li"), item = $(li), content, liRaw;
+      item.data(MODEL_KEY, objItem);
 
       if(opts.itemClass) {
          forEach(opts.itemClass, function(cl) {
             item.addClass(cl);
          });
       }
-      // item.attr("id", objItem.id || "li" + uuid());
       content = opts.render(widget, item, itemIdx, objItem);
+      
+      liRaw = item.get(0);
+      if(!liRaw.id) {
+         liRaw.id = "itm"+ uuid();
+      }
 
       // check if the renderer has already appended
       if(!item.html()) {
@@ -205,6 +210,8 @@
             item.append(content);
          }
       }
+      // @TODO will this create a leak?
+      item.data(UI_KEY, item); // store this to quickly retrieve the item selection change
       return item;
    }
    
@@ -221,7 +228,7 @@
       listRoot,
       // existing children of this list root
       children,
-      
+            
       listClass = opts.listClass,
       
       enabled = true,
@@ -284,6 +291,52 @@
          }
       }
       
+      function insertItemAt(objItem, idx) {
+         var itm, origItem;
+         idx = Number(idx);
+         if(isNaN(idx) || idx < 0 || idx > data.length + 1) {
+            return;
+         }
+         itm = renderItem(widget, objItem, idx, opts);
+         
+         if(idx === data.length) {
+            listRoot.append(itm);
+         }else {
+            origItem = allItems[idx];
+            origItem.before(itm);
+         }
+         allItems.splice(idx, 0, itm);
+         data.splice(idx, 0, objItem);
+      }
+      
+      function removeItemAt(idx) {
+         var itm, objItm;
+         idx = Number(idx);
+         if(!isNaN(idx) && idx >= 0 && idx < data.length) {
+            itm = allItems.splice(idx, 1)[0];
+            objItm = data.splice(idx, 1)[0];
+            if(itm && objItm) {
+               listRoot.remove(itm.get(0));
+               if(itm === selectedItem) {
+                  selectedItem = null;
+               }
+            }
+         }
+      }
+      
+      function removeItems(filterFunc) {
+         var filtered = [];
+         forEach(data, function(datum, i) {
+            if(filterFunc(datum)) {
+               filtered[filtered.length] = i;
+            }
+         });
+         
+         forEach(filtered, function(fi) {
+            removeItemAt(fi);
+         });
+      }
+      
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
          ul = listRoot.get(0);
@@ -300,7 +353,7 @@
       }
       
       listRoot.on(action, function(e) {
-         var t = e.target, parent = t.parentNode, idx, item;
+         var t = e.target, parent = t.parentNode, item;
          if(parent === ul) {
             item = t;
          }else {
@@ -308,10 +361,9 @@
                item = parent;
                parent = parent.parentNode;
             }
-         }
-         idx = $(item).data("index");
-         if(typeof idx !== "undefined") {
-            item = allItems[idx];
+         } 
+         item = $(item).data(UI_KEY);
+         if(item) {
             fireSelectionChanged(item);
          }
       });
@@ -327,6 +379,20 @@
             data = itemData || [];
             selectedItem = null;
             render(selIndex);
+         },
+         
+         insertItemAt: function(objItem, i) {
+            insertItemAt(objItem, i);
+         },
+         
+         removeItemAt: function(i) {
+            removeItemAt(i);
+         },
+         
+         removeItems: function(filter) {
+            if(typeof filter === "function") {
+               removeItems(filter);
+            }
          },
          
          setEnabled: function(bEnabled)  {
@@ -366,7 +432,7 @@
             var itm = allItems[idx], content;
             if(itm) {
                data[idx] = datum;
-               itm.data("model", datum);
+               itm.data(MODEL_KEY, datum);
 
                content = opts.render(widget, itm, idx, datum);
                // check if the renderer has already appended
@@ -391,7 +457,8 @@
          allItems = data = [];
          children.forEach(function(li, i) {
             var $li = $(li);
-            $li.data("index", i);
+            $li.data(UI_KEY, $li);
+            $li.data(MODEL_KEY, $li);
             allItems[allItems.length] = $li;
             if($li.hasClass("selected")) {
                selectedItem = $li;
