@@ -223,6 +223,10 @@
             return listRoot;
          },
          
+         size: function() {
+            return data.length;
+         },
+         
          setItems: function(itemData, selIndex) {
             listRoot.html("");
             data = itemData || [];
@@ -231,7 +235,14 @@
          },
          
          insertItemAt: function(objItem, i) {
+            if(typeof i === "undefined") {
+               i = data.length;
+            }
             insertItemAt(objItem, i);
+         },
+         
+         insertItem: function(objItem) {
+            insertItemAt(objItem, data.length);
          },
          
          removeItemAt: function(i) {
