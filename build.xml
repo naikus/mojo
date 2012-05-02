@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <project basedir="." default="build"> 
-  <target name="combine">
+  <target name="combine" depends="mkdist">
     <!-- Order is important here -->
-    <concat destfile="mojo.js">
+    <concat destfile="dist/mojo.js">
       <fileset dir="." includes="LICENSE" />
       <filelist dir="src">
         <file name="template.js"/>
@@ -12,7 +12,7 @@
       </filelist>
     </concat>
     
-    <concat destfile="mojo.css">
+    <concat destfile="dist/mojo.css">
       <fileset dir="." includes="LICENSE" />
       <filelist dir="src">
         <file name="style/view-transitions.css"/>
@@ -21,23 +21,27 @@
     </concat>
   </target>
   
+  <target name="mkdist">
+    <mkdir dir="dist" />
+  </target>
+  
   <target name="build" depends="clean,combine">
     <antcall target="minify" />
   </target>
 
-  <target name="minify">
+  <target name="minify" depends="mkdist">
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
-        <arg line="-o mojo.min.js --preserve-semi mojo.js"/>
+        <arg line="-o dist/mojo.min.js --preserve-semi dist/mojo.js"/>
     </java>
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
-        <arg line="-o mojo.min.css --preserve-semi mojo.css"/>
+        <arg line="-o dist/mojo.min.css --preserve-semi dist/mojo.css"/>
     </java>    
   </target>
 
   <target name="clean">
-    <delete file="mojo.js" />
-    <delete file="mojo.min.js" />
-    <delete file="mojo.css" />
-    <delete file="mojo.min.css" />
+    <delete file="dist/mojo.js" />
+    <delete file="dist/mojo.min.js" />
+    <delete file="dist/mojo.css" />
+    <delete file="dist/mojo.min.css" />
   </target>
 </project>
