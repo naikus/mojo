@@ -165,6 +165,12 @@
          nxtUi = nxtInfo.ui;
          // activate the new view
          nxtInfo.controller.activate(data);
+         
+         // check if this view was earlier transitioned out because some other view was shown over it.
+         if(nxtUi.hasClass("out")) {
+            nxtUi.removeClass("transition").removeClass("out");
+         }
+         
          nxtUi.addClass("showing");
          
          // transition views
@@ -218,6 +224,11 @@
          
          // activate the new view
          prevInfo.controller.activate(data);
+         
+         if(!prevUi.hasClass("out") && !prevUi.hasClass("transition")) {
+            prevUi.addClass("transition").addClass("out");
+         }
+         
          prevUi.addClass("showing");
          
          // transition the views

@@ -5,7 +5,7 @@
             initialize: function() {
                var action = "ontouchstart" in document.documentElement ? "tap" : "click";
                ui.on(action, function(e) {
-                  alert("Hello from remote view");
+                  app.showView("main");
                });
             }
          };
@@ -15,5 +15,6 @@
    <div class="header">3. Remote view</div>
    <div id="yetDiv">
       <h3>I am the remote view</h3>
+      Tap anywhere to go back to main view
    </div>
 </div>
