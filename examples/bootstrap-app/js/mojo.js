@@ -23,6 +23,58 @@
  */
  
  
+(function($, undef) {
+   var undefn = undef,
+      forEach = $.forEach,
+      div = window.document.createElement("div"),
+      style = div.style,
+      
+      prefixes = ["", "Webkit", "Moz", "O", "ms"],
+      
+      support = {
+         hashchange: ("onhashchange" in window)
+      },
+      
+      props = {}, 
+      
+      tests = {
+         transition: function(env, support, props) {
+            var t, transitionend = [
+               "transitionend", "webkitTransitionEnd", "transitionend", 
+               "oTransitionEnd", "MSTransitionEnd"
+            ];
+            forEach(prefixes, function(pfx, i) {
+               var pt = pfx + "Transition";
+               if(typeof style[pt] !== "undefined") {
+                  t = support.transition = true;
+                  props.transitionend = transitionend[i];
+                  props.transition = pt; 
+               }
+            });
+            if(!t) {
+               data.transitionend = null;
+            }
+            return t;
+         }
+      };
+      
+   $.env = {
+      supports: function(feature) {
+         var s = support[feature], t;
+         if(typeof s !== "undefined") {
+            return s;
+         }
+         t = tests[feature];
+         return typeof t === "function" ? t(this, support, props) : (support[feature] = false);
+      },
+      property: function(name) {
+         return props[name];
+      }
+   }
+})(h5);
+
+
+
 /**
  * A simple templating mechanism for creating string templates. A template has replacement tokens
  * that are of the format '{' followed by anystring followed by '}'. 
@@ -374,6 +426,10 @@
             return listRoot;
          },
          
+         size: function() {
+            return data.length;
+         },
+         
          setItems: function(itemData, selIndex) {
             listRoot.html("");
             data = itemData || [];
@@ -382,7 +438,14 @@
          },
          
          insertItemAt: function(objItem, i) {
+            if(typeof i === "undefined") {
+               i = data.length;
+            }
             insertItemAt(objItem, i);
+         },
+         
+         insertItem: function(objItem) {
+            insertItemAt(objItem, data.length);
          },
          
          removeItemAt: function(i) {
@@ -543,6 +606,7 @@
    // the global mojo namespace
    var forEach = $.forEach,
       
+      /*
       style = window.document.createElement("div").style,
       hasTransitionSupport = false,
       transitionEvts = {
@@ -555,11 +619,19 @@
       transitionEndEvent,
       
       hasHashChange = ("onhashchange" in window),
+      */
+      
+      env = $.env,
+      
+      hasTransitionSupport = env.supports("transition"),
+      transitionEndEvent = env.property("transitionend"),
+      hasHashChange = env.supports("hashchange"),
       
       mojo = {};
       
       
    // check for CSS transition support
+   /*
    (function() {
       forEach(transitionEvts, function(evt, pfx) {
          if(typeof style[pfx + "Transition"] !== "undefined") {
@@ -572,6 +644,7 @@
       }
       // console.log("Hashchange supported: " + hasHashChange + ", Transition Supported: " + hasTransitionSupport + ", Transition Event: " + transitionEndEvent);      
    }());
+   */
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -689,9 +762,15 @@
          }
 
          nxtUi = nxtInfo.ui;
+         
+         // check if this view was earlier transitioned out because some other view was shown over it.
+         if(nxtUi.hasClass("out")) {
+            nxtUi.removeClass("transition").removeClass("out");
+         }
+         nxtUi.addClass("showing");
+         
          // activate the new view
          nxtInfo.controller.activate(data);
-         nxtUi.addClass("showing");
          
          // transition views
          setTimeout(function() {
@@ -744,6 +823,11 @@
          
          // activate the new view
          prevInfo.controller.activate(data);
+         
+         if(!prevUi.hasClass("out") && !prevUi.hasClass("transition")) {
+            prevUi.addClass("transition").addClass("out");
+         }
+         
          prevUi.addClass("showing");
          
          // transition the views

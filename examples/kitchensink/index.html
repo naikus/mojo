@@ -2,14 +2,17 @@
 <html>
    <head>
       <title>Kitchen Sink App</title>
-      <meta name="HandheldFriendly" content="True">
-      <meta name="MobileOptimized" content="480">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <meta name="HandheldFriendly" content="True" />
+      <meta name="MobileOptimized" content="480" />
+      <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       
       <script type="text/javascript" src ="lib/h5.js"> </script>
+      <script type="text/javascript" src ="../../src/env.js"> </script>
       <script type="text/javascript" src ="../../src/template.js"> </script>
       <script type="text/javascript" src ="../../src/datalist.js"> </script>
+      <script type="text/javascript" src ="../../src/cardpanel.js"> </script>
       <script type="text/javascript" src ="../../src/form.js"> </script>
       <script type="text/javascript" src ="../../src/app.js"> </script>
       <!-- <script type="text/javascript" src ="lib/iscroll-lite.js"> </script> -->
@@ -75,10 +78,11 @@
       </style>
       
       <script>
-         var kitchenSink = mojo.Application();
+         var kitchenSink = mojo.Application(),
+            TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
          $.ready(function() {
             kitchenSink.initialize({
-               startView: "splash"
+               startView: "main"
             });
          });
       </script>
@@ -98,7 +102,7 @@
       <div id="viewPort">
          <!-- ================================== Splash screen ================================= -->
          <article class="view" id="splash">
-            <style>
+            <style scoped>
                #splash {
                   -moz-transform: translateX(0%);
                   -webkit-transform: translateX(0%);
@@ -146,16 +150,68 @@
          </article>
          
          <article class="view" id="main">
-            <style>
-               #main {
-                  background-color: #999;
+            <style scoped>
+               .card-panel {
+                  position: relative;
+                  width: 96%;
+                  height: 400px;
+                  margin: 2%;
+                  overflow: hidden;
+               }
+               
+               .card-wrapper {
+                  -moz-transition: -moz-transform 200ms ease;
+                  -webkit-transition: -webkit-transform 200ms ease;
+                  -o-transition: -o-transform 200ms ease;
+                  transition: -o-transform 200ms ease;
+                  -webkit-backface-visibility: hidden;
+               }
+               
+               .card {
+                  background-color: #777;
+                  background: #333;
+                  color: #aaa
+               }
+               
+               .card:nth-child(2n+1) {
+                  background-color: #666;
+                  color: #eee;
                }
             </style>
             <script>
                kitchenSink.registerView("main", function(app, viewUi) {
-                  return {};
+                  var cardPanel;
+                  return {
+                     activate: function() {
+                        cardPanel = $("#cp").cardpanel({
+                           // orientation: "vertical"
+                        });
+                        
+                        $("#nextCard").on(TAP, function() {
+                           cardPanel.card(0);
+                        });
+                        $("#previousCard").on(TAP, function() {
+                           cardPanel.card(5);
+                        });
+                     }
+                  };
                });
             </script>
+            <div class="content">
+               <button class="col-two" id="previousCard">First</button>
+               <button class="col-two" id="nextCard">Last</button>
+               <div id="cp" class="card-panel">
+                  
+                  <div class="card-wrapper">
+                     <div class="card previous">Card One</div>
+                     <div class="card current">Card Two</div>
+                     <div class="card">Card Three</div>
+                     <div class="card previous">Card Four</div>
+                     <div class="card current">Card Five</div>
+                     <div class="card">Card Six</div>
+                  </div>
+               </div>
+            </div>
          </article>
       </div>
    </body>
