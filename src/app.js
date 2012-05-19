@@ -17,6 +17,7 @@
    // the global mojo namespace
    var forEach = $.forEach,
       
+      /*
       style = window.document.createElement("div").style,
       hasTransitionSupport = false,
       transitionEvts = {
@@ -29,11 +30,19 @@
       transitionEndEvent,
       
       hasHashChange = ("onhashchange" in window),
+      */
+      
+      env = $.env,
+      
+      hasTransitionSupport = env.supports("transition"),
+      transitionEndEvent = env.property("transitionend"),
+      hasHashChange = env.supports("hashchange"),
       
       mojo = {};
       
       
    // check for CSS transition support
+   /*
    (function() {
       forEach(transitionEvts, function(evt, pfx) {
          if(typeof style[pfx + "Transition"] !== "undefined") {
@@ -46,6 +55,7 @@
       }
       // console.log("Hashchange supported: " + hasHashChange + ", Transition Supported: " + hasTransitionSupport + ", Transition Event: " + transitionEndEvent);      
    }());
+   */
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -163,15 +173,15 @@
          }
 
          nxtUi = nxtInfo.ui;
-         // activate the new view
-         nxtInfo.controller.activate(data);
          
          // check if this view was earlier transitioned out because some other view was shown over it.
          if(nxtUi.hasClass("out")) {
             nxtUi.removeClass("transition").removeClass("out");
          }
-         
          nxtUi.addClass("showing");
+         
+         // activate the new view
+         nxtInfo.controller.activate(data);
          
          // transition views
          setTimeout(function() {
