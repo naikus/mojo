@@ -5,6 +5,7 @@
     <concat destfile="dist/mojo.js">
       <fileset dir="." includes="LICENSE" />
       <filelist dir="src">
+        <file name="env.js"/>
         <file name="template.js"/>
         <file name="datalist.js"/>
         <file name="form.js"/>
