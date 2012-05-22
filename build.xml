@@ -9,6 +9,7 @@
         <file name="template.js"/>
         <file name="datalist.js"/>
         <file name="form.js"/>
+        <file name="cardpanel.js"/>
         <file name="app.js"/>
       </filelist>
     </concat>
@@ -28,6 +29,13 @@
   
   <target name="build" depends="clean,combine">
     <antcall target="minify" />
+    
+    <!-- applications -->
+    <copy todir="examples/bootstrap-app/js" file="dist/mojo.js" />
+    <copy todir="examples/bootstrap-app/css" file="dist/mojo.css" />
+    
+    <copy todir="examples/kitchensink/js" file="dist/mojo.js" />
+    <copy todir="examples/kitchensink/css" file="dist/mojo.css" />
   </target>
 
   <target name="minify" depends="mkdist">

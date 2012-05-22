@@ -910,13 +910,6 @@
       return o;
    }
    
-   function setStyle(elem, props) {
-      var style = elem.style;         
-      forEach(props, function(val, key) {
-         style[key] = val;
-      });
-   }
-   
    function setAttributes(elem, attrs) {
       forEach(attrs, function(val, key) {
          var spl = splAttrs[key], n = spl || key;
@@ -986,7 +979,7 @@
        * @memberOf nodelist
        */
       attr: function(name, value) {
-         var spl = splAttrs[name], n = spl || name, elements = this.elements, ret, ntype = typeof name; 
+         var spl = splAttrs[name], n = spl || name, elements = this.elements, ntype = typeof name; 
          if(!elements.length)  {
             return value ? this : null;
          }
@@ -1256,12 +1249,17 @@
        *    "border": "1px solid #333"
        * });
        */
-      setStyle: function(props)  {
-         forEach(this.elements, function(el) {
-            var style = el.style;         
-            forEach(props, function(val, key) {
-               style[key] = val;
-            });
+      setStyle: function(props, value)  {
+         var type = getTypeOf(props);
+         forEach(this.elements, function(elem) {
+            var style = elem.style;
+            if(props === "Object") {
+               forEach(props, function(val, key) {
+                  style[key] = val;
+               });
+            }else if(props === "String") {
+               style[props] = value || "";
+            }
          });
          return this;
       },
@@ -1304,7 +1302,7 @@
       
       boundingBox: function() {
          var elems = this.elements;
-         return elems.length ? getBoundingBox(elem[0]) : null;
+         return elems.length ? getBoundingBox(elems[0]) : null;
       }
    });
          

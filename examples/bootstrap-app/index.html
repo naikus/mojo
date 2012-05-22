@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title></title>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <title>Bootstrap</title>
+      <meta name="MobileOptimized" content="480">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      
       <meta name="HandheldFriendly" content="True" />
-      <meta name="MobileOptimized" content="480" />
-      <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes">
       
       <script type="text/javascript" src ="js/h5.js"> </script>
-      <script type="text/javascript" src ="js/mojo.js"> </script>
+      <script type="text/javascript" src ="../../src/env.js"> </script>
+      <script type="text/javascript" src ="../../src/template.js"> </script>
+      <script type="text/javascript" src ="../../src/datalist.js"> </script>
+      <script type="text/javascript" src ="../../src/cardpanel.js"> </script>
+      <script type="text/javascript" src ="../../src/form.js"> </script>
+      <script type="text/javascript" src ="../../src/app.js"> </script>
       
-      <link rel="stylesheet" type="text/css" href="css/mojo.css" />
+      <link rel="stylesheet" type="text/css" href="../../src/style/view-transitions.css" />
+      <link rel="stylesheet" type="text/css" href="../../src/style/theme.css" />
       
       <style type="text/css">
          *{
@@ -62,15 +68,12 @@
          });
       </script>
    </head>
-   <body>
-      <div id="viewPort">
-         
+   <body class="viewport" id="viewPort">
          <!-- 
             This is a sample view. Below is a recommended structure for views for mojo library. Each view MUST
             have the CSS class 'view' and MUST have an id
          -->
          <article class="view" id="main">
-            <!-- View specific style sheets -->
             <style scoped>
                #main {}
             </style>
@@ -152,6 +155,12 @@
                         listTitle = $("#listTitle");
                         
                         app.getViewPort().on("viewtransitionout", clearList);
+                        
+                        /*
+                        $("#mycarousel").cardpanel({
+                           // orientation: "vertical"
+                        });
+                        */
                      },
                      activate: function(data) {
                         if(!data) {return}
@@ -172,9 +181,6 @@
                   </div>
                </section>
             </div>
-         </article>
-      </div>
-      
-      
+         </article>      
    </body>
 </html>

@@ -16,46 +16,11 @@
    }
    // the global mojo namespace
    var forEach = $.forEach,
-      
-      /*
-      style = window.document.createElement("div").style,
-      hasTransitionSupport = false,
-      transitionEvts = {
-         "": "transitionend", 
-         "Webkit": "webkitTransitionEnd",
-         "Moz": "transitionend",
-         "O": "oTransitionEnd",
-         "ms": "MSTransitionEnd"
-      },
-      transitionEndEvent,
-      
-      hasHashChange = ("onhashchange" in window),
-      */
-      
       env = $.env,
-      
       hasTransitionSupport = env.supports("transition"),
       transitionEndEvent = env.property("transitionend"),
       hasHashChange = env.supports("hashchange"),
-      
-      mojo = {};
-      
-      
-   // check for CSS transition support
-   /*
-   (function() {
-      forEach(transitionEvts, function(evt, pfx) {
-         if(typeof style[pfx + "Transition"] !== "undefined") {
-            transitionEndEvent = evt;
-            hasTransitionSupport = true;
-         }
-      });
-      if(!hasTransitionSupport) {
-         transitionEndEvent = "transitionend";
-      }
-      // console.log("Hashchange supported: " + hasHashChange + ", Transition Supported: " + hasTransitionSupport + ", Transition Event: " + transitionEndEvent);      
-   }());
-   */
+      mojo = {};      
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -134,6 +99,10 @@
 
          controller = info.controller = info.factory(app, ui);
          ensureLifecycle(controller);
+         
+         // make the view visible
+         ui.addClass("showing");
+         
          // initialize the newly created controller
          controller.initialize(data);
       }
@@ -270,14 +239,13 @@
        * Handles some actions after views transition in or out of the view port
        */
       function onViewTransitionEnd(evt) {
-         var target = evt.target, viewId = target.id, viewInfo = views[viewId], controller, el;
+         var target = evt.target, viewId = target.id, viewInfo = views[viewId], el;
          
          if(!viewInfo) {
             return; // not a view
          }
          
          el = viewInfo.ui;
-         controller = viewInfo.controller;
          
          // deactivate if the view has transitioned out
          if(el.hasClass("out")) {
@@ -299,6 +267,7 @@
             window.location.hash = "view:"+ viewId;
             viewPort.dispatch("viewtransitionin", {view: viewId});
          }
+         // $(document.documentElement).css("overflow-x", "hidden");
       }
       
       function onOverlayTransitionEnd(evt) {

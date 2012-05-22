@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Kitchen Sink App</title>
+      <title>Kitchen Sink</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <meta name="HandheldFriendly" content="True" />
       <meta name="MobileOptimized" content="480" />
-      <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       
-      <script type="text/javascript" src ="lib/h5.js"> </script>
-      <script type="text/javascript" src ="../../src/env.js"> </script>
-      <script type="text/javascript" src ="../../src/template.js"> </script>
-      <script type="text/javascript" src ="../../src/datalist.js"> </script>
-      <script type="text/javascript" src ="../../src/cardpanel.js"> </script>
-      <script type="text/javascript" src ="../../src/form.js"> </script>
-      <script type="text/javascript" src ="../../src/app.js"> </script>
+      <script type="text/javascript" src ="js/h5.js"> </script>
+      <script type="text/javascript" src ="js/mojo.js"> </script>
+      
       <!-- <script type="text/javascript" src ="lib/iscroll-lite.js"> </script> -->
       
-      <link rel="stylesheet" type="text/css" href="../../src/style/view-transitions.css" />
-      <link rel="stylesheet" type="text/css" href="../../src/style/theme.css" />
+      <link rel="stylesheet" type="text/css" href="css/mojo.css" />
+      
       
       <style type="text/css">
          *{
-            font-family: sans;
+            font-family: Helvetica;
          }
          
-         .dark .list > li {
-            border-bottom: 1px solid #222;
-            border-top: 1px solid #444;
+         body {
+            background: #f1f1f1;
          }
          
          .content {
+            padding: 10px;
             margin: 0;
-            padding: 0;
-            overflow: auto;
          }
          
-         nav > header {
-            padding: 10px;
+         
+         #navAside {
+            background-color: #f1f1f1;
+            height: 100%;
+            z-index: 199;
+            position: fixed;
+         }
+         
+         #navigation .list > li {
+            border: 1px solid #f1f1f1;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #f4f4f4;
+         }
+         #navigation .list > li.selected {
+            border: 1px solid #134F63;
+         }
+         
+         #navigation .list > li.selected {
+            color: #fff;
+            box-shadow: inset 0px 0px 7px #134F63;
+         }
+         
+         #navigation > header {
+            padding: 13px 10px;
          }
       
          #viewPort {
@@ -46,55 +62,68 @@
             
             position: absolute;
             left: 0;
-            top: 0;
+            top: 45px;
             width: 100%;
-            height: 100%;
+            height: 95%;
          }
       
          /* Smart phones */
          @media only screen and (min-width: 320px) and (max-width: 480px) {           
-            #nav {
+            #navAside {
                width: 85%;
             }
          }
-         
+
          /* Tablets */
          @media only screen and (min-width: 500px) {
+            #navButton {
+               display: none;
+            }
             
-            #nav {
+            #navAside {
                position: absolute;
                left: 0;
-               width: 15%;
-               height: 100%;
-               z-index: 199;
-               box-shadow: inset -2px 0px 5px #111;
+               width: 18%;
             }
             
             #viewPort {
-               left: 15%;
-               width: 85%;
+               left: 18%;
+               width: 82%;
             }            
          }
       </style>
       
       <script>
-         var kitchenSink = mojo.Application(),
-            TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
+         var kitchenSink = mojo.Application(), TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
+         
          $.ready(function() {
+            $("#navList").datalist({
+               data: [
+                  {label: "List", value: "listView"},
+                  {label: "Form Controls", value: "formView"},
+                  {label: "Card Panel", value: "cardPanelView"}
+               ],
+               render: function(widget, item, i, datum) {
+                  item.data("view", datum.value);
+                  return datum.label || "Huh?";
+               },
+               onselectionchange: function(curr, old) {
+                  kitchenSink.showView(curr.data("view"));
+               }
+            });
+            
             kitchenSink.initialize({
-               startView: "main"
+               startView: "splash"
             });
          });
       </script>
    </head>
    <body>
    
-      <aside class="dark" id="nav">
+      <aside id="navAside">
          <nav id="navigation">
             <header>Navigation</header>
-            <ul class="list">
-               <li>View Transitions</li>
-               <li>Form Controls</li>
+            <ul id="navList" class="list">
             </ul>
          </nav>
       </aside>
@@ -123,7 +152,7 @@
                   padding: 0;
                   height: 300px;
                   text-align: center;
-                  background-image: url('style/images/sink.png');
+                  background-image: url('images/sink.png');
                   background-repeat: no-repeat;
                   background-position: center 100px
                }
@@ -135,13 +164,7 @@
             </style>
             <script>
                kitchenSink.registerView("splash", function(app, viewUi) {
-                  return {
-                     activate: function() {
-                        setTimeout(function() {
-                           app.showView("main");
-                        }, 2000);
-                     }
-                  };
+                  return {};
                });
             </script>
             <div class="content">
@@ -149,7 +172,7 @@
             </div>
          </article>
          
-         <article class="view" id="main">
+         <article class="view" id="cardPanelView">
             <style scoped>
                .card-panel {
                   position: relative;
@@ -159,60 +182,103 @@
                   overflow: hidden;
                }
                
-               .card-wrapper {
-                  -moz-transition: -moz-transform 200ms ease;
-                  -webkit-transition: -webkit-transform 200ms ease;
-                  -o-transition: -o-transform 200ms ease;
-                  transition: -o-transform 200ms ease;
-                  -webkit-backface-visibility: hidden;
+               #mycarousel {
+                  background-color: #333;
+                  height: 250px;
                }
-               
-               .card {
-                  background-color: #777;
-                  background: #333;
-                  color: #aaa
-               }
-               
-               .card:nth-child(2n+1) {
-                  background-color: #666;
-                  color: #eee;
+
+               .card > .content {
+                  background-color: #F4F4F4;
+                  height: 190px;
+                  margin: 20px 14%;
+                  width: 70%;
                }
             </style>
             <script>
-               kitchenSink.registerView("main", function(app, viewUi) {
+               kitchenSink.registerView("cardPanelView", function(app, viewUi) {
                   var cardPanel;
                   return {
-                     activate: function() {
-                        cardPanel = $("#cp").cardpanel({
+                     initialize: function() {
+                        cardPanel = $("#mycarousel").cardpanel({
                            // orientation: "vertical"
                         });
                         
                         $("#nextCard").on(TAP, function() {
-                           cardPanel.card(0);
+                           cardPanel.card(5);
                         });
                         $("#previousCard").on(TAP, function() {
-                           cardPanel.card(5);
+                           cardPanel.card(0);
                         });
                      }
                   };
                });
             </script>
             <div class="content">
+               
                <button class="col-two" id="previousCard">First</button>
                <button class="col-two" id="nextCard">Last</button>
-               <div id="cp" class="card-panel">
-                  
+               
+               <div id="mycarousel" class="card-panel">
                   <div class="card-wrapper">
-                     <div class="card previous">Card One</div>
-                     <div class="card current">Card Two</div>
-                     <div class="card">Card Three</div>
-                     <div class="card previous">Card Four</div>
-                     <div class="card current">Card Five</div>
-                     <div class="card">Card Six</div>
+                     <div class="card">
+                        <div class="content">Card One</div>
+                     </div>
+                     <div class="card">
+                        <div class="content">Card Two</div>
+                     </div>
+                     <div class="card">
+                        <div class="content">Card Three</div>
+                     </div>
+                     <div class="card">
+                        <div class="content">Card Four</div>
+                     </div>
+                     <div class="card">
+                        <div class="content">Card Five</div>
+                     </div>
+                     <div class="card">
+                        <div class="content">Card Six</div>
+                     </div>
                   </div>
                </div>
             </div>
          </article>
+         
+         <article class="view" id="listView">
+            <style scoped>
+               #listView {}
+            </style>
+            <script>
+               kitchenSink.registerView("listView", function(app, viewUi) {
+                  var dataList, message;
+                  
+                  return {
+                     initialize: function() {
+                        var data = [];
+                        for(var i = 0; i < 100; i++) {
+                           data[i] = "Item " + i;
+                        }
+                        
+                        message = $("#listSeln");
+                        
+                        dataList = $("#dataList").datalist({
+                           itemClass: "activable",
+                           data: data,
+                           onselectionchange: function(currItem, oldItem) {
+                              message.html(currItem.html());
+                           }
+                        });
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <section>
+                  <header>List</header>
+                  <div id="dataList"></div>
+                  <div id="listSeln"></div>
+               </section>
+            </div>
+         </article>      
       </div>
    </body>
 </html>

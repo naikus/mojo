@@ -13,85 +13,100 @@
          oncardchange: noop,
          activeCard: 0,
          orientation: "horizontal"
-      },
-      
-      orientationUtils = {
-         horizontal: {
-            layout: function(panel, wrapper, cards) {
-               var offsets = panel.offsets(), len = cards.length, 
-                  width = offsets.width, 
-                  wStyle = wrapper.get(0).style;
-               
-               wStyle.width = (width * len) + "px";
-               wStyle.minHeight = "100%";
-               
-               forEach(cards, function(c, i) {
-                  var s = c.style;
-                  s.width = width + "px";
-                  s.position = "absolute";
-                  s.left = 0;
-                  s.minHeight = "100%";
-                  s.marginLeft = (width * i) + "px";
-               });
-            },
-            translate: function(elem, distance) {
-               elem.style[transformProp] = "translateX(-" + distance + "%)";
-            }
-         },
-         
-         vertical: {
-            layout: function(panel, wrapper, cards) {
-               var offsets = panel.offsets(), 
-                  len = cards.length, 
-                  height = offsets.height, 
-                  wStyle = wrapper.get(0).style;
-                  
-               wStyle.height = (height * len) + "px";
-               forEach(cards, function(c) {
-                  c.style.height = height + "px";
-               });
-            },
-            translate: function(elem, distance) {
-               elem.style[transformProp] = "translateY(-" + distance + "%)";
-            }
-         }
       };
+      
+   function layoutH(panel, wrapper, cards)  {
+      var offsets = panel.offsets(), 
+         len = cards.length, 
+         width = offsets.width,
+         wStyle = wrapper.get(0).style;
+         
+      wStyle.width = (width * len) + "px";
+      wStyle.minHeight = "100%";
+      
+      forEach(cards, function(c, i) {
+         var s = c.style;
+         s.width = width + "px";
+         s.position = "absolute";
+         s.left = 0;
+         s.marginLeft = (width * i) + "px";
+         s.minHeight = "100%";
+      });
+      //return width;
+   }
+   
+   function moveH(wrapper, distance) {
+      wrapper.get(0).style[transformProp] = "translateX(-" + distance + "%)";
+      // wrapper.get(0).style[transformProp] = "translateX(-" + distance + "px)";
+   }
+   
+   function layoutV(panel, wrapper, cards) {
+      var offsets = panel.offsets(), 
+         len = cards.length, 
+         height = offsets.height, 
+         wStyle = wrapper.get(0).style;
+      
+      wStyle.height = (height * len) + "px";
+      forEach(cards, function(c) {
+         c.style.height = height + "px";
+      });      
+      //return height;
+   }
+   
+   function moveV(wrapper, distance) {
+      wrapper.get(0).style[transformProp] = "translateY(-" + distance + "%)";
+      // wrapper.get(0).style[transformProp] = "translateY(-" + distance + "px)";
+   }
          
     $.extension("cardpanel", function(opts) {
        var options = $.extend({}, defaults, opts),
          self = this,
-         allCards = [],
+         cpOffsets = self.offsets(),
          
          cardWrapper,
-         cardWrapperElem, 
          
+         layout,
+         moveWrapper, 
          
-         // whats the orientation of this card panel?
-         orientation = options.orientation,
-         // which layout function to use? 
-         layout = orientationUtils[orientation].layout,
-         translate = orientationUtils[orientation].translate,
+         // unitDistance,
+         allCards = [],
+         widget,
+         currentCardIdx = options.activeCard;
          
-         activeCard = options.activeCard,
-         currentCardIdx = activeCard;
+         /* ------------------------------------- Card changing --------------------------------- */
          
-         /* ------------------------------------- Card changing --------------------------------- */        
+         function hideCards() {
+            /*var style = cardWrapper.get(0).style;
+            style.width = cpOffsets.width;
+            style.height = cpOffsets.height;*/
+            
+            forEach(allCards, function(c, i) {
+               if(i !== currentCardIdx) {
+                  c.style.display = "none";
+               }
+            });
+         }
+         
+         function showCards() {
+            // cardWrapper.get(0).style.width = (cpOffsets.width * allCards.length) + "px";
+            forEach(allCards, function(c) {
+               c.style.display = "block";
+            });
+         }
          
          function showCard(idx) {
-            console.log("showing card: " + idx + " from " + currentCardIdx);
-            var distance;
-            
             if(idx < 0 || idx >= allCards.length) {
                return;
             }
             
-            if(idx === 0) {
-               translate(cardWrapperElem, 0);
-            }else {
-               distance = (100 / allCards.length) * idx;
-            }
-            translate(cardWrapperElem, distance);
+            showCards();
             currentCardIdx = idx;
+            if(idx === 0) {
+               moveWrapper(cardWrapper, 0);
+            }else {
+               moveWrapper(cardWrapper, (100 / allCards.length) * idx);
+               // moveWrapper(cardWrapper, distance * idx);
+            }
          }
          
          /* ------------------------------------- Event handling -------------------------------- */
@@ -106,8 +121,11 @@
             });
             
             $(window).on("resize", function() {
+               //unitDistance = layout(self, cardWrapper, allCards);
                layout(self, cardWrapper, allCards);
             });
+            
+            cardWrapper.on(transitionEndEvt, hideCards);
          }
          
          function handleTouchStart() {}
@@ -116,19 +134,26 @@
          
          
          /* ------------------------------------- Initialization -------------------------------- */
+         
          cardWrapper = self.find(".card-wrapper");
-         cardWrapperElem = cardWrapper.get(0);
-         if(!cardWrapperElem) {
-            throw new Error("Cards wrapper element with .card-wrapper class not found");
-         }         
+         if(!cardWrapper.get(0)) {
+            throw new Error("Card wrapper element with class 'card-wrapper' not found");
+         }
          allCards = cardWrapper.find(".card:nth-child(n+1)").elements;
+         if(options.orientation === "vertical") {
+            layout = layoutV;
+            moveWrapper = moveV;
+         }else {
+            layout = layoutH;
+            moveWrapper = moveH;
+         }
          
-         layout(self, cardWrapper, allCards);
-         showCard(activeCard);
+         // unitDistance = layout(self, cardWrapper, allCards);
          configureEvents();
+         layout(self, cardWrapper, allCards);
+         showCard(currentCardIdx);
          
-         
-         return {
+         widget = {
             next: function() {
                showCard(currentCardIdx + 1);
             },
@@ -139,5 +164,6 @@
                showCard(idx);               
             }
          };
+         return widget;
     });
  })(h5);
