@@ -1487,8 +1487,10 @@
          return null;
       }
       return {
-         x: dx,
-         y: dy,
+         startX: x2,
+         startY: y2,
+         endX: x1,
+         endY: y1,
          dir: xa >= ya ? (dx < 0 ? "left" : "right") : (dy < 0 ? "up" : "down") 
       };
    }

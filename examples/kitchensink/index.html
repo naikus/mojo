@@ -11,7 +11,7 @@
       <script type="text/javascript" src ="js/h5.js"> </script>
       <script type="text/javascript" src ="js/mojo.js"> </script>
       
-      <!-- <script type="text/javascript" src ="lib/iscroll-lite.js"> </script> -->
+      <script type="application/javascript" src="js/iscroll-lite.js?v4"></script>
       
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
@@ -21,82 +21,106 @@
             font-family: Helvetica;
          }
          
+         html {
+            overflow: hidden;
+         }
+         
          body {
-            background: #f1f1f1;
+            background: #ddd;
          }
-         
+
          .content {
-            padding: 10px;
-            margin: 0;
+            position: absolute;
+            min-height: 100%;
+            width: 100%;
          }
-         
          
          #navAside {
-            background-color: #f1f1f1;
+            position: absolute;
             height: 100%;
-            z-index: 199;
-            position: fixed;
+            background-color: #333;
          }
          
+         #navigation {
+            width: 100%;
+         }
          #navigation .list > li {
-            border: 1px solid #f1f1f1;
-            border-bottom: 1px solid #ddd;
-            border-top: 1px solid #f4f4f4;
+            border: 1px solid #333;
+            border-bottom: 1px solid #222;
+            border-top: 1px solid #444;
+            color: #f4f4f4;
          }
          #navigation .list > li.selected {
             border: 1px solid #134F63;
          }
          
          #navigation .list > li.selected {
+            background-color: #30B8E5;
             color: #fff;
             box-shadow: inset 0px 0px 7px #134F63;
+            -webkit-box-shadow: inset 0px 0px 7px #134F63;
          }
          
          #navigation > header {
-            padding: 13px 10px;
+            padding: 12px 10px;
+
+            font-weight: bold;
+            color: #aaa;
+            background-color: #222;
          }
       
          #viewPort {
-            padding: 0;
-            margin: 0;
-            
             position: absolute;
+            overflow: hidden;
             left: 0;
-            top: 45px;
-            width: 100%;
-            height: 95%;
+            bottom: 0;
+            top: 0;
+            
+            -moz-transition: left 200ms ease;
+            -webkit-transition: left 200ms ease;
+            -o-transition: left 200ms ease;
+            -ms-transition: left 200ms ease;
+            transition: left 200ms ease;
          }
-      
-         /* Smart phones */
-         @media only screen and (min-width: 320px) and (max-width: 480px) {           
+         
+         #viewPort.reveal {
+            left: 80%;
+            box-shadow: -2px 0 10px #111;
+            -webkit-box-shadow: -2px 0 5px #111;
+         }
+         
+         @media only screen and (min-width: 320px) and (max-width: 600px) {
             #navAside {
                width: 85%;
             }
-         }
-
-         /* Tablets */
-         @media only screen and (min-width: 500px) {
-            #navButton {
-               display: none;
-            }
-            
-            #navAside {
-               position: absolute;
-               left: 0;
-               width: 18%;
-            }
-            
             #viewPort {
-               left: 18%;
-               width: 82%;
-            }            
+               left: 0;
+               width: 100%;
+            }
          }
+         
+         @media only screen and (min-width: 600px) {
+            #navAside {
+               width: 20%;
+            }
+            #viewPort {
+               left: 20%;
+               width: 80%;
+               box-shadow: -2px 0 10px #111;
+               -webkit-box-shadow: -2px 0 10px #111;
+            }
+         }
+         
+         
       </style>
       
       <script>
-         var kitchenSink = mojo.Application(), TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
+         var kitchenSink = mojo.Application(), 
+            TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
          
          $.ready(function() {
+            var viewPort = $("#viewPort");
+            
             $("#navList").datalist({
                data: [
                   {label: "List", value: "listView"},
@@ -108,17 +132,28 @@
                   return datum.label || "Huh?";
                },
                onselectionchange: function(curr, old) {
+                  viewPort.removeClass("reveal");
                   kitchenSink.showView(curr.data("view"));
                }
             });
             
+            viewPort.on("swipe", function(e) {
+               var m = e.movement;
+               if(m.startX <= 30 && m.dir === "right") {
+                  viewPort.addClass("reveal");
+               }else if(m.dir === "left") {
+                  viewPort.removeClass("reveal");
+               }
+            });
+            
             kitchenSink.initialize({
+               viewPort: "viewPort",
                startView: "splash"
             });
          });
       </script>
    </head>
-   <body>
+   <body id="body">
    
       <aside id="navAside">
          <nav id="navigation">
@@ -172,6 +207,18 @@
             </div>
          </article>
          
+         
+         <article class="view" id="formView">
+            <style scoped></style>
+            <script>
+               kitchenSink.registerView("formView", function(app, viewUi) {
+                  return {};
+               });
+            </script>
+            <div class="content"></div>
+         </article>
+         
+         
          <article class="view" id="cardPanelView">
             <style scoped>
                .card-panel {
@@ -183,15 +230,20 @@
                }
                
                #mycarousel {
-                  background-color: #333;
+                  background-color: #444;
+                  box-shadow: inset 0 0 10px #000;
                   height: 250px;
+                  border-radius: 5px;
                }
-
-               .card > .content {
-                  background-color: #F4F4F4;
-                  height: 190px;
-                  margin: 20px 14%;
-                  width: 70%;
+               
+               .card-content {
+                  background-color: #bbb;
+                  border-radius: 5px 5px 5px 5px;
+                  height: 160px;
+                  margin: 20px auto;
+                  padding-top: 50px;
+                  text-align: center;
+                  width: 95%;
                }
             </style>
             <script>
@@ -203,11 +255,17 @@
                            // orientation: "vertical"
                         });
                         
-                        $("#nextCard").on(TAP, function() {
-                           cardPanel.card(5);
+                        $("#firstCard").on(TAP, function() {
+                           cardPanel.card(0);
                         });
                         $("#previousCard").on(TAP, function() {
-                           cardPanel.card(0);
+                           cardPanel.previous();
+                        });
+                        $("#nextCard").on(TAP, function() {
+                           cardPanel.next();
+                        });
+                        $("#lastCard").on(TAP, function() {
+                           cardPanel.card(5);
                         });
                      }
                   };
@@ -215,28 +273,30 @@
             </script>
             <div class="content">
                
-               <button class="col-two" id="previousCard">First</button>
-               <button class="col-two" id="nextCard">Last</button>
+               <a class="button col-four" id="firstCard">First</a>
+               <a class="button col-four" id="previousCard">Previous</a>
+               <a class="button col-four" id="nextCard">Next</a>
+               <a class="button col-four" id="lastCard">Last</a>
                
                <div id="mycarousel" class="card-panel">
                   <div class="card-wrapper">
                      <div class="card">
-                        <div class="content">Card One</div>
+                        <div class="card-content">Card One</div>
                      </div>
                      <div class="card">
-                        <div class="content">Card Two</div>
+                        <div class="card-content">Card Two</div>
                      </div>
                      <div class="card">
-                        <div class="content">Card Three</div>
+                        <div class="card-content">Card Three</div>
                      </div>
                      <div class="card">
-                        <div class="content">Card Four</div>
+                        <div class="card-content">Card Four</div>
                      </div>
                      <div class="card">
-                        <div class="content">Card Five</div>
+                        <div class="card-content">Card Five</div>
                      </div>
                      <div class="card">
-                        <div class="content">Card Six</div>
+                        <div class="card-content">Card Six</div>
                      </div>
                   </div>
                </div>
@@ -245,7 +305,18 @@
          
          <article class="view" id="listView">
             <style scoped>
-               #listView {}
+               #listSeln {
+                  padding: 10px;
+                  text-align: center;
+                  background-color: #666;
+                  color: #fff;
+                  font-weight: bold;
+               }
+               #dataList {
+                  height: 95%;
+                  width: 97%;
+                  position: absolute;
+               }
             </style>
             <script>
                kitchenSink.registerView("listView", function(app, viewUi) {
@@ -254,7 +325,7 @@
                   return {
                      initialize: function() {
                         var data = [];
-                        for(var i = 0; i < 100; i++) {
+                        for(var i = 0; i < 40; i++) {
                            data[i] = "Item " + i;
                         }
                         
@@ -267,6 +338,8 @@
                               message.html(currItem.html());
                            }
                         });
+                        
+                        new iScroll("dataList");
                      }
                   };
                });
@@ -274,8 +347,8 @@
             <div class="content">
                <section>
                   <header>List</header>
+                  <div id="listSeln">None</div>
                   <div id="dataList"></div>
-                  <div id="listSeln"></div>
                </section>
             </div>
          </article>      
