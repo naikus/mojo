@@ -111,6 +111,7 @@
          
          /* ------------------------------------- Event handling -------------------------------- */
          function configureEvents() {
+            /*
             self.on("swipe", function(e) {
                var dir = e.movement.dir;
                if(dir === "left" || dir === "up") {
@@ -119,6 +120,7 @@
                   showCard(currentCardIdx - 1);
                }
             });
+            */
             
             $(window).on("resize", function() {
                //unitDistance = layout(self, cardWrapper, allCards);
@@ -126,12 +128,7 @@
             });
             
             cardWrapper.on(transitionEndEvt, hideCards);
-         }
-         
-         function handleTouchStart() {}
-         function handleTouchMove() {}
-         function handleTouchEnd() {}
-         
+         }         
          
          /* ------------------------------------- Initialization -------------------------------- */
          
@@ -162,6 +159,9 @@
             },
             card: function(idx) {
                showCard(idx);               
+            },
+            layout: function() {
+               layout(self, cardWrapper, allCards);
             }
          };
          return widget;

@@ -288,6 +288,14 @@
             }
          },
          
+         getItemAt: function(idx) {
+            var len = allItems.length;
+            if(idx < len && idx >= 0)  {
+               return allItems[idx];
+            }
+            return null;
+         },
+         
          setItemAt: function(idx, datum) {
             var itm = allItems[idx], content;
             if(itm) {
