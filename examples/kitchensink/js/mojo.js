@@ -500,6 +500,14 @@
             }
          },
          
+         getItemAt: function(idx) {
+            var len = allItems.length;
+            if(idx < len && idx >= 0)  {
+               return allItems[idx];
+            }
+            return null;
+         },
+         
          setItemAt: function(idx, datum) {
             var itm = allItems[idx], content;
             if(itm) {
@@ -709,6 +717,7 @@
          
          /* ------------------------------------- Event handling -------------------------------- */
          function configureEvents() {
+            /*
             self.on("swipe", function(e) {
                var dir = e.movement.dir;
                if(dir === "left" || dir === "up") {
@@ -717,6 +726,7 @@
                   showCard(currentCardIdx - 1);
                }
             });
+            */
             
             $(window).on("resize", function() {
                //unitDistance = layout(self, cardWrapper, allCards);
@@ -724,12 +734,7 @@
             });
             
             cardWrapper.on(transitionEndEvt, hideCards);
-         }
-         
-         function handleTouchStart() {}
-         function handleTouchMove() {}
-         function handleTouchEnd() {}
-         
+         }         
          
          /* ------------------------------------- Initialization -------------------------------- */
          
@@ -760,6 +765,9 @@
             },
             card: function(idx) {
                showCard(idx);               
+            },
+            layout: function() {
+               layout(self, cardWrapper, allCards);
             }
          };
          return widget;

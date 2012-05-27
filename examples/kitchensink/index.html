@@ -11,7 +11,7 @@
       <script type="text/javascript" src ="js/h5.js"> </script>
       <script type="text/javascript" src ="js/mojo.js"> </script>
       
-      <script type="application/javascript" src="js/iscroll-lite.js?v4"></script>
+      <!--script type="application/javascript" src="js/iscroll-lite.js?v4"></script-->
       
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
@@ -21,23 +21,38 @@
             font-family: Helvetica;
          }
          
-         html {
-            overflow: hidden;
-         }
-         
          body {
             background: #ddd;
          }
+         
+         section {
+            padding-top: 10px;
+         }
 
          .content {
-            position: absolute;
+            height: auto;
             min-height: 100%;
             width: 100%;
          }
          
-         #navAside {
+         .card-panel {
+            
+         }
+         
+         .card-content {
             position: absolute;
+            background: #ddd;
+            border: 1px solid #ccc;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            width: 96%;
             height: 100%;
+            margin: 0 2%;
+         }
+
+         #navAside {
+            position: fixed;
+            min-height: 100%;
             background-color: #333;
          }
          
@@ -51,14 +66,8 @@
             color: #f4f4f4;
          }
          #navigation .list > li.selected {
-            border: 1px solid #134F63;
-         }
-         
-         #navigation .list > li.selected {
-            background-color: #30B8E5;
-            color: #fff;
-            box-shadow: inset 0px 0px 7px #134F63;
-            -webkit-box-shadow: inset 0px 0px 7px #134F63;
+            border-color: #0099cc;
+            border-top-color: #45B9E0;
          }
          
          #navigation > header {
@@ -70,23 +79,17 @@
          }
       
          #viewPort {
-            position: absolute;
-            overflow: hidden;
-            left: 0;
-            bottom: 0;
-            top: 0;
-            
-            -moz-transition: left 200ms ease;
-            -webkit-transition: left 200ms ease;
-            -o-transition: left 200ms ease;
-            -ms-transition: left 200ms ease;
-            transition: left 200ms ease;
+            -moz-transition: left 100ms ease;
+            -webkit-transition: left 100ms ease;
+            -o-transition: left 100ms ease;
+            -ms-transition: left 100ms ease;
+            transition: left 100ms ease;
          }
          
          #viewPort.reveal {
-            left: 80%;
-            box-shadow: -2px 0 10px #111;
-            -webkit-box-shadow: -2px 0 5px #111;
+            left: 85%;
+            /*box-shadow: -2px 0 10px #111;
+            -webkit-box-shadow: -2px 0 5px #111;*/
          }
          
          @media only screen and (min-width: 320px) and (max-width: 600px) {
@@ -102,12 +105,12 @@
          @media only screen and (min-width: 600px) {
             #navAside {
                width: 20%;
+               box-shadow: inset -2px 0 10px #111;
+               z-index: 199;
             }
             #viewPort {
                left: 20%;
                width: 80%;
-               box-shadow: -2px 0 10px #111;
-               -webkit-box-shadow: -2px 0 10px #111;
             }
          }
          
@@ -116,15 +119,16 @@
       
       <script>
          var kitchenSink = mojo.Application(), 
+            navList,
             TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
          
          $.ready(function() {
             var viewPort = $("#viewPort");
             
-            $("#navList").datalist({
+            navList = $("#navList").datalist({
                data: [
-                  {label: "List", value: "listView"},
-                  {label: "Form Controls", value: "formView"},
+                  {label: "Simple List", value: "simpleListView"},
+                  {label: "Rich List", value: "richListView"},
                   {label: "Card Panel", value: "cardPanelView"}
                ],
                render: function(widget, item, i, datum) {
@@ -132,8 +136,11 @@
                   return datum.label || "Huh?";
                },
                onselectionchange: function(curr, old) {
-                  viewPort.removeClass("reveal");
-                  kitchenSink.showView(curr.data("view"));
+                  if(viewPort.hasClass("reveal")) {
+                     viewPort.removeClass("reveal");
+                  }else {
+                     kitchenSink.showView(curr.data("view"));
+                  }
                }
             });
             
@@ -144,6 +151,27 @@
                }else if(m.dir === "left") {
                   viewPort.removeClass("reveal");
                }
+            });
+            
+            viewPort.on($.env.property("transitionend"), function() {
+               if(!viewPort.hasClass("reveal")) {
+                  var itm = navList.getSelectedItem();
+                  if(itm) {
+                     kitchenSink.showView(itm.data("view"));
+                  }
+               }
+            });
+            
+            // hide the URL bar when a view transitions in
+            viewPort.on("viewtransitionin", function() {
+               var doc = window.document, 
+                  yOffset = window.pageYOffset || doc.compatMode === "CSS1Compat" && 
+                            doc.documentElement.scrollTop || doc.body.scrollTop || 0;               
+               setTimeout(function() {
+                  if(yOffset < 20) {
+                     window.scrollTo(0, 1);
+                  }
+               }, 30);
             });
             
             kitchenSink.initialize({
@@ -163,195 +191,189 @@
          </nav>
       </aside>
    
-      <div id="viewPort">
-         <!-- ================================== Splash screen ================================= -->
-         <article class="view" id="splash">
+      <div class="viewport" id="viewPort">
+         
+         <article id="splash" class="view">
             <style scoped>
                #splash {
-                  -moz-transform: translateX(0%);
-                  -webkit-transform: translateX(0%);
-                  -o-transform: translateX(0%);
-                  -ms-transform: translateX(0%);
-                  transform: translateX(0%);
-               }
-               #splash.out {
-                  -moz-transform: translateX(-100%);
-                  -webkit-transform: translateX(-100%);
-                  -o-transform: translateX(-100%);
-                  -ms-transform: translateX(-100%);
-                  transform: translateX(-100%);
-               }
-               
-               #splash .content {
-                  margin: 0;
-                  padding: 0;
-                  height: 300px;
-                  text-align: center;
-                  background-image: url('images/sink.png');
-                  background-repeat: no-repeat;
-                  background-position: center 100px
-               }
-               
-               #splash .content h2 {
-                  text-shadow: 2px 2px 2px #fff;
-                  margin-top: 200px;
+                  -moz-transform: translateX(0);
+                  -webkit-transform: translateX(0);
+                  -o-transform: translateX(0);
+                  transform: translateX(0);
                }
             </style>
             <script>
                kitchenSink.registerView("splash", function(app, viewUi) {
-                  return {};
+                  return {
+                     /*initialize: function() {
+                        window.setTimeout(function() {
+                           navList.selectItemAt(0);
+                        }, 1000);
+                     }*/
+                  };
                });
             </script>
-            <div class="content">
-               <h2>Kitchen Sink</h2>
-            </div>
          </article>
          
-         
-         <article class="view" id="formView">
-            <style scoped></style>
-            <script>
-               kitchenSink.registerView("formView", function(app, viewUi) {
-                  return {};
-               });
-            </script>
-            <div class="content"></div>
-         </article>
-         
-         
-         <article class="view" id="cardPanelView">
+         <article class="view" id="simpleListView">
             <style scoped>
-               .card-panel {
-                  position: relative;
+               #simpleList {
+                  height: 96%;
                   width: 96%;
-                  height: 400px;
                   margin: 2%;
-                  overflow: hidden;
                }
-               
-               #mycarousel {
-                  background-color: #444;
-                  box-shadow: inset 0 0 10px #000;
-                  height: 250px;
-                  border-radius: 5px;
-               }
-               
-               .card-content {
-                  background-color: #bbb;
-                  border-radius: 5px 5px 5px 5px;
-                  height: 160px;
-                  margin: 20px auto;
-                  padding-top: 50px;
-                  text-align: center;
-                  width: 95%;
-               }
-            </style>
+             </style>
             <script>
-               kitchenSink.registerView("cardPanelView", function(app, viewUi) {
-                  var cardPanel;
+               kitchenSink.registerView("simpleListView", function(app, viewUi) {
+                  var countryList = [
+                     "India","United States","United Kingdom","Afghanistan","Albania","Algeria",
+                     "American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina",
+                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh",
+                     "Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia",
+                     "Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory",
+                     "Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada",
+                     "Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China",
+                     "Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Congo"];
+                  
                   return {
                      initialize: function() {
-                        cardPanel = $("#mycarousel").cardpanel({
-                           // orientation: "vertical"
-                        });
-                        
-                        $("#firstCard").on(TAP, function() {
-                           cardPanel.card(0);
-                        });
-                        $("#previousCard").on(TAP, function() {
-                           cardPanel.previous();
-                        });
-                        $("#nextCard").on(TAP, function() {
-                           cardPanel.next();
-                        });
-                        $("#lastCard").on(TAP, function() {
-                           cardPanel.card(5);
+                        $("#simpleList").datalist({
+                           data: countryList
                         });
                      }
                   };
                });
             </script>
             <div class="content">
-               
-               <a class="button col-four" id="firstCard">First</a>
-               <a class="button col-four" id="previousCard">Previous</a>
-               <a class="button col-four" id="nextCard">Next</a>
-               <a class="button col-four" id="lastCard">Last</a>
-               
-               <div id="mycarousel" class="card-panel">
+               <h4 class="header">Simple List</h4>
+               <div id="simpleList"></div>
+            </div>
+         </article>
+         
+         
+         
+         <article class="view" id="richListView">
+            <style scoped>
+               #richList {
+                  height: 96%;
+                  width: 96%;
+                  margin: 2%;
+               }
+               #richListView .country .icon {
+                  width: 50px;
+                  height: 50px;
+                  margin-right: 10px;
+                  float: left;
+                  background: #f4f4f4;
+                  border: 1px solid #ccc;
+               }
+               #richListView .country p {
+                  margin-left: 65px;
+                  margin-bottom: 5px;
+               }
+             </style>
+            <script id="countryTmpl" type="text/x-mojo-template">
+               <div class="icon"></div>
+               <p class="label">{title}</p>
+               <p class="desc">{description}</p>
+            </script>
+            <script>
+               kitchenSink.registerView("richListView", function(app, viewUi) {
+                  var countryTmpl, 
+                     moreCountryList = [
+                        "Congo, The Democratic Republic of The","Cook Islands", "Costa Rica","Cote D'ivoire",
+                        "Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic",
+                        "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia",
+                        "Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana",
+                        "French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana",
+                        "Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guinea",
+                        "Guinea-bissau","Guyana","Haiti","Heard Island and Mcdonald Islands"
+                     ];
+                  
+                  return {
+                     initialize: function() {
+                        countryTmpl = $("#countryTmpl").template();
+                        $("#richList").datalist({
+                           itemClass: "country",
+                           render: function(w, item, i, country) {
+                              return countryTmpl.process({
+                                 title: country,
+                                 description: "The Country Of " + country
+                              });
+                           },
+                           data: moreCountryList
+                        });
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <h4 class="header">Rich List</h4>
+               <div id="richList"></div>
+            </div>
+         </article>
+         
+         
+         
+         <article class="view" id="cardPanelView">
+            <style scoped>
+               #cardPanel {
+                  position: absolute;
+                  width: 100%;
+                  height: 40%;
+               }
+               #cardPanel h2 {
+                  text-align: center;
+                  margin: 6% auto;
+                  width: 70%;
+                  text-shadow: 1px 1px 1px #fff;
+               }
+            </style>
+            <script>
+               kitchenSink.registerView("cardPanelView", function(app, viewUi) {
+                  var cp, cardPanel;
+                  return {
+                     initialize: function() {
+                        cp = $("#cardPanel");
+                        cardPanel = cp.cardpanel();
+                        cp.on("swipe", function(e) {
+                           var m = e.movement, dir = m.dir;
+                           if(dir === "left") {
+                              cardPanel.next();
+                           }else if(dir === "right") {
+                              cardPanel.previous();
+                           }
+                        });
+                     },
+                     activate: function() {
+                        cardPanel.layout();
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <h4 class="header">Card Panel</h4>
+               <div id="cardPanel" class="card-panel">
                   <div class="card-wrapper">
                      <div class="card">
-                        <div class="card-content">Card One</div>
+                        <div class="card-content">
+                           <h2>Card One</h2>
+                        </div>
                      </div>
                      <div class="card">
-                        <div class="card-content">Card Two</div>
+                        <div class="card-content">
+                           <h2>Card Two</h2>
+                        </div>
                      </div>
                      <div class="card">
-                        <div class="card-content">Card Three</div>
-                     </div>
-                     <div class="card">
-                        <div class="card-content">Card Four</div>
-                     </div>
-                     <div class="card">
-                        <div class="card-content">Card Five</div>
-                     </div>
-                     <div class="card">
-                        <div class="card-content">Card Six</div>
+                        <div class="card-content">
+                           <h2>Card Three</h2>
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
          </article>
-         
-         <article class="view" id="listView">
-            <style scoped>
-               #listSeln {
-                  padding: 10px;
-                  text-align: center;
-                  background-color: #666;
-                  color: #fff;
-                  font-weight: bold;
-               }
-               #dataList {
-                  height: 95%;
-                  width: 97%;
-                  position: absolute;
-               }
-            </style>
-            <script>
-               kitchenSink.registerView("listView", function(app, viewUi) {
-                  var dataList, message;
-                  
-                  return {
-                     initialize: function() {
-                        var data = [];
-                        for(var i = 0; i < 40; i++) {
-                           data[i] = "Item " + i;
-                        }
-                        
-                        message = $("#listSeln");
-                        
-                        dataList = $("#dataList").datalist({
-                           itemClass: "activable",
-                           data: data,
-                           onselectionchange: function(currItem, oldItem) {
-                              message.html(currItem.html());
-                           }
-                        });
-                        
-                        new iScroll("dataList");
-                     }
-                  };
-               });
-            </script>
-            <div class="content">
-               <section>
-                  <header>List</header>
-                  <div id="listSeln">None</div>
-                  <div id="dataList"></div>
-               </section>
-            </div>
-         </article>      
       </div>
    </body>
 </html>

@@ -165,25 +165,14 @@ li {
 
 
 .view {
-   background-color: #efefef;
-   color: #3d3d3d;
+   background-color: #eee;
+   color: #222;
 }
 
 .overlay {
-   background-color: #444;
-   color: #f3f3f3;
-   border-top: 1px solid #f4f4f4;
-}
-
-.toolbar {
-   height: 48px;
-}
-.dark {
-   background-color: #303030;
-   color: #ddd;
-}
-.light {
-   background-color: #ddd;
+   background-color: #2c2c2c;
+   color: #f4f4f4;
+   border-top: 1px solid #4D4D4D;
 }
 
 .list, .rich-list {
@@ -191,10 +180,10 @@ li {
 }
 
 .rich-list > li, .list > li, .row {
-   min-height: 22px;
+   min-height: 24px;
    padding: 9px 5px;
    border: 1px solid transparent;
-   border-bottom: 1px solid #ddd;
+   border-bottom: 1px solid #dedede;
    overflow: auto;
 }
 
@@ -212,6 +201,8 @@ li {
 
 .list > li.selected {
    background-color: #0099cc;
+   border-color: #0088bb;
+   color: #fff;
 }
 
 
@@ -220,19 +211,11 @@ section, header {
 }
 
 section {
-   padding: 8px;
-   background-color: #efefef;
-   border-radius: 3px;
-   color: #3d3d3d;
-   margin-bottom: 10px;
-   /*
-   text-shadow: 1px 1px 1px #fff;
-   -webkit-box-shadow: 0px 0px 3px #666;
-   box-shadow: 0px 0px 3px #666;
-   */
+   background-color: #f4f4f4;
 }
 
-section > header {
+section > header, .header {
+   color: #3d3d3d;
    font-weight: bold;
    margin: 0;
    margin-bottom: 5px;
