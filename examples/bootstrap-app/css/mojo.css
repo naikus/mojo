@@ -34,13 +34,18 @@ html, body {
    margin: 0;
    padding: 0;
    font-family: Verdana, sans;
-   overflow-x: hidden !important;
+   overflow-x: hidden;
 }
 
 .viewport {
    position: absolute;
    width: 100%;
    min-height: 100%;
+}
+
+/* Currently unused since does not work consistently in firefox mobile */
+.view-transitioning {
+   overflow: hidden;
 }
 
 /* ------------------------------------- Default transition effects for views ------------------------------------ */
@@ -188,7 +193,7 @@ li {
 }
 
 .rich-list > li {
-   padding: 10px 5px;
+   padding: 5px;
 }
 
 .rich-list .label, .list .label, .rich-list .desc, .list .desc {
@@ -219,7 +224,7 @@ section > header, .header {
    font-weight: bold;
    margin: 0;
    margin-bottom: 5px;
-   padding: 8px;
+   padding: 12px;
    border-bottom: 2px solid #0099cc;
    color: #0099cc;
 }

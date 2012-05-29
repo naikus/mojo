@@ -11,7 +11,7 @@
       <script type="text/javascript" src ="js/h5.js"> </script>
       <script type="text/javascript" src ="js/mojo.js"> </script>
       
-      <!--script type="application/javascript" src="js/iscroll-lite.js?v4"></script-->
+      <script type="application/javascript" src="js/iscroll-lite.js?v4"></script>
       
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
@@ -25,10 +25,6 @@
             background: #ddd;
          }
          
-         section {
-            padding-top: 10px;
-         }
-
          .content {
             height: auto;
             min-height: 100%;
@@ -64,10 +60,12 @@
             border-bottom: 1px solid #222;
             border-top: 1px solid #444;
             color: #f4f4f4;
+            padding-top: 12px;
          }
          #navigation .list > li.selected {
-            border-color: #0099cc;
-            border-top-color: #45B9E0;
+            border-color: #45B9E0 #008aaA #008aab;
+            background-image: -moz-linear-gradient(center top , #0099CC, #008aaA);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, to(#008aaA), from(#0099cc));
          }
          
          #navigation > header {
@@ -76,20 +74,6 @@
             font-weight: bold;
             color: #aaa;
             background-color: #222;
-         }
-      
-         #viewPort {
-            -moz-transition: left 100ms ease;
-            -webkit-transition: left 100ms ease;
-            -o-transition: left 100ms ease;
-            -ms-transition: left 100ms ease;
-            transition: left 100ms ease;
-         }
-         
-         #viewPort.reveal {
-            left: 85%;
-            /*box-shadow: -2px 0 10px #111;
-            -webkit-box-shadow: -2px 0 5px #111;*/
          }
          
          @media only screen and (min-width: 320px) and (max-width: 600px) {
@@ -100,13 +84,21 @@
                left: 0;
                width: 100%;
             }
+            #viewPort.reveal {
+               left: 85%;
+               /*width: 15%;*/ /* works but shows ugly scrollbars in opera mobile */
+               height: 100%;
+               overflow: hidden;
+               /*box-shadow: -2px 0 10px #111;
+               -webkit-box-shadow: -2px 0 5px #111;*/
+            }
          }
          
          @media only screen and (min-width: 600px) {
             #navAside {
                width: 20%;
                box-shadow: inset -2px 0 10px #111;
-               z-index: 199;
+               z-index: 100;
             }
             #viewPort {
                left: 20%;
@@ -137,10 +129,9 @@
                },
                onselectionchange: function(curr, old) {
                   if(viewPort.hasClass("reveal")) {
-                     viewPort.removeClass("reveal");
-                  }else {
-                     kitchenSink.showView(curr.data("view"));
+                     viewPort.removeClass("reveal"); 
                   }
+                  kitchenSink.showView(curr.data("view"));
                }
             });
             
@@ -150,15 +141,6 @@
                   viewPort.addClass("reveal");
                }else if(m.dir === "left") {
                   viewPort.removeClass("reveal");
-               }
-            });
-            
-            viewPort.on($.env.property("transitionend"), function() {
-               if(!viewPort.hasClass("reveal")) {
-                  var itm = navList.getSelectedItem();
-                  if(itm) {
-                     kitchenSink.showView(itm.data("view"));
-                  }
                }
             });
             
@@ -240,6 +222,8 @@
                         $("#simpleList").datalist({
                            data: countryList
                         });
+                        
+                        // new iScroll("simpleList");
                      }
                   };
                });
@@ -260,15 +244,13 @@
                   margin: 2%;
                }
                #richListView .country .icon {
-                  width: 50px;
-                  height: 50px;
-                  margin-right: 10px;
+                  width: 45px;
+                  height: 45px;
                   float: left;
                   background: #f4f4f4;
-                  border: 1px solid #ccc;
                }
                #richListView .country p {
-                  margin-left: 65px;
+                  margin-left: 50px;
                   margin-bottom: 5px;
                }
              </style>
@@ -335,7 +317,9 @@
                   return {
                      initialize: function() {
                         cp = $("#cardPanel");
-                        cardPanel = cp.cardpanel();
+                        cardPanel = cp.cardpanel({
+                           orientation: "horizontal"
+                        });
                         cp.on("swipe", function(e) {
                            var m = e.movement, dir = m.dir;
                            if(dir === "left") {
