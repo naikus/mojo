@@ -156,6 +156,9 @@
          setTimeout(function() {
             // transition out the old view, this is not the same as popping a view
             if(currId) {
+               // experimental set overflow of viewport to hidden while transitioning
+               //viewPort.addClass("view-transitioning");
+               
                currInfo = views[currId];
                currInfo.controller.deactivate();
                // transition out the current view
@@ -212,6 +215,9 @@
          
          // transition the views
          setTimeout(function() {
+            // experimental set overflow of viewport to hidden while transitioning
+            //viewPort.addClass("view-transitioning");
+            
             currInfo.controller.deactivate();
             currInfo.ui.removeClass("in").addClass("pop");
             
@@ -245,6 +251,9 @@
             return; // not a view
          }
          
+         //viewPort.removeClass("view-transitioning");
+         //alert(viewPort.hasClass("view-transitioning"));
+         
          el = viewInfo.ui;
          
          // deactivate if the view has transitioned out
@@ -267,7 +276,6 @@
             window.location.hash = "view:"+ viewId;
             viewPort.dispatch("viewtransitionin", {view: viewId});
          }
-         // $(document.documentElement).css("overflow-x", "hidden");
       }
       
       function onOverlayTransitionEnd(evt) {

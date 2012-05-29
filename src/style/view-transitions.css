@@ -9,13 +9,18 @@ html, body {
    margin: 0;
    padding: 0;
    font-family: Verdana, sans;
-   overflow-x: hidden !important;
+   overflow-x: hidden;
 }
 
 .viewport {
    position: absolute;
    width: 100%;
    min-height: 100%;
+}
+
+/* Currently unused since does not work consistently in firefox mobile */
+.view-transitioning {
+   overflow: hidden;
 }
 
 /* ------------------------------------- Default transition effects for views ------------------------------------ */
