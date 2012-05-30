@@ -2,12 +2,12 @@
    var defaults = {
       onselect: function() {},
       selectedIndex: 0
-   }, util = $.util;
+   }, forEach = $.forEach;
    
-   $.widget("tabstrip", function(options)  {
+   $.extension("tabstrip", function(options)  {
       var widget,
          // these are our final options
-         opts = util.agument({}, defaults, options),
+         opts = $.extend({}, defaults, options),
          id = this.attr("id"),
          // our plugin is bound to an HTML ul element
          tabs = this.find(".tab:nth-child(n+1)"),
