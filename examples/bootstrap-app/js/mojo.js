@@ -52,7 +52,7 @@
                }
             });
             if(!t) {
-               data.transitionend = null;
+               props.transitionend = "transitionend";
             }
             return t;
          },
@@ -84,6 +84,10 @@
       }
    }
 })(h5);
+
+
+
+
 /**
  * A simple templating mechanism for creating string templates. A template has replacement tokens
  * that are of the format '{' followed by anystring followed by '}'. 
@@ -207,6 +211,7 @@
       return $.template(this.html());
    });
 })(h5);
+
 
 
 
@@ -554,6 +559,7 @@
 
 
 
+
 /**
  * Simple CSS based toggle control
  */
@@ -762,6 +768,10 @@
          return widget;
     });
  })(h5);
+ 
+ 
+ 
+ 
 /**
  * The Application module. This module is responsible for managing the application's views and their lifecycle
  * The application is responsible for following:

@@ -27,7 +27,7 @@
                }
             });
             if(!t) {
-               data.transitionend = null;
+               props.transitionend = "transitionend";
             }
             return t;
          },
@@ -59,3 +59,7 @@
       }
    }
 })(h5);
+
+
+
+
