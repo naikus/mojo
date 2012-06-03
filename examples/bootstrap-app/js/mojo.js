@@ -785,22 +785,23 @@
  */
 (function(window, $) {
    "use strict";
+   /*
    if(window.mojo) {
       return;
    }
-   // the global mojo namespace
+   */
    var forEach = $.forEach,
       env = $.env,
       hasTransitionSupport = env.supports("transition"),
       transitionEndEvent = env.property("transitionend"),
-      hasHashChange = env.supports("hashchange"),
-      mojo = {};      
+      hasHashChange = env.supports("hashchange");
+      // mojo = {};      
       
    /**
     * The view port object. The view port provides various features for managing views and their
     * lifecycle. It allows for registering views with the viewport and switching between views
     */
-   mojo.Application = function() {
+   $.Application = function() {
       var noop = function() {},
          // default application options, overriden in opts
          defaults = {
@@ -1181,7 +1182,7 @@
                method: "GET", 
                dataType: "text", 
                success: function(content) {
-                  var html = $(content), scripts = html.find("script"), view, exeScripts = [];
+                  var html = $(content), scripts = html.find("script"), view, exeScripts = [], code = [], finalScript;
                   scripts.forEach(function(script) {
                      var scr = $(script), type = scr.attr("type");
                      if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
@@ -1194,10 +1195,12 @@
                   view = $("#" + id);
                   
                   forEach(exeScripts, function(script) {
-                     var s = document.createElement("script");
-                     s.textContent = script.textContent;
-                     view.append(s);
+                     code[code.length] = script.textContent;
                   });
+                  
+                  finalScript = document.createElement("script");
+                  finalScript.textContent = code.join('\n');
+                  view.append(finalScript);
                   
                   if(callback) {
                      callback(id);
@@ -1246,8 +1249,7 @@
       
       return app;
    };
-   
-   window.mojo = mojo;
+   //window.mojo = mojo;
 })(window, h5);
 
 

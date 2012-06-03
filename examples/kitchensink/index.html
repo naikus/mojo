@@ -11,7 +11,7 @@
       <script type="text/javascript" src ="js/h5.js"> </script>
       <script type="text/javascript" src ="js/mojo.js"> </script>
       
-      <script type="application/javascript" src="js/iscroll-lite.js?v4"></script>
+      <!-- script type="application/javascript" src="js/iscroll-lite.js?v4"></script -->
       
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
@@ -110,7 +110,7 @@
       </style>
       
       <script>
-         var kitchenSink = mojo.Application(), 
+         var kitchenSink = $.Application(), 
             navList,
             TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
          
@@ -222,8 +222,6 @@
                         $("#simpleList").datalist({
                            data: countryList
                         });
-                        
-                        // new iScroll("simpleList");
                      }
                   };
                });

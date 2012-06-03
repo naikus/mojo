@@ -9,15 +9,11 @@
       <meta name="apple-mobile-web-app-capable" content="yes">
       
       <script type="text/javascript" src ="js/h5.js"> </script>
-      <script type="text/javascript" src ="../../src/env.js"> </script>
-      <script type="text/javascript" src ="../../src/template.js"> </script>
-      <script type="text/javascript" src ="../../src/datalist.js"> </script>
-      <script type="text/javascript" src ="../../src/cardpanel.js"> </script>
-      <script type="text/javascript" src ="../../src/form.js"> </script>
-      <script type="text/javascript" src ="../../src/app.js"> </script>
+      <script type="text/javascript" src ="js/mojo.js"> </script>
       
-      <link rel="stylesheet" type="text/css" href="../../src/style/view-transitions.css" />
-      <link rel="stylesheet" type="text/css" href="../../src/style/theme.css" />
+      <!-- script type="application/javascript" src="js/iscroll-lite.js?v4"></script -->
+      
+      <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
       <style type="text/css">
          *{
@@ -45,7 +41,7 @@
          
             // create an instance of the application, this can be done before ready. This has an added 
             // advantage that views can be registered as they are parsed before the DOM is ready
-            application = mojo.Application();
+            application = $.Application();
             
          // initialize our application on ready   
          $.ready(function() {
@@ -155,12 +151,6 @@
                         listTitle = $("#listTitle");
                         
                         app.getViewPort().on("viewtransitionout", clearList);
-                        
-                        /*
-                        $("#mycarousel").cardpanel({
-                           // orientation: "vertical"
-                        });
-                        */
                      },
                      activate: function(data) {
                         if(!data) {return}
