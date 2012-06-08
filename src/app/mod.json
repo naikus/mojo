@@ -1,0 +1,10 @@
+{
+   js: [
+      "env.js",
+      "app.js",
+   ],
+   less: [
+      "app.less",
+      "base.less"
+   ]
+}

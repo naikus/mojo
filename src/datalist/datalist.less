@@ -1,0 +1,32 @@
+.list, .rich-list {
+   overflow: auto;
+   margin: 0;
+   padding: 0;
+}
+.list > li, .rich-list > li {
+   list-style-type: none;
+   .row;
+}
+
+.rich-list > li {
+   padding: 5px;
+}
+
+.rich-list .label, .list .label, .rich-list .desc, .list .desc {
+   margin: 0;
+   padding: 0 5px;
+}
+.rich-list .desc, .list .desc {
+   font-size: 0.8em;
+}
+
+.list > li.selected {
+   background-color: @selected-bg-color;
+   border-color: darken(@selected-bg-color, 10%);
+   color: @selected-text-color;
+}
+
+.list select {
+   display: inline-block;
+   width: 100%;
+}

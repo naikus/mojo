@@ -1,56 +1,84 @@
 <?xml version="1.0"?>
-<project basedir="." default="build"> 
+<project name="mojo" basedir="." default="build">
+  <property name="src.dir" value="src" />
+  <property name="dist.dir" value="dist" />
+  <property name="tools.dir" value="build-tools" />
+  
+  <macrodef name="lessc">
+      <attribute name="src" />
+      <attribute name="dest" />
+      <sequential>
+          <java jar="${tools.dir}/js.jar" fork="true" output="@{dest}">
+              <arg path="${tools.dir}/less-rhino-1.3.0.js" />
+              <arg path="@{src}" />
+          </java>
+          <echo>Lessjs: generated @{dest}</echo>
+      </sequential>
+  </macrodef>
+
   <target name="combine" depends="mkdist">
     <!-- Order is important here -->
     <concat destfile="dist/mojo.js">
       <fileset dir="." includes="LICENSE" />
-      <filelist dir="src">
-        <file name="env.js"/>
-        <file name="template.js"/>
-        <file name="datalist.js"/>
-        <file name="form.js"/>
-        <file name="cardpanel.js"/>
-        <file name="app.js"/>
+      <filelist dir="${src.dir}">
+        <!-- ========================== core files ============================= -->
+        <file name="app/env.js"/>
+        <file name="app/app.js"/>
+
+        <!-- ========================== optional widgets ======================= -->
+        <file name="template/template.js"/>
+        <file name="datalist/datalist.js"/>
+        <file name="form/form.js"/>
+        <file name="cardpanel/cardpanel.js"/>
       </filelist>
     </concat>
-    
-    <concat destfile="dist/mojo.css">
+
+    <concat destfile="dist/mojo.less">
       <fileset dir="." includes="LICENSE" />
-      <filelist dir="src">
-        <file name="style/view-transitions.css"/>
-        <file name="style/theme.css"/>
+      <filelist dir="${src.dir}">
+        <!-- ========================== core files ============================= -->
+        <file name="app/app.less"/>
+        <file name="app/base.less"/>
+        
+        <!-- ========================== optional widgets ======================== -->
+        <file name="datalist/datalist.less"/>
+        <file name="form/form.less"/>
+        <file name="cardpanel/cardpanel.less"/>
       </filelist>
     </concat>
-  </target>
-  
+  </target>  
+
   <target name="mkdist">
-    <mkdir dir="dist" />
+    <mkdir dir="${dist.dir}" />
   </target>
-  
+
   <target name="build" depends="clean,combine">
+    <lessc src="${dist.dir}/mojo.less" dest="${dist.dir}/mojo.css" />
+    
     <antcall target="minify" />
     
     <!-- applications -->
-    <copy todir="examples/bootstrap-app/js" file="dist/mojo.js" />
-    <copy todir="examples/bootstrap-app/css" file="dist/mojo.css" />
-    
-    <copy todir="examples/kitchensink/js" file="dist/mojo.js" />
-    <copy todir="examples/kitchensink/css" file="dist/mojo.css" />
+    <copy todir="examples/bootstrap-app/js" file="${dist.dir}/mojo.js" />
+    <copy todir="examples/bootstrap-app/css" file="${dist.dir}/mojo.css" />
+
+    <copy todir="examples/kitchensink/js" file="${dist.dir}/mojo.js" />
+    <copy todir="examples/kitchensink/css" file="${dist.dir}/mojo.css" />
   </target>
 
   <target name="minify" depends="mkdist">
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
-        <arg line="-o dist/mojo.min.js --preserve-semi dist/mojo.js"/>
+      <arg line="-o dist/mojo.min.js --preserve-semi dist/mojo.js"/>
     </java>
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
-        <arg line="-o dist/mojo.min.css --preserve-semi dist/mojo.css"/>
-    </java>    
+      <arg line="-o dist/mojo.min.css --preserve-semi dist/mojo.css"/>
+    </java>
   </target>
 
   <target name="clean">
-    <delete file="dist/mojo.js" />
-    <delete file="dist/mojo.min.js" />
-    <delete file="dist/mojo.css" />
-    <delete file="dist/mojo.min.css" />
+    <delete file="${dist.dir}/mojo.js" />
+    <delete file="${dist.dir}/mojo.min.js" />
+    <delete file="${dist.dir}/mojo.css" />
+    <delete file="${dist.dir}/mojo.min.css" />
+    <delete dir="${dist.dir}" />
   </target>
 </project>

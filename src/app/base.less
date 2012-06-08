@@ -1,0 +1,172 @@
+@base-color: #f4f4f4;
+
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+
+// Text color to complement the background color
+@text-color: #303030;
+
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #93cff2;
+@active-text-color: #fff;
+
+// chocolate theme
+// @active-bg-color: #E0D0BC;
+// @selected-bg-color: #655643;
+// @active-text-color: #333;
+
+
+// Default selected background color
+@selected-bg-color: #0099cc;
+
+// Default selected text color
+@selected-text-color: #fff;
+
+
+
+
+
+.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+.border-radius(@tl: 0, @tr: 0, @bl: 0, @br: 0) {
+   border-radius: @arguments;
+   -webkit-border-radius: @arguments;
+}
+.border-radius(@r: 0) {
+   border-radius: @r;
+   -webkit-border-radius: @r;
+}
+
+
+.left {
+   float: left;
+}
+.right {
+   float: right;
+}
+.block {
+   display: block;
+}
+.inline-block {
+   display: inline-block;
+}
+.center {
+   text-align: center;
+}
+.row {
+   min-height: 24px;
+   padding: 9px 5px;
+   border: 1px solid transparent;
+   border-bottom: 1px solid #dedede;
+   overflow: auto;
+}
+
+
+.view {
+   background-color: @bg-color;
+   color: @text-color;
+}
+.overlay {
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+   border-top: lighten(@alt-bg-color, 10%);
+}
+
+
+
+section {
+   background-color: @base-color;
+}
+section, header {
+   display: block;
+}
+section > header, .header {
+   color: @text-color;
+   font-weight: bold;
+   margin: 0;
+   margin-bottom: 5px;
+   padding: 12px;
+   border-bottom: 2px solid @selected-bg-color;
+   color: @selected-bg-color;
+}
+
+/* ----------------------------------------------- Form ----------------------------------------- */
+
+fieldset {
+   border: none;
+   background: transparent;
+}
+
+input[type=text], input[type=password], input[type=number], 
+      input[type=email], input[type=url], input[type=date] {
+   display: inline-block;
+   border: none;
+   font-size: 15px;
+   -webkit-appearance:caret;
+   width: 100%;
+}
+
+input[type=range] {
+
+}
+
+button, .button {
+   display: inline-block;
+   border: none;
+   background-color: darken(@bg-color, 20%);
+   font-size: 14px;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   .border-radius(2px);
+
+   text-align: center;
+}
+button:active, .button:active {
+   .box-shadow(0px 0px 2px #006E8C);
+   background-color: ;
+}
+
+select {
+   background: transparent;
+   -webkit-appearance: none;
+   -moz-appearance: statusbar;
+   border: none;
+}
+option {
+   padding: 5px;
+}
+
+.row select, select.row {
+   display: inline-block;
+   width: 100%;
+}
+
+
+.col-one {
+   width: 99%;
+   margin: 0.5%;
+}
+.col-two {
+   width:48%;
+   margin: 0.5%;
+}
+.col-three {
+   width: 30%;
+   margin: 1%;
+}
+.col-four {
+   width: 22.3%;
+   margin: 1%;
+}
+
+
+
