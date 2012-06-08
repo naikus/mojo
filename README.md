@@ -11,7 +11,7 @@ library internally. Mojo is focused:
 - To work with mobile and tablet apps (although you can use it on desktops too :-) )
 - On single page applications with multiple views. (Support is planned for external views that reside in different files)
 - To work on HTML5 capable mobile browsers.
-- To of decent performance on low end phones.
+- To achieve acceptable performance on low end, html-capable smart phones.
 
 
 
@@ -21,8 +21,8 @@ mojo provides following features out-of-the-box
 
 - A tiny library with support for views, dialogs (soon), transitions
 - Well defined lifecycle for application views
-- Common controls (DataList, Template, Carousel, Tabs, Form controls)
-- A default mobile theme
+- An optional set common controls (DataList, Template, Carousel, Tabs, Form controls)
+- A default mobile theme (customizable at build time)
 - Custom transitions declared via CSS
  
 
