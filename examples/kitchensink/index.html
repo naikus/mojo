@@ -14,6 +14,7 @@
       <!-- script type="application/javascript" src="js/iscroll-lite.js?v4"></script -->
       
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
+      <link rel="stylesheet" type="text/css" href="css/common-icons.css" />
       
       
       <style type="text/css">
@@ -61,6 +62,11 @@
             border-top: 1px solid #444;
             color: #f4f4f4;
             padding-top: 12px;
+         }
+         #navigation .list > li [class^="icon-"] {
+            margin-right: 10px;
+            font-size: 20px;
+            text-shadow: 1px 1px 1px #000;
          }
          /*
          #navigation .list > li.selected {
@@ -121,13 +127,14 @@
             
             navList = $("#navList").datalist({
                data: [
-                  {label: "Simple List", value: "simpleListView"},
-                  {label: "Rich List", value: "richListView"},
-                  {label: "Card Panel", value: "cardPanelView"}
+                  {label: "Simple List", value: "simpleListView", icon: "icon-simple-list"},
+                  {label: "Rich List", value: "richListView", icon: "icon-rich-list"},
+                  {label: "Card Panel", value: "cardPanelView", icon: "icon-picture"},
+                  {label: "About", value: "aboutView", icon: "icon-info-circle"}
                ],
                render: function(widget, item, i, datum) {
                   item.data("view", datum.value);
-                  return datum.label || "Huh?";
+                  return '<i class="' + datum.icon + '"></i>' + datum.label || "Huh?";
                },
                onselectionchange: function(curr, old) {
                   if(viewPort.hasClass("reveal")) {
@@ -160,7 +167,7 @@
             
             kitchenSink.initialize({
                viewPort: "viewPort",
-               startView: "splash"
+               startView: "aboutView"
             });
          });
       </script>
@@ -177,9 +184,9 @@
    
       <div class="viewport" id="viewPort">
          
-         <article id="splash" class="view">
+         <article id="aboutView" class="view">
             <style scoped>
-               #splash {
+               #aboutView {
                   -moz-transform: translateX(0);
                   -webkit-transform: translateX(0);
                   -o-transform: translateX(0);
@@ -187,7 +194,7 @@
                }
             </style>
             <script>
-               kitchenSink.registerView("splash", function(app, viewUi) {
+               kitchenSink.registerView("aboutView", function(app, viewUi) {
                   return {
                      /*initialize: function() {
                         window.setTimeout(function() {
