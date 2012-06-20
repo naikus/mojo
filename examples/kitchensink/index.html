@@ -376,15 +376,19 @@
          <article class="view" id="cardPanelView">
             <style scoped>
                #cardPanel {
-                  position: absolute;
-                  width: 100%;
-                  height: 40%;
+                  width: 240px;
+                  height: 320px;
+                  margin: 10% auto;
                }
                #cardPanel h2 {
                   text-align: center;
                   margin: 6% auto;
                   width: 70%;
                   text-shadow: 1px 1px 1px #fff;
+               }
+               .panel-buttons a {
+                  font-size: 28px;
+                  font-weight: bold;
                }
             </style>
             <script>
@@ -404,6 +408,13 @@
                               cardPanel.previous();
                            }
                         });
+                        
+                        $("#prevCard").on(TAP, function() {
+                           cardPanel.previous();
+                        });
+                        $("#nextCard").on(TAP, function() {
+                           cardPanel.next();
+                        });
                      },
                      activate: function() {
                         cardPanel.layout();
@@ -417,20 +428,24 @@
                   <div class="card-wrapper">
                      <div class="card">
                         <div class="card-content">
-                           <h2>Card One</h2>
+                           <img src="images/hope.jpg" alt="Hope" />
                         </div>
                      </div>
                      <div class="card">
                         <div class="card-content">
-                           <h2>Card Two</h2>
+                           <img src="images/lonely.jpg" alt="Lonely" />
                         </div>
                      </div>
                      <div class="card">
                         <div class="card-content">
-                           <h2>Card Three</h2>
+                           <img src="images/bubbles.jpg" alt="Bubbles" />
                         </div>
                      </div>
                   </div>
+               </div>
+               <div class="row panel-buttons">
+                  <a id="prevCard" class="button col-two">&#171;</a>
+                  <a id="nextCard" class="button col-two">&#187;</a>
                </div>
             </div>
          </article>
