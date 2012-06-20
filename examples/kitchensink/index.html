@@ -76,6 +76,14 @@
          }
          */
          
+         .help {
+            padding: 10px;
+            background-color: #C6D9DE;
+            border: 1px solid #75ACBC;
+            border-radius: 3px;
+            margin: 10px;
+         } 
+         
          #navigation > header {
             padding: 12px 10px;
 
@@ -127,9 +135,9 @@
             
             navList = $("#navList").datalist({
                data: [
-                  {label: "Simple List", value: "simpleListView", icon: "icon-simple-list"},
-                  {label: "Rich List", value: "richListView", icon: "icon-rich-list"},
-                  {label: "Card Panel", value: "cardPanelView", icon: "icon-picture"},
+                  {label: "Simple List", value: "simpleListView", icon: "icon-th-list"},
+                  {label: "Rich List", value: "richListView", icon: "icon-th-list"},
+                  {label: "Card Panel", value: "cardPanelView", icon: "icon-heart"},
                   {label: "About", value: "aboutView", icon: "icon-info-circle"}
                ],
                render: function(widget, item, i, datum) {
@@ -141,7 +149,8 @@
                      viewPort.removeClass("reveal"); 
                   }
                   kitchenSink.showView(curr.data("view"));
-               }
+               },
+               selectedIndex: 3
             });
             
             viewPort.on("swipe", function(e) {
@@ -183,6 +192,7 @@
       </aside>
    
       <div class="viewport" id="viewPort">
+      
          <article id="aboutView" class="view">
             <style scoped>
                #aboutView {
@@ -190,6 +200,52 @@
                   -webkit-transform: translateX(0);
                   -o-transform: translateX(0);
                   transform: translateX(0);
+               }
+               #aboutView.out {
+                  -moz-transform: translateX(-100%);
+                  -webkit-transform: translateX(-100%);
+                  -o-transform: translateX(-100%);
+                  transform: translateX(-100%);
+               }
+               #aboutView.in {
+                  -moz-transform: translateX(0%);
+                  -webkit-transform: translateX(0%);
+                  -o-transform: translateX(0%);
+                  transform: translateX(0%);
+               }
+               #aboutView.pop {
+                  -moz-transform: translateX(100%);
+                  -webkit-transform: translateX(100%);
+                  -o-transform: translateX(100%);
+                  transform: translateX(100%);
+               }
+               
+               
+               #swipeIndication {
+                  display: none;
+               }
+               
+               .about {
+                  text-shadow: 0px 0px 3px #fff;
+                  color: #333;
+                  font-size: 34px;
+                  text-align: center;
+                  font-weight: bold;
+                  margin-top: 60px;
+               }
+               
+               .about > .icon-star-1 {
+                  color: #E67A06;
+                  text-shadow: 1px 1px 1px #A95C04;
+               }
+               
+               @media only screen and (min-width: 320px) and (max-width: 600px) {
+                  #swipeIndication {
+                     display: block;
+                     width:100%;
+                     position:absolute;
+                     bottom: 20px;
+                  }  
                }
             </style>
             <script>
@@ -203,6 +259,18 @@
                   };
                });
             </script>
+            <div class="content">
+               <div class="about">
+                  <span class="icon-star-1"></span>
+                  Kitchen Sink
+               </div>
+               <div id="swipeIndication">
+                  <p class="help">
+                     <span class="icon-right"></span>
+                     Swipe to your right from the left edge to reveal the menu.
+                  </p>
+               </div>
+            </div>
          </article>
          
          

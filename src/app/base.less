@@ -1,3 +1,5 @@
+// default theme (gray blue)
+
 @base-color: #f4f4f4;
 
 // Background color for viewport views and other boxes
@@ -16,12 +18,6 @@
 @active-bg-color: #93cff2;
 @active-text-color: #fff;
 
-// chocolate theme
-// @active-bg-color: #E0D0BC;
-// @selected-bg-color: #655643;
-// @active-text-color: #333;
-
-
 // Default selected background color
 @selected-bg-color: #0099cc;
 
@@ -30,7 +26,20 @@
 
 
 
+// mint theme (green)
+/*
+@bg-color: #eee;
+@text-color: #303030;
 
+@alt-bg-color: #2c2c2c;
+@alt-text-color: #f4f4f4;
+
+@active-bg-color: #C1D38F;
+@active-text-color: #303030;
+
+@selected-bg-color: #7A9434;
+@active-text-color: #fff;
+*/
 
 .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   -moz-box-shadow: @arguments;
@@ -66,8 +75,9 @@
    min-height: 24px;
    padding: 9px 5px;
    border: 1px solid transparent;
-   border-bottom: 1px solid #dedede;
+   border-bottom: 1px solid darken(@bg-color, 5%);
    overflow: auto;
+   color: @text-color;
 }
 
 

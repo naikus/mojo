@@ -132,6 +132,19 @@ body,
   -o-transform: translatey(100%);
   transform: translatey(100%);
 }
+/*
+@bg-color: #eee;
+@text-color: #303030;
+
+@alt-bg-color: #2c2c2c;
+@alt-text-color: #f4f4f4;
+
+@active-bg-color: #C1D38F;
+@active-text-color: #303030;
+
+@selected-bg-color: #7A9434;
+@active-text-color: #fff;
+*/
 .left {
   float: left;
 }
@@ -151,8 +164,9 @@ body,
   min-height: 24px;
   padding: 9px 5px;
   border: 1px solid transparent;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #e1e1e1;
   overflow: auto;
+  color: #303030;
 }
 .view {
   background-color: #eeeeee;
@@ -260,8 +274,9 @@ select.row {
   min-height: 24px;
   padding: 9px 5px;
   border: 1px solid transparent;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #e1e1e1;
   overflow: auto;
+  color: #303030;
 }
 .rich-list > li {
   padding: 5px;
@@ -301,5 +316,8 @@ select.row {
   -o-transition: -o-transform 250ms ease;
   transition: -o-transform 250ms ease;
   -webkit-backface-visibility: hidden;
+}
+.card-panel .card {
+  background-color: #eeeeee;
 }
 
