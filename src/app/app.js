@@ -469,7 +469,7 @@
             viewPort = port ? $("#" + port) : $(body);
             
             // show the start view
-            pushView(options.startView);
+            pushView(options.startView, opts.viewData);
          }
       };
       
