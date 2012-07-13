@@ -29,7 +29,7 @@
         <file name="template/template.js"/>
         <file name="datalist/datalist.js"/>
         <file name="form/form.js"/>
-        <file name="cardpanel/cardpanel.js"/>
+        <!-- file name="cardpanel/cardpanel.js"/ -->
       </filelist>
     </concat>
 
@@ -43,7 +43,7 @@
         <!-- ========================== optional widgets ======================== -->
         <file name="datalist/datalist.less"/>
         <file name="form/form.less"/>
-        <file name="cardpanel/cardpanel.less"/>
+        <!-- file name="cardpanel/cardpanel.less"/ -->
       </filelist>
     </concat>
   </target>  
@@ -54,9 +54,10 @@
 
   <target name="build" depends="clean,combine">
     <lessc src="${dist.dir}/mojo.less" dest="${dist.dir}/mojo.css" />
-    
-    <antcall target="minify" />
-    
+    <antcall target="minify" />    
+  </target>
+  
+  <target name="update-apps" depends="build">
     <!-- applications -->
     <copy todir="examples/bootstrap-app/js" file="${dist.dir}/mojo.js" />
     <copy todir="examples/bootstrap-app/css" file="${dist.dir}/mojo.css" />
