@@ -11,17 +11,12 @@
  */
 (function(window, $) {
    "use strict";
-   /*
-   if(window.mojo) {
-      return;
-   }
-   */
    var forEach = $.forEach,
       env = $.env,
       hasTransitionSupport = env.supports("transition"),
       transitionEndEvent = env.property("transitionend"),
       hasHashChange = env.supports("hashchange");
-      // mojo = {};      
+
       
    /**
     * The view port object. The view port provides various features for managing views and their
@@ -31,8 +26,7 @@
       var noop = function() {},
          // default application options, overriden in opts
          defaults = {
-            startView: "main",
-            hideUrlBar: true
+            startView: "main"
          },
          options, 
          // all the views are stored here keyed by view ids
@@ -246,11 +240,13 @@
        * Handles some actions after views transition in or out of the view port
        */
       function onViewTransitionEnd(evt) {
-         var target = evt.target, viewId = target.id, viewInfo = views[viewId], el;
+         var target = evt.target, viewId = target.id, viewInfo = views[viewId], el, viewUi;
          
          if(!viewInfo) {
             return; // not a view
          }
+         
+         viewUi = viewInfo.ui;
          
          //viewPort.removeClass("view-transitioning");
          //alert(viewPort.hasClass("view-transitioning"));
@@ -261,6 +257,7 @@
          if(el.hasClass("out")) {
             el.removeClass("showing");
             viewPort.dispatch("viewtransitionout", {view: viewId});
+            viewUi.dispatch("transitionout");
          }
          
          // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
@@ -268,6 +265,7 @@
          if(el.hasClass("pop")) {
             el.removeClass("showing").removeClass("transition").removeClass("pop");
             viewPort.dispatch("viewtransitionout", {view: viewId});
+            viewUi.dispatch("transitionout");
          }
          
          // for history support, experimental!
@@ -276,6 +274,7 @@
             // on every hashchange event
             window.location.hash = "view:"+ viewId;
             viewPort.dispatch("viewtransitionin", {view: viewId});
+            viewUi.dispatch("transitionin");
          }
       }
       
@@ -321,7 +320,7 @@
             
             var startId = options.startView, 
                id = getViewId(nUrl) || startId, 
-               oId = getViewId(oUrl) || startId, 
+               // oId = getViewId(oUrl) || startId, 
                curId = getCurrentViewId(), 
                lastId;
                
@@ -408,7 +407,7 @@
                method: "GET", 
                dataType: "text", 
                success: function(content) {
-                  var html = $(content), scripts = html.find("script"), view, exeScripts = [], code = [], finalScript;
+                  var html = $(content), scripts = html.find("script"), viewUi, exeScripts = [], code = [], finalScript;
                   scripts.forEach(function(script) {
                      var scr = $(script), type = scr.attr("type");
                      if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
@@ -418,7 +417,11 @@
                   });
                   
                   viewPort.append(html);
-                  view = $("#" + id);
+                  viewUi = $("#" + id);
+                  
+                  if(!viewUi.count()) {
+                     throw new Error("View UI element not found")
+                  }
                   
                   forEach(exeScripts, function(script) {
                      code[code.length] = script.textContent;
@@ -426,9 +429,9 @@
                   
                   finalScript = document.createElement("script");
                   finalScript.textContent = code.join('\n');
-                  view.append(finalScript);
+                  viewUi.append(finalScript);
                   
-                  if(callback) {
+                  if(views[id] && callback) {
                      callback(id);
                   }
                }

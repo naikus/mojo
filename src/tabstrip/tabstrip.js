@@ -2,7 +2,20 @@
    var defaults = {
       onselect: function() {},
       selectedIndex: 0
-   }, forEach = $.forEach;
+   }, 
+   forEach = $.forEach,
+   tabStripProto;
+   
+   tabStripProto = {
+      _init: function(opts, ui) {
+         this.ui = ui;
+         this.options = $.extend({}, defaults, options);
+         this.uiTabs = ui.find(".tab:nth-child(n+1)");
+         this.uiTabContents = $(ui.attr("data-tab-container"));
+         this.tabContents = [];
+         this.selectedIndex = this.options.selectedIndex;
+      }
+   };
    
    $.extension("tabstrip", function(options)  {
       var widget,
@@ -15,7 +28,8 @@
          container = $(this.attr("data-tab-container")),
          // array containing content divs for each tabs 
          contents = [],
-         selectedTabData,
+         
+         selectedTabContent,
          selectedIndex = opts.selectedIndex,
          
          // tab selection logic
