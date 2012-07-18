@@ -129,10 +129,8 @@
                   var dataList, listTitle;
                   
                   function clearList(e) {
-                     if(e.view === "listView") {
-                        dataList.setItems(null);
-                        listTitle.html("List");
-                     }
+                     dataList.setItems(null);
+                     listTitle.html("List");
                   }
                   
                   return {
@@ -150,7 +148,7 @@
                         });
                         listTitle = $("#listTitle");
                         
-                        app.getViewPort().on("viewtransitionout", clearList);
+                        viewUi.on("transitionout", clearList);
                      },
                      activate: function(data) {
                         if(!data) {return}
@@ -158,7 +156,7 @@
                         listTitle.html(data.title || "List");
                      },
                      destroy: function() {
-                        app.getViewPort().un("viewtransitionout", clearList);
+                        viewUi.un("transitionout", clearList);
                      }
                   };
                });
