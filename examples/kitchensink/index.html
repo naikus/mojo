@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html manifest="manifest.appcache">
    <head>
-      <title>Kitchen Sink</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <meta name="HandheldFriendly" content="True" />
       <meta name="MobileOptimized" content="480" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
+      
+      <title>Kitchen Sink</title>
       
       <script type="text/javascript" src ="js/h5.js"> </script>
       <script type="text/javascript" src ="js/mojo.js"> </script>
@@ -36,17 +38,6 @@
             
          }
          
-         .card-content {
-            position: absolute;
-            background: #ddd;
-            border: 1px solid #ccc;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            width: 96%;
-            height: 100%;
-            margin: 0 2%;
-         }
-
          #navAside {
             position: fixed;
             min-height: 100%;
@@ -68,14 +59,7 @@
             font-size: 20px;
             text-shadow: 1px 1px 1px #000;
          }
-         /*
-         #navigation .list > li.selected {
-            border-color: #45B9E0 #008aaA #008aab;
-            background-image: -moz-linear-gradient(center top , #0099CC, #008aaA);
-            background-image: -webkit-gradient(linear, 0 0, 0 100%, to(#008aaA), from(#0099cc));
-         }
-         */
-         
+                 
          .help {
             padding: 10px;
             background-color: #C6D9DE;
@@ -105,8 +89,8 @@
                /*width: 15%;*/ /* works but shows ugly scrollbars in opera mobile */
                height: 100%;
                overflow: hidden;
-               /*box-shadow: -2px 0 10px #111;
-               -webkit-box-shadow: -2px 0 5px #111;*/
+               box-shadow: -2px 0 10px #111;
+               -webkit-box-shadow: -2px 0 5px #232323;
             }
          }
          
@@ -129,28 +113,41 @@
          var kitchenSink = $.Application(), 
             navList,
             TAP = "ontouchstart" in document.documentElement ? "tap" : "click";
+            
+         function showAppView(info, data) {
+            window.setTimeout(function() {
+               if(info.url) {
+                  kitchenSink.loadView(info.id, info.url, function(viewId) {
+                     kitchenSink.showView(viewId, data);
+                  })
+               }else {
+                  kitchenSink.showView(info.id, data);
+               }
+            }, 50);
+         };
          
          $.ready(function() {
             var viewPort = $("#viewPort");
             
             navList = $("#navList").datalist({
                data: [
-                  {label: "Simple List", value: "simpleListView", icon: "icon-th-list"},
-                  {label: "Rich List", value: "richListView", icon: "icon-th-list"},
-                  {label: "Card Panel", value: "cardPanelView", icon: "icon-heart"},
-                  {label: "About", value: "aboutView", icon: "icon-info-circle"}
+                  {label: "About", id: "aboutView", icon: "icon-info-circle"},
+                  {label: "Simple List", id: "simpleListView", icon: "icon-th-list"},
+                  {label: "Rich List", id: "richListView", icon: "icon-th-list"},
+                  {label: "Card Panel", id: "cardPanelView", icon: "icon-heart"},
+                  {label: "Tabstrip", id: "tabStripView", icon: "icon-tag"},
                ],
                render: function(widget, item, i, datum) {
-                  item.data("view", datum.value);
+                  item.data("viewinfo", datum);
                   return '<i class="' + datum.icon + '"></i>' + datum.label || "Huh?";
                },
                onselectionchange: function(curr, old) {
                   if(viewPort.hasClass("reveal")) {
                      viewPort.removeClass("reveal"); 
                   }
-                  kitchenSink.showView(curr.data("view"));
+                  showAppView(curr.data("viewinfo"));
                },
-               selectedIndex: 3
+               selectedIndex: 0
             });
             
             viewPort.on("swipe", function(e) {
@@ -220,7 +217,6 @@
                   transform: translateX(100%);
                }
                
-               
                #swipeIndication {
                   display: none;
                }
@@ -249,15 +245,7 @@
                }
             </style>
             <script>
-               kitchenSink.registerView("aboutView", function(app, viewUi) {
-                  return {
-                     /*initialize: function() {
-                        window.setTimeout(function() {
-                           navList.selectItemAt(0);
-                        }, 1000);
-                     }*/
-                  };
-               });
+               kitchenSink.registerView("aboutView");
             </script>
             <div class="content">
                <div class="about">
@@ -282,7 +270,7 @@
                   /*width: 96%;*/
                   margin: 0.7%;
                }
-             </style>
+            </style>
             <script>
                kitchenSink.registerView("simpleListView", function(app, viewUi) {
                   var countryList = [
@@ -294,7 +282,7 @@
                      "Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada",
                      "Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China",
                      "Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Congo"];
-                  
+
                   return {
                      initialize: function() {
                         $("#simpleList").datalist({
@@ -329,7 +317,7 @@
                   margin-left: 50px;
                   margin-bottom: 5px;
                }
-             </style>
+               </style>
             <script id="countryTmpl" type="text/x-mojo-template">
                <div class="icon"></div>
                <p class="label">{title}</p>
@@ -347,7 +335,7 @@
                         "Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guinea",
                         "Guinea-bissau","Guyana","Haiti","Heard Island and Mcdonald Islands"
                      ];
-                  
+
                   return {
                      initialize: function() {
                         countryTmpl = $("#countryTmpl").template();
@@ -376,9 +364,22 @@
          <article class="view" id="cardPanelView">
             <style scoped>
                #cardPanel {
-                  width: 240px;
+                  width: 100%;
                   height: 320px;
                   margin: 10% auto;
+               }
+               .card-content {
+
+                  background: #ddd;
+                  border: 1px solid #ccc;
+                  -moz-box-sizing: border-box;
+                  -webkit-box-sizing: border-box;
+                  width: 96%;
+                  height: auto;
+                  margin: 0 2%;
+
+                  text-align: center;
+                  overflow: auto;
                }
                #cardPanel h2 {
                   text-align: center;
@@ -408,7 +409,7 @@
                               cardPanel.previous();
                            }
                         });
-                        
+
                         $("#prevCard").on(TAP, function() {
                            cardPanel.previous();
                         });
@@ -446,6 +447,59 @@
                <div class="row panel-buttons">
                   <a id="prevCard" class="button col-two">&#171;</a>
                   <a id="nextCard" class="button col-two">&#187;</a>
+               </div>
+            </div>
+         </article>
+         
+         
+         
+         <article class="view" id="tabStripView">
+            <style scoped>
+               .tab-content {
+                  margin: 10px;
+               }
+               #tabStrip {
+                  box-shadow: 0 1px 5px #bbb;
+                  overflow: hidden;
+               }
+               #tabStrip > .tab {
+                  width: 49%; /* since we have only two tabs */
+               }
+            </style>
+
+            <script>
+               kitchenSink.registerView("tabStripView", function(app, viewUi) {
+                  var dataList;
+                  return {
+                     initialize: function() {
+                        $("#tabStrip").tabstrip({
+                           selectedIndex: 1,
+                           ontabchange: function(curTab, oldTab) {
+                              if(!dataList && this.getSelectedIndex() == 0) {
+                                 var i, arr = [];
+                                 for(i = 0; i < 50; i++) {
+                                    arr[arr.length] = "Item " + i;
+                                 }
+                                 dataList = $("#tabOneList").datalist({
+                                    data: arr
+                                 });
+                              }
+                           }
+                        });
+                     }
+                  };
+               });
+            </script>
+            <div class="content">
+               <ul id="tabStrip" class="tabstrip">
+                  <li class="tab" data-ref="#tabOne"><span>Tab One</span></li>
+                  <li class="tab" data-ref="#tabTwo"><span>Tab Two</span></li>
+               </ul>
+               <div class="tabs-container">
+                  <div class="tab-content" id="tabOne">
+                     <div id="tabOneList"></div>
+                  </div>
+                  <div class="tab-content" id="tabTwo">Tab Two Content</div>
                </div>
             </div>
          </article>

@@ -10,6 +10,12 @@
    -o-transform: translateX(@x);
    transform: translateX(@x);
 }
+.translateNone {
+   -moz-transform: none;
+   -webkit-transform: none;
+   -o-transform: none;
+   transform: none;
+}
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
    -webkit-transform: translateY(@y);
@@ -37,6 +43,8 @@ html, body, .viewport {
 
 .viewport {
    position: absolute;
+   top: 0;
+   left: 0;
 }
 
 /* Currently unused since does not work consistently in firefox mobile */
@@ -67,6 +75,11 @@ html, body, .viewport {
    z-index: 99;
    display: block;
 }
+/*
+.view-transitioning {
+   overflow: hidden;
+}
+*/
 .transition {
    -moz-transition: -moz-transform 200ms ease;
    -webkit-transition: -webkit-transform 200ms ease;
@@ -74,7 +87,7 @@ html, body, .viewport {
    transition: -o-transform 200ms ease;
 }
 .view.in {
-   .translateX;
+   .translateNone;
 }
 .view.out {
    .translateX(-100%);

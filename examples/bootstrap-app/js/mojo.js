@@ -738,13 +738,13 @@
     * Render each item using the specified renderer
     */
    function renderItem(widget, objItem, itemIdx, opts)  {
-      var li = document.createElement("li"), item = $(li), content, liRaw;
+      var li = document.createElement("li"), item = $(li), content, liRaw, i, len, itmCls = opts.itemClass;
       item.data(MODEL_KEY, objItem);
 
-      if(opts.itemClass) {
-         forEach(opts.itemClass, function(cl) {
-            item.addClass(cl);
-         });
+      if(itmCls) {
+         for(i = 0, len = itmCls.length; i < len; i++) {
+            item.addClass(itmCls[i]);
+         }
       }
       content = opts.render(widget, item, itemIdx, objItem);
       
@@ -754,7 +754,7 @@
       }
 
       // check if the renderer has already appended
-      if(!item.html()) {
+      if(content) {
          if(isTypeOf(content, "String"))   {
             item.html(content);
          }else {
@@ -890,11 +890,9 @@
       
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
-         ul = listRoot.get(0);
       }else {
-         ul = document.createElement("ul");
-         this.append(ul);
-         listRoot = $(ul);
+         listRoot = $(document.createElement("ul"));
+         this.append(listRoot);
       }
       
       if(listClass) {
@@ -904,7 +902,7 @@
       }
       
       listRoot.on(action, function(e) {
-         var t = e.target, parent = t.parentNode, item;
+         var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
          if(parent === ul) {
             item = t;
          }else {
@@ -1257,3 +1255,89 @@
  
  
  
+(function($)   {
+   var defaults = {
+      ontabchange: function() {},
+      selectedIndex: 0
+   }, 
+   action = "ontouchstart" in document.documentElement ? "tap" : "click";
+   
+   $.extension("tabstrip", function(options)  {
+      var widget,
+         // these are our final options
+         opts = $.extend({}, defaults, options),
+         // our plugin is bound to an HTML ul element
+         tabs = [], 
+         
+         self = this,
+         
+         // selected tab's DOM element
+         selectedTab;
+         
+      function layout() {
+         
+      }
+         
+      function selectTab(tab) {
+         var oldTab = selectedTab, tabContent, ret, tabObj;
+         if(!tab || tab === selectedTab) {
+            return;
+         }
+         
+         selectedTab = tab;
+         ret = opts.ontabchange.call(widget, tab, oldTab);
+         
+         if(ret !== false) {
+            if(oldTab) {
+               tabObj = $(oldTab);
+               tabObj.removeClass("selected");
+               tabContent = $(tabObj.attr("data-ref"));
+               tabContent.removeClass("active");
+            }
+            
+            tabObj = $(tab);
+            tabObj.addClass("selected");
+            tabContent = $(tab.attr("data-ref"));
+            tabContent.addClass("active");
+         }else {
+            selectedTab = oldTab;
+         }
+      }
+      
+      // our widget API object
+      widget = {
+         getSelectedIndex: function()  {
+            return tabs.indexOf(selectedTab);
+         },
+         
+         selectTab: function(idx)   {
+            var tab = tabs[i];
+            if(tab) {
+               selectTab(tab);
+            }
+         },
+         toString: function() {
+            return "tabstrip " + self.selector;
+         }
+      };
+      
+      // initialization code
+      this.find(".tab:nth-child(n+1)").forEach(function(elem) {
+         var tb = $(elem);
+         tabs[tabs.length] = tb;
+         // tb.data("UI_TAB", tb);
+         tb.on(TAP, function() {
+            selectTab(tb);
+         });
+      });
+      
+      // by default select the tab as specified by selectedIndex
+      selectTab(tabs[opts.selectedIndex || 0]);
+      
+      return widget;
+   });
+})(h5);
+
+
+
+

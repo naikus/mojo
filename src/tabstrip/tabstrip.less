@@ -1,0 +1,48 @@
+.tabstrip {
+   overflow: auto;
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   background-color: @bg-color;
+   border-bottom: 2px solid @selected-bg-color;
+}
+
+.tabstrip > .tab {
+   list-style-type: none;
+   display: inline-block;
+   height: 43px;
+   position: relative;
+}
+.tabstrip > .tab:after {
+   content: "";
+   display: inline-block;
+   position: absolute;
+   height: 70%;
+   top: 15%;
+   left: -3px;
+   width: 0;
+   border-right: 1px solid darken(@bg-color, 10%);
+}
+
+.tabstrip > .tab.selected {
+   font-weight: bold;
+   border-bottom: 5px solid @selected-bg-color;
+}
+
+.tabstrip > .tab span {
+   margin-top: 10px;
+   width: auto;
+   width: 98%;
+   padding: 1%;
+   display: inline-block;
+   text-align: center;
+   vertical-align: middle;
+}
+
+.tab-content {
+   display: none;
+}
+
+.tab-content.active {
+   display: block;
+}

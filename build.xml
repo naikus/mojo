@@ -30,6 +30,7 @@
         <file name="datalist/datalist.js"/>
         <file name="form/form.js"/>
         <file name="cardpanel/cardpanel.js"/>
+        <file name="tabstrip/tabstrip.js"/>
       </filelist>
     </concat>
 
@@ -44,6 +45,7 @@
         <file name="datalist/datalist.less"/>
         <file name="form/form.less"/>
         <file name="cardpanel/cardpanel.less"/>
+        <file name="tabstrip/tabstrip.less"/>
       </filelist>
     </concat>
   </target>  

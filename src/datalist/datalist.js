@@ -36,13 +36,13 @@
     * Render each item using the specified renderer
     */
    function renderItem(widget, objItem, itemIdx, opts)  {
-      var li = document.createElement("li"), item = $(li), content, liRaw;
+      var li = document.createElement("li"), item = $(li), content, liRaw, i, len, itmCls = opts.itemClass;
       item.data(MODEL_KEY, objItem);
 
-      if(opts.itemClass) {
-         forEach(opts.itemClass, function(cl) {
-            item.addClass(cl);
-         });
+      if(itmCls) {
+         for(i = 0, len = itmCls.length; i < len; i++) {
+            item.addClass(itmCls[i]);
+         }
       }
       content = opts.render(widget, item, itemIdx, objItem);
       
@@ -52,7 +52,7 @@
       }
 
       // check if the renderer has already appended
-      if(!item.html()) {
+      if(content) {
          if(isTypeOf(content, "String"))   {
             item.html(content);
          }else {
@@ -188,11 +188,9 @@
       
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
-         ul = listRoot.get(0);
       }else {
-         ul = document.createElement("ul");
-         this.append(ul);
-         listRoot = $(ul);
+         listRoot = $(document.createElement("ul"));
+         this.append(listRoot);
       }
       
       if(listClass) {
@@ -202,7 +200,7 @@
       }
       
       listRoot.on(action, function(e) {
-         var t = e.target, parent = t.parentNode, item;
+         var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
          if(parent === ul) {
             item = t;
          }else {

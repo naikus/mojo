@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+.translateNone {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
@@ -40,6 +46,8 @@ body,
 }
 .viewport {
   position: absolute;
+  top: 0;
+  left: 0;
 }
 /* Currently unused since does not work consistently in firefox mobile */
 .transitioning {
@@ -70,6 +78,11 @@ body,
   z-index: 99;
   display: block;
 }
+/*
+.view-transitioning {
+   overflow: hidden;
+}
+*/
 .transition {
   -moz-transition: -moz-transform 200ms ease;
   -webkit-transition: -webkit-transform 200ms ease;
@@ -77,10 +90,10 @@ body,
   transition: -o-transform 200ms ease;
 }
 .view.in {
-  -moz-transform: translatex(0);
-  -webkit-transform: translatex(0);
-  -o-transform: translatex(0);
-  transform: translatex(0);
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
 }
 .view.out {
   -moz-transform: translatex(-100%);
@@ -319,5 +332,48 @@ select.row {
 }
 .card-panel .card {
   background-color: #eeeeee;
+}
+.tabstrip {
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #eeeeee;
+  border-bottom: 2px solid #0099cc;
+}
+.tabstrip > .tab {
+  list-style-type: none;
+  display: inline-block;
+  height: 43px;
+  position: relative;
+}
+.tabstrip > .tab:after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  height: 70%;
+  top: 15%;
+  left: -3px;
+  width: 0;
+  border-right: 1px solid #d5d5d5;
+}
+.tabstrip > .tab.selected {
+  font-weight: bold;
+  border-bottom: 5px solid #0099cc;
+}
+.tabstrip > .tab span {
+  margin-top: 10px;
+  width: auto;
+  width: 98%;
+  padding: 1%;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
 }
 

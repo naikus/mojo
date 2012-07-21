@@ -1,125 +1,86 @@
 (function($)   {
    var defaults = {
-      onselect: function() {},
+      ontabchange: function() {},
       selectedIndex: 0
    }, 
-   forEach = $.forEach,
-   tabStripProto;
-   
-   tabStripProto = {
-      _init: function(opts, ui) {
-         this.ui = ui;
-         this.options = $.extend({}, defaults, options);
-         this.uiTabs = ui.find(".tab:nth-child(n+1)");
-         this.uiTabContents = $(ui.attr("data-tab-container"));
-         this.tabContents = [];
-         this.selectedIndex = this.options.selectedIndex;
-      }
-   };
+   action = "ontouchstart" in document.documentElement ? "tap" : "click";
    
    $.extension("tabstrip", function(options)  {
       var widget,
          // these are our final options
          opts = $.extend({}, defaults, options),
-         id = this.attr("id"),
          // our plugin is bound to an HTML ul element
-         tabs = this.find(".tab:nth-child(n+1)"),
-         // store the contents
-         container = $(this.attr("data-tab-container")),
-         // array containing content divs for each tabs 
-         contents = [],
+         tabs = [], 
          
-         selectedTabContent,
-         selectedIndex = opts.selectedIndex,
+         self = this,
          
-         // tab selection logic
-         selectTab = function(tabData) {
-            clearTabs();
-            selectedIndex = tabData.index;
-            tabData.tab.addClass("selected");
-            showTabContent(tabData);
-         },
+         // selected tab's DOM element
+         selectedTab;
          
-         selectTabByIndex = function(idx)  {
-            if(idx < 0 || idx > tabs.length) {
-               return;
-            }
-            var $tab = $(tabs[idx]), ref = $tab.attr("data-ref");
-            selectTab({
-               tab: $tab,
-               index: idx,
-               contentId: ref
-            });
-         },
+      function layout() {
          
-         showTabContent = function(tabData) {
-            var id = tabData.contentId;
-            
-            if(id.indexOf("#") === 0) {
-               $(id).setStyle({display: "block"});
-            }else {
-               window.location.href = id;
-            }
-         },
-         
-         clearTabs = function()   {
-            hideContents();
-            forEach(tabs, function(tab, idx) {
-               $(tab).removeClass("selected");
-            });
-            selectedIndex = -1;
-         },
-         
-         hideContents = function() {
-            forEach(contents, function(con) {
-               con.setStyle({display: "none"});
-            });
-         };
-         
-      function handler(data) {
-         var retVal = opts.onselect(data.tab.get(0), data.index);
-         if(typeof(retVal) !== "undefined" || retVal !== false) {
-            selectTab(data);
-         }
-         return false;
       }
-      
-      // iterate over tabs and add bind events
-      forEach(tabs, function(liElem, idx)   {
-         var $li = $(liElem),
-            // $a = $li.find("a:first-child"),
-            href = $li.attr("data-ref");
          
-         // this is not a valid tab
-         if(typeof(href) === "undefined")   {
+      function selectTab(tab) {
+         var oldTab = selectedTab, tabContent, ret, tabObj;
+         if(!tab || tab === selectedTab) {
             return;
          }
          
-         if(href.indexOf("#") === 0) {
-            contents.push($(href));
-         }
+         selectedTab = tab;
+         ret = opts.ontabchange.call(widget, tab, oldTab);
          
-         // find the first a element and bind with 'click' event, null data, and a handler
-         $li.bind("click", handler.bind(null, {tab: $li, index:idx, contentId: href}));
-      });
-      
-      // by default select the tab as specified by selectedIndex
-      selectTabByIndex(opts.selectedIndex);
+         if(ret !== false) {
+            if(oldTab) {
+               tabObj = $(oldTab);
+               tabObj.removeClass("selected");
+               tabContent = $(tabObj.attr("data-ref"));
+               tabContent.removeClass("active");
+            }
+            
+            tabObj = $(tab);
+            tabObj.addClass("selected");
+            tabContent = $(tab.attr("data-ref"));
+            tabContent.addClass("active");
+         }else {
+            selectedTab = oldTab;
+         }
+      }
       
       // our widget API object
       widget = {
          getSelectedIndex: function()  {
-            return selectedIndex;
+            return tabs.indexOf(selectedTab);
          },
          
          selectTab: function(idx)   {
-            selectTabByIndex(idx);
+            var tab = tabs[i];
+            if(tab) {
+               selectTab(tab);
+            }
+         },
+         toString: function() {
+            return "tabstrip " + self.selector;
          }
       };
       
+      // initialization code
+      this.find(".tab:nth-child(n+1)").forEach(function(elem) {
+         var tb = $(elem);
+         tabs[tabs.length] = tb;
+         // tb.data("UI_TAB", tb);
+         tb.on(TAP, function() {
+            selectTab(tb);
+         });
+      });
+      
+      // by default select the tab as specified by selectedIndex
+      selectTab(tabs[opts.selectedIndex || 0]);
+      
       return widget;
    });
-})(lite);
+})(h5);
+
 
 
 
