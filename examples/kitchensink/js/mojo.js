@@ -236,14 +236,11 @@
          
          // activate the new view
          nxtInfo.controller.activate(data);
-         
+                  
          // transition views
          setTimeout(function() {
             // transition out the old view, this is not the same as popping a view
-            if(currId) {
-               // experimental set overflow of viewport to hidden while transitioning
-               //viewPort.addClass("view-transitioning");
-               
+            if(currId) {               
                currInfo = views[currId];
                currInfo.controller.deactivate();
                // transition out the current view
@@ -300,9 +297,6 @@
          
          // transition the views
          setTimeout(function() {
-            // experimental set overflow of viewport to hidden while transitioning
-            //viewPort.addClass("view-transitioning");
-            
             currInfo.controller.deactivate();
             currInfo.ui.removeClass("in").addClass("pop");
             
@@ -337,10 +331,6 @@
          }
          
          viewUi = viewInfo.ui;
-         
-         //viewPort.removeClass("view-transitioning");
-         //alert(viewPort.hasClass("view-transitioning"));
-         
          el = viewInfo.ui;
          
          // deactivate if the view has transitioned out
