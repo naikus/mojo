@@ -1,12 +1,12 @@
 .translate(@x: 0, @y: 0) {
    -moz-transform: translate(@x, @y);
-   -webkit-transform: translate(@x, @y);
+   -webkit-transform: translate3d(@x, @y, 0);
    -o-transform: translate(@x, @y);
    transform: translate(@x, @y);
 }
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
-   -webkit-transform: translateX(@x);
+   -webkit-transform: translate3d(@x, 0, 0);
    -o-transform: translateX(@x);
    transform: translateX(@x);
 }
@@ -18,7 +18,7 @@
 }
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
-   -webkit-transform: translateY(@y);
+   -webkit-transform: translateY(0, @y, 0);
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
@@ -60,6 +60,7 @@ html, body, .viewport {
    position: absolute;
    display: none;
    width: 100%;
+
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
    /* -webkit-perspective: 1000; */
    -webkit-backface-visibility: hidden;  
@@ -75,16 +76,16 @@ html, body, .viewport {
    z-index: 99;
    display: block;
 }
-/*
+
 .view-transitioning {
-   overflow: hidden;
 }
-*/
+
 .transition {
-   -moz-transition: -moz-transform 200ms ease;
-   -webkit-transition: -webkit-transform 200ms ease;
-   -o-transition: -o-transform 200ms ease;
-   transition: -o-transform 200ms ease;
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
 }
 .view.in {
    .translateNone;

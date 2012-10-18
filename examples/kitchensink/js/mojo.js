@@ -232,9 +232,9 @@
          if(nxtUi.hasClass("out")) {
             nxtUi.removeClass("transition").removeClass("out");
          }
-         nxtUi.addClass("showing");
          
          // activate the new view
+         nxtUi.addClass("showing");
          nxtInfo.controller.activate(data);
                   
          // transition views
@@ -244,14 +244,14 @@
                currInfo = views[currId];
                currInfo.controller.deactivate();
                // transition out the current view
-               currInfo.ui.addClass("out").removeClass("in");
+               currInfo.ui.addClass("view-transitioning").addClass("out").removeClass("in");
                // if no transition support dispatch custom event
                if(!hasTransitionSupport) {
                   currInfo.ui.dispatch("transitionend");
                }
             }
             // transition in the new view
-            nxtUi.addClass("transition").addClass("in");
+            nxtUi.addClass("view-transitioning").addClass("transition").addClass("in");
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
                nxtUi.dispatch("transitionend");
@@ -298,9 +298,9 @@
          // transition the views
          setTimeout(function() {
             currInfo.controller.deactivate();
-            currInfo.ui.removeClass("in").addClass("pop");
+            currInfo.ui.addClass("view-transitioning").removeClass("in").addClass("pop");
             
-            prevUi.removeClass("out").addClass("in");
+            prevUi.addClass("view-transitioning").removeClass("out").addClass("in");
             
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
@@ -333,19 +333,27 @@
          viewUi = viewInfo.ui;
          el = viewInfo.ui;
          
+         el.removeClass("view-transitioning");
+         
          // deactivate if the view has transitioned out
          if(el.hasClass("out")) {
             el.removeClass("showing");
             viewPort.dispatch("viewtransitionout", {view: viewId});
             viewUi.dispatch("transitionout");
+            return;
          }
          
          // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
          // returned to its original position
          if(el.hasClass("pop")) {
             el.removeClass("showing").removeClass("transition").removeClass("pop");
-            viewPort.dispatch("viewtransitionout", {view: viewId});
-            viewUi.dispatch("transitionout");
+            viewPort.dispatch("viewtransitionout", {
+                view: viewId,
+                bubbles: false,
+                cancelable: false
+            });
+            viewUi.dispatch("transitionout", {bubbles: false});
+            return;
          }
          
          // for history support, experimental!
@@ -353,8 +361,13 @@
             // don't have the hash value same as the view id. This will cause the  URL bar to be shown
             // on every hashchange event
             window.location.hash = "view:"+ viewId;
-            viewPort.dispatch("viewtransitionin", {view: viewId});
-            viewUi.dispatch("transitionin");
+            viewPort.dispatch("viewtransitionin", {
+                view: viewId,
+                bubbles: false,
+                cancelable: false
+            });
+            viewUi.dispatch("transitionin", {bubbles: false});
+            return;
          }
       }
       

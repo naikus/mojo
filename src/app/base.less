@@ -1,45 +1,89 @@
 // default theme (gray blue)
-
 @base-color: #f4f4f4;
-
 // Background color for viewport views and other boxes
 @bg-color: #eee;
-
 // Background color for overlays, inlays etc.
 @alt-bg-color: #2c2c2c;
-
 // Text color to complement the background color
 @text-color: #303030;
-
 // Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
-
 // Active background color, when an element becomes active i.e. :active class
 @active-bg-color: #93cff2;
 @active-text-color: #fff;
-
 // Default selected background color
 @selected-bg-color: #0099cc;
-
 // Default selected text color
 @selected-text-color: #fff;
 
 
 
-// mint theme (green)
-/*
+// Red theme
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
 @bg-color: #eee;
-@text-color: #303030;
-
+// Background color for overlays, inlays etc.
 @alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
-
-@active-bg-color: #C1D38F;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F4BCB0;
 @active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #B84126;
+// Default selected text color
+@selected-text-color: #f0f0f0;
 
-@selected-bg-color: #7A9434;
-@active-text-color: #fff;
+
+/*
+// mint theme (green)
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #CEF263;
+@active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #99CC00;
+// Default selected text color
+@selected-text-color: #fff;
+
+
+// Android theme
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #434343;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #f1f1f1;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #333;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7E596;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F2D44D;
+// Default selected text color
+@selected-text-color: #222;
+
+
+#B84126
+
 */
+
+html, body {
+    background-color: @base-color;
+}
+
 
 .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   -moz-box-shadow: @arguments;

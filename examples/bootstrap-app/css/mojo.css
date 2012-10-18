@@ -70,7 +70,7 @@ body,
   top: 0;
   min-height: 100%;
   -moz-transform: translatex(100%);
-  -webkit-transform: translatex(100%);
+  -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translatex(100%);
   transform: translatex(100%);
 }
@@ -78,16 +78,12 @@ body,
   z-index: 99;
   display: block;
 }
-/*
-.view-transitioning {
-   overflow: hidden;
-}
-*/
 .transition {
-  -moz-transition: -moz-transform 200ms ease;
-  -webkit-transition: -webkit-transform 200ms ease;
-  -o-transition: -o-transform 200ms ease;
-  transition: -o-transform 200ms ease;
+  -moz-transition: -moz-transform 250ms ease;
+  -webkit-transition: -webkit-transform 250ms ease;
+  -o-transition: -o-transform 250ms ease;
+  -ms-transition: -ms-transform 250ms ease;
+  transition: transform 250ms ease;
 }
 .view.in {
   -moz-transform: none;
@@ -97,13 +93,13 @@ body,
 }
 .view.out {
   -moz-transform: translatex(-100%);
-  -webkit-transform: translatex(-100%);
+  -webkit-transform: translate3d(-100%, 0, 0);
   -o-transform: translatex(-100%);
   transform: translatex(-100%);
 }
 .view.pop {
   -moz-transform: translatex(100%);
-  -webkit-transform: translatex(100%);
+  -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translatex(100%);
   transform: translatex(100%);
 }
@@ -117,7 +113,7 @@ body,
   left: 0;
   min-height: 50%;
   -moz-transform: translatey(100%);
-  -webkit-transform: translatey(100%);
+  -webkit-transform: translatey(0, 100%, 0);
   -o-transform: translatey(100%);
   transform: translatey(100%);
 }
@@ -135,29 +131,62 @@ body,
 }
 .overlay.in {
   -moz-transform: translatey(0);
-  -webkit-transform: translatey(0);
+  -webkit-transform: translatey(0, 0, 0);
   -o-transform: translatey(0);
   transform: translatey(0);
 }
 .overlay.pop {
   -moz-transform: translatey(100%);
-  -webkit-transform: translatey(100%);
+  -webkit-transform: translatey(0, 100%, 0);
   -o-transform: translatey(100%);
   transform: translatey(100%);
 }
 /*
+// mint theme (green)
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
 @bg-color: #eee;
-@text-color: #303030;
-
+// Background color for overlays, inlays etc.
 @alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
-
-@active-bg-color: #C1D38F;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #CEF263;
 @active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #99CC00;
+// Default selected text color
+@selected-text-color: #fff;
 
-@selected-bg-color: #7A9434;
-@active-text-color: #fff;
+
+// Android theme
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #434343;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #f1f1f1;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #333;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7E596;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F2D44D;
+// Default selected text color
+@selected-text-color: #222;
+
+
+#B84126
+
 */
+html,
+body {
+  background-color: #f0f0f0;
+}
 .left {
   float: left;
 }
@@ -191,7 +220,7 @@ body,
   border-top: #464646;
 }
 section {
-  background-color: #f4f4f4;
+  background-color: #f0f0f0;
 }
 section,
 header {
@@ -204,8 +233,8 @@ section > header,
   margin: 0;
   margin-bottom: 5px;
   padding: 12px;
-  border-bottom: 2px solid #0099cc;
-  color: #0099cc;
+  border-bottom: 2px solid #b84126;
+  color: #b84126;
 }
 /* ----------------------------------------------- Form ----------------------------------------- */
 fieldset {
@@ -306,9 +335,9 @@ select.row {
   font-size: 0.8em;
 }
 .list > li.selected {
-  background-color: #0099cc;
-  border-color: #007399;
-  color: #ffffff;
+  background-color: #b84126;
+  border-color: #8e321d;
+  color: #f0f0f0;
 }
 .list select {
   display: inline-block;
@@ -321,13 +350,14 @@ select.row {
 }
 .card-panel > .card-wrapper {
   -moz-transform: translatex(100%);
-  -webkit-transform: translatex(100%);
+  -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translatex(100%);
   transform: translatex(100%);
   -moz-transition: -moz-transform 250ms ease;
   -webkit-transition: -webkit-transform 250ms ease;
   -o-transition: -o-transform 250ms ease;
-  transition: -o-transform 250ms ease;
+  -ms-transition: -ms-transform 250ms ease;
+  transition: transform 250ms ease;
   -webkit-backface-visibility: hidden;
 }
 .card-panel .card {
@@ -339,7 +369,7 @@ select.row {
   padding: 0;
   width: 100%;
   background-color: #eeeeee;
-  border-bottom: 2px solid #0099cc;
+  border-bottom: 2px solid #b84126;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -359,7 +389,7 @@ select.row {
 }
 .tabstrip > .tab.selected {
   font-weight: bold;
-  border-bottom: 5px solid #0099cc;
+  border-bottom: 5px solid #b84126;
 }
 .tabstrip > .tab span {
   margin-top: 10px;

@@ -274,7 +274,7 @@
          c = containers[tgName] || div;
          if(isIe) {
             tag = c.tagName.toLowerCase();
-            if(tag === "tbody" || tag === "table" || tag === "thead") {
+            if(tag === "tbody" || tag === "table" || tag === "thead" || tag === "tfoot") {
                return getFrags("table", html, true);
             }
          }
@@ -726,7 +726,7 @@
       },
       clsRegExps = {};
      
-   /**
+   /*
     * Removes all the children of the specified element using DOM APIs
     * This is used as a fallback method instead of setting innerHTML as "" as this fails in
     * some versions of IE browsers
@@ -768,7 +768,7 @@
             new RegExp("(^|\\s+)" + clazz + "(?:\\s+|$)")); // thank you xui.js :) 
    }
      
-   /**
+   /*
     * Converts the <tt>html</tt> which can be an HTML string, a nodelist or a node, then passes the
     * converted html and the specified <tt>element</tt> to the callback as:
     * <tt>callback(element, arrnodesFromhtml)</tt>.
@@ -778,7 +778,8 @@
     */
    function domify(element, html, callback)  {
       var nodeName = element.nodeName.toLowerCase(), htmType = getTypeOf(html),
-      isTable = (nodeName === "table" || nodeName === "tbody"), cbElem, frags;
+      isTable = (nodeName === "table" || nodeName === "tbody" || nodeName === "thead" || nodeName === "tfoot"),
+      cbElem, frags;
       
       if(htmType === "String" || htmType === "Number") {
          frags = fragments(html);
@@ -802,33 +803,6 @@
          forEach(arrNodes, function(node) {
             appendTo.appendChild(node);
          });
-      });
-   }
-   
-   function insertBefore(elem, html) {
-      domify(elem, html, function(theElem, arrNodes) {
-         var node, i, parent = elem.parentNode;
-         // while inserting before, go backwards to maintain order :)
-         for(i = arrNodes.length - 1; i >= 0; i--) {
-            node = arrNodes[i];
-            parent.insertBefore(node, theElem);
-         }
-      });
-   }
-   
-   function prepend(elem, html) {
-      domify(elem, html, function(theElem, arrNodes) {
-         var child, node, i;
-         // while prepending, go backwards to maintain order :)
-         for(i = arrNodes.length - 1; i >= 0; i--) {
-            child = theElem.firstChild;
-            node = arrNodes[i];
-            if(child)  { 
-               theElem.insertBefore(node, child);
-            }else {
-               theElem.appendChild(node);
-            }
-         }
       });
    }
    
@@ -873,46 +847,7 @@
          return null;
       }
    }
-   
-   function getStyle(elem, prop)   {
-      var cs;
-      if(gcs)  {
-         cs = gcs(elem, null);
-      }else {
-         cs = elem.currentStyle;
-      }
-      return cs[prop];
-   }
-   
-   /*
-   function getBoundingBox(elem) {
-      // cool! https://developer.mozilla.org/en/DOM/element.getBoundingClientRect
-      if(elem.getBoundingClientRect) { 
-         return elem.getBoundingClientRect();
-      }
-      return getOffsets(elem);
-   }
-   */
-   
-   function getOffsets(elem)  {
-      var o = {
-         top: elem.offsetTop,
-         right: 0,
-         bottom: 0,
-         left: elem.offsetLeft,
-         width: elem.offsetWidth,
-         height: elem.offsetHeight
-      },
-      par = elem.offsetParent;
-
-      while(par)  {
-         o.left += par.offsetLeft;
-         o.top += par.offsetTop;
-         par = par.offsetParent;
-      }
-      return o;
-   }
-   
+      
    function setAttributes(elem, attrs) {
       forEach(attrs, function(val, key) {
          var spl = splAttrs[key], n = spl || key;
@@ -925,17 +860,6 @@
    }
      
    $.extension({
-      /*
-      clone: function(bDeep) {
-         var clArr = [];
-         bDeep = typeof bDeep === "undefined" ? false : !!bDeep;
-         forEach(this.elements, function(elem, i) {
-            clArr[i] = elem.cloneNode(bDeep);
-         });
-         return nodelist(clArr);
-      },
-      */
-         
       /**
        * Gets or sets the html string as inner html to all the elements in the current matched 
        * elements. If call without arguments, returns the html contents of the first element in
@@ -1126,7 +1050,20 @@
          if(!html || !elements.length) {
             return this;
          }
-         prepend(elements[0], html);            
+         domify(elements[0], html, function(theElem, arrNodes) {
+            var child, node, i;
+            // while prepending, go backwards to maintain order :)
+            for(i = arrNodes.length - 1; i >= 0; i--) {
+               child = theElem.firstChild;
+               node = arrNodes[i];
+               if(child)  { 
+                  theElem.insertBefore(node, child);
+               }else {
+                  theElem.appendChild(node);
+               }
+            }
+         }); 
+          
          return this;
       },
       
@@ -1135,7 +1072,14 @@
          if(!html || !elems.length) {
             return this;
          }
-         insertBefore(elems[0], html);
+         domify(elems[0], html, function(theElem, arrNodes) {
+            var node, i, parent = elem.parentNode;
+            // while inserting before, go backwards to maintain order :)
+            for(i = arrNodes.length - 1; i >= 0; i--) {
+               node = arrNodes[i];
+               parent.insertBefore(node, theElem);
+            }
+         });
          return this;
       },
          
@@ -1150,7 +1094,7 @@
        * // will result in
        * &lt;p id="bar" class="foo baz"&gt;Hello world&lt;/p&gt;
        */
-      remove: function(/* sel */) {
+      remove: function(/* selector */) {
          var sel, elems = this.elements;
          if(!arguments.length) {
             forEach(elems, function(e) {
@@ -1219,7 +1163,6 @@
        */
       removeClass: function(cl)  {
          forEach(this.elements, function(el) {
-            var cName;
             if(hasClass(el, cl) && !removeClass(el, cl)) {
                el.className = trim(el.className.replace(classRe(cl), "$1"));
             }        
@@ -1237,13 +1180,22 @@
        * var bgcolor = $("#foo").getStyle("backgroundColor");
        */
       getStyle: function(prop)   {
-         var elements = this.elements;
-         return elements.length === 0 ? "" : getStyle(elements[0], prop);
+         var elements = this.elements, cs, elem;
+         if(elements.length === 0) {return "";}
+         
+         elem = elements[0];
+         if(gcs)  {
+            cs = gcs(elem, null);
+         }else {
+            cs = elem.currentStyle;
+         }
+         return cs[prop];
       },
          
       /**
        * Sets the css style properties <tt>props</tt> for all the matched elements
        * @param {Object} props The style properties to set
+       * @param {Object} value The property value if <tt>props</tt> is property name
        * @return {Object} the nodelist object chaining
        * @example
        * // This will set the border and background-color style properties all input elements
@@ -1256,7 +1208,7 @@
          var type = getTypeOf(props);
          forEach(this.elements, function(elem) {
             var style = elem.style;
-            if(props === "Object") {
+            if(type === "Object") {
                forEach(props, function(val, key) {
                   style[key] = val;
                });
@@ -1299,16 +1251,28 @@
        * alert(["top: ", o.top, ", left: ", o.left, ", width: ", o.width, ", height: ", o.height].join(""));
        */
       offsets: function() {
-         var elements = this.elements;
-         return elements.length === 0 ? null : getOffsets(elements[0]);
+         var elements = this.elements, elem, o, par;
+         if(elements.length) {
+            elem = elements[0];
+            o = {
+               top: elem.offsetTop,
+               right: 0,
+               bottom: 0,
+               left: elem.offsetLeft,
+               width: elem.offsetWidth,
+               height: elem.offsetHeight
+            };
+            par = elem.offsetParent;
+
+            while(par)  {
+               o.left += par.offsetLeft;
+               o.top += par.offsetTop;
+               par = par.offsetParent;
+            }
+            return o;
+         }
+         return null;
       }
-      
-      /*
-      ,boundingBox: function() {
-         var elems = this.elements;
-         return elems.length ? getBoundingBox(elems[0]) : null;
-      }
-      */
    });
          
 })(h5);
@@ -1622,7 +1586,7 @@
       
    function jsonp(url, success) {
       var jpId = "_jsonp" + uuid(), script,
-         src = url.replace("callback=?", "callback=" + jpId)
+         source = url.replace("callback=?", "callback=" + jpId)
             .replace("jsonp=?", "jsonp=" + jpId),
          handler = function() {
             // dispatch an ajax start event
@@ -1632,13 +1596,13 @@
       window[jpId] = handler;
       // dispatch an ajax start event
       dispatch("ajaxstart", url);
-      script = $(document.createElement("script")).attr({src: src, type: "text/javascript"});
+      script = $(document.createElement("script")).attr({src: source, type: "text/javascript"});
       $("head").append(script);
    }
       
    function xhr(options) {
       var req, opt = extend({}, xDefaults, options), url = opt.url, dType = opt.dataType, 
-         data = opt.data, mime = mimeTypes[dType] || "text/plain";
+         data = opt.data, postData, mime = mimeTypes[dType] || "text/plain";
          
       // dispatch ajax start event on document
       dispatch("ajaxstart", url);
@@ -1689,11 +1653,17 @@
       
       if(isTypeOf(data, "Object")) {
          try {
-            data = JSON.stringify(data, null, "");
-            req.setRequestHeader("Content-Type", mime);
+            postData = [];
+            forEach(data, function(val, key) {
+                postData[postData.length] = encodeURIComponent(key) + "=" + encodeURIComponent(val);
+            });
+            postData = postData.join("&");
+            // req.setRequestHeader("Content-Type", mime);
          }catch(e) {}
+      }else {
+          postData = data;
       }
-      req.send(data);
+      req.send(postData);
    }
    
    /**
