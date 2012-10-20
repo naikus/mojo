@@ -75,9 +75,6 @@
 // Default selected text color
 @selected-text-color: #222;
 
-
-#B84126
-
 */
 
 html, body {
@@ -180,13 +177,13 @@ button, .button {
    font-size: 14px;
    padding-top: 10px;
    padding-bottom: 10px;
-   .border-radius(2px);
+   .border-radius(3px);
 
    text-align: center;
 }
 button:active, .button:active {
    .box-shadow(0px 0px 2px #006E8C);
-   background-color: ;
+   background-color: lighten(@selected-bg-color, 15%);
 }
 
 select {
@@ -202,24 +199,6 @@ option {
 .row select, select.row {
    display: inline-block;
    width: 100%;
-}
-
-
-.col-one {
-   width: 99%;
-   margin: 0.5%;
-}
-.col-two {
-   width:48%;
-   margin: 0.5%;
-}
-.col-three {
-   width: 30%;
-   margin: 1%;
-}
-.col-four {
-   width: 22.3%;
-   margin: 1%;
 }
 
 

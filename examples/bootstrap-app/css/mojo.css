@@ -50,9 +50,6 @@ body,
   left: 0;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
-.view-transitioning {
-  overflow: hidden;
-}
 /* ---------------------------- Default transition effects for views ---------------------------- */
 .view,
 .overlay {
@@ -179,9 +176,6 @@ body,
 // Default selected text color
 @selected-text-color: #222;
 
-
-#B84126
-
 */
 html,
 body {
@@ -261,10 +255,10 @@ button,
   font-size: 14px;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-radius: 2px 0 0 0;
-  -webkit-border-radius: 2px 0 0 0;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
+  border-radius: 3px 0 0 0;
+  -webkit-border-radius: 3px 0 0 0;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
   text-align: center;
 }
 button:active,
@@ -272,7 +266,7 @@ button:active,
   -moz-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
   -webkit-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
   box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  background-color: ;
+  background-color: #db6950;
 }
 select {
   background: transparent;
@@ -287,22 +281,6 @@ option {
 select.row {
   display: inline-block;
   width: 100%;
-}
-.col-one {
-  width: 99%;
-  margin: 0.5%;
-}
-.col-two {
-  width: 48%;
-  margin: 0.5%;
-}
-.col-three {
-  width: 30%;
-  margin: 1%;
-}
-.col-four {
-  width: 22.3%;
-  margin: 1%;
 }
 .list,
 .rich-list {

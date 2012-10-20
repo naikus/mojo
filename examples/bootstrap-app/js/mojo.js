@@ -116,7 +116,8 @@
       var noop = function() {},
          // default application options, overriden in opts
          defaults = {
-            startView: "main"
+            startView: "main",
+            transitionDelay: 40
          },
          options, 
          // all the views are stored here keyed by view ids
@@ -127,6 +128,8 @@
          app,
          
          viewPort,
+         
+         transitionDelay,
          
          controllerMethods = ["initialize", "activate", "deactivate", "destroy"],
          
@@ -256,7 +259,7 @@
             if(!hasTransitionSupport) {
                nxtUi.dispatch("transitionend");
             }
-         }, 100);
+         }, transitionDelay);
          viewStack.push(id);
          // console.log("view stack: " + viewStack.join(","));
       }
@@ -307,7 +310,7 @@
                currInfo.ui.dispatch("transitionend");
             }
             
-         }, 100);
+         }, transitionDelay);
          
          // console.log("view stack: " + viewStack.join(","));
       }
@@ -324,29 +327,33 @@
        * Handles some actions after views transition in or out of the view port
        */
       function onViewTransitionEnd(evt) {
-         var target = evt.target, viewId = target.id, viewInfo = views[viewId], el, viewUi;
+         var target = evt.target, viewId = target.id, viewInfo = views[viewId], viewUi;
          
-         if(!viewInfo) {
-            return; // not a view
+         if(!viewInfo || evt.propertyName.indexOf("transform") === -1) {
+            return; // not a view or not a transform transition on this view.
          }
          
          viewUi = viewInfo.ui;
-         el = viewInfo.ui;
          
-         el.removeClass("view-transitioning");
+         console.log("removing transitioning: " + viewId);
+         viewUi.removeClass("view-transitioning");
          
          // deactivate if the view has transitioned out
-         if(el.hasClass("out")) {
-            el.removeClass("showing");
-            viewPort.dispatch("viewtransitionout", {view: viewId});
-            viewUi.dispatch("transitionout");
+         if(viewUi.hasClass("out")) {
+            viewUi.removeClass("showing");
+            viewPort.dispatch("viewtransitionout", {
+                view: viewId,
+                bubbles: false,
+                cancelable: false
+            });
+            viewUi.dispatch("transitionout", {bubbles: false});
             return;
          }
          
          // deactivate if the view was popped, remove all transitions and all transition CSS so that the view is
          // returned to its original position
-         if(el.hasClass("pop")) {
-            el.removeClass("showing").removeClass("transition").removeClass("pop");
+         if(viewUi.hasClass("pop")) {
+            viewUi.removeClass("showing").removeClass("transition").removeClass("pop");
             viewPort.dispatch("viewtransitionout", {
                 view: viewId,
                 bubbles: false,
@@ -357,7 +364,7 @@
          }
          
          // for history support, experimental!
-         if(el.hasClass("in")) {
+         if(viewUi.hasClass("in")) {
             // don't have the hash value same as the view id. This will cause the  URL bar to be shown
             // on every hashchange event
             window.location.hash = "view:"+ viewId;
@@ -564,6 +571,13 @@
             port = options.viewPort;
             viewPort = port ? $("#" + port) : $(body);
             
+            transitionDelay = Number(options.transitionDelay);
+            
+            // if the transition delay is < 20, some transition end events are not fired in firefox
+            if(isNaN(transitionDelay) || transitionDelay < 20) {
+                transitionDelay = defaults.transitionDelay;
+            }
+             
             // show the start view
             pushView(options.startView, opts.viewData);
          }
