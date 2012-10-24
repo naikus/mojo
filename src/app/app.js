@@ -244,8 +244,6 @@
          }
          
          viewUi = viewInfo.ui;
-         
-         console.log("removing transitioning: " + viewId);
          viewUi.removeClass("view-transitioning");
          
          // deactivate if the view has transitioned out

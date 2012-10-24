@@ -186,6 +186,19 @@
          });
       }
       
+      function getItemFromEvent(e) {
+         var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
+         if(parent === ul) {
+            item = t;
+         }else {
+            while(parent && parent !== ul) {
+               item = parent;
+               parent = parent.parentNode;
+            }
+         } 
+         return item;
+      }
+      
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
       }else {
@@ -200,20 +213,26 @@
       }
       
       listRoot.on(action, function(e) {
-         var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
-         if(parent === ul) {
-            item = t;
-         }else {
-            while(parent && parent !== ul) {
-               item = parent;
-               parent = parent.parentNode;
-            }
-         } 
+         var item = getItemFromEvent(e);
          item = $(item).data(UI_KEY);
          if(item) {
             fireSelectionChanged(item);
          }
       });
+      
+      /*
+      listRoot.on("touchstart", function(e) {
+          var item = getItemFromEvent(e);
+          if(item) {
+              $(item).addClass("active");
+          }
+      }).on("touchend", function(e) {
+          var item = getItemFromEvent(e);
+          if(item) {
+              $(item).removeClass("active");
+          }
+      });
+      */
       
       // our public API that is exposed to the widget
       widget = {
