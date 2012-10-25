@@ -28,11 +28,11 @@
 @text-color: #303030;
 // Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #F4BCB0;
-@active-text-color: #303030;
 // Default selected background color
 @selected-bg-color: #B84126;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
 // Default selected text color
 @selected-text-color: #f0f0f0;
 
@@ -183,9 +183,11 @@ button, .button {
 }
 button:active, .button:active {
    .box-shadow(0px 0px 2px #006E8C);
-   background-color: lighten(@selected-bg-color, 15%);
+   background-color: @active-bg-color;
 }
-
+.trigger:active {
+    background-color: @active-bg-color;
+}
 select {
    background: transparent;
    -webkit-appearance: none;

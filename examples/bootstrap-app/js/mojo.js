@@ -334,7 +334,6 @@
          }
          
          viewUi = viewInfo.ui;
-         
          viewUi.removeClass("view-transitioning");
          
          // deactivate if the view has transitioned out

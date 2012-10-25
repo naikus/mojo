@@ -302,7 +302,10 @@ button:active,
   -moz-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
   -webkit-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
   box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  background-color: #db6950;
+  background-color: #d6573b;
+}
+.trigger:active {
+  background-color: #d6573b;
 }
 select {
   background: transparent;
@@ -389,15 +392,16 @@ select.row {
   list-style-type: none;
   display: inline-block;
   height: 43px;
+  float: left;
   position: relative;
 }
 .tabstrip > .tab:after {
   content: "";
   display: inline-block;
   position: absolute;
-  height: 70%;
+  height: 80%;
   top: 15%;
-  left: -3px;
+  left: 0;
   width: 0;
   border-right: 1px solid #d5d5d5;
 }
