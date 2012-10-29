@@ -160,14 +160,14 @@
                currInfo.ui.addClass("view-transitioning").addClass("out").removeClass("in");
                // if no transition support dispatch custom event
                if(!hasTransitionSupport) {
-                  currInfo.ui.dispatch("transitionend");
+                  currInfo.ui.dispatch("transitionend", {propertyName: "transform"});
                }
             }
             // transition in the new view
             nxtUi.addClass("view-transitioning").addClass("transition").addClass("in");
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
-               nxtUi.dispatch("transitionend");
+               nxtUi.dispatch("transitionend", {propertyName: "transform"});
             }
          }, transitionDelay);
          viewStack.push(id);
