@@ -217,7 +217,8 @@
             
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
-               currInfo.ui.dispatch("transitionend");
+               prevUi.dispatch("transitionend", {propertyName: "transform"});
+               currInfo.ui.dispatch("transitionend", {propertyName: "transform"});
             }
             
          }, transitionDelay);

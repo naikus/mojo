@@ -50,7 +50,12 @@
       // our widget API object
       widget = {
          getSelectedIndex: function()  {
-            return tabs.indexOf(selectedTab);
+            try {
+               return tabs.indexOf(selectedTab);
+            }catch(e) {
+               for(var i = 0, len = tabs.length; i < len && tabs[i] !== selectedTab; i++);
+               return i == len ? -1 : i;
+            }
          },
          
          selectTab: function(idx)   {
@@ -65,7 +70,7 @@
       };
       
       // initialization code
-      this.find(".tab:nth-child(n+1)").forEach(function(elem) {
+      $.forEach(this.children(".tab"), function(elem) {
          var tb = $(elem);
          tabs[tabs.length] = tb;
          // tb.data("UI_TAB", tb);

@@ -125,7 +125,7 @@
          if(!cardWrapper.get(0)) {
             throw new Error("Card wrapper element with class 'card-wrapper' not found");
          }
-         allCards = cardWrapper.find(".card:nth-child(n+1)").elements;
+         allCards = cardWrapper.children(".card"); //cardWrapper.find(".card:nth-child(n+1)").elements;
          if(options.orientation === "vertical") {
             layout = layoutV;
             moveWrapper = moveV;

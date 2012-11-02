@@ -307,7 +307,8 @@
             
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
-               currInfo.ui.dispatch("transitionend");
+               prevUi.dispatch("transitionend", {propertyName: "transform"});
+               currInfo.ui.dispatch("transitionend", {propertyName: "transform"});
             }
             
          }, transitionDelay);
@@ -1254,7 +1255,7 @@
          if(!cardWrapper.get(0)) {
             throw new Error("Card wrapper element with class 'card-wrapper' not found");
          }
-         allCards = cardWrapper.find(".card:nth-child(n+1)").elements;
+         allCards = cardWrapper.children(".card"); //cardWrapper.find(".card:nth-child(n+1)").elements;
          if(options.orientation === "vertical") {
             layout = layoutV;
             moveWrapper = moveV;
@@ -1341,7 +1342,12 @@
       // our widget API object
       widget = {
          getSelectedIndex: function()  {
-            return tabs.indexOf(selectedTab);
+            try {
+               return tabs.indexOf(selectedTab);
+            }catch(e) {
+               for(var i = 0, len = tabs.length; i < len && tabs[i] !== selectedTab; i++);
+               return i == len ? -1 : i;
+            }
          },
          
          selectTab: function(idx)   {
@@ -1356,7 +1362,7 @@
       };
       
       // initialization code
-      this.find(".tab:nth-child(n+1)").forEach(function(elem) {
+      $.forEach(this.children(".tab"), function(elem) {
          var tb = $(elem);
          tabs[tabs.length] = tb;
          // tb.data("UI_TAB", tb);
