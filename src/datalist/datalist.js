@@ -337,10 +337,10 @@
       };
       
       // some initialization code (for lists with existing item markup) Experimental!!!
-      children = listRoot.find("li:nth-child(n+1)");
-      if(children.count()) { // we have children
+      children = listRoot.children(); // listRoot.find("li:nth-child(n+1)");
+      if(children.length) { // we have children
          allItems = data = [];
-         children.forEach(function(li, i) {
+         forEach(children, function(li, i) {
             var $li = $(li);
             $li.data(UI_KEY, $li);
             $li.data(MODEL_KEY, $li);

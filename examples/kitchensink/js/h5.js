@@ -894,6 +894,21 @@
          });
          return this;
       },
+              
+      children: function(selector) {
+         var empty = [], ret, thisElem;
+         if(!this.elements.length) {
+            return empty;
+         }
+         if(!selector || getTypeOf(selector) === "String") {
+            thisElem = this.elements[0];
+            ret = $(selector || "*", thisElem);
+            return $.filter(ret.elements, function(el) {
+               return el.parentNode === thisElem;
+            });
+         }
+         return empty;
+      },
          
       /**
        * Gets or sets an attribute of the matched element(s). If <tt>value</tt> is specified, 

@@ -405,6 +405,9 @@ select.row {
   width: 0;
   border-right: 1px solid #d5d5d5;
 }
+.tabstrip > .tab:first-child:after {
+  display: none;
+}
 .tabstrip > .tab.selected {
   font-weight: bold;
   border-bottom: 5px solid #b84126;

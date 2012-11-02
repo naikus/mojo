@@ -250,14 +250,14 @@
                currInfo.ui.addClass("view-transitioning").addClass("out").removeClass("in");
                // if no transition support dispatch custom event
                if(!hasTransitionSupport) {
-                  currInfo.ui.dispatch("transitionend");
+                  currInfo.ui.dispatch("transitionend", {propertyName: "transform"});
                }
             }
             // transition in the new view
             nxtUi.addClass("view-transitioning").addClass("transition").addClass("in");
             // if no transition support dispatch custom event
             if(!hasTransitionSupport) {
-               nxtUi.dispatch("transitionend");
+               nxtUi.dispatch("transitionend", {propertyName: "transform"});
             }
          }, transitionDelay);
          viewStack.push(id);
@@ -1054,10 +1054,10 @@
       };
       
       // some initialization code (for lists with existing item markup) Experimental!!!
-      children = listRoot.find("li:nth-child(n+1)");
-      if(children.count()) { // we have children
+      children = listRoot.children(); // listRoot.find("li:nth-child(n+1)");
+      if(children.length) { // we have children
          allItems = data = [];
-         children.forEach(function(li, i) {
+         forEach(children, function(li, i) {
             var $li = $(li);
             $li.data(UI_KEY, $li);
             $li.data(MODEL_KEY, $li);
