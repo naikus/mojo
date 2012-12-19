@@ -1286,10 +1286,10 @@
          return widget;
     });
  })(h5);
- 
- 
- 
- 
+
+
+
+
 (function($)   {
    var defaults = {
       ontabchange: function() {},
