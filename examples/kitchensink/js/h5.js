@@ -1344,6 +1344,7 @@
             if(touch.identifier === state.id && 
                   !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
                   state.target === target) {
+               console.log("dispatching event: tap");
                $(target).dispatch("tap");
             }
             break;

@@ -93,6 +93,7 @@
             #viewPort {
                left: 0;
                width: 100%;
+               transition: left 200ms ease-in;
             }
             #viewPort.reveal {
                left: 85%;
@@ -182,6 +183,14 @@
                }
             });
             
+            $(".nav-trigger").on(TAP, function() {
+               if(viewPort.hasClass("reveal")) {
+                  viewPort.removeClass("reveal");
+               }else {
+                  viewPort.addClass("reveal");
+               }
+            });
+            
             // hide the URL bar when a view transitions in
             viewPort.on("viewtransitionin", function() {
                var doc = window.document, 
@@ -196,7 +205,7 @@
             
             kitchenSink.initialize({
                viewPort: "viewPort",
-               startView: "aboutView"
+               startView: "simpleListView"
             });
          });
       </script>
@@ -212,7 +221,6 @@
       </aside>
    
       <div class="viewport" id="viewPort">
-      
          <article id="aboutView" class="view">
             <style scoped>
                /*#aboutView {
@@ -277,7 +285,7 @@
                </div>
                <div id="swipeIndication">
                   <p class="help">
-                     <span class="icon-right"></span>
+                     <span class="nav-trigger icon-right"></span>
                      Swipe to your right from the left edge to reveal the menu.
                   </p>
                </div>
@@ -316,7 +324,7 @@
                });
             </script>
             <div class="content">
-               <h4 class="header">Simple List</h4>
+               <h4 class="header"><span class="nav-trigger icon-th-list"></span> Simple List</h4>
                <div id="simpleList"></div>
             </div>
          </article>
@@ -377,7 +385,7 @@
                });
             </script>
             <div class="content">
-               <h4 class="header">Rich List</h4>
+               <h4 class="header"><span class="nav-trigger icon-th-list"></span> Rich List</h4>
                <div id="richList"></div>
             </div>
          </article>
@@ -451,7 +459,7 @@
                });
             </script>
             <div class="content">
-               <h4 class="header">Card Panel</h4>
+               <h4 class="header"><span class="nav-trigger icon-th-list"></span> Card Panel</h4>
                <div id="cardPanel" class="card-panel">
                   <div class="card-wrapper">
                      <div class="card">
@@ -518,6 +526,7 @@
                });
             </script>
             <div class="content">
+               <h4 class="header"><span class="nav-trigger icon-th-list"></span> Tabs</h4>
                <ul id="tabStrip" class="tabstrip">
                   <li class="tab" data-ref="#tabOne"><span>Tab One</span></li>
                   <li class="tab" data-ref="#tabTwo"><span>Tab Two</span></li>
