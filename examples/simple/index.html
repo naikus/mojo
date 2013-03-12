@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Bootstrap</title>
+      <meta name="MobileOptimized" content="480">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      
+      <meta name="HandheldFriendly" content="True" />
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      
+      <script src ="js/h5.js"> </script>
+      <!--[if lt IE 9]> 
+      <script src ="js/event_ie.js"> </script>
+      <script src ="js/html5shiv.js"> </script>
+      <![endif]-->
+
+      <script src ="js/mojo.js"> </script>
+      
+      <!-- script type="application/javascript" src="../../src/app/application.js"></script -->
+      
+      <link rel="stylesheet" type="text/css" href="css/mojo.css" />
+      
+      <style type="text/css">
+         *{
+            font-family: Helvetica;
+         }
+         
+         #viewPort {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 115%;
+            background-color: #eee;
+         }
+         
+         .content {
+            padding: 5px;
+            padding-top: 10px;
+         }
+      </style>
+      
+      <script>
+         // set the default user action event (tap in touch enabled browsers or fallback to click
+         var TAP = ("ontouchstart" in document.documentElement) ? "tap" : "click", 
+         
+            // create an instance of the application, this can be done before ready. This has an added 
+            // advantage that views can be registered as they are parsed before the DOM is ready
+            application = $.Application();
+            
+         // initialize our application on ready   
+         $.ready(function() {
+            var vPort = $("#viewPort");
+            application.initialize({
+               viewPort: vPort // default is body
+            });
+            
+            // hide the URL bar when a view transitions in
+            $("#viewPort").on("viewtransitionin", function() {
+               var doc = window.document, 
+                  yOffset = window.pageYOffset || doc.compatMode === "CSS1Compat" && 
+                            doc.documentElement.scrollTop || doc.body.scrollTop || 0;               
+               setTimeout(function() {
+                  if(yOffset < 20) {
+                     window.scrollTo(0, 1);
+                  }
+               }, 30);
+            });
+         });
+      </script>
+   </head>
+   <body class="viewport" id="viewPort">
+         <!-- 
+            This is a sample view. Below is a recommended structure for views for mojo library. Each view MUST
+            have the CSS class 'view' and MUST have an id
+         -->
+         <article class="view" id="main">
+            <style scoped>
+               #main {}
+            </style>
+            <script>
+               application.addRoute("/view/main", {
+                  view: "#main",
+                  factory: function(app, viewUi) {
+                     // our view controller object, all methods are optional
+                     return {
+                        initialize: function() {
+                           $("#listButt").on(TAP, function() {
+                              app.route("/view/list/3");
+                           });
+                        },
+                        activate: function(data) {
+                        },
+                        deactivate: function() {}
+                     };
+                  }
+               });
+            </script>
+            <div class="content">
+               <a id="listButt" class="button col-one">Show Me A list</a>
+            </div>
+         </article>
+         
+         
+         
+
+         <article class="view" id="listView">
+            <style scoped>
+               #listView {}
+            </style>
+            <script>
+               application.addRoute("/view/list/:selected", {
+                  view: "#listView",
+                  factory: function(app, viewUi) {
+                     var dataList;
+
+                     return {
+                        initialize: function(params) {
+                           dataList = $("#dataList").datalist({
+                              data: ["Item One", "Item Two", "Item Three", "Item Four", "Item Five"],
+                              itemClass: "activable",
+                              selectedIndex: Number(params.selected) || 0
+                           });
+                           
+                           $("#dataList").on(TAP, function(evt) {
+                              var li = $(evt.target);
+                              app.back(li.data('model'));
+                           });
+                        },
+                        update: function(params) {
+                           dataList.selectItemAt(Number(params.selected) || 0);
+                        },
+                        activate: function(params) {
+                           this.update(params);
+                        },
+                        destroy: function() {
+
+                        }
+                     };
+                  }
+               });
+            </script>
+            <div class="content">
+               <section>
+                  <header id="listTitle">The List</header>
+                  <div id="dataList">
+                     
+                  </div>
+               </section>
+            </div>
+         </article>      
+   </body>
+</html>

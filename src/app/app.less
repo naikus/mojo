@@ -54,7 +54,7 @@ html, body, .viewport {
 }
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
-.view-transitioning {
+.view.transitioning {
    
 }
 
@@ -83,20 +83,20 @@ html, body, .viewport {
    display: block;
 }
 
-.view-transitioning {
+.view.transitioning {
 }
 
 .transition {
-   -moz-transition: -moz-transform 250ms ease;
-   -webkit-transition: -webkit-transform 250ms ease;
-   -o-transition: -o-transform 250ms ease;
-   -ms-transition: -ms-transform 250ms ease;
-   transition: transform 250ms ease;
+   -moz-transition: -moz-transform 250ms ease 50ms;
+   -webkit-transition: -webkit-transform 250ms ease 50ms;
+   -o-transition: -o-transform 250ms ease 50ms;
+   -ms-transition: -ms-transform 250ms ease 50ms;
+   transition: transform 250ms ease 50ms;
 }
 .view.in {
-   .translateNone;
+   .translateX(0);
 }
-.view.out {
+.view.stack, .view.out {
    .translateX(-100%);
 }
 .view.pop {

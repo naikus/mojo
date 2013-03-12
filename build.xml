@@ -15,7 +15,8 @@
           <echo>Lessjs: generated @{dest}</echo>
       </sequential>
   </macrodef>
-
+  
+  
   <target name="combine" depends="mkdist">
     <!-- Order is important here -->
     <concat destfile="dist/mojo.js">
@@ -24,7 +25,7 @@
         <!-- ========================== core files ============================= -->
         <file name="app/env.js"/>
         <file name="app/app.js"/>
-
+        
         <!-- ========================== optional widgets ======================= -->
         <file name="template/template.js"/>
         <file name="datalist/datalist.js"/>
@@ -33,7 +34,7 @@
         <file name="tabstrip/tabstrip.js"/>
       </filelist>
     </concat>
-
+    
     <concat destfile="dist/mojo.less">
       <fileset dir="." includes="LICENSE" />
       <filelist dir="${src.dir}">
@@ -48,6 +49,39 @@
         <file name="tabstrip/tabstrip.less"/>
       </filelist>
     </concat>
+  </target>
+
+  <target name="combine-new" depends="mkdist">
+    <!-- Order is important here -->
+    <concat destfile="dist/mojo.js">
+      <fileset dir="." includes="LICENSE" />
+      <filelist dir="${src.dir}">
+        <!-- ========================== core files ============================= -->
+        <file name="app/application.js"/>
+
+        <!-- ========================== optional widgets ======================= -->
+        <file name="template/template.js"/>
+        <file name="datalist/datalist.js"/>
+        <file name="form/form.js"/>
+        <!-- file name="cardpanel/cardpanel.js"/ -->
+        <file name="tabstrip/tabstrip.js"/>
+      </filelist>
+    </concat>
+
+    <concat destfile="dist/mojo.less">
+      <fileset dir="." includes="LICENSE" />
+      <filelist dir="${src.dir}">
+        <!-- ========================== core files ============================= -->
+        <file name="app/app.less"/>
+        <file name="app/base.less"/>
+        
+        <!-- ========================== optional widgets ======================== -->
+        <file name="datalist/datalist.less"/>
+        <file name="form/form.less"/>
+        <!-- file name="cardpanel/cardpanel.less"/ -->
+        <file name="tabstrip/tabstrip.less"/>
+      </filelist>
+    </concat>
   </target>  
 
   <target name="mkdist">
@@ -59,6 +93,11 @@
     <antcall target="minify" />    
   </target>
   
+  <target name="build-new" depends="clean,combine-new">
+    <lessc src="${dist.dir}/mojo.less" dest="${dist.dir}/mojo.css" />
+    <antcall target="minify" />    
+  </target>
+  
   <target name="update-apps" depends="build">
     <!-- applications -->
     <copy todir="examples/bootstrap-app/js" file="${dist.dir}/mojo.js" />
@@ -66,6 +105,12 @@
 
     <copy todir="examples/kitchensink/js" file="${dist.dir}/mojo.js" />
     <copy todir="examples/kitchensink/css" file="${dist.dir}/mojo.css" />
+  </target>
+  
+  <target name="update-apps-new" depends="build-new">
+    <!-- applications -->
+    <copy todir="examples/simple/js" file="${dist.dir}/mojo.js" />
+    <copy todir="examples/simple/css" file="${dist.dir}/mojo.css" />
   </target>
 
   <target name="minify" depends="mkdist">
