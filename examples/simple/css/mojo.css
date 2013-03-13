@@ -78,18 +78,21 @@ body,
   display: block;
 }
 .transition {
-  -moz-transition: -moz-transform 250ms ease;
-  -webkit-transition: -webkit-transform 250ms ease;
-  -o-transition: -o-transform 250ms ease;
-  -ms-transition: -ms-transform 250ms ease;
-  transition: transform 250ms ease;
+  -moz-transition: -moz-transform 250ms ease 50ms;
+  -webkit-transition: -webkit-transform 250ms ease 50ms;
+  -o-transition: -o-transform 250ms ease 50ms;
+  -ms-transition: -ms-transform 250ms ease 50ms;
+  transition: transform 250ms ease 50ms;
 }
 .view.in {
-  -moz-transform: none;
-  -webkit-transform: none;
-  -o-transform: none;
-  transform: none;
+  -moz-transform: translatex(0);
+  -webkit-transform: translatex(0);
+  /*-webkit-transform: translate3d(@x, 0, 0);*/
+
+  -o-transform: translatex(0);
+  transform: translatex(0);
 }
+.view.stack,
 .view.out {
   -moz-transform: translatex(-100%);
   -webkit-transform: translatex(-100%);
@@ -365,28 +368,6 @@ select.row {
 .list select {
   display: inline-block;
   width: 100%;
-}
-.card-panel {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-.card-panel > .card-wrapper {
-  -moz-transform: translatex(100%);
-  -webkit-transform: translatex(100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
-
-  -o-transform: translatex(100%);
-  transform: translatex(100%);
-  -moz-transition: -moz-transform 250ms ease;
-  -webkit-transition: -webkit-transform 250ms ease;
-  -o-transition: -o-transform 250ms ease;
-  -ms-transition: -ms-transform 250ms ease;
-  transition: transform 250ms ease;
-  -webkit-backface-visibility: hidden;
-}
-.card-panel .card {
-  background-color: #eeeeee;
 }
 .tabstrip {
   overflow: auto;

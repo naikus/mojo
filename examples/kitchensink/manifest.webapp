@@ -1,0 +1,12 @@
+{
+  "name": "Mojo Kitchensink",
+  "description": "Kitchensink app for mojo mobile app library",
+  "launch_path": "/index.html",
+  "icons": {
+  },
+  "developer": {
+    "name": "Aniket Naik",
+    "url": "http://naikus.github.com"
+  },
+  "default_locale": "en"
+}

@@ -1344,6 +1344,7 @@
             if(touch.identifier === state.id && 
                   !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
                   state.target === target) {
+               console.log("dispatching event: tap");
                $(target).dispatch("tap");
             }
             break;
@@ -1741,7 +1742,7 @@
     * @param {String} dType The data type of the data expected from server, e.g. xml,json,text 
     */
    $.post = function(url, data, success, dType) {
-      var opt = {url: url, data: data, success: success};
+      var opt = {url: url, method: "POST", data: data, success: success};
       if(dType) {
          opt.dataType = dType;
       }
