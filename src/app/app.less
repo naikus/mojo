@@ -1,12 +1,18 @@
 .translate(@x: 0, @y: 0) {
    -moz-transform: translate(@x, @y);
-   -webkit-transform: translate3d(@x, @y, 0);
+   /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+   /**-webkit-transform: translate3d(@x, @y, 0);*/
+   -webkit-transform: translate(@x, @y);
    -o-transform: translate(@x, @y);
    transform: translate(@x, @y);
 }
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
-   -webkit-transform: translate3d(@x, 0, 0);
+   -webkit-transform: translateX(@x);
+   /*-webkit-transform: translate3d(@x, 0, 0);*/
    -o-transform: translateX(@x);
    transform: translateX(@x);
 }
