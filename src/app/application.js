@@ -436,13 +436,14 @@
       
       // var oPath, nPath;
       function RouteHandler(e, path, params) {
-         if(!RouteHandler.isActive()) {
+         if(e && RouteHandler.ignoreNext) {
             console.log("Not active, ignoring hashchange");
+            RouteHandler.ignoreNext = false;
             return;
          }
          var route, currRoute, nPath = path || getPath();
          
-         console.log("Calling route handler: " + nPath);
+         console.log(e + ": Calling route handler: " + nPath);
 
          // console.log(e);
          // console.log("handleRoute: getting mathing route for: " + nPath);
@@ -466,14 +467,8 @@
             }
          }
       }
-      RouteHandler.isActive = function() {
-         return !this.inactive;
-      };
-      RouteHandler.activate = function() {
-         this.inactive = false;
-      };
-      RouteHandler.deactivate = function() {
-         this.inactive = true;
+      RouteHandler.ignoreNextHashChange = function() {
+         return this.ignoreNext = true;
       };
       
       $(window).on("hashchange", RouteHandler);
@@ -482,18 +477,16 @@
       application = {
          addRoute: addRoute,
 
-         route: function(path, params) {
-            RouteHandler.deactivate();
+         showView: function(path, params) {
+            RouteHandler.ignoreNextHashChange();
             window.location.hash = path;
             RouteHandler(null, path, params);
-            RouteHandler.activate();
          },
                  
-         back: function(result) {
-            RouteHandler.deactivate();
+         popView: function(result) {
+            RouteHandler.ignoreNextHashChange();
             window.history.back();
             RouteHandler(null, getPath(), result);
-            RouteHandler.activate();
          },
                  
          /**
@@ -543,7 +536,7 @@
 
          initialize: function(options) {
             viewPort = options.viewPort;
-            RouteHandler();
+            this.showView(options.startView || getPath());
          }
       };
       

@@ -52,7 +52,8 @@
          $.ready(function() {
             var vPort = $("#viewPort");
             application.initialize({
-               viewPort: vPort // default is body
+               viewPort: vPort, // default is body
+               startView: "/view/main"
             });
             
             // hide the URL bar when a view transitions in
@@ -86,7 +87,7 @@
                      return {
                         initialize: function() {
                            $("#listButt").on(TAP, function() {
-                              app.route("/view/list/3");
+                              app.showView("/view/list/3");
                            });
                         },
                         activate: function(data) {
@@ -124,7 +125,7 @@
                            
                            $("#dataList").on(TAP, function(evt) {
                               var li = $(evt.target);
-                              app.back(li.data('model'));
+                              app.popView(li.data('model'));
                            });
                         },
                         update: function(params) {
