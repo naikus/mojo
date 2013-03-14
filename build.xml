@@ -39,8 +39,9 @@
       <fileset dir="." includes="LICENSE" />
       <filelist dir="${src.dir}">
         <!-- ========================== core files ============================= -->
-        <file name="app/app.less"/>
-        <file name="app/base.less"/>
+         <file name="app/colors.less"/>
+         <file name="app/base.less"/>
+         <file name="app/app.less"/>
         
         <!-- ========================== optional widgets ======================== -->
         <file name="datalist/datalist.less"/>
@@ -72,8 +73,9 @@
       <fileset dir="." includes="LICENSE" />
       <filelist dir="${src.dir}">
         <!-- ========================== core files ============================= -->
-        <file name="app/app.less"/>
-        <file name="app/base.less"/>
+         <file name="app/colors.less"/>
+         <file name="app/base.less"/>
+         <file name="app/app.less"/>
         
         <!-- ========================== optional widgets ======================== -->
         <file name="datalist/datalist.less"/>

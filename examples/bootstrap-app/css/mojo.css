@@ -21,6 +21,160 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/*
+// Red theme
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Default selected background color
+@selected-bg-color: #B84126;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+
+// mint theme (green)
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #CEF263;
+@active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #99CC00;
+// Default selected text color
+@selected-text-color: #fff;
+
+
+// Android theme
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #434343;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #f1f1f1;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #333;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7E596;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F2D44D;
+// Default selected text color
+@selected-text-color: #222;
+*/
+.box,
+.inline-box {
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.inline-box {
+  display: inline-block;
+}
+.trigger {
+  cursor: pointer;
+}
+a.trigger {
+  color: #555555;
+}
+.trigger:active {
+  background-color: #93cff2;
+  color: #ffffff;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.clear {
+  clear: both;
+}
+.half {
+  width: 50%;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.tiny,
+.hint {
+  font-size: 10px;
+}
+section > header,
+.header {
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 12px;
+  border-bottom: 2px solid #7cc5ef;
+  color: #4fb1ea;
+}
+/* ----------------------------------------------- Form ----------------------------------------- */
+fieldset {
+  border: none;
+  background: transparent;
+}
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=date] {
+  display: inline-block;
+  border: none;
+  font-size: 15px;
+  -webkit-appearance: caret;
+}
+button,
+.button {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #8a8a8a;
+  color: #eeeeee;
+  padding: 10px 5px;
+  text-align: center;
+}
+button:active,
+.button:active {
+  -moz-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
+  -webkit-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
+  box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
+  background-color: #93cff2;
+}
+select {
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: statusbar;
+  border: none;
+}
+option {
+  padding: 5px;
+}
 .translateNone {
   -moz-transform: none;
   -webkit-transform: none;
@@ -43,6 +197,7 @@ body,
   min-height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #f0f0f0;
 }
 .viewport {
   position: absolute;
@@ -72,24 +227,28 @@ body,
 
   -o-transform: translatex(100%);
   transform: translatex(100%);
+  background-color: #f0f0f0;
 }
 .view.showing {
   z-index: 99;
   display: block;
 }
 .transition {
-  -moz-transition: -moz-transform 250ms ease;
-  -webkit-transition: -webkit-transform 250ms ease;
-  -o-transition: -o-transform 250ms ease;
-  -ms-transition: -ms-transform 250ms ease;
-  transition: transform 250ms ease;
+  -moz-transition: -moz-transform 250ms ease 50ms;
+  -webkit-transition: -webkit-transform 250ms ease 50ms;
+  -o-transition: -o-transform 250ms ease 50ms;
+  -ms-transition: -ms-transform 250ms ease 50ms;
+  transition: transform 250ms ease 50ms;
 }
 .view.in {
-  -moz-transform: none;
-  -webkit-transform: none;
-  -o-transform: none;
-  transform: none;
+  -moz-transform: translatex(0);
+  -webkit-transform: translatex(0);
+  /*-webkit-transform: translate3d(@x, 0, 0);*/
+
+  -o-transform: translatex(0);
+  transform: translatex(0);
 }
+.view.stack,
 .view.out {
   -moz-transform: translatex(-100%);
   -webkit-transform: translatex(-100%);
@@ -179,154 +338,6 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   -o-transform: translatey(100%);
   transform: translatey(100%);
 }
-/*
-// mint theme (green)
-@base-color: #f0f0f0;
-// Background color for viewport views and other boxes
-@bg-color: #eee;
-// Background color for overlays, inlays etc.
-@alt-bg-color: #2c2c2c;
-// Text color to complement the background color
-@text-color: #303030;
-// Text color to complement alternate background color
-@alt-text-color: #f4f4f4;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #CEF263;
-@active-text-color: #303030;
-// Default selected background color
-@selected-bg-color: #99CC00;
-// Default selected text color
-@selected-text-color: #fff;
-
-
-// Android theme
-@base-color: #333;
-// Background color for viewport views and other boxes
-@bg-color: #434343;
-// Background color for overlays, inlays etc.
-@alt-bg-color: #f1f1f1;
-// Text color to complement the background color
-@text-color: #f4f4f4;
-// Text color to complement alternate background color
-@alt-text-color: #333;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #F7E596;
-@active-text-color: #222;
-// Default selected background color
-@selected-bg-color: #F2D44D;
-// Default selected text color
-@selected-text-color: #222;
-
-*/
-html,
-body {
-  background-color: #f4f4f4;
-}
-.left {
-  float: left;
-}
-.right {
-  float: right;
-}
-.block {
-  display: block;
-}
-.inline-block {
-  display: inline-block;
-}
-.center {
-  text-align: center;
-}
-.row {
-  min-height: 24px;
-  padding: 9px 5px;
-  border: 1px solid transparent;
-  border-bottom: 1px solid #e1e1e1;
-  overflow: auto;
-  color: #303030;
-}
-.view {
-  background-color: #eeeeee;
-  color: #303030;
-}
-.overlay {
-  background-color: #2c2c2c;
-  color: #f4f4f4;
-  border-top: #464646;
-}
-section {
-  /** background-color: @base-color;*/
-
-}
-section,
-header {
-  display: block;
-}
-section > header,
-.header {
-  color: #303030;
-  font-weight: bold;
-  margin: 0;
-  margin-bottom: 5px;
-  padding: 12px;
-  border-bottom: 2px solid #b84126;
-  color: #b84126;
-}
-/* ----------------------------------------------- Form ----------------------------------------- */
-fieldset {
-  border: none;
-  background: transparent;
-}
-input[type=text],
-input[type=password],
-input[type=number],
-input[type=email],
-input[type=url],
-input[type=date] {
-  display: inline-block;
-  border: none;
-  font-size: 15px;
-  -webkit-appearance: caret;
-  width: 100%;
-}
-button,
-.button {
-  display: inline-block;
-  border: none;
-  background-color: #bbbbbb;
-  font-size: 14px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 3px 0 0 0;
-  -webkit-border-radius: 3px 0 0 0;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  text-align: center;
-}
-button:active,
-.button:active {
-  -moz-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  -webkit-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  background-color: #d6573b;
-}
-.trigger:active {
-  background-color: #d6573b;
-}
-select {
-  background: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: statusbar;
-  border: none;
-}
-option {
-  padding: 5px;
-}
-.row select,
-select.row {
-  display: inline-block;
-  width: 100%;
-}
 .list,
 .rich-list {
   overflow: auto;
@@ -339,9 +350,8 @@ select.row {
   min-height: 24px;
   padding: 9px 5px;
   border: 1px solid transparent;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e3e3e3;
   overflow: auto;
-  color: #303030;
 }
 .rich-list > li {
   padding: 5px;
@@ -358,13 +368,19 @@ select.row {
   font-size: 0.8em;
 }
 .list > li.selected {
-  background-color: #b84126;
-  border-color: #8e321d;
-  color: #f0f0f0;
+  background-color: #7cc5ef;
+  border-color: #4fb1ea;
+  color: #ffffff;
 }
 .list select {
   display: inline-block;
   width: 100%;
+}
+.field-group {
+  padding: 5px 20px 5px 5px;
+}
+.field-group.first {
+  clear: left;
 }
 .card-panel {
   position: relative;
@@ -386,15 +402,15 @@ select.row {
   -webkit-backface-visibility: hidden;
 }
 .card-panel .card {
-  background-color: #eeeeee;
+  background-color: #f0f0f0;
 }
 .tabstrip {
   overflow: auto;
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #eeeeee;
-  border-bottom: 2px solid #b84126;
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #7cc5ef;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -411,14 +427,14 @@ select.row {
   top: 15%;
   left: 0;
   width: 0;
-  border-right: 1px solid #d5d5d5;
+  border-right: 1px solid #d7d7d7;
 }
 .tabstrip > .tab:first-child:after {
   display: none;
 }
 .tabstrip > .tab.selected {
   font-weight: bold;
-  border-bottom: 5px solid #b84126;
+  border-bottom: 5px solid #7cc5ef;
 }
 .tabstrip > .tab span {
   margin-top: 10px;

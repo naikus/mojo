@@ -23,7 +23,7 @@
  */
  
  
-                                                         "use strict";
+"use strict";
 (function($) {
    var div = document.createElement("div"),
       style = div.style,
@@ -602,6 +602,9 @@
    };
     
 })(h5);
+
+
+
 /**
  * A simple templating mechanism for creating string templates. A template has replacement tokens
  * that are of the format '{' followed by anystring followed by '}'. 
