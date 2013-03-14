@@ -77,6 +77,73 @@
 // Default selected text color
 @selected-text-color: #222;
 */
+body {
+  color: #555555;
+  font-size: 1.1em;
+}
+section > header,
+.header {
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 12px;
+  border-bottom: 2px solid #7cc5ef;
+  color: #4fb1ea;
+}
+/* ----------------------------------------------- Form ----------------------------------------- */
+label {
+  padding: 10px;
+  padding-left: 0;
+}
+fieldset {
+  border: none;
+  background: transparent;
+}
+textarea {
+  resize: vertical;
+  min-height: 90px;
+  padding: 5px;
+}
+.field,
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=date] {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 10px 5px;
+  border: 1px solid #d7d7d7;
+  -webkit-appearance: caret;
+}
+button,
+.button {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #3e3e3e;
+  color: #eeeeee;
+  border: 1px solid #242424;
+  padding: 10px;
+  text-align: center;
+}
+button:active,
+.button:active {
+  background-color: #93cff2;
+}
+select {
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: statusbar;
+  border: none;
+}
+option {
+  padding: 5px;
+}
 .box,
 .inline-box {
   display: block;
@@ -89,9 +156,6 @@
 }
 .trigger {
   cursor: pointer;
-}
-a.trigger {
-  color: #555555;
 }
 .trigger:active {
   background-color: #93cff2;
@@ -118,62 +182,6 @@ a.trigger {
 .tiny,
 .hint {
   font-size: 10px;
-}
-section > header,
-.header {
-  font-weight: bold;
-  margin: 0;
-  margin-bottom: 5px;
-  padding: 12px;
-  border-bottom: 2px solid #7cc5ef;
-  color: #4fb1ea;
-}
-/* ----------------------------------------------- Form ----------------------------------------- */
-fieldset {
-  border: none;
-  background: transparent;
-}
-textarea {
-  resize: vertical;
-  min-height: 90px;
-}
-input[type=text],
-input[type=password],
-input[type=number],
-input[type=email],
-input[type=url],
-input[type=date] {
-  display: inline-block;
-  border: none;
-  font-size: 15px;
-  -webkit-appearance: caret;
-}
-button,
-.button {
-  display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background-color: #8a8a8a;
-  color: #eeeeee;
-  padding: 10px 5px;
-  text-align: center;
-}
-button:active,
-.button:active {
-  -moz-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  -webkit-box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  box-shadow: 0px 0px 2px #006e8c 0 1px #000000;
-  background-color: #93cff2;
-}
-select {
-  background: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: statusbar;
-  border: none;
-}
-option {
-  padding: 5px;
 }
 .translateNone {
   -moz-transform: none;
@@ -377,7 +385,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   width: 100%;
 }
 .field-group {
-  padding: 5px 20px 5px 5px;
+  padding: 5px;
 }
 .field-group.first {
   clear: left;

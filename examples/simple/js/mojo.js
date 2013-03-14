@@ -482,6 +482,10 @@
 
       function handleViewTransitionEnd(evt) {
          var target = evt.target, ui = $(target), route = getRouteByPath(ui.data("path"));
+         
+         if(!route || evt.propertyName.indexOf("transform") === -1) {
+            return; // not a view or not a transform transition on this view.
+         }
 
          ui.removeClass("transitioning");
 
