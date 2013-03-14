@@ -21,7 +21,7 @@
       <link rel="stylesheet" type="text/css" href="css/mojo.css" />
       
       <style type="text/css">
-         *{
+         html, body {
             font-family: Helvetica;
          }
          
@@ -30,7 +30,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            min-height: 115%;
+            min-height: 100%;
             background-color: #eee;
          }
          
@@ -70,7 +70,7 @@
          });
       </script>
    </head>
-   <body class="viewport" id="viewPort">
+   <body class="viewport box" id="viewPort">
          <!-- 
             This is a sample view. Below is a recommended structure for views for mojo library. Each view MUST
             have the CSS class 'view' and MUST have an id
@@ -89,6 +89,10 @@
                            $("#listButt").on(TAP, function() {
                               app.showView("/view/list/3");
                            });
+                       
+                           $("#countryButt").on(TAP, function() {
+                              app.loadView("views/countries.html", "/countries", {});
+                           });
                         },
                         activate: function(data) {
                         },
@@ -98,7 +102,8 @@
                });
             </script>
             <div class="content">
-               <a id="listButt" class="button col-one">Show Me A list</a>
+               <a id="listButt" class="button col-two">Simple List</a>
+               <a id="countryButt" class="button col-two">Country List</a>
             </div>
          </article>
          

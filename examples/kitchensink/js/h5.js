@@ -1344,7 +1344,6 @@
             if(touch.identifier === state.id && 
                   !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
                   state.target === target) {
-               console.log("dispatching event: tap");
                $(target).dispatch("tap");
             }
             break;
@@ -1639,12 +1638,13 @@
          var state = req.readyState, code, err, data, handler;
          if(state === 4) {
             code = req.status;
-            if((code >= 200 && code < 300) || code === 0) {
+            if((code >= 200 && code < 400) || code === 0) {
                dispatch("ajaxsuccess", url);
                handler = handlers[dType] || handlers.text;
                try {
                   data = handler(req);
                }catch(error) {
+                  console.log("Error parsing ajax response: " + error);
                   err = error;
                }
                if(err) {

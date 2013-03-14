@@ -23,7 +23,7 @@
  */
  
  
-"use strict";
+                                                         "use strict";
 (function($) {
    var div = document.createElement("div"),
       style = div.style,
@@ -201,14 +201,12 @@
 (function($) {
    var Env = $.Env,
       hasTransition = !!(Env.property("transition")),
-      transitionEndEvent = Env.property("transitionend"),
+      transitionEndEvent = Env.property("transitionend") || "transitionend",
       hasHashchange = Env.property("hashchange");
       
    $.Application = function() {
       var noop = function() {},
       controllerMethods = ["initialize", "activate", "update", "deactivate", "destroy"],
-      
-      win = $(window),
       
       routes = [],
       stack = [],
@@ -243,8 +241,6 @@
        * @returns {undefined}
        */
       function addRoute(path, routeOpts) {
-         console.log("Adding route: " + path);
-         
          var route = $.extend({}, routeOpts);
          route.routeTemplate = $.UriTemplate(path);
          route.path = path;
@@ -303,23 +299,20 @@
          ensureLifecycle(route.controller);
       }
 
-      function pushView(path, route, params) {
-         var route = getMatchingRoute(path), params, controller, ui;
+      function pushView(path, data) {
+         var controller, ui, route = getMatchingRoute(path), params;
          if(!route) {
             console.log("Unrecognized route: " + path);
             return;
          }
          
-         // console.log("Pushing view: " + route.path);
-
          params = route.routeTemplate.match(path);
          ui = route.ui; 
          controller = route.controller;
-
+         
          // see if this view is initialized (one time only)
          if(route.view && !route.ui) {
-            // initialize the route crating any controllers by calling factories and calling controller's
-            // initialize method
+            // initialize the route crating any controllers by calling factories and initializing controllers
             initializeRoute(route);
 
             // init the controller
@@ -327,9 +320,14 @@
             controller = route.controller;
 
             ui.addClass("showing");
-            controller.initialize(params);
+            controller.initialize(params, data);
          }
-
+         
+         // see if this is an update
+         var currRoute = stack.length ? stack[stack.length - 1] : null;
+         
+         // set this path as route's current path
+         route.realPath = path;
 
          // check if this view was earlier stacked because some other view was shown over it.
          if(ui.hasClass("stack")) {
@@ -338,9 +336,7 @@
 
          // activate the controller
          ui.addClass("showing");
-         controller.activate(params);
-         
-         var currRoute = stack.length ? stack[stack.length - 1] : null;
+         controller.activate(params, data);
          
          setTimeout(function() {
             // transitiion the current view out
@@ -358,24 +354,26 @@
          stack.push(route);
       }
 
-      function popView(path, route, params) {
-         var len = stack.length;
+      function popView(data) {
+         var route, currRoute, path, ui, params;
 
          // no routes on stack
-         if(len <= 1) {
+         if(stack.length <= 1) {
             console.log("Can't pop view, last in stack.");
             return;
          }
 
-         var currRoute = stack.pop(), ui;
+         currRoute = stack.pop();
+         route = stack[stack.length - 1];
+         path = route.realPath;
             
-         params = params || route.routeTemplate.match(path);
+         params = route.routeTemplate.match(path);
          ui = route.ui;
          // if its in the history and not stacked, stack it first
          if(!ui.hasClass("stack") && !ui.hasClass("transition")) {
             ui.addClass("stack").addClass("transition");
          }
-         route.controller.activate(params);
+         route.controller.activate(params, data);
          ui.addClass("showing");
 
          setTimeout(function() {
@@ -384,7 +382,67 @@
             unstackViewUi(route.ui);
          }, 100);
       }
-
+        
+        
+      /**
+       * Loads a remote view (in a different file) inside the view port and calls the specified
+       * callback after the view is loaded
+       * Experimental!!!
+       * @param {String} templateUrl The url of the html template that will reigster new routes (one or more)
+       * @param {Function} callback The callback function to call if the view loads successfully
+       */
+      function loader(templateUrl, callback) {
+         var cache = loader.templateCache = loader.templateCache || {};
+          
+         if(cache[templateUrl]) {
+             console.log("Template already loaded: " + templateUrl);
+             callback(templateUrl);
+             return;
+         }
+      
+         $.xhr({
+            url: templateUrl, 
+            method: "GET", 
+            dataType: "html", 
+            success: function(content) {
+               cache[templateUrl] = true;
+               
+               var div = $(document.createElement("div")),
+                       html = $(content),
+                       scripts = html.find("script"), 
+                       exeScripts = [], code = [], finalScript;
+      
+               scripts.forEach(function(script) {
+                  var scr = $(script), type = scr.attr("type");
+                  if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
+                     html.remove(script);
+                     exeScripts[exeScripts.length] = script;
+                  }
+               });
+      
+               div.addClass("remote");
+               div.attr("data-id", templateUrl);
+               div.append(html);
+      
+               viewPort.append(div);
+      
+               for(var i = 0, len = exeScripts.length; i < len; i++) {
+                   code[code.length] = exeScripts[i].textContent;
+               }
+      
+      
+               finalScript = document.createElement("script");
+               finalScript.textContent = code.join('\n');
+      
+               div.append(finalScript);
+      
+               if(callback) {
+                  callback(templateUrl);
+               }
+            }
+         });
+      }
+      
 
       // UI Transitioning CSS class changes -------------------------------------------------------------
 
@@ -462,35 +520,34 @@
 
       
       // var oPath, nPath;
-      function RouteHandler(e, path, params) {
+      function RouteHandler(e) {
          if(e && RouteHandler.ignoreNext) {
-            console.log("Not active, ignoring hashchange");
+            console.log("RouteHandler: Ignoring hashchange this time");
             RouteHandler.ignoreNext = false;
             return;
          }
-         var route, currRoute, nPath = path || getPath();
-         
-         console.log(e + ": Calling route handler: " + nPath);
+     
+         var nPath = getPath(), route = getMatchingRoute(nPath), currRoute, params;
 
-         // console.log(e);
-         // console.log("handleRoute: getting mathing route for: " + nPath);
-         route = getMatchingRoute(nPath);
-         
+         console.log("Calling route handler: " + nPath);
          if(!route) {
             console.log("No matching route, doing nothing");
             return;
          }
          currRoute = stack[stack.length - 1];
+         params = route.routeTemplate.match(nPath);
 
          // same route handler probably params are different, so update
          if(currRoute === route) {
-            route.controller.update(route.routeTemplate.match(nPath));
+             if(currRoute.realPath !== nPath) {
+                 route.controller.update(params);
+             }
          }else {
             // either front or back or hyperlink is clicked
             if(route === stack[stack.length - 2]) {
-               popView(nPath, route, params);
+               popView(params);
             }else {
-               pushView(nPath, route, params);
+               pushView(nPath, params);
             }
          }
       }
@@ -498,65 +555,39 @@
          return this.ignoreNext = true;
       };
       
-      win.on("hashchange", RouteHandler);
+      $(window).on("hashchange", RouteHandler);
 
       // ---------------------------- Application API --------------------------
       application = {
          addRoute: addRoute,
 
-         showView: function(path, params) {
+         showView: function(path, data) {
             RouteHandler.ignoreNextHashChange();
             window.location.hash = path;
-            RouteHandler(null, path, params);
+            pushView(path, data);
          },
                  
          popView: function(result) {
-            RouteHandler.ignoreNextHashChange();
-            window.history.back();
-            RouteHandler(null, getPath(), result);
+            var len = stack.length;
+            if(len >= 2) {
+                var route = stack[len - 2];
+                RouteHandler.ignoreNextHashChange();
+                window.location.hash = route.realPath;
+                popView(null, getPath(), result);
+            }
          },
                  
-         /**
-          * Loads a remote view (in a different file) inside the view port and calls the specified
-          * callback after the view is loaded
-          * Experimental!!!
-          * @param {String} templateUrl The url of the html template that will reigster new routes (one or more)
-          * @param {Function} callback The callback function to call if the view loads successfully
-          */
-         load: function(templateUrl, callback) {
-            $.xhr({
-               url: templateUrl, 
-               method: "GET", 
-               dataType: "text", 
-               success: function(content) {
-                  var html = $(content), scripts = html.find("script"), 
-                          exeScripts = [], code = [], finalScript;
-                  scripts.forEach(function(script) {
-                     var scr = $(script), type = scr.attr("type");
-                     if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
-                        html.remove(script);
-                        exeScripts[exeScripts.length] = script;
-                     }
-                  });
-                  
-                  
-                  viewPort.append(html);
-                  
-                  forEach(exeScripts, function(script) {
-                     code[code.length] = script.textContent;
-                  });
-                  
-                  finalScript = document.createElement("script");
-                  finalScript.textContent = code.join('\n');
-                  html.append(finalScript);
-                  
-                  if(callback) {
-                     callback(templateUrl);
-                  }
-               }
-            });
+         loadView: function(viewTemplateUrl, path, data) {
+            var route = getMatchingRoute(path), app = this;
+            if(!route) {
+                loader(viewTemplateUrl, function() {
+                    app.showView(path, data);
+                });
+            }else {
+                this.showView(path, data);
+            }
          },
-
+                 
          getViewPort: function() {
             return viewPort;
          },

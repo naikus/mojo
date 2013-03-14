@@ -27,7 +27,7 @@
          // default application options, overriden in opts
          defaults = {
             startView: "main",
-            transitionDelay: 40
+            transitionDelay: 100
          },
          options, 
          // all the views are stored here keyed by view ids
