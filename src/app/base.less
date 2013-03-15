@@ -53,6 +53,7 @@ textarea {
    padding:10px 5px;
    border: 1px solid darken(@bg-color, 10%);
    /*-webkit-appearance: caret;*/
+   width: 100%;
 }
 
 input[type=range] {
@@ -72,10 +73,12 @@ input[type=button], button, .button {
    text-align: center;
    -webkit-box-shadow: 0 0 3px darken(@bg-color, 90%);
    box-shadow: 0 0 3px darken(@bg-color, 90%);
+   
+   width: 100%;
 }
 button:active, .button:active, .button.active, button.active {
    background-color: @active-bg-color;
-   border: 1px solid darken(@active-bg-color, 25%);
+   border: 1px solid darken(@active-bg-color, 15%);
    -webkit-box-shadow: 0 0 3px darken(@active-bg-color, 35%);
    box-shadow: 0 0 3px darken(@active-bg-color, 35%);
 }
@@ -90,7 +93,7 @@ option {
 }
 
 
-
+/* -------------------------------------- Other ------------------------------------------------ */
 
 .box, .inline-box {
     display: block;
@@ -106,19 +109,13 @@ option {
 }
 .activable:active, .activable.active {
    background-color: @active-bg-color;
-   color: @active-text-color;
 }
 .left {float: left;}
 .right {float: right;}
 .clear {clear: both;}
 .half {width: 50%;}
+.hidden {display: none;}
 .text-center {text-align: center;}
 .text-right {text-align: right;}
-.tiny, .hint {font-size: 10px;}
-
-
-@media only screen and (min-width: 320px) and (max-width: 600px) {
-   input, button, textarea, select, .button, .field {
-      width: 100%;
-   }
-}
+.tiny, .hint {font-size: 0.85em;}
+.pad {padding: 10px;}

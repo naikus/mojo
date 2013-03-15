@@ -78,7 +78,7 @@
 @selected-text-color: #222;
 */
 body {
-  color: #555555;
+  color: #666666;
   font-size: 1.1em;
 }
 section > header,
@@ -87,8 +87,8 @@ section > header,
   margin: 0;
   margin-bottom: 5px;
   padding: 12px;
-  border-bottom: 2px solid #7cc5ef;
-  color: #4fb1ea;
+  border-bottom: 2px solid #3395c2;
+  color: #28769a;
 }
 /* ----------------------------------------------- Form ----------------------------------------- */
 label {
@@ -115,6 +115,7 @@ select {
   border: 1px solid #d7d7d7;
   /*-webkit-appearance: caret;*/
 
+  width: 100%;
 }
 input[type=button],
 button,
@@ -130,13 +131,14 @@ button,
   text-align: center;
   -webkit-box-shadow: 0 0 3px #0a0a0a;
   box-shadow: 0 0 3px #0a0a0a;
+  width: 100%;
 }
 button:active,
 .button:active,
 .button.active,
 button.active {
   background-color: #93cff2;
-  border: 1px solid #219ce4;
+  border: 1px solid #4fb1ea;
   -webkit-box-shadow: 0 0 3px #177fbc;
   box-shadow: 0 0 3px #177fbc;
 }
@@ -149,6 +151,7 @@ select {
 option {
   padding: 5px;
 }
+/* -------------------------------------- Other ------------------------------------------------ */
 .box,
 .inline-box {
   display: block;
@@ -165,7 +168,6 @@ option {
 .activable:active,
 .activable.active {
   background-color: #93cff2;
-  color: #ffffff;
 }
 .left {
   float: left;
@@ -179,6 +181,9 @@ option {
 .half {
   width: 50%;
 }
+.hidden {
+  display: none;
+}
 .text-center {
   text-align: center;
 }
@@ -187,17 +192,10 @@ option {
 }
 .tiny,
 .hint {
-  font-size: 10px;
+  font-size: 0.85em;
 }
-@media only screen and (min-width: 320px) and (max-width: 600px) {
-  input,
-  button,
-  textarea,
-  select,
-  .button,
-  .field {
-    width: 100%;
-  }
+.pad {
+  padding: 10px;
 }
 .translateNone {
   -moz-transform: none;
@@ -371,10 +369,9 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 .list > li,
 .rich-list > li {
   list-style-type: none;
-  min-height: 24px;
-  padding: 9px 5px;
+  padding: 15px 10px;
   border: 1px solid transparent;
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid #ebebeb;
   overflow: auto;
 }
 .rich-list > li {
@@ -392,8 +389,8 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   font-size: 0.8em;
 }
 .list > li.selected {
-  background-color: #7cc5ef;
-  border-color: #4fb1ea;
+  background-color: #3395c2;
+  border-color: #308cb6;
   color: #ffffff;
 }
 .list select {
@@ -406,7 +403,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   padding: 0;
   width: 100%;
   background-color: #f0f0f0;
-  border-bottom: 2px solid #7cc5ef;
+  border-bottom: 2px solid #3395c2;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -430,7 +427,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 .tabstrip > .tab.selected {
   font-weight: bold;
-  border-bottom: 5px solid #7cc5ef;
+  border-bottom: 5px solid #3395c2;
 }
 .tabstrip > .tab span {
   margin-top: 10px;
