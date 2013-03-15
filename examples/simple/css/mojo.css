@@ -105,20 +105,18 @@ textarea {
   padding: 5px;
 }
 .field,
-input[type=text],
-input[type=password],
-input[type=number],
-input[type=email],
-input[type=url],
-input[type=date] {
+input,
+select {
   display: inline-block;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   padding: 10px 5px;
   border: 1px solid #d7d7d7;
-  -webkit-appearance: caret;
+  /*-webkit-appearance: caret;*/
+
 }
+input[type=button],
 button,
 .button {
   display: inline-block;
@@ -130,10 +128,17 @@ button,
   border: 1px solid #242424;
   padding: 10px;
   text-align: center;
+  -webkit-box-shadow: 0 0 3px #0a0a0a;
+  box-shadow: 0 0 3px #0a0a0a;
 }
 button:active,
-.button:active {
+.button:active,
+.button.active,
+button.active {
   background-color: #93cff2;
+  border: 1px solid #219ce4;
+  -webkit-box-shadow: 0 0 3px #177fbc;
+  box-shadow: 0 0 3px #177fbc;
 }
 select {
   background: transparent;
@@ -154,10 +159,11 @@ option {
 .inline-box {
   display: inline-block;
 }
-.trigger {
+.activable {
   cursor: pointer;
 }
-.trigger:active {
+.activable:active,
+.activable.active {
   background-color: #93cff2;
   color: #ffffff;
 }
@@ -182,6 +188,16 @@ option {
 .tiny,
 .hint {
   font-size: 10px;
+}
+@media only screen and (min-width: 320px) and (max-width: 600px) {
+  input,
+  button,
+  textarea,
+  select,
+  .button,
+  .field {
+    width: 100%;
+  }
 }
 .translateNone {
   -moz-transform: none;
@@ -383,12 +399,6 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 .list select {
   display: inline-block;
   width: 100%;
-}
-.field-group {
-  padding: 5px;
-}
-.field-group.first {
-  clear: left;
 }
 .tabstrip {
   overflow: auto;
