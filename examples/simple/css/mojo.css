@@ -128,9 +128,10 @@ button,
   margin: 2px 0;
   background-color: #2e85ae;
   color: #eeeeee;
-  border: 1px solid #236685;
+  border: 1px solid #56abd2;
   padding: 10px;
   text-align: center;
+  border-radius: 2px;
   /*
    -webkit-box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
    box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
@@ -383,7 +384,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   list-style-type: none;
   padding: 15px 10px;
   border: 1px solid transparent;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e6e6e6;
   overflow: auto;
 }
 .rich-list > li {
