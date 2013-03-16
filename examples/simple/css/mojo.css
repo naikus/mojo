@@ -116,6 +116,7 @@ select {
   /*-webkit-appearance: caret;*/
 
   width: 100%;
+  margin: 2px 0;
 }
 input[type=button],
 button,
@@ -124,13 +125,14 @@ button,
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #3e3e3e;
+  margin: 2px 0;
+  background-color: #2e85ae;
   color: #eeeeee;
-  border: 1px solid #242424;
+  border: 1px solid #236685;
   padding: 10px;
   text-align: center;
-  -webkit-box-shadow: 0 0 3px #0a0a0a;
-  box-shadow: 0 0 3px #0a0a0a;
+  -webkit-box-shadow: 0 0 3px #28769a;
+  box-shadow: 0 0 3px #28769a;
   width: 100%;
 }
 button:active,
