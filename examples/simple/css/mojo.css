@@ -131,8 +131,11 @@ button,
   border: 1px solid #236685;
   padding: 10px;
   text-align: center;
-  -webkit-box-shadow: 0 0 3px #28769a;
-  box-shadow: 0 0 3px #28769a;
+  /*
+   -webkit-box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
+   box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
+   */
+
   width: 100%;
 }
 button:active,
@@ -140,9 +143,12 @@ button:active,
 .button.active,
 button.active {
   background-color: #93cff2;
-  border: 1px solid #4fb1ea;
-  -webkit-box-shadow: 0 0 3px #177fbc;
-  box-shadow: 0 0 3px #177fbc;
+  border: 1px solid #73c1ee;
+  /*
+   -webkit-box-shadow: 0 0 3px darken(@active-bg-color, 35%);
+   box-shadow: 0 0 3px darken(@active-bg-color, 35%);
+   */
+
 }
 select {
   background: transparent;
@@ -198,6 +204,10 @@ option {
 }
 .pad {
   padding: 10px;
+}
+.selected {
+  background-color: #373737;
+  color: #eeeeee;
 }
 .translateNone {
   -moz-transform: none;

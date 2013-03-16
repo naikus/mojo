@@ -74,16 +74,20 @@ input[type=button], button, .button {
    border: 1px solid darken(@selected-bg-color, 15%);
    padding: 10px;
    text-align: center;
+   /*
    -webkit-box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
    box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
+   */
    
    width: 100%;
 }
 button:active, .button:active, .button.active, button.active {
    background-color: @active-bg-color;
-   border: 1px solid darken(@active-bg-color, 15%);
+   border: 1px solid darken(@active-bg-color, 7%);
+   /*
    -webkit-box-shadow: 0 0 3px darken(@active-bg-color, 35%);
    box-shadow: 0 0 3px darken(@active-bg-color, 35%);
+   */
 }
 select {
    background: transparent;
@@ -122,3 +126,7 @@ option {
 .text-right {text-align: right;}
 .tiny, .hint {font-size: 0.85em;}
 .pad {padding: 10px;}
+.selected {
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+}
