@@ -573,7 +573,12 @@
 
          initialize: function(options) {
             viewPort = options.viewPort;
-            this.showView(options.startView || getPath());
+            
+            var path;
+            if(options.loadFromPath !== false) {
+               path = getPath();
+            }
+            this.showView(path || options.startView);
          }
       };
       

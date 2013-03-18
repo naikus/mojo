@@ -217,7 +217,12 @@ option {
   -o-transform: none;
   transform: none;
 }
-* {
+html,
+body,
+a,
+img,
+input,
+button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
 }
@@ -270,11 +275,11 @@ body,
   display: block;
 }
 .transition {
-  -moz-transition: -moz-transform 250ms ease 50ms;
-  -webkit-transition: -webkit-transform 250ms ease 50ms;
-  -o-transition: -o-transform 250ms ease 50ms;
-  -ms-transition: -ms-transform 250ms ease 50ms;
-  transition: transform 250ms ease 50ms;
+  -moz-transition: -moz-transform 250ms ease;
+  -webkit-transition: -webkit-transform 250ms ease;
+  -o-transition: -o-transform 250ms ease;
+  -ms-transition: -ms-transform 250ms ease;
+  transition: transform 250ms ease;
 }
 .view.in {
   -moz-transform: translatex(0);
