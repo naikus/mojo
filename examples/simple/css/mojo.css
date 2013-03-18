@@ -398,7 +398,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   overflow: auto;
 }
 .rich-list > li {
-  padding: 5px;
+  padding: 10px;
 }
 .rich-list .label,
 .list .label,
@@ -406,6 +406,10 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 .list .desc {
   margin: 0;
   padding: 0 5px;
+}
+.rich-list .label {
+  font-weight: bold;
+  font-size: 0.9em;
 }
 .rich-list .desc,
 .list .desc {

@@ -19,6 +19,7 @@
    var defaults = {
       listClass: "list",
       itemClass: "list-item",
+      selectable: true,
       data: [],
       selectedIndex: -1,
       template: null,
@@ -212,14 +213,15 @@
          });
       }
       
-      listRoot.on(action, function(e) {
-         var item = getItemFromEvent(e);
-         item = $(item).data(UI_KEY);
-         if(item) {
-            fireSelectionChanged(item);
-         }
-      });
-      
+      if(opts.selectable) {
+         listRoot.on(action, function(e) {
+            var item = getItemFromEvent(e);
+            item = $(item).data(UI_KEY);
+            if(item) {
+               fireSelectionChanged(item);
+            }
+         });
+      }
       /*
       listRoot.on("touchstart", function(e) {
           var item = getItemFromEvent(e);
@@ -284,6 +286,8 @@
          getItems: function() {
             return data.slice(0);
          },
+                 
+         getItemFromEvent: getItemFromEvent,
 
          getSelectedItem: function() {
             return selectedItem;

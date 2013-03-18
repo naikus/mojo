@@ -762,6 +762,7 @@
    var defaults = {
       listClass: "list",
       itemClass: "list-item",
+      selectable: true,
       data: [],
       selectedIndex: -1,
       template: null,
@@ -955,14 +956,15 @@
          });
       }
       
-      listRoot.on(action, function(e) {
-         var item = getItemFromEvent(e);
-         item = $(item).data(UI_KEY);
-         if(item) {
-            fireSelectionChanged(item);
-         }
-      });
-      
+      if(opts.selectable) {
+         listRoot.on(action, function(e) {
+            var item = getItemFromEvent(e);
+            item = $(item).data(UI_KEY);
+            if(item) {
+               fireSelectionChanged(item);
+            }
+         });
+      }
       /*
       listRoot.on("touchstart", function(e) {
           var item = getItemFromEvent(e);
@@ -1027,6 +1029,8 @@
          getItems: function() {
             return data.slice(0);
          },
+                 
+         getItemFromEvent: getItemFromEvent,
 
          getSelectedItem: function() {
             return selectedItem;
@@ -1170,46 +1174,51 @@
          self = this,
          
          // selected tab's DOM element
-         selectedTab;
+         selectedTabInfo;
          
-      function layout() {
+      function selectTab(tabInfo) {
+         var oldInfo = selectedTabInfo, 
+                 oldTab = oldInfo ? oldInfo.tab : null,
+                 tab = tabInfo ? tabInfo.tab : null,
+                 retVal;
          
-      }
-         
-      function selectTab(tab) {
-         var oldTab = selectedTab, tabContent, ret, tabObj;
-         if(!tab || tab === selectedTab) {
+         if(!tabInfo || tabInfo === selectedTabInfo) {
             return;
          }
          
-         selectedTab = tab;
-         ret = opts.ontabchange.call(widget, tab, oldTab);
+         selectedTabInfo = tabInfo;
+         retVal = opts.ontabchange.call(widget, tab, oldTab);
          
-         if(ret !== false) {
-            if(oldTab) {
-               tabObj = $(oldTab);
-               tabObj.removeClass("selected");
-               tabContent = $(tabObj.attr("data-ref"));
-               tabContent.removeClass("active");
+         if(retVal !== false) {
+            if(oldInfo) {
+               oldTab.removeClass("selected");
+               oldInfo.content.removeClass("active");
             }
             
-            tabObj = $(tab);
-            tabObj.addClass("selected");
-            tabContent = $(tab.attr("data-ref"));
-            tabContent.addClass("active");
+            tab.addClass("selected");
+            tabInfo.content.addClass("active");
          }else {
-            selectedTab = oldTab;
+            selectedTabInfo = oldInfo;
          }
+      }
+      
+      function indexOf(tabInfo) {
+         for(var i = 0, len = tabs.length; i < len; i++) {
+            if(tabInfo === tabs[i]) {
+               return i;
+            }
+         }
+         return -1;
       }
       
       // our widget API object
       widget = {
          getSelectedIndex: function()  {
             try {
-               return tabs.indexOf(selectedTab);
+               return indexOf(selectedTabInfo);
             }catch(e) {
-               for(var i = 0, len = tabs.length; i < len && tabs[i] !== selectedTab; i++);
-               return i == len ? -1 : i;
+               for(var i = 0, len = tabs.length; i < len && tabs[i] !== selectedTabInfo; i++);
+               return i === len ? -1 : i;
             }
          },
          
@@ -1226,11 +1235,14 @@
       
       // initialization code
       $.forEach(this.children(".tab"), function(elem) {
-         var tb = $(elem);
-         tabs[tabs.length] = tb;
-         // tb.data("UI_TAB", tb);
+         var tb = $(elem), tabInfo;
+         
+         tabs[tabs.length] = tabInfo = {
+            tab: tb,
+            content: $(tb.attr("data-ref"))
+         };
          tb.on(action, function() {
-            selectTab(tb);
+            selectTab(tabInfo);
          });
       });
       
