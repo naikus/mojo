@@ -59,7 +59,7 @@
          },
          
          selectTab: function(idx)   {
-            var tab = tabs[i];
+            var tab = tabs[idx];
             if(tab) {
                selectTab(tab);
             }
@@ -74,7 +74,7 @@
          var tb = $(elem);
          tabs[tabs.length] = tb;
          // tb.data("UI_TAB", tb);
-         tb.on(TAP, function() {
+         tb.on(action, function() {
             selectTab(tb);
          });
       });

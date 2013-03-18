@@ -185,6 +185,9 @@ option {
 .right {
   float: right;
 }
+.first {
+  clear: left;
+}
 .clear {
   clear: both;
 }
@@ -222,7 +225,8 @@ body,
 a,
 img,
 input,
-button {
+button,
+textarea {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
 }
@@ -275,11 +279,11 @@ body,
   display: block;
 }
 .transition {
-  -moz-transition: -moz-transform 250ms ease;
-  -webkit-transition: -webkit-transform 250ms ease;
-  -o-transition: -o-transform 250ms ease;
-  -ms-transition: -ms-transform 250ms ease;
-  transition: transform 250ms ease;
+  -moz-transition: -moz-transform 200ms ease 50ms;
+  -webkit-transition: -webkit-transform 200ms ease 50ms;
+  -o-transition: -o-transform 200ms ease 50ms;
+  -ms-transition: -ms-transform 200ms ease 50ms;
+  transition: transform 200ms ease 50ms;
 }
 .view.in {
   -moz-transform: translatex(0);
@@ -416,51 +420,36 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   display: inline-block;
   width: 100%;
 }
+.tabstrip,
+.tab {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .tabstrip {
   overflow: auto;
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #f0f0f0;
-  border-bottom: 2px solid #3395c2;
+  border-bottom: 1px solid #3395c2;
 }
 .tabstrip > .tab {
   list-style-type: none;
-  display: inline-block;
-  height: 43px;
-  float: left;
-  position: relative;
-}
-.tabstrip > .tab:after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  height: 80%;
-  top: 15%;
-  left: 0;
-  width: 0;
-  border-right: 1px solid #d7d7d7;
-}
-.tabstrip > .tab:first-child:after {
-  display: none;
+  display: table-cell;
+  width: 1000px;
+  min-height: 20px;
+  padding: 13px 10px 10px;
+  font-size: 0.9em;
+  text-align: center;
 }
 .tabstrip > .tab.selected {
-  font-weight: bold;
-  border-bottom: 5px solid #3395c2;
-}
-.tabstrip > .tab span {
-  margin-top: 10px;
-  width: auto;
-  width: 98%;
-  padding: 1%;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
+  border-bottom: 3px solid #3395c2;
 }
 .tab-content {
   display: none;
 }
 .tab-content.active {
   display: block;
+  background-color: #f0f0f0;
 }
 

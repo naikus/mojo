@@ -395,7 +395,7 @@
          var cache = loader.templateCache = loader.templateCache || {};
           
          if(cache[templateUrl]) {
-             console.log("Template already loaded: " + templateUrl);
+             // console.log("Template already loaded: " + templateUrl);
              callback(templateUrl);
              return;
          }
@@ -526,14 +526,14 @@
       // var oPath, nPath;
       function RouteHandler(e) {
          if(e && RouteHandler.ignoreNext) {
-            console.log("RouteHandler: Ignoring hashchange this time");
+            // console.log("RouteHandler: Ignoring hashchange this time");
             RouteHandler.ignoreNext = false;
             return;
          }
      
          var nPath = getPath(), route = getMatchingRoute(nPath), currRoute, params;
 
-         console.log("Calling route handler: " + nPath);
+         // console.log("Calling route handler: " + nPath);
          if(!route) {
             console.log("No matching route, doing nothing");
             return;
@@ -1214,7 +1214,7 @@
          },
          
          selectTab: function(idx)   {
-            var tab = tabs[i];
+            var tab = tabs[idx];
             if(tab) {
                selectTab(tab);
             }
@@ -1229,7 +1229,7 @@
          var tb = $(elem);
          tabs[tabs.length] = tb;
          // tb.data("UI_TAB", tb);
-         tb.on(TAP, function() {
+         tb.on(action, function() {
             selectTab(tb);
          });
       });
