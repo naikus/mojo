@@ -151,6 +151,13 @@ button.active {
    */
 
 }
+input.inline,
+input[type=button],
+button.inline,
+.button.inline,
+select.inline {
+  width: auto;
+}
 select {
   background: transparent;
   -webkit-appearance: none;
@@ -211,8 +218,8 @@ option {
   padding: 10px;
 }
 .selected {
-  background-color: #373737;
-  color: #eeeeee;
+  background-color: #3395c2;
+  color: #ffffff;
 }
 .translateNone {
   -moz-transform: none;
@@ -385,27 +392,22 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 .list,
 .rich-list {
-  overflow: auto;
   margin: 0;
   padding: 0;
 }
 .list > li,
 .rich-list > li {
   list-style-type: none;
-  padding: 15px 10px;
   border: 1px solid transparent;
   border-bottom: 1px solid #e6e6e6;
   overflow: auto;
-}
-.rich-list > li {
-  padding: 10px;
 }
 .rich-list .label,
 .list .label,
 .rich-list .desc,
 .list .desc {
   margin: 0;
-  padding: 0 5px;
+  padding: 2px 5px 0;
 }
 .rich-list .label {
   font-weight: bold;
@@ -415,7 +417,8 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 .list .desc {
   font-size: 0.8em;
 }
-.list > li.selected {
+.list > li.selected,
+.rich-list > li.selected {
   background-color: #3395c2;
   border-color: #308cb6;
   color: #ffffff;
@@ -447,6 +450,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   text-align: center;
 }
 .tabstrip > .tab.selected {
+  background: none;
   border-bottom: 3px solid #3395c2;
 }
 .tab-content {

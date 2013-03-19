@@ -4,19 +4,14 @@
 }
 .list > li, .rich-list > li {
    list-style-type: none;
-   padding: 15px 10px;
    border: 1px solid transparent;
    border-bottom: 1px solid darken(@bg-color, 4%);
    overflow: auto;
 }
 
-.rich-list > li {
-   padding: 10px;
-}
-
 .rich-list .label, .list .label, .rich-list .desc, .list .desc {
    margin: 0;
-   padding: 0 5px;
+   padding: 2px 5px 0;
 }
 .rich-list .label {
    font-weight: bold;
@@ -26,7 +21,7 @@
    font-size: 0.8em;
 }
 
-.list > li.selected {
+.list > li.selected, .rich-list > li.selected {
    background-color: @selected-bg-color;
    border-color: darken(@selected-bg-color, 3%);
    color: @selected-text-color;

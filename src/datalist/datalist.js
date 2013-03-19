@@ -200,6 +200,13 @@
          return item;
       }
       
+      function on(evt, callback) {
+         listRoot.on(evt, function(e) {
+            var uiItem = getItemFromEvent(e), item = $(uiItem).data(UI_KEY);
+            callback(e, uiItem, item);
+         });
+      }
+      
       if(element.tagName.toLowerCase() === "ul")  {
          listRoot = this;
       }else {
@@ -214,30 +221,17 @@
       }
       
       if(opts.selectable) {
-         listRoot.on(action, function(e) {
-            var item = getItemFromEvent(e);
-            item = $(item).data(UI_KEY);
+         on(action, function(e, li, item) {
             if(item) {
                fireSelectionChanged(item);
             }
-         });
+         });         
       }
-      /*
-      listRoot.on("touchstart", function(e) {
-          var item = getItemFromEvent(e);
-          if(item) {
-              $(item).addClass("active");
-          }
-      }).on("touchend", function(e) {
-          var item = getItemFromEvent(e);
-          if(item) {
-              $(item).removeClass("active");
-          }
-      });
-      */
       
       // our public API that is exposed to the widget
       widget = {
+         on: on,
+         
          getElement: function() {
             return listRoot;
          },
@@ -286,8 +280,6 @@
          getItems: function() {
             return data.slice(0);
          },
-                 
-         getItemFromEvent: getItemFromEvent,
 
          getSelectedItem: function() {
             return selectedItem;

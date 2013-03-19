@@ -92,6 +92,11 @@ button:active, .button:active, .button.active, button.active {
    box-shadow: 0 0 3px darken(@active-bg-color, 35%);
    */
 }
+
+input.inline, input[type=button], button.inline, .button.inline, select.inline {
+   width: auto;
+}
+
 select {
    background: transparent;
    -webkit-appearance: none;
@@ -132,6 +137,6 @@ option {
 .tiny, .hint {font-size: 0.85em;}
 .pad {padding: 10px;}
 .selected {
-   background-color: @alt-bg-color;
-   color: @alt-text-color;
+   background-color: @selected-bg-color;
+   color: @selected-text-color;
 }
