@@ -415,7 +415,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 .rich-list .desc,
 .list .desc {
-  font-size: 0.8em;
+  font-size: 0.75em;
 }
 .list > li.selected,
 .rich-list > li.selected {
