@@ -202,8 +202,14 @@
       
       function on(evt, callback) {
          listRoot.on(evt, function(e) {
-            var uiItem = getItemFromEvent(e), item = $(uiItem).data(UI_KEY);
-            callback(e, uiItem, item);
+            var liElem = getItemFromEvent(e), item, itemData;
+            if(!liElem) {
+               return;
+            }
+            item = $(liElem);
+            itemData = item.data(MODEL_KEY);
+            
+            callback(e, item, itemData);
          });
       }
       
@@ -222,8 +228,8 @@
       
       if(opts.selectable) {
          on(action, function(e, li, item) {
-            if(item) {
-               fireSelectionChanged(item);
+            if(li) {
+               fireSelectionChanged(li);
             }
          });         
       }

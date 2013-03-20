@@ -338,6 +338,14 @@
          ui.addClass("showing");
          controller.activate(params, data);
          
+         // indicate that this view is transitioning
+         /*
+         if(currRoute && route.view) {
+            currRoute.ui.addClass("transitioning");
+         }
+         ui.addClass("transitioning");
+         */
+         
          setTimeout(function() {
             // transitiion the current view out
             if(currRoute) {
@@ -376,6 +384,12 @@
          route.controller.activate(params, data);
          ui.addClass("showing");
 
+         // indicate that this view is transitioning
+         /*
+         route.ui.addClass("transitioning");
+         currRoute.ui.addClass("transitioning");
+         */
+        
          setTimeout(function() {
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
@@ -549,9 +563,9 @@
          }else {
             // either front or back or hyperlink is clicked
             if(route === stack[stack.length - 2]) {
-               popView(params);
+               popView(null);
             }else {
-               pushView(nPath, params);
+               pushView(nPath, null);
             }
          }
       }
@@ -945,8 +959,14 @@
       
       function on(evt, callback) {
          listRoot.on(evt, function(e) {
-            var uiItem = getItemFromEvent(e), item = $(uiItem).data(UI_KEY);
-            callback(e, uiItem, item);
+            var liElem = getItemFromEvent(e), item, itemData;
+            if(!liElem) {
+               return;
+            }
+            item = $(liElem);
+            itemData = item.data(MODEL_KEY);
+            
+            callback(e, item, itemData);
          });
       }
       
@@ -965,8 +985,8 @@
       
       if(opts.selectable) {
          on(action, function(e, li, item) {
-            if(item) {
-               fireSelectionChanged(item);
+            if(li) {
+               fireSelectionChanged(li);
             }
          });         
       }
