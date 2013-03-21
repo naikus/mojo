@@ -406,7 +406,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 .list .title,
 .list .desc {
   margin: 0;
-  padding: 2px 5px 0;
+  padding: 2px 5px;
 }
 .list .title {
   font-weight: bold;
