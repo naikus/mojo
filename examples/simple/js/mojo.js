@@ -326,6 +326,14 @@
          // see if this is an update
          var currRoute = stack.length ? stack[stack.length - 1] : null;
          
+         if(currRoute === route) {
+             if(currRoute.realPath !== path) {
+                 currRoute.realPath = path;
+                 controller.update(params);
+             }
+             return;
+         }
+         
          // set this path as route's current path
          route.realPath = path;
 
@@ -558,6 +566,7 @@
          // same route handler probably params are different, so update
          if(currRoute === route) {
              if(currRoute.realPath !== nPath) {
+                 currRoute.realPath = nPath;
                  route.controller.update(params);
              }
          }else {
