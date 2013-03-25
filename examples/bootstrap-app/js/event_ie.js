@@ -403,6 +403,7 @@
                }catch(e) {
                   console.log("Error firing event " + type + ": " + e.message);
                   arrh = eventStore.getHandlers(elem, type);
+                  evt.type = type;
                   if(arrh.length > 0) {
                      forEach(arrh, function(h) {
                         h.call(elem, evt);
