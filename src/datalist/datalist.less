@@ -8,6 +8,7 @@
    border: 1px solid transparent;
    border-bottom: 1px solid darken(@bg-color, 4%);
    overflow: auto;
+   position: relative;
 }
 
 .list > li .title, .list > li .desc, .list > li p {
@@ -20,15 +21,4 @@
 }
 .list .desc {
    font-size: 0.7em;
-}
-
-.list > li.selected, {
-   background-color: @selected-bg-color;
-   border-color: darken(@selected-bg-color, 3%);
-   color: @selected-text-color;
-}
-
-.list select {
-   display: inline-block;
-   width: 100%;
 }
