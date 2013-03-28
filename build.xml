@@ -61,6 +61,7 @@
         <file name="app/application.js"/>
 
         <!-- ========================== optional widgets ======================= -->
+        <file name="binder/binder.js"/>
         <file name="template/template.js"/>
         <file name="datalist/datalist.js"/>
         <file name="form/form.js"/>
