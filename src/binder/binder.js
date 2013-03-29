@@ -94,9 +94,9 @@
          
          update: function(key, val) {
             if(typeof key === "string") {
-               var arrElems = boundElemMap[actKey];
+               var arrElems = boundElemMap[key];
                if(arrElems) {
-                  setValue(arrElems, val == null ? "" : val);
+                  setValue(arrElems, val == null ? "" : val); //intentional == check, for '0' values
                }
             }else {
                updateBingings(boundElemMap, model);

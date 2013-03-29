@@ -341,7 +341,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 100);
+         }, 150);
 
          stack.push(route);
       }
@@ -378,7 +378,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
-         }, 100);
+         }, 150);
       }
         
         

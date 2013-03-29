@@ -366,7 +366,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 100);
+         }, 150);
 
          stack.push(route);
       }
@@ -403,7 +403,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
-         }, 100);
+         }, 150);
       }
         
         
@@ -734,9 +734,9 @@
          
          update: function(key, val) {
             if(typeof key === "string") {
-               var arrElems = boundElemMap[actKey];
+               var arrElems = boundElemMap[key];
                if(arrElems) {
-                  setValue(arrElems, val == null ? "" : val);
+                  setValue(arrElems, val == null ? "" : val); //intentional == check, for '0' values
                }
             }else {
                updateBingings(boundElemMap, model);
@@ -1309,6 +1309,8 @@
       }
 
       function deactivate() {
+         if(!element) return;
+         
          element.removeClass("active");
          element = null;
       }
@@ -1348,7 +1350,7 @@
       function move(e) {
          if(element) {
             clearTimeout(timer);
-            $(element).removeClass("active");
+            element.removeClass("active");
             element = null;
          }
       }

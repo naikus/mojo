@@ -291,11 +291,11 @@ body,
   display: block;
 }
 .transition {
-  -moz-transition: -moz-transform 250ms ease 50ms;
-  -webkit-transition: -webkit-transform 250ms ease 50ms;
-  -o-transition: -o-transform 250ms ease 50ms;
-  -ms-transition: -ms-transform 250ms ease 50ms;
-  transition: transform 250ms ease 50ms;
+  -moz-transition: -moz-transform 225ms ease 50ms;
+  -webkit-transition: -webkit-transform 225ms ease 50ms;
+  -o-transition: -o-transform 225ms ease 50ms;
+  -ms-transition: -ms-transform 225ms ease 50ms;
+  transition: transform 225ms ease 50ms;
 }
 .view.in {
   -moz-transform: translatex(0);
