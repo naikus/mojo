@@ -1301,21 +1301,28 @@
         touchend = "mouseup";
    }
    
+   var self = $(this);
+   
    $.extension("activables", function() {
       var element, timer;
 
       function activate() {
+         // console.log("activating...");
          element.addClass("active");
       }
 
       function deactivate() {
          if(!element) return;
-         
+         // console.log("de-activating...");
+         // console.log("removing listener");
+         self.un(touchmove, move);
          element.removeClass("active");
          element = null;
       }
 
       function start(e) {
+         if(element) {return;}
+         
          var level = 3, target = e.target, elem;
          while(level-- && target) {
             elem = $(target);
@@ -1329,6 +1336,10 @@
          if(!element) {
             return;
          }
+         
+         // console.log("adding listener");
+         self.on(touchmove, move);
+         
          // start the timer
          timer = setTimeout(activate, 100);
       }
@@ -1338,25 +1349,25 @@
             clearTimeout(timer);
 
             if(element.hasClass("active")) {
-               element.removeClass("active");
-               element = null;
+               deactivate();
             }else {
                element.addClass("active");
-               setTimeout(deactivate, 150);
+               setTimeout(deactivate, 100);
             }
          }
       }
 
       function move(e) {
+         // console.log("move...");
          if(element) {
+            // console.log("moved!! de-activating...");
             clearTimeout(timer);
-            element.removeClass("active");
-            element = null;
+            deactivate();
          }
       }
 
       // make all the activable elements change color when they are active
-      $(this).on(touchstart, start).on(touchmove, move).on(touchend, end);
+      self.on(touchstart, start).on(touchend, end);
    });
 })(h5);
 
