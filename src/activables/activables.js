@@ -10,10 +10,8 @@
         touchend = "mouseup";
    }
    
-   var self = $(this);
-   
    $.extension("activables", function() {
-      var element, timer;
+      var element, timer, self = $(this);
 
       function activate() {
          // console.log("activating...");
