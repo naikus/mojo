@@ -189,6 +189,8 @@
       
       application,
       
+      transitionProp, // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
+      
       viewPort;
       
       // ------------------------------ Private Methods ------------------------
@@ -446,30 +448,29 @@
 
       function unstackViewUi(ui) {
          ui.addClass("transitioning").removeClass("stack").addClass("in");
-         if(!hasTransition) {
-            ui.dispatch("transitionend", {propertyName: "transform"});
+         if(!hasTransition || !transitionProp) {
+            handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function popViewUi(ui) {
          ui.addClass("transitioning").removeClass("in").addClass("pop");
-         if(!hasTransition) {
-            ui.dispatch("transitionend", {propertyName: "transform"}); 
+         if(!hasTransition || !transitionProp) {
+            handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function stackViewUi(ui) {
          ui.addClass("transitioning").addClass("stack").removeClass("in");
-         // fire the view transition events manually if not supported
-         if(!hasTransition) {
-            ui.dispatch("transitionend", {propertyName: "transform"}); 
+         if(!hasTransition || !transitionProp) {
+            handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function pushViewUi(ui) {
          ui.addClass("transitioning").addClass("transition").addClass("in");
-         if(!hasTransition) {
-            ui.dispatch("transitionend", {propertyName: "transform"});
+         if(!hasTransition || !transitionProp) {
+            handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
@@ -481,8 +482,8 @@
       function handleViewTransitionEnd(evt) {
          var target = evt.target, ui = $(target), route = getRouteByPath(ui.data("path"));
          
-         if(!route || evt.propertyName.indexOf("transform") === -1) {
-            return; // not a view or not a transform transition on this view.
+         if(!route || (transitionProp !== null && evt.propertyName.indexOf(transitionProp) === -1)) {
+            return; // not a view or not a 'transitionProp' transition on this view.
          }
 
          ui.removeClass("transitioning");
@@ -576,7 +577,7 @@
                 var route = stack[len - 2];
                 RouteHandler.ignoreNextHashChange();
                 window.location.hash = route.realPath;
-                popView(null, getPath(), result);
+                popView(result);
             }
          },
                  
@@ -596,7 +597,8 @@
          },
 
          initialize: function(options) {
-            viewPort = options.viewPort;
+            viewPort = options.viewPort, 
+            transitionProp = "transitionProperty" in options ? options.transitionProperty : "transform";
             
             var path;
             if(options.loadFromPath !== false) {

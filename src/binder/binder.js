@@ -38,32 +38,6 @@
       }
    }
    
-   function applyBindings(boundElemMap, model) {
-      forEach(boundElemMap, function(arrElems, valKey) {
-         var value = getValue(valKey, model);
-         setValue(arrElems, value);
-      });
-   }
-   
-   function updateBingings(boundElemMap, model, pKey) {
-      var parentKey = pKey ? pKey + "." : "";
-      forEach(model, function(val, key) {
-         var actKey = parentKey + key, type = getTypeOf(val);
-         if(type === "Object") {
-            updateBindings(boundElemMap, val, actKey);
-         }else {
-            var arrElems = boundElemMap[actKey];
-            if(arrElems) {
-               if(type === "Function") {
-                  setValue(arrElems, val.call(model));
-               }else {
-                  setValue(arrElems, val);
-               }
-            }
-         }
-      });
-   }
-   
    // use appropriate function for textContent
    /*
     * This is done for performance reasons.
@@ -72,6 +46,52 @@
    
    $.extension("binder", function(binderModel) {
       var model = binderModel, self = this, boundElemMap = {};
+      
+      
+      function applyBindings() {
+         forEach(boundElemMap, function(arrElems, valKey) {
+            var value = getValue(valKey, model);
+            setValue(arrElems, value);
+         });
+      }
+
+      function updateModel(mdl, pKey, modelRef) {
+         var parentKey = pKey ? pKey + "." : "", pModel = modelRef || model;
+         forEach(mdl, function(value, key) {
+            var actKey = parentKey + key, type = getTypeOf(value);
+            if(type === "Object") {
+               updateModel(value, key, pModel[key] || (pModel[key] = {}));
+            }else {
+               pModel[key] = value; //update our model
+               var arrElems = boundElemMap[actKey];
+               if(arrElems) {
+                  setValue(arrElems, value == null ? "" : value); //intentional == check, for '0' values
+               }
+            }
+         });
+      }
+
+      function updateModelValue(key, value) {
+         var keys = key.split(","), modelValue, partKey, tmpModel = model;
+         for(var i = 0, len = keys.length; i < len; i++) {
+            partKey = keys[i];
+            modelValue = tmpModel[partKey];
+            if(i === len - 1) {
+               tmpModel[partKey] = value;
+            }else {
+               if(!modelValue) {
+                  tmpModel[partKey] = {};
+               }
+               tmpModel = tmpModel[partKey];
+            }
+         }
+         
+         // update the view
+         var arrElems = boundElemMap[key];
+         if(arrElems) {
+            setValue(arrElems, value == null ? "" : value); //intentional == check, for '0' values
+         }
+      }      
       
       // search for all bound elements
       self.find("[data-bind]").forEach(function(elem) {
@@ -89,17 +109,17 @@
       return {
          apply: function(mdl) {
             model = mdl;
-            applyBindings(boundElemMap, mdl);
+            applyBindings(boundElemMap, model);
          },
          
          update: function(key, val) {
+            if(!model) {
+               model = {};
+            }
             if(typeof key === "string") {
-               var arrElems = boundElemMap[key];
-               if(arrElems) {
-                  setValue(arrElems, val == null ? "" : val); //intentional == check, for '0' values
-               }
+               updateModelValue(key, val);
             }else {
-               updateBingings(boundElemMap, model);
+               updateModel(key); // key is actually a partial model object
             }
          }
       };

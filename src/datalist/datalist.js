@@ -345,7 +345,7 @@
          forEach(children, function(li, i) {
             var $li = $(li);
             $li.data(UI_KEY, $li);
-            $li.data(MODEL_KEY, $li);
+            $li.data(MODEL_KEY, li.textContent || li.innerText);
             allItems[allItems.length] = $li;
             if($li.hasClass("selected")) {
                selectedItem = $li;
