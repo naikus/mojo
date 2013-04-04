@@ -1088,6 +1088,11 @@
       
       function getItemFromEvent(e) {
          var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
+         
+         if(t === ul) {
+            return null;
+         }
+         
          if(parent === ul) {
             item = t;
          }else {
@@ -1096,7 +1101,7 @@
                parent = parent.parentNode;
             }
          } 
-         return item;
+         return parent === ul ? item : null;
       }
       
       function on(evt, callback) {
