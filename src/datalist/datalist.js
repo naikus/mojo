@@ -61,7 +61,7 @@
          }
       }
       // @TODO will this create a leak?
-      item.data(UI_KEY, item); // store this to quickly retrieve the item selection change
+      li._item_ = item; // store this to quickly retrieve the item selection change
       return item;
    }
    
@@ -189,6 +189,11 @@
       
       function getItemFromEvent(e) {
          var t = e.target, parent = t.parentNode, item, ul = listRoot.get(0);
+         
+         if(t === ul) {
+            return null;
+         }
+         
          if(parent === ul) {
             item = t;
          }else {
@@ -197,7 +202,7 @@
                parent = parent.parentNode;
             }
          } 
-         return item;
+         return parent === ul ? item : null;
       }
       
       function on(evt, callback) {
@@ -206,7 +211,7 @@
             if(!liElem) {
                return;
             }
-            item = $(liElem);
+            item = liElem._item_;
             itemData = item.data(MODEL_KEY);
             
             callback(e, item, itemData);
@@ -344,7 +349,8 @@
          allItems = data = [];
          forEach(children, function(li, i) {
             var $li = $(li);
-            $li.data(UI_KEY, $li);
+            // $li.data(UI_KEY, $li);
+            li._item_ = $li; 
             $li.data(MODEL_KEY, li.textContent || li.innerText);
             allItems[allItems.length] = $li;
             if($li.hasClass("selected")) {
