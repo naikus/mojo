@@ -4,15 +4,15 @@
       Elem = document.documentElement,
       setValue;
 
-   function setValueStandard(arrElems, value) {
+   function setValueStandard(arrElems, value, formatter) {
       for(var i = 0, len = arrElems.length; i < len; i++) {
-         arrElems[i].textContent = value;
+         arrElems[i].textContent = formatter ? formatter(value) : value;
       }
    }
    
-   function setValueIE(arrElems, value) {
+   function setValueIE(arrElems, value, formatter) {
       for(var i = 0, len = arrElems.length; i < len; i++) {
-         arrElems[i].innerText = value;
+         arrElems[i].innerText = formatter ? formatter(value) : value;
       }
    }
    
@@ -44,14 +44,15 @@
     */
    setValue = "textContent" in Elem ? setValueStandard : setValueIE;
    
-   $.extension("binder", function(binderModel) {
-      var model = binderModel, self = this, boundElemMap = {};
+   $.extension("binder", function(options) {
+      options = options || {};
+      var model = options.model, self = this, boundElemMap = {}, formatters = options.formatters || {};
       
       
       function applyBindings() {
          forEach(boundElemMap, function(arrElems, valKey) {
-            var value = getValue(valKey, model);
-            setValue(arrElems, value);
+            var value = getValue(valKey, model), formatter = formatters[valKey];
+            setValue(arrElems, value, formatter);
          });
       }
 
@@ -65,7 +66,8 @@
                pModel[key] = value; //update our model
                var arrElems = boundElemMap[actKey];
                if(arrElems) {
-                  setValue(arrElems, value == null ? "" : value); //intentional == check, for '0' values
+                  var formatter = formatters[actKey];
+                  setValue(arrElems, value == null ? "" : value, formatter); //intentional == check, for '0' values
                }
             }
          });

@@ -146,18 +146,29 @@ button,
   box-sizing: border-box;
   margin: 2px 0;
   padding: 10px;
-  background-color: #2e85ae;
-  color: #eeeeee;
-  border: 1px solid #56abd2;
+  background-color: #d7d7d7;
+  color: #666666;
+  border: 1px solid #cacaca;
   text-align: center;
   width: 100%;
 }
 button:active,
+button.primary:active,
 .button:active,
+.button.primary:active,
 .button.active,
-button.active {
+.button.primary.active,
+button.active,
+button.primary.active {
   background-color: #93cff2;
   border: 1px solid #73c1ee;
+}
+input[type=button].primary,
+button.primary,
+.button.primary {
+  background-color: #56abd2;
+  color: #eeeeee;
+  border: 1px solid #56abd2;
 }
 input.inline,
 input[type=button],
