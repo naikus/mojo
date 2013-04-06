@@ -1197,6 +1197,10 @@
          getSelectedItem: function() {
             return selectedItem;
          },
+                 
+         getSelectedValue: function() {
+            return selectedItem ? selectedItem.data(MODEL_KEY) : null;
+         },
          
          getSelectedIndex: function() {
             var i, len;
