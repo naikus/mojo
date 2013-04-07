@@ -90,9 +90,9 @@
 
 "use strict";
 (function($) {
-   var paramPattern = /:([\w\.-]+)/g;
+   // var paramPattern = /:([\w\.-]+)/g;
    
-   function compile(patternUri) {
+   function compile(patternUri, paramPattern) {
       var match = paramPattern.exec(patternUri), paramNames = [], allParts = [],
             cursor = 0, strTmp;
       while(match) {
@@ -133,10 +133,16 @@
    }
    
    function UriTemplate(uriPattern) {
-      var uriPattern = uriPattern,
+      var paramPattern = /:([\w\.-]+)/g, 
+            uriPattern = uriPattern,
+            
+            // the order of these two lines is important, in IE8, otherwise the paramPattern.exec will return null
+            expander = compile(uriPattern, paramPattern),
             genPattern = new RegExp("^" + uriPattern.replace(paramPattern, "(.*[^/])") + "$"),
-            expander = compile(uriPattern),
+            
+            
             paramNames = expander.paramNames;
+      
       
       // console.log(genPattern + "\n" + paramNames);
       return {
