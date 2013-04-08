@@ -408,7 +408,7 @@
          */
         
          setTimeout(function() {
-            currRoute.controller.deactivate();
+            // currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
          }, 150);
@@ -521,6 +521,7 @@
 
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
+            route.controller.deactivate();
             ui.removeClass("showing");
             dispatchViewTransitionEvent("out", ui, route);
             return;
@@ -534,6 +535,7 @@
 
          // if view has been popped
          if(ui.hasClass("pop")) {
+            route.controller.deactivate();
             ui.removeClass("showing").removeClass("transition").removeClass("pop");
             dispatchViewTransitionEvent("out", ui, route);
          }
@@ -612,6 +614,18 @@
             }
          },
                  
+         getCurrentRoute: function() {
+            var route = stack.length ? stack[stack.length - 1] : null;
+            if(route) {
+               return {
+                  id: route.view || route.overlay,
+                  path: route.path,
+                  realPath: route.realPath
+               };
+            }
+            return null;
+         },
+                 
          loadView: function(viewTemplateUrl, path, data) {
             var route = getMatchingRoute(path), app = this;
             if(!route) {
@@ -635,7 +649,11 @@
             if(options.loadFromPath !== false) {
                path = getPath();
             }
-            this.showView(path || options.startView);
+            
+            path = path || options.startView;
+            if(path) {
+               this.showView(path);
+            }
          }
       };
       
