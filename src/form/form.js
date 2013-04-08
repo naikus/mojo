@@ -1,4 +1,4 @@
-/**
+/*
  * Simple CSS based toggle control
  */
 (function($) {
@@ -26,6 +26,7 @@
       renderUi();
       
       widget = {
+         element: elem,
          toggle: function() {
             state = !state;
             renderUi();

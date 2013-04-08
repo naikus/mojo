@@ -100,8 +100,7 @@ body {
   color: #666666;
   font-size: 1.1em;
 }
-section > header,
-.header {
+section > header {
   font-weight: bold;
   margin: 0;
   margin-bottom: 5px;

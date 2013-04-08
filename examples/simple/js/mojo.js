@@ -1010,6 +1010,10 @@
       element = this.get(0), 
       ul, widget;
       
+      if(!element) {
+         throw new Error("Datalist element not found. Please check your selector");
+      }
+      
       opts.listClass = listClass = listClass ? listClass.split(" ") : null;
       opts.itemClass = opts.itemClass ? opts.itemClass.split(" ") : null;
       
@@ -1239,6 +1243,28 @@
             var len = allItems.length;
             if(idx < len && idx >= 0)  {
                fireSelectionChanged(allItems[idx]);
+            }
+         },
+                 
+         selectItem: function(filter) {
+            var idx = -1, i, len = data.length;
+            if(typeof filter === "function") {
+               for(i = 0; i < len; i++) {
+                  if(filter(data[i])) {
+                     idx = i;
+                     break;
+                  }
+               }
+            }else {
+               for(var i = 0; i < len; i++) {
+                  if(filter === data[i]) {
+                     idx = i;
+                     break;
+                  }
+               }
+            }
+            if(idx !== -1) {
+               this.selectItemAt(idx);
             }
          },
          
