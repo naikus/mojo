@@ -273,7 +273,8 @@ body,
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 /* ---------------------------- Default transition effects for views ---------------------------- */
-.view {
+.view,
+.overlay {
   position: absolute;
   left: 0;
   top: 0;
@@ -295,9 +296,23 @@ body,
   -o-transform: translatex(100%);
   transform: translatex(100%);
 }
-.view.showing {
+.overlay {
+  -moz-transform: translatey(-100%);
+  -webkit-transform: translatey(-100%);
+  -o-transform: translatey(-100%);
+  transform: translatey(-100%);
+  min-height: 0;
+  height: auto;
+  background-color: #373737;
+  color: #eeeeee;
+}
+.view.showing,
+.overlay.showing {
   z-index: 99;
   display: block;
+}
+.overlay.showing {
+  z-index: 199;
 }
 .transition {
   -moz-transition: -moz-transform 225ms ease 50ms;
@@ -330,6 +345,18 @@ body,
 
   -o-transform: translatex(100%);
   transform: translatex(100%);
+}
+.overlay.in {
+  -moz-transform: translatey(0);
+  -webkit-transform: translatey(0);
+  -o-transform: translatey(0);
+  transform: translatey(0);
+}
+.overlay.pop {
+  -moz-transform: translatey(-100%);
+  -webkit-transform: translatey(-100%);
+  -o-transform: translatey(-100%);
+  transform: translatey(-100%);
 }
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!

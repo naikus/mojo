@@ -264,13 +264,12 @@
          return null;
       }
 
-      function initializeRoute(route) {
-         if(!route.view && !!route.overlay) {
-            // what to do here??
-            return;
+      function prepareRoute(route) {
+         if(!route.id) {
+            throw new Error("Please provide the route id, a selector that is the view UI.");
          }
 
-         var ui = route.ui = $(route.view || route.overlay);
+         var ui = route.ui = $(route.id);
          if(!ui.count()) {
             throw new Error("UI for view or overlay route not found: " + route.path);
          }
@@ -283,7 +282,7 @@
          ensureLifecycle(route.controller);
       }
 
-      function pushView(path, data) {
+      function pushView(path, data, callback) {
          var controller, ui, route = getMatchingRoute(path), params;
          if(!route) {
             console.log("Unrecognized route: " + path);
@@ -295,9 +294,9 @@
          controller = route.controller;
          
          // see if this view is initialized (one time only)
-         if(route.view && !route.ui) {
+         if(!route.ui) {
             // initialize the route crating any controllers by calling factories and initializing controllers
-            initializeRoute(route);
+            prepareRoute(route);
 
             // init the controller
             ui = route.ui;
@@ -318,6 +317,9 @@
              return;
          }
          
+         // called when this view is popped, to pass data to the calling view
+         route.callback = callback;
+         
          // set this path as route's current path
          route.realPath = path;
 
@@ -330,22 +332,17 @@
          ui.addClass("showing");
          controller.activate(params, data);
          
-         // indicate that this view is transitioning
-         /*
-         if(currRoute && route.view) {
+         // indicate that both views are not transitioning
+         if(currRoute) {
             currRoute.ui.addClass("transitioning");
          }
          ui.addClass("transitioning");
-         */
          
          setTimeout(function() {
             // transitiion the current view out
             if(currRoute) {
-               // do it only of new route is a view, e.g in case of overlays you don't need to transition views
-               if(route.view) { 
-                  currRoute.controller.deactivate();
-                  stackViewUi(currRoute.ui);
-               }
+               currRoute.controller.deactivate();
+               stackViewUi(currRoute.ui);
             }
             // transition in the new view
             pushViewUi(ui);
@@ -355,7 +352,7 @@
       }
 
       function popView(data) {
-         var route, currRoute, path, ui, params;
+         var route, currRoute, path, ui, params, callback;
 
          // no routes on stack
          if(stack.length <= 1) {
@@ -364,26 +361,32 @@
          }
 
          currRoute = stack.pop();
+         callback = currRoute.callback;
          route = stack[stack.length - 1];
          path = route.realPath;
             
          params = route.routeTemplate.match(path);
          ui = route.ui;
+         
          // if its in the history and not stacked, stack it first
          if(!ui.hasClass("stack") && !ui.hasClass("transition")) {
             ui.addClass("stack").addClass("transition");
          }
-         route.controller.activate(params, data);
-         ui.addClass("showing");
 
          // indicate that this view is transitioning
-         /*
-         route.ui.addClass("transitioning");
+         ui.addClass("transitioning");
          currRoute.ui.addClass("transitioning");
-         */
+         
+         if(typeof callback === "function") {
+            callback(data);
+            currRoute.callback = null;
+         }
+         
+         ui.addClass("showing");
+         route.controller.activate(params, data);
         
          setTimeout(function() {
-            // currRoute.controller.deactivate();
+            currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
          }, 150);
@@ -453,28 +456,32 @@
       // UI Transitioning CSS class changes -------------------------------------------------------------
 
       function unstackViewUi(ui) {
-         ui.addClass("transitioning").removeClass("stack").addClass("in");
+         // ui.addClass("transitioning").removeClass("stack").addClass("in");
+         ui.removeClass("stack").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function popViewUi(ui) {
-         ui.addClass("transitioning").removeClass("in").addClass("pop");
+         // ui.addClass("transitioning").removeClass("in").addClass("pop");
+         ui.removeClass("in").addClass("pop");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function stackViewUi(ui) {
-         ui.addClass("transitioning").addClass("stack").removeClass("in");
+         // ui.addClass("transitioning").addClass("stack").removeClass("in");
+         ui.addClass("stack").removeClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
       }
 
       function pushViewUi(ui) {
-         ui.addClass("transitioning").addClass("transition").addClass("in");
+         // ui.addClass("transitioning").addClass("transition").addClass("in");
+         ui.addClass("transition").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
@@ -496,7 +503,7 @@
 
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
-            route.controller.deactivate();
+            // route.controller.deactivate();
             ui.removeClass("showing");
             dispatchViewTransitionEvent("out", ui, route);
             return;
@@ -510,7 +517,7 @@
 
          // if view has been popped
          if(ui.hasClass("pop")) {
-            route.controller.deactivate();
+            // route.controller.deactivate();
             ui.removeClass("showing").removeClass("transition").removeClass("pop");
             dispatchViewTransitionEvent("out", ui, route);
          }
@@ -573,10 +580,10 @@
       application = {
          addRoute: addRoute,
 
-         showView: function(path, data) {
+         showView: function(path, data, callback) {
             RouteHandler.ignoreNextHashChange();
             window.location.hash = path;
-            pushView(path, data);
+            pushView(path, data, callback);
          },
                  
          popView: function(result) {

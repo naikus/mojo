@@ -24,7 +24,7 @@
 }
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
-   -webkit-transform: translateY(0, @y, 0);
+   -webkit-transform: translateY(@y);
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
@@ -63,7 +63,7 @@ html, body, .viewport {
 
 
 /* ---------------------------- Default transition effects for views ---------------------------- */
-.view {
+.view, .overlay {
    position: absolute;
    left: 0;
    top: 0;
@@ -83,9 +83,22 @@ html, body, .viewport {
 .view {
    .translateX(100%);
 }
-.view.showing {
+
+.overlay {
+   .translateY(-100%);
+   min-height: 0;
+   height: auto;
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+}
+
+.view.showing, .overlay.showing {
    z-index: 99;
    display: block;
+}
+
+.overlay.showing  {
+   z-index: 199;
 }
 
 .view.transitioning {
@@ -106,6 +119,13 @@ html, body, .viewport {
 }
 .view.pop {
    .translateX(100%);
+}
+
+.overlay.in {
+   .translateY(0);
+}
+.overlay.pop {
+   .translateY(-100%);
 }
 
 
