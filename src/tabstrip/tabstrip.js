@@ -8,7 +8,7 @@
    $.extension("tabstrip", function(options)  {
       var widget,
          // these are our final options
-         opts = $.extend({}, defaults, options),
+         opts = $.shallowCopy({}, defaults, options),
          // our plugin is bound to an HTML ul element
          tabs = [], 
          

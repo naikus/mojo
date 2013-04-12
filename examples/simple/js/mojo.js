@@ -250,7 +250,7 @@
        * @returns {undefined}
        */
       function addRoute(path, routeOpts) {
-         var route = $.extend({}, routeOpts);
+         var route = $.shallowCopy({}, routeOpts);
          route.routeTemplate = $.UriTemplate(path);
          route.path = path;
          // add this route to the top, latest added routes get preferences over the older ones
@@ -342,9 +342,6 @@
              return;
          }
          
-         // called when this view is popped, to pass data to the calling view
-         route.callback = callback;
-         
          // set this path as route's current path
          route.realPath = path;
 
@@ -359,6 +356,9 @@
          
          // indicate that both views are not transitioning
          if(currRoute) {
+            // called when the view shown is popped, to pass data to the calling view
+            currRoute.callback = callback;
+            
             currRoute.ui.addClass("transitioning");
          }
          ui.addClass("transitioning");
@@ -386,8 +386,8 @@
          }
 
          currRoute = stack.pop();
-         callback = currRoute.callback;
          route = stack[stack.length - 1];
+         callback = route.callback;
          path = route.realPath;
             
          params = route.routeTemplate.match(path);
@@ -404,7 +404,7 @@
          
          if(typeof callback === "function") {
             callback(data);
-            currRoute.callback = null;
+            route.callback = null;
          }
          
          ui.addClass("showing");
@@ -633,14 +633,14 @@
             return null;
          },
                  
-         loadView: function(viewTemplateUrl, path, data) {
+         loadView: function(viewTemplateUrl, path, data, callback) {
             var route = getMatchingRoute(path), app = this;
             if(!route) {
                 loader(viewTemplateUrl, function() {
-                    app.showView(path, data);
+                    app.showView(path, data, callback);
                 });
             }else {
-                this.showView(path, data);
+                this.showView(path, data, callback);
             }
          },
                  
@@ -999,7 +999,7 @@
    
    $.extension("datalist", function(options) {
       // these are our final options
-      var opts = $.extend({}, defaults, options),
+      var opts = $.shallowCopy({}, defaults, options),
       // copy the data array
       data = (opts.data || []).slice(0),
       // the current selected item
@@ -1474,7 +1474,7 @@
    $.extension("tabstrip", function(options)  {
       var widget,
          // these are our final options
-         opts = $.extend({}, defaults, options),
+         opts = $.shallowCopy({}, defaults, options),
          // our plugin is bound to an HTML ul element
          tabs = [], 
          

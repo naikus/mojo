@@ -10,7 +10,6 @@
       readyCalls = [],
       isTypeOf = $.isTypeOf,
       
-      extend = $.extend,
       noop = function() {}, customEvents = {}, 
       defaultDefn = {
          setup: noop,
@@ -482,7 +481,7 @@
          customEvents[type] = {
             type: type,
             count: 0,
-            definition: extend({}, defaultDefn, definition)
+            definition: $.shallowCopy({}, defaultDefn, definition)
          };
       }
    };

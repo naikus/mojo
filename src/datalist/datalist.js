@@ -67,7 +67,7 @@
    
    $.extension("datalist", function(options) {
       // these are our final options
-      var opts = $.extend({}, defaults, options),
+      var opts = $.shallowCopy({}, defaults, options),
       // copy the data array
       data = (opts.data || []).slice(0),
       // the current selected item

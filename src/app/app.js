@@ -474,7 +474,7 @@
           */
          initialize: function(opts) {
             var port, body = window.document.body;
-            options = $.extend({}, defaults, opts);
+            options = $.shallowCopy({}, defaults, opts);
             
             // configure viewport
             port = options.viewPort;

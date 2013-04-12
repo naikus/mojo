@@ -59,7 +59,7 @@
    }
          
     $.extension("cardpanel", function(opts) {
-       var options = $.extend({}, defaults, opts),
+       var options = $.shallowCopy({}, defaults, opts),
          self = this,
          cpOffsets = self.offsets(),
          
