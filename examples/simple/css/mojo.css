@@ -96,147 +96,6 @@
 @selected-text-color: #fff;
 
 */
-body {
-  color: #666666;
-  font-size: 1.1em;
-}
-section > header {
-  font-weight: bold;
-  margin: 0;
-  margin-bottom: 5px;
-  padding: 12px;
-  border-bottom: 2px solid #3395c2;
-  color: #28769a;
-}
-/* ----------------------------------------------- Form ----------------------------------------- */
-label {
-  padding: 10px;
-  padding-left: 0;
-}
-fieldset {
-  border: none;
-  background: transparent;
-}
-textarea {
-  resize: vertical;
-  min-height: 90px;
-  padding: 5px;
-}
-.field,
-input,
-select {
-  display: inline-block;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  padding: 10px 5px;
-  border: 1px solid #d7d7d7;
-  /*-webkit-appearance: caret;*/
-
-  width: 100%;
-  margin: 2px 0;
-}
-input[type=button],
-button,
-.button {
-  display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 2px 0;
-  padding: 10px;
-  background-color: #d7d7d7;
-  color: #666666;
-  border: 1px solid #cacaca;
-  text-align: center;
-  width: 100%;
-}
-button:active,
-button.primary:active,
-.button:active,
-.button.primary:active,
-.button.active,
-.button.primary.active,
-button.active,
-button.primary.active {
-  background-color: #93cff2;
-  border: 1px solid #73c1ee;
-}
-input[type=button].primary,
-button.primary,
-.button.primary {
-  background-color: #56abd2;
-  color: #eeeeee;
-  border: 1px solid #56abd2;
-}
-input.inline,
-input[type=button],
-button.inline,
-.button.inline,
-select.inline {
-  width: auto;
-}
-select {
-  background: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: statusbar;
-  border: none;
-}
-option {
-  padding: 5px;
-}
-/* -------------------------------------- Other ------------------------------------------------ */
-.box,
-.inline-box {
-  display: block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.expand {
-  overflow: auto;
-}
-.inline-box {
-  display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.left {
-  float: left;
-}
-.right {
-  float: right;
-}
-.first {
-  clear: left;
-}
-.clear {
-  clear: both;
-}
-.half {
-  width: 50%;
-}
-.hidden {
-  display: none;
-}
-.text-center {
-  text-align: center;
-}
-.text-right {
-  text-align: right;
-}
-.tiny,
-.hint {
-  font-size: 0.75em;
-}
-.pad {
-  padding: 10px;
-}
-.selected {
-  background-color: #3395c2;
-  color: #ffffff;
-}
 .translateNone {
   -moz-transform: none;
   -webkit-transform: none;
@@ -400,6 +259,147 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
     transition: transform 350ms ease;
 }
 */
+body {
+  color: #666666;
+  font-size: 1.1em;
+}
+section > header {
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 12px;
+  border-bottom: 2px solid #3395c2;
+  color: #28769a;
+}
+/* ----------------------------------------------- Form ----------------------------------------- */
+label {
+  padding: 10px;
+  padding-left: 0;
+}
+fieldset {
+  border: none;
+  background: transparent;
+}
+textarea {
+  resize: vertical;
+  min-height: 90px;
+  padding: 5px;
+}
+.field,
+input,
+select {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 10px 5px;
+  border: 1px solid #d7d7d7;
+  /*-webkit-appearance: caret;*/
+
+  width: 100%;
+  margin: 2px 0;
+}
+input[type=button],
+button,
+.button {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 2px 0;
+  padding: 10px;
+  background-color: #d7d7d7;
+  color: #666666;
+  border: 1px solid #cacaca;
+  text-align: center;
+  width: 100%;
+}
+button:active,
+button.primary:active,
+.button:active,
+.button.primary:active,
+.button.active,
+.button.primary.active,
+button.active,
+button.primary.active {
+  background-color: #93cff2;
+  border: 1px solid #73c1ee;
+}
+input[type=button].primary,
+button.primary,
+.button.primary {
+  background-color: #56abd2;
+  color: #eeeeee;
+  border: 1px solid #56abd2;
+}
+input.inline,
+input[type=button],
+button.inline,
+.button.inline,
+select.inline {
+  width: auto;
+}
+select {
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: statusbar;
+  border: none;
+}
+option {
+  padding: 5px;
+}
+/* -------------------------------------- Other ------------------------------------------------ */
+.box,
+.inline-box {
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.expand {
+  overflow: auto;
+}
+.inline-box {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.first {
+  clear: left;
+}
+.clear {
+  clear: both;
+}
+.half {
+  width: 50%;
+}
+.hidden {
+  display: none;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.tiny,
+.hint {
+  font-size: 0.75em;
+}
+.pad {
+  padding: 10px;
+}
+.selected {
+  background-color: #3395c2;
+  color: #ffffff;
+}
 .list {
   margin: 0;
   padding: 0;

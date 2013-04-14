@@ -75,8 +75,8 @@
       <filelist dir="${src.dir}">
         <!-- ========================== core files ============================= -->
          <file name="app/colors.less"/>
-         <file name="app/base.less"/>
          <file name="app/app.less"/>
+         <file name="app/base.less"/>
         
         <!-- ========================== optional widgets ======================== -->
         <file name="datalist/datalist.less"/>
