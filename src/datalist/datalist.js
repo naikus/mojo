@@ -322,6 +322,13 @@
          },
                  
          selectItem: function(filter) {
+            var idx = this.indexOf(filter);
+            if(idx !== -1) {
+               this.selectItemAt(idx);
+            }
+         },
+                 
+         indexOf: function(filter) {
             var idx = -1, i, len = data.length;
             if(typeof filter === "function") {
                for(i = 0; i < len; i++) {
@@ -338,9 +345,7 @@
                   }
                }
             }
-            if(idx !== -1) {
-               this.selectItemAt(idx);
-            }
+            return idx;
          },
          
          getItemAt: function(idx) {

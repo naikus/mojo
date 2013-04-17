@@ -30,10 +30,15 @@
          toggle: function() {
             state = !state;
             renderUi();
+            onchange.call(widget, state);
          },
          setOn: function(bOn) {
+            var old = state;
             state = !!bOn;
-            renderUi();
+            if(old !== state) {
+               renderUi();
+               onchange.call(widget, state);
+            }
          },
          isOn: function() {
             return state;
