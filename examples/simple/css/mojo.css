@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/*#3395C2;*/
 /*
 // Red theme
 @base-color: #f4f4f4;
@@ -268,8 +269,8 @@ section > header {
   margin: 0;
   margin-bottom: 5px;
   padding: 12px;
-  border-bottom: 2px solid #3395c2;
-  color: #28769a;
+  border-bottom: 2px solid #1ca3ce;
+  color: #167fa1;
 }
 /* ----------------------------------------------- Form ----------------------------------------- */
 label {
@@ -310,7 +311,7 @@ button,
   padding: 10px;
   background-color: #d7d7d7;
   color: #666666;
-  border: 1px solid #cacaca;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
   width: 100%;
 }
@@ -323,14 +324,12 @@ button.primary:active,
 button.active,
 button.primary.active {
   background-color: #93cff2;
-  border: 1px solid #73c1ee;
 }
 input[type=button].primary,
 button.primary,
 .button.primary {
-  background-color: #56abd2;
+  background-color: #39bbe4;
   color: #eeeeee;
-  border: 1px solid #56abd2;
 }
 input.inline,
 input[type=button],
@@ -397,7 +396,7 @@ option {
   padding: 10px;
 }
 .selected {
-  background-color: #3395c2;
+  background-color: #1ca3ce;
   color: #ffffff;
 }
 .list {
@@ -442,7 +441,7 @@ option {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #3395c2;
+  border-bottom: 1px solid #1ca3ce;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -455,7 +454,7 @@ option {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #3395c2;
+  border-bottom: 3px solid #1ca3ce;
 }
 .tab-content {
   display: none;

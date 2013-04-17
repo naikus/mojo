@@ -72,7 +72,9 @@ input[type=button], button, .button {
    
    background-color: darken(@bg-color, 10%);
    color: @text-color;
-   border: 1px solid darken(@bg-color, 15%);
+   // border: 1px solid darken(@bg-color, 15%);
+   
+   border: 1px solid rgba(255,255,255,0.2);
 
    text-align: center;
 
@@ -84,14 +86,14 @@ input[type=button], button, .button {
 button:active, button.primary:active, .button:active, .button.primary:active, 
       .button.active, .button.primary.active, button.active, button.primary.active {
    background-color: @active-bg-color;
-   border: 1px solid darken(@active-bg-color, 7%);
+   // border: 1px solid darken(@active-bg-color, 7%);
    // -webkit-box-shadow: 0 0 3px darken(@active-bg-color, 35%);
    // box-shadow: 0 0 3px darken(@active-bg-color, 35%);
 }
 input[type=button].primary, button.primary, .button.primary {
    background-color: lighten(@selected-bg-color, 10%);
    color: @alt-text-color;
-   border: 1px solid lighten(@selected-bg-color, 10%);
+   // border: 1px solid lighten(@selected-bg-color, 10%);
 }
 
 
