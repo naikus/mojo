@@ -30,15 +30,16 @@
 }
 
 
-html, body, a, img, input, button, textarea {
+a, img, button {
    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 html, body {
-   font-family: Verdana, sans;
+   font-family: Helvetica, sans;
    overflow-x: hidden;
 }
 
+/*
 html, body, .viewport {
    width: 100%;
    min-height: 100%;
@@ -47,11 +48,19 @@ html, body, .viewport {
    
    background-color: @bg-color;
 }
+*/
 
 .viewport {
    position: absolute;
    top: 0;
    left: 0;
+   
+   width: 100%;
+   min-height: 100%;
+   margin: 0;
+   padding: 0;
+   
+   background-color: @bg-color;
 }
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
@@ -86,8 +95,6 @@ html, body, .viewport {
 
 .overlay {
    .translateY(-100%);
-   min-height: 0;
-   height: auto;
    background-color: @alt-bg-color;
    color: @alt-text-color;
 }
@@ -99,9 +106,6 @@ html, body, .viewport {
 
 .overlay.showing  {
    z-index: 199;
-}
-
-.view.transitioning {
 }
 
 .transition {

@@ -103,33 +103,35 @@
   -o-transform: none;
   transform: none;
 }
-html,
-body,
 a,
 img,
-input,
-button,
-textarea {
+button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html,
 body {
-  font-family: Verdana, sans;
+  font-family: Helvetica, sans;
   overflow-x: hidden;
 }
-html,
-body,
+/*
+html, body, .viewport {
+   width: 100%;
+   min-height: 100%;
+   margin: 0;
+   padding: 0;
+   
+   background-color: @bg-color;
+}
+*/
 .viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   min-height: 100%;
   margin: 0;
   padding: 0;
   background-color: #f0f0f0;
-}
-.viewport {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 /* ---------------------------- Default transition effects for views ---------------------------- */
@@ -161,8 +163,6 @@ body,
   -webkit-transform: translatey(-100%);
   -o-transform: translatey(-100%);
   transform: translatey(-100%);
-  min-height: 0;
-  height: auto;
   background-color: #373737;
   color: #eeeeee;
 }
@@ -267,16 +267,13 @@ body {
 section > header {
   font-weight: bold;
   margin: 0;
-  margin-bottom: 5px;
-  padding: 12px;
-  border-bottom: 2px solid #1ca3ce;
-  color: #167fa1;
+  background-color: #2d2d2d;
 }
 /* ----------------------------------------------- Form ----------------------------------------- */
-label {
-  padding: 10px;
-  padding-left: 0;
-}
+/*label {
+   padding: 10px;
+   padding-left: 0;
+}*/
 fieldset {
   border: none;
   background: transparent;
@@ -309,8 +306,8 @@ button,
   box-sizing: border-box;
   margin: 2px 0;
   padding: 10px;
-  background-color: #d7d7d7;
-  color: #666666;
+  background-color: #717171;
+  color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
   width: 100%;
@@ -356,7 +353,7 @@ option {
   box-sizing: border-box;
   overflow: auto;
 }
-.expand {
+.overflow {
   overflow: auto;
 }
 .inline-box {
@@ -364,6 +361,7 @@ option {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  overflow: auto;
 }
 .left {
   float: left;

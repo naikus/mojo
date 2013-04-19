@@ -20,18 +20,15 @@ body {
 section > header {
    font-weight: bold;
    margin: 0;
-   margin-bottom: 5px;
-   padding: 12px;
-   border-bottom: 2px solid @selected-bg-color;
-   color: darken(@selected-bg-color, 10%);
+   background-color: darken(@alt-bg-color, 4%);
 }
 
 /* ----------------------------------------------- Form ----------------------------------------- */
 
-label {
+/*label {
    padding: 10px;
    padding-left: 0;
-}
+}*/
 
 fieldset {
    border: none;
@@ -70,8 +67,8 @@ input[type=button], button, .button {
    margin: 2px 0;
    padding: 10px;
    
-   background-color: darken(@bg-color, 10%);
-   color: @text-color;
+   background-color: darken(@bg-color, 50%);
+   color: #fff;
    // border: 1px solid darken(@bg-color, 15%);
    
    border: 1px solid rgba(255,255,255,0.2);
@@ -121,7 +118,7 @@ option {
     box-sizing: border-box;
     overflow: auto;
 }
-.expand {
+.overflow {
    overflow: auto;
 }
 .inline-box {
@@ -129,6 +126,7 @@ option {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    overflow: auto;
 }
 .left {float: left;}
 .right {float: right;}
