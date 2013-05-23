@@ -57,6 +57,7 @@
       }
 
       function updateModel(mdl, pKey, modelRef) {
+         if(!mdl) {return;}
          var parentKey = pKey ? pKey + "." : "", pModel = modelRef || model;
          forEach(mdl, function(value, key) {
             var actKey = parentKey + key, type = getTypeOf(value);
@@ -74,7 +75,7 @@
       }
 
       function updateModelValue(key, value) {
-         var keys = key.split(","), modelValue, partKey, tmpModel = model;
+         var keys = key.split("."), modelValue, partKey, tmpModel = model;
          for(var i = 0, len = keys.length; i < len; i++) {
             partKey = keys[i];
             modelValue = tmpModel[partKey];
