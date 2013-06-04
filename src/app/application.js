@@ -138,8 +138,7 @@
             
             // the order of these two lines is important, in IE8, otherwise the paramPattern.exec will return null
             expander = compile(uriPattern, paramPattern),
-            genPattern = new RegExp("^" + uriPattern.replace(paramPattern, "(.*[^/])") + "$"),
-            
+            genPattern = new RegExp("^" + uriPattern.replace(paramPattern, "([^/]*)") + "$"),
             
             paramNames = expander.paramNames;
       
