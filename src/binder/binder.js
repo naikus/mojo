@@ -92,7 +92,8 @@
          // update the view
          var arrElems = boundElemMap[key];
          if(arrElems) {
-            setValue(arrElems, value == null ? "" : value); //intentional == check, for '0' values
+            var formatter = formatters[key];
+            setValue(arrElems, value == null ? "" : value, formatter); //intentional == check, for '0' values
          }
       }      
       
