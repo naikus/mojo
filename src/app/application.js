@@ -262,6 +262,15 @@
          }
          return null;
       }
+      
+      function getRouteOnStack(path) {
+         for(var i = 0, len = stack.length; i < len; i++) {
+            if(path === stack[i].path) {
+               return stack[i];
+            }
+         }
+         return null;
+      }
 
       function prepareRoute(route) {
          if(!route.id) {
@@ -350,7 +359,7 @@
          stack.push(route);
       }
 
-      function popView(data) {
+      function popView(data, toPath) {
          var route, currRoute, path, ui, params, callback;
 
          // no routes on stack
@@ -360,7 +369,21 @@
          }
 
          currRoute = stack.pop();
-         route = stack[stack.length - 1];
+         
+         if(toPath) {
+            route = getRouteOnStack(toPath);
+            if(route) {
+               while(route !== stack[stack.length - 1]) {
+                  stack.pop();
+               }
+               // route = stack[stack.length - 1];
+            }else {
+               throw new Error("Route " + route.path + " is not on stack");
+            }
+         }else {
+            route = stack[stack.length - 1];
+         }
+         
          callback = route.callback;
          path = route.realPath;
             
@@ -585,13 +608,15 @@
             pushView(path, data, callback);
          },
                  
-         popView: function(result) {
+         popView: function(result, toPath) {
             var len = stack.length;
             if(len >= 2) {
-                var route = stack[len - 2];
-                RouteHandler.ignoreNextHashChange();
-                window.location.hash = route.realPath;
-                popView(result);
+                var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
+                if(route) {
+                    RouteHandler.ignoreNextHashChange();
+                    window.location.hash = route.realPath;
+                }
+                popView(result, toPath);
             }
          },
                  
