@@ -303,7 +303,7 @@ button.primary:active,
 .button.primary.active,
 button.active,
 button.primary.active {
-  background-color: #ef8511;
+  background-color: #fcab55;
 }
 input[type=button].primary,
 button.primary,
@@ -414,7 +414,7 @@ option {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #ef8511 !important;
+  background-color: #fcab55 !important;
 }
 .tabstrip,
 .tab {
@@ -545,7 +545,7 @@ img.activable.active {
   color: #de6300;
 }
 .active-text {
-  color: #ef8511;
+  color: #fcab55;
 }
 .alt-bg section > .header {
   background-color: #373737;
@@ -733,7 +733,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #ef8511;
+  background-color: #fcab55;
   color: #fff;
 }
 .bordered {
@@ -864,7 +864,7 @@ a.button {
 }
 #calendarView > .calendar > .year-bar > .years > li.selected {
   background-color: transparent;
-  color: #ef8511;
+  color: #fcab55;
 }
 #calendarView > .calendar > .months {
   padding: 5px 2%;
