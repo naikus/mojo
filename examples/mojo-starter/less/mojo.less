@@ -1,0 +1,562 @@
+/*!
+ * The MIT License
+ * 
+ * Copyright (c) 2011-2013 mojo Authors. All rights reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ 
+ 
+// default theme (gray blue)
+@base-color: #f7f7f7;
+
+// Background color for viewport views and other boxes
+@bg-color: #f0f0f0;
+
+// Background color for overlays, inlays etc.
+@alt-bg-color: #373737;
+
+// Text color to complement the background color
+@text-color: #666;
+
+// Text color to complement alternate background color
+@alt-text-color: #eee;
+
+// Default selected background color
+@selected-bg-color: #1CA3CE; /*#3395C2;*/
+
+@selected-bg-color-alt: #3395C2;
+
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #93cff2;
+@active-text-color: #666;
+
+
+// Default selected text color
+@selected-text-color: #fff;
+
+
+@alert-color: #9E5B5A;
+@error-color: #D66B55;
+@success-color: #94B75F;
+@warn-color: #F79204;
+@info-color: #6AADC9;
+@invalid-color: #9B2D2D;
+
+
+/*
+// Red theme
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Default selected background color
+@selected-bg-color: #B84126;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+
+// mint theme (green)
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #303030;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #CEF263;
+@active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #99CC00;
+@selected-bg-color-alt: #3395C2;
+// Default selected text color
+@selected-text-color: #fff;
+
+
+// Android theme
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #434343;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #f1f1f1;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #333;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7E596;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F2D44D;
+@selected-bg-color-alt: #3395C2;
+// Default selected text color
+@selected-text-color: #222;
+*/
+
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #ef8511;
+@active-text-color: #333;
+// Default selected background color
+@selected-bg-color: #DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+
+.translate(@x: 0, @y: 0) {
+   -moz-transform: translate(@x, @y);
+   /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+   /**-webkit-transform: translate3d(@x, @y, 0);*/
+   -webkit-transform: translate(@x, @y);
+   -o-transform: translate(@x, @y);
+   transform: translate(@x, @y);
+}
+.translateX(@x: 0) {
+   -moz-transform: translateX(@x);
+   -webkit-transform: translateX(@x);
+   /*-webkit-transform: translate3d(@x, 0, 0);*/
+   -o-transform: translateX(@x);
+   transform: translateX(@x);
+}
+.translateNone {
+   -moz-transform: none;
+   -webkit-transform: none;
+   -o-transform: none;
+   transform: none;
+}
+.translateY(@y: 0) {
+   -moz-transform: translateY(@y);
+   -webkit-transform: translateY(@y);
+   -o-transform: translateY(@y);
+   transform: translateY(@y);
+}
+
+
+a, img, button {
+   -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+html, body {
+   font-family: Helvetica, sans;
+   overflow-x: hidden;
+}
+
+/*
+html, body, .viewport {
+   width: 100%;
+   min-height: 100%;
+   margin: 0;
+   padding: 0;
+   
+   background-color: @bg-color;
+}
+*/
+
+.viewport {
+   position: absolute;
+   top: 0;
+   left: 0;
+   
+   width: 100%;
+   min-height: 100%;
+   margin: 0;
+   padding: 0;
+   
+   background-color: @bg-color;
+}
+
+/* Currently unused since does not work consistently in firefox and firefox mobile */
+.view.transitioning {
+   
+}
+
+
+
+
+/* ---------------------------- Default transition effects for views ---------------------------- */
+.view, .overlay {
+   position: absolute;
+   left: 0;
+   top: 0;
+   
+   width: 100%;
+   min-height: 100%;
+   
+   display: none;
+   
+   /* Avoid flickering in webkit browsers, thanks stackoverflow */
+   /* -webkit-perspective: 1000; */
+   -webkit-backface-visibility: hidden;  
+   
+   background-color: @bg-color;
+}
+
+.view {
+   .translateX(100%);
+}
+
+.overlay {
+   .translateY(-100%);
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+}
+
+.view.showing, .overlay.showing {
+   z-index: 99;
+   display: block;
+}
+
+.overlay.showing  {
+   z-index: 199;
+}
+
+.transition {
+   -moz-transition: -moz-transform 225ms ease 50ms;
+   -webkit-transition: -webkit-transform 225ms ease 50ms;
+   -o-transition: -o-transform 225ms ease 50ms;
+   -ms-transition: -ms-transform 225ms ease 50ms;
+   transition: transform 225ms ease 50ms;
+}
+.view.in {
+   .translateX(0);
+}
+.view.stack, .view.out {
+   .translateX(-100%);
+}
+.view.pop {
+   .translateX(100%);
+}
+
+.overlay.in {
+   .translateY(0);
+}
+.overlay.pop {
+   .translateY(-100%);
+}
+
+
+/*
+Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
+*/
+/*
+.view {
+    -moz-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.2, 1.2);
+    -o-transform: scale(1.2, 1.2);
+    -ms-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+}
+.view.in {
+    -moz-transform: none;
+    -webkit-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    transform: none;
+    opacity: 1;
+}
+.view.stack {
+    -moz-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(0.8, 0.8);
+    -o-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+}
+.view.pop {
+    //-webkit-transition: opacity 150ms ease, -webkit-transform 350ms ease;
+    -moz-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.3, 1.3);
+    -o-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
+}
+
+.transition {
+    -moz-transition: -moz-transform 350ms ease;
+    -webkit-transition: -webkit-transform 350ms ease;
+    -o-transition: -o-transform 350ms ease;
+    -ms-transition: -ms-transform 350ms ease;
+    transition: transform 350ms ease;
+}
+*/
+.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+.border-radius(@tl: 0, @tr: 0, @bl: 0, @br: 0) {
+   border-radius: @arguments;
+   -webkit-border-radius: @arguments;
+}
+.border-radius(@r: 0) {
+   border-radius: @r;
+   -webkit-border-radius: @r;
+}
+
+body {
+   color: @text-color;
+   font-size: 1.1em;
+}
+
+section > header {
+   font-weight: bold;
+   margin: 0;
+   background-color: darken(@alt-bg-color, 4%);
+}
+
+/* ----------------------------------------------- Form ----------------------------------------- */
+
+/*label {
+   padding: 10px;
+   padding-left: 0;
+}*/
+
+fieldset {
+   border: none;
+   background: transparent;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+    padding: 5px;
+}
+.field, input, select {
+   display: inline-block;
+   
+   box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   
+   padding:10px 5px;
+   border: 1px solid darken(@bg-color, 10%);
+   /*-webkit-appearance: caret;*/
+   width: 100%;
+   margin: 2px 0;
+}
+
+input[type=range] {
+
+}
+
+input[type=button], button, .button {
+   display: inline-block;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   
+   margin: 2px 0;
+   padding: 10px;
+   
+   background-color: darken(@bg-color, 50%);
+   color: #fff;
+   // border: 1px solid darken(@bg-color, 15%);
+   
+   border: 1px solid rgba(255,255,255,0.2);
+
+   text-align: center;
+
+   width: 100%;
+   
+   // -webkit-box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
+   // box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
+}
+button:active, button.primary:active, .button:active, .button.primary:active, 
+      .button.active, .button.primary.active, button.active, button.primary.active {
+   background-color: @active-bg-color;
+   // border: 1px solid darken(@active-bg-color, 7%);
+   // -webkit-box-shadow: 0 0 3px darken(@active-bg-color, 35%);
+   // box-shadow: 0 0 3px darken(@active-bg-color, 35%);
+}
+input[type=button].primary, button.primary, .button.primary {
+   background-color: lighten(@selected-bg-color, 10%);
+   color: @alt-text-color;
+   // border: 1px solid lighten(@selected-bg-color, 10%);
+}
+
+
+input.inline, input[type=button], button.inline, .button.inline, select.inline {
+   width: auto;
+}
+
+select {
+   background: transparent;
+   -webkit-appearance: none;
+   -moz-appearance: statusbar;
+   border: none;
+}
+option {
+   padding: 5px;
+}
+
+
+/* -------------------------------------- Other ------------------------------------------------ */
+
+.box, .inline-box {
+    display: block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: auto;
+}
+.overflow {
+   overflow: auto;
+}
+.inline-box {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: auto;
+}
+.left {float: left;}
+.right {float: right;}
+.first {clear: left;}
+.clear {clear: both;}
+.half {width: 50%;}
+.hidden {display: none;}
+.text-center {text-align: center;}
+.text-right {text-align: right;}
+.tiny, .hint {font-size: 0.75em;}
+.pad {padding: 10px;}
+.selected {
+   background-color: @selected-bg-color;
+   color: @selected-text-color;
+}.list {
+   margin: 0;
+   padding: 0;
+   overflow: auto;
+}
+.list > li {
+   list-style-type: none;
+   border: 1px solid transparent;
+   border-bottom: 1px solid darken(@bg-color, 4%);
+   overflow: auto;
+   position: relative;
+}
+
+.list > li.selected {
+   background-color: @selected-bg-color-alt;
+   background-image: linear-gradient(to bottom, @selected-bg-color-alt, darken(@selected-bg-color-alt, 3%));
+}
+
+.list > li .title, .list > li .desc, .list > li p {
+   margin: 0;
+   padding: 2px 5px;
+}
+.list .title {
+   font-weight: bold;
+   font-size: 0.9em;
+}
+.list .desc {
+   font-size: 0.7em;
+}
+.toggle {
+
+}
+.toggle.on {
+
+}.activable {
+    cursor: pointer;
+}
+.activable.active {
+   background-color: @active-bg-color !important;
+}.tabstrip, .tab {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+}
+.tabstrip {
+   overflow: auto;
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   border-bottom: 1px solid @selected-bg-color;
+}
+
+.tabstrip > .tab {
+   list-style-type: none;
+   
+   /* A display of table-cell with 10000px width will automatically adjust tab widths */
+   display: table-cell;
+   width: 10000px;
+   
+   font-size: 0.9em;
+   text-align: center;
+   position: relative;
+}
+
+.tabstrip > .tab > span {
+   border-right: 1px solid darken(@bg-color, 10%);
+   min-height: 20px;
+   padding: 3px 10px;
+   margin: 6px 0;
+   display: block;
+}
+.tabstrip > .tab:last-child > span {
+   border-right-width: 0;
+}
+
+.tabstrip > .tab.selected {
+   background: none;
+   border-bottom: 3px solid @selected-bg-color;
+   color: @text-color;
+}
+
+.tabstrip.alt-bg {
+   background-color: @alt-bg-color;
+}
+.tabstrip.alt-bg > .tab > span {
+   border-right: 1px solid lighten(@alt-bg-color, 2%);
+}
+.tabstrip.alt-bg > .tab.selected {
+   color: @selected-bg-color-alt;
+}
+
+.tabstrip > .tab.active > span, .tabstrip > .tab:active > span {
+   border-right-color: transparent;
+}
+
+.tab-content {
+   display: none;
+}
+
+.tab-content.current {
+   display: block;
+   background-color: @bg-color;
+}

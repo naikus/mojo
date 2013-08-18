@@ -11,6 +11,11 @@
    position: relative;
 }
 
+.list > li.selected {
+   background-color: @selected-bg-color-alt;
+   background-image: linear-gradient(to bottom, @selected-bg-color-alt, darken(@selected-bg-color-alt, 3%));
+}
+
 .list > li .title, .list > li .desc, .list > li p {
    margin: 0;
    padding: 2px 5px;

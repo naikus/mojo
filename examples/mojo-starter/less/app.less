@@ -1,0 +1,480 @@
+@import "mojo.less";
+
+html, body {
+   font-family: Helvetica;
+   font-size: 0.95em;
+}
+
+article, section, aside, div, img, p, h1, h2, h3, h4, h5, h6 {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+ul {
+   margin: 0;
+}
+
+ul.horizontal {
+   overflow: auto;
+   list-style-type: none;
+}
+ul.horizontal li {
+   float: left;
+}
+
+p {
+   margin: 0;
+}
+
+.alt-bg {
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+}
+.alt-bg-1 .list > li {
+    border-bottom-color: darken(@bg-color, 6%);
+}
+
+.pad-vertical {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.pad-horizantal {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.pad-extra {
+   padding: 15px;
+}
+
+img.activable {
+   border: 3px solid transparent;
+}
+img.activable:active, img.activable.active {
+   border-color: @selected-bg-color;
+}
+
+.large {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.small {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.selected-text {
+   color: @selected-bg-color;
+}
+.active-text {
+    color: @active-bg-color;
+}
+
+.alt-bg section > .header {
+   background-color: darken(@alt-bg-color, 4%);
+   font-weight: bold;
+}
+
+
+/* ------------------------------------- Simple Meters -------------------------------------- */
+
+.meter {
+    background-color: darken(@alt-bg-color, 15%);
+    /*box-shadow: 0 0 2px #000000 inset;*/
+    overflow: auto;
+    padding: 2px;
+    position: relative;
+}
+.meter > .value {
+    height: 4px;
+    left: 0px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    /*border: 1px solid rgba(255,255,255,0.2);*/
+    
+    -moz-transition: width 700ms ease 50ms;
+    -webkit-transition: width 700ms ease 50ms;
+    -o-transition: width 700ms ease 50ms;
+    -ms-transition: width 700ms ease 50ms;
+    transition: width 700ms ease 50ms;
+}
+
+
+
+/* 
+ * Enable this if you don't want your views to jump after transitioning when previous or next views have
+ * higher height values
+ */
+.view.transitioning {
+   height: 100%;
+   overflow: hidden;
+}
+/*
+ * This hides elements with .transition-hide class while view is transitioning
+ */
+.view.transitioning .transition-hide {
+   display: none;
+}
+
+.alt-bg input, .alt-bg textarea {
+   background-color: transparent;
+   border: none;
+   /*border-bottom: 1px solid lighten(@alt-bg-color, 10%);*/
+   color: @alt-text-color;
+}
+
+input[type=button].primary, button.primary, .button.primary {
+   background-color: @selected-bg-color-alt;
+   color: @alt-text-color;
+}
+
+button.primary:active, .button.primary:active, .button.primary.active, button.primary.active {
+   background-color: lighten(@selected-bg-color-alt, 20%);
+}
+
+input[type=button].alt, button.alt, .button.alt {
+   background-color: darken(@bg-color, 10%);
+   border-color: darken(@bg-color, 15%);
+   color: @text-color;
+}
+input[type=button].alt.active, button.alt.active, .button.alt.active {
+   background-color: darken(@bg-color, 5%);
+}
+
+.success:active, input[type=button].success.active, button.success.active, .button.success.active {
+   background-color: lighten(@success-color, 15%);
+}
+
+.error:active, input[type=button].error.active, button.error.active, .button.error.active {
+   background-color: lighten(@error-color, 15%);
+}
+.warn:active, input[type=button].warn.active, button.warn.active, .button.warn.active {
+   background-color: lighten(@warn-color, 15%);
+}
+
+
+/* Any list with pad class will actually pad all its items */
+.list.pad, .list.pad-extra {
+   padding: 0;
+}
+.list.pad > li {
+   padding: 10px;
+}
+.list.pad-extra > li {
+   padding: 15px 5px;
+}
+
+.form .header {
+   background-color: darken(@bg-color, 7%);
+   padding: 10px !important;
+   margin: 0;
+   color: @text-color;
+   border: none;
+   font-weight: bold;
+   overflow: auto;
+}
+
+.alt-bg-1 .header, .form.alt-bg-1 .header {
+   background-color: darken(@bg-color, 7%);
+}
+
+.dark .list > li {
+   border: none;
+   border-bottom: 1px solid lighten(@alt-bg-color, 3%);
+}
+.dark .list > li:last-child {
+   border-bottom: none;
+}
+
+.no-border, .no-border > li, .dark .no-border li {
+   border: none;
+}
+
+.list li .label {
+   padding: 4px 4px 2px;
+}
+
+a.button {
+   text-decoration: none;
+}
+
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+   position: fixed;
+   top: 0px;
+   left: 0;
+   width: 100%;
+   min-height: 30px;
+   overflow: auto;
+
+   z-index: 199;
+   margin: 0;
+   
+   box-shadow: 0 1px 2px #000;
+   -webkit-box-shadow: 0 1px 2px #000;
+}
+.messages > .message {
+   font-size: 0.9em;
+   margin: 0;
+   padding: 7px;
+   color: @alt-text-color;
+}
+
+.info {
+   background-color: @info-color;
+}
+.info-text {
+   color: darken(@info-color, 30%);
+}
+.success {
+   background-color: @success-color;
+   color: #fff;
+}
+.success-text {
+   color: @success-color;
+}
+.error {
+   background-color: @error-color;
+   color: #fff;
+}
+.error-text {
+   color: @error-color;
+}
+.warn {
+   background-color: @warn-color;
+   color: #fff;
+}
+.warn-text {
+   color: @warn-color;
+}
+.indicate {
+   background-color: @error-color;
+}
+.indicate-alt {
+   color: @error-color;
+}
+.active {
+    background-color: @active-bg-color;
+    color: #fff;
+}
+.bordered {
+    border: 1px solid rgba(0, 0, 0, 0.2)
+}
+
+.tab-content {
+   padding: 10px;
+}
+
+/* --------------------------------------- Css for 'loading...' text --------------------------------------------- */
+#loading {
+   z-index: 399;
+   width: 80%;
+   margin: 0 10%;
+   padding: 10px 0;
+
+   position: fixed;
+   bottom: 10%;
+   left: 0;
+
+   color: #fefefe;
+   background-color: lighten(@alt-bg-color, 5%);
+   border: 1px solid darken(@alt-bg-color, 5%);
+   text-align: center;
+
+   /*opacity: 0.65;*/
+   box-shadow: 0 0 5px darken(@alt-bg-color, 3%);
+   -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 3%);
+
+   display: none;
+}
+#loading.show {
+   display: block;
+}
+
+
+
+.page-actions {
+   padding: 10px 0 0;
+   margin: 10px 0 0;
+}
+
+.toolbar {
+   overflow: auto;
+   background-color: lighten(@alt-bg-color, 5%);
+
+   background-image: linear-gradient(to bottom, lighten(@alt-bg-color, 5%), lighten(@alt-bg-color, 2%));
+
+   color: @alt-text-color;
+   border-bottom: 1px solid darken(@alt-bg-color, 5%);
+}
+.toolbar .title {
+   color: lighten(@selected-bg-color, 20%);
+   font-weight: bold;
+   display: inline-block;
+   padding: 9px;
+
+   /*
+   background-image: url('../images/some-image.png');
+   background-repeat: no-repeat;
+   background-position: left center;
+   */
+
+}
+.toolbar .action {
+   text-shadow: 0 0 2px #111;
+   -webkit-text-shadow: 0 0 2px #111;
+   display: inline-block;
+   font-size: 1.1em;
+   padding: 9px;
+   /* border-right: 1px solid lighten(@alt-bg-color, 9%); */
+}
+
+.toolbar .action.right {
+   border: none;
+   /* border-left: 1px solid lighten(@alt-bg-color, 9%); */
+}
+
+.toolbar .action.on {
+   background-color: lighten(@selected-bg-color, 10%);
+}
+
+.list > li.toggle:after, .list > li.toggle.on:after {
+   content: '\e813';
+   font-family: 'mojo-icons';
+   position: absolute;
+   /*
+   top: 15px;
+   right: 15px;
+   */
+   color: darken(@bg-color, 10%);
+   font-size: 1.6em;
+}
+.list > li.toggle.on:after {
+   content: '\e812'; /* tick mark icon */
+   color: @selected-bg-color-alt;
+   /*right: 12px;*/
+}
+
+
+/* --------------------------------------- Map View ----------------------------------------- */
+
+.google-map {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: -1; // to make it go underneath the toolbar
+}
+
+/* ------------------------------------ Calendar View --------------------------------------- */
+
+#calendarView > .calendar {}
+
+
+#calendarView > .calendar > .year-bar {
+   overflow: auto;
+   background-color: lighten(@alt-bg-color, 5%);
+   color: #eee;
+   border-bottom: 1px solid lighten(@alt-bg-color, 9%);
+}
+#calendarView > .calendar > .year-bar span {
+   padding: 13px;
+   width: 16%;
+   text-align: center;
+
+   font-size: 1.1em;
+   text-shadow: 0 0 2px #111;
+   -webkit-text-shadow: 0 0 2px #111;
+}
+#calendarView > .calendar > .year-bar > .years {
+   margin: 0;
+   width: 64%;
+   padding: 7px 2%;
+}
+#calendarView > .calendar > .year-bar > .years > li {
+   width: 25%;
+   padding: 7px 0;
+   text-align: center;
+
+   color: lighten(@alt-bg-color, 15%);
+
+   font-size: 1em;
+   font-weight: bold;
+}
+#calendarView > .calendar > .year-bar > .years > li.selected {
+   background-color: transparent;
+   color: @active-bg-color;
+}
+
+#calendarView > .calendar > .months {
+   padding: 5px 2%;
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+
+   border-bottom: 1px solid @selected-bg-color;
+}
+
+#calendarView > .calendar > .months > li, 
+#calendarView > .calendar > .days > li, 
+#calendarView > .calendar > .dates > li {
+   font-size: 0.9em;
+   font-weight: bold;
+   text-align: center;
+
+   display: block;
+   float: left;
+
+   padding: 15px 0 10px;
+
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+#calendarView > .calendar > .dates > li.selected {
+   border-bottom-color: @selected-bg-color;
+}
+
+#calendarView > .calendar > .months > li {
+   width: 16%;
+}
+
+#calendarView > .calendar > .days, .calendar > .dates {
+   padding: 0;
+   margin: 0;
+}
+
+#calendarView > .calendar > .days > li, .calendar > .dates > li {
+   width: 14.285714%;
+}
+
+
+
+/* ---------------------------------- Time View --------------------------------------------- */
+div.column, .span4 {
+   width: 33.333%;
+   overflow: auto;
+}
+
+#timeView .hours, #timeView .minutes, #timeView .ampm {
+   background-color: #ddd;
+}
+
+#timeView .hours li, #timeView .minutes li, #timeView .ampm li {
+   border: none;
+   text-align: center;
+   font-weight: bold;
+   margin-bottom: 1px;
+}
+
+#timeView div.details {
+   width: 66.666%;
+   border-top: 1px solid #ddd;
+   margin-top: 20px;
+   padding: 15px 10px;
+}
+
+#timeView div.details h1 {
+   font-size: 2.5em;
+}

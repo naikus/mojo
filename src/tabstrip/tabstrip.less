@@ -13,25 +13,52 @@
 
 .tabstrip > .tab {
    list-style-type: none;
+   
+   /* A display of table-cell with 10000px width will automatically adjust tab widths */
    display: table-cell;
-   width: 1000px;
-   min-height: 20px;
-   padding: 13px 10px 10px;
+   width: 10000px;
+   
    font-size: 0.9em;
    text-align: center;
+   position: relative;
+}
+
+.tabstrip > .tab > span {
+   border-right: 1px solid darken(@bg-color, 10%);
+   min-height: 20px;
+   padding: 3px 10px;
+   margin: 6px 0;
+   display: block;
+}
+.tabstrip > .tab:last-child > span {
+   border-right-width: 0;
 }
 
 .tabstrip > .tab.selected {
    background: none;
    border-bottom: 3px solid @selected-bg-color;
+   color: @text-color;
+}
+
+.tabstrip.alt-bg {
+   background-color: @alt-bg-color;
+}
+.tabstrip.alt-bg > .tab > span {
+   border-right: 1px solid lighten(@alt-bg-color, 2%);
+}
+.tabstrip.alt-bg > .tab.selected {
+   color: @selected-bg-color-alt;
+}
+
+.tabstrip > .tab.active > span, .tabstrip > .tab:active > span {
+   border-right-color: transparent;
 }
 
 .tab-content {
    display: none;
 }
 
-.tab-content.active {
+.tab-content.current {
    display: block;
    background-color: @bg-color;
-   
 }

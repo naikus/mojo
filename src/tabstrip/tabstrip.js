@@ -33,11 +33,11 @@
          if(retVal !== false) {
             if(oldInfo) {
                oldTab.removeClass("selected");
-               oldInfo.content.removeClass("active");
+               oldInfo.content.removeClass("current");
             }
             
             tab.addClass("selected");
-            tabInfo.content.addClass("active");
+            tabInfo.content.addClass("current");
          }else {
             selectedTabInfo = oldInfo;
          }
