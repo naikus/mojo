@@ -16,6 +16,10 @@
    background-image: linear-gradient(to bottom, @selected-bg-color-alt, darken(@selected-bg-color-alt, 3%));
 }
 
+.alt-bg .list li, .list.alt-bg li {
+   border-bottom-color: darken(@alt-bg-color, 3%);
+}
+
 .list > li .title, .list > li .desc, .list > li p {
    margin: 0;
    padding: 2px 5px;

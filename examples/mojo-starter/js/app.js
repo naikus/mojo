@@ -397,6 +397,14 @@ window.SERVER_URL = "/";
         },
         logout: function() {
            console.log("Logging out");
+        },
+        toggleMainMenu: function(elem) {
+           var viewPort = $("#viewPort");
+           if(viewPort.hasClass("reveal-appmenu")) {
+              viewPort.removeClass("reveal-appmenu");
+           }else {
+              viewPort.addClass("reveal-appmenu");
+           }
         }
       };
 

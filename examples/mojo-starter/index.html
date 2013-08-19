@@ -48,6 +48,12 @@
 
    <!-- Don't keep body as the view-port on android devices cause the views don't scroll -->
    <body>
+      <div class="appmenu alt-bg">
+         <ul class="pad-extra list">
+            <li><span class="icon-cog-2"> Settings</span></li>
+            <li><span class="icon-logout"> Logout</span></li>
+         </ul>
+      </div>
       <div class="viewport" id="viewPort">
          <div id="messages" class="messages hidden"></div>
          <div class="icon-hourglass" id="loading">Please wait...</div>
@@ -58,7 +64,7 @@
          <!-- ====================================== Tab View ========================================== -->
          <article class="view" id="tabView">
             <div class="toolbar">
-               <span data-action="refresh" class="activable action icon-menu"></span>
+               <span data-action="toggleMainMenu" class="activable action icon-menu"></span>
                <span class="title">Main</span>
 
                <span data-action="logout" class="activable action icon-logout right"></span>
@@ -143,11 +149,14 @@
                               }
                            });
                            
-                           uiList.setItems([
-                              {title: "Item One", description: "Description for Item one"},
-                              {title: "Item Two", description: "Description for Item two"},
-                              {title: "Item Three", description: "Description for Item three"},
-                           ]);
+                           var arrItems = [];
+                           for(var i = 0; i < 100; i++) {
+                              arrItems[arrItems.length] = {
+                                 title: "Item " + i, 
+                                 description: "Description for Item " + i
+                              };
+                           }
+                           uiList.setItems(arrItems);
                            
                            uiList.on(Events.tap, function(e, item, itemModel) {
                               // Messages.info(itemModel.description);
@@ -300,7 +309,7 @@
                               yr = act === "prev" ? uiYears.getItemAt(0) : uiYears.getItemAt(uiYears.size() - 1),
                               years = act === "prev" ? getYearDataPrevious(yr) : getYearDataNext(yr),
                               currIdx = years.indexOf(calDate.getFullYear());
-
+                      
                         uiYears.setItems(years);
                         if(currIdx !== -1) {
                            uiYears.selectItemAt(currIdx);
@@ -417,7 +426,7 @@
             <div class="toolbar">
                <span id="timeTitle" class="title">Select Time</span>
             </div>
-            <div class="content">
+            <div class="content time">
                <div class="column left text-center pad">
                   <strong class="label">Hr</strong>
                   <ul class="box pad list hours"></ul>
@@ -437,7 +446,7 @@
                </div>
 
                <div class="left details text-center time-actions">
-                  <h1 id="timeBox"></h1>
+                  <h1 class="timebox" id="timeBox"></h1>
                   <div class="pad">
                      <span data-action="ok" class="button primary icon-ok">OK</span>
                   </div>
@@ -453,7 +462,8 @@
                   factory: function(app, viewUi) {
                      var timeData, time,
                            arrHours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-                           arrMin = [0, 15, 30, 45],
+                           //arrMin = [0, 15, 30, 45],
+                           arrMin = [0, 10, 20, 30, 40, 50],
 
                            uiTimeBox,
                            uiHours, uiMin, uiAmpm;

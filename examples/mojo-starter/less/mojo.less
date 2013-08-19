@@ -275,13 +275,13 @@ html, body, .viewport {
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 */
-/*
+/**/
 .view {
-    -moz-transform: scale(1.2, 1.2);
-    -webkit-transform: scale(1.2, 1.2);
-    -o-transform: scale(1.2, 1.2);
-    -ms-transform: scale(1.2, 1.2);
-    transform: scale(1.2, 1.2);
+    -moz-transform: scale(1.05, 1.05);
+    -webkit-transform: scale(1.05, 1.05);
+    -o-transform: scale(1.05, 1.05);
+    -ms-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
     opacity: 0;
 }
 .view.in {
@@ -290,30 +290,36 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
     -o-transform: none;
     -ms-transform: none;
     transform: none;
-    opacity: 1;
+    opacity: 1;    
 }
 .view.stack {
-    -moz-transform: scale(1.2, 1.2);
-    -webkit-transform: scale(0.8, 0.8);
-    -o-transform: scale(1.2, 1.2);
-    transform: scale(1.2, 1.2);
+    -moz-transform: scale(0.95, 0.95);
+    -webkit-transform: scale(0.95, 0.95);
+    -o-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
+    opacity: 0;
 }
 .view.pop {
-    //-webkit-transition: opacity 150ms ease, -webkit-transform 350ms ease;
-    -moz-transform: scale(1.2, 1.2);
+    /*
+    -moz-transform: scale(1.3, 1.3);
     -webkit-transform: scale(1.3, 1.3);
-    -o-transform: scale(1.2, 1.2);
-    transform: scale(1.2, 1.2);
+    -o-transform: scale(1.3, 1.3);
+    -ms-transform: scale(1.3, 1.3);
+    transform: scale(1.3, 1.3);
+    */
+    opacity: 0;
 }
 
 .transition {
-    -moz-transition: -moz-transform 350ms ease;
-    -webkit-transition: -webkit-transform 350ms ease;
-    -o-transition: -o-transform 350ms ease;
-    -ms-transition: -ms-transform 350ms ease;
-    transition: transform 350ms ease;
+   -moz-transition: -moz-transform 200ms ease;
+   -webkit-transition: -webkit-transform 200ms ease;
+   -o-transition: -o-transform 200ms ease;
+   -ms-transition: -ms-transform 200ms ease;
+   transition: transform 200ms ease;
 }
-*/
+
+
+/**/
 .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
@@ -330,7 +336,6 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 
 body {
    color: @text-color;
-   font-size: 1.1em;
 }
 
 section > header {
@@ -475,6 +480,10 @@ option {
    background-image: linear-gradient(to bottom, @selected-bg-color-alt, darken(@selected-bg-color-alt, 3%));
 }
 
+.alt-bg .list li, .list.alt-bg li {
+   border-bottom-color: darken(@alt-bg-color, 3%);
+}
+
 .list > li .title, .list > li .desc, .list > li p {
    margin: 0;
    padding: 2px 5px;
@@ -516,7 +525,7 @@ option {
    display: table-cell;
    width: 10000px;
    
-   font-size: 0.9em;
+   font-size: 0.95em;
    text-align: center;
    position: relative;
 }
@@ -524,7 +533,7 @@ option {
 .tabstrip > .tab > span {
    border-right: 1px solid darken(@bg-color, 10%);
    min-height: 20px;
-   padding: 3px 10px;
+   padding: 4px 10px;
    margin: 6px 0;
    display: block;
 }
