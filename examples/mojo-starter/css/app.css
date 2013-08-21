@@ -617,7 +617,7 @@ img.activable.active {
 input[type=button].primary,
 button.primary,
 .button.primary {
-  background-color: #ef8511;
+  background-color: #00b8fc;
   color: #ffffff;
 }
 button.primary:active,
@@ -959,6 +959,12 @@ div.column,
 .time .ampm {
   background-color: #dedede;
 }
+.time .hours,
+.time .minutes,
+.time .ampm {
+  padding: 10px;
+  margin-bottom: 15px;
+}
 .time .hours li,
 .time .minutes li,
 .time .ampm li {
@@ -966,16 +972,31 @@ div.column,
   text-align: center;
   font-weight: bold;
   margin-bottom: 1px;
+  box-sizing: border-box;
+  padding: 15px 0;
+  width: 16.6%;
+}
+.time .ampm li {
+  width: auto;
+}
+.time .minutes li.highlite {
+  color: #de6300;
+}
+.time .minutes li.highlite.selected {
+  color: #ffffff;
+}
+.time .minutes li.highlite,
+.time .minutes li.highlite-alt {
+  border-radius: 3px;
 }
 .time div.details {
   width: 66.666%;
-  border-top: 1px solid #dedede;
-  margin-top: 20px;
-  padding: 15px 10px;
+  padding: 10px;
 }
 .time .timebox {
   font-size: 2.5em;
   margin: 0;
+  padding-bottom: 6px;
   text-shadow: 0 0 2px #fff;
 }
 

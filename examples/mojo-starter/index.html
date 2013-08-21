@@ -426,32 +426,26 @@
             <div class="toolbar">
                <span id="timeTitle" class="title">Select Time</span>
             </div>
-            <div class="content time">
-               <div class="column left text-center pad">
-                  <strong class="label">Hr</strong>
-                  <ul class="box pad list hours"></ul>
-               </div>
+            <div class="content time pad">
+               <strong class="label">Hours</strong>
+               <ul class="box list horizontal hours"></ul>
 
-               <div class="column left text-center pad">
-                  <strong>Min</strong>
-                  <ul class="box pad list minutes"></ul>
-               </div>
+               <strong>Minutes</strong>
+               <ul class="box list horizontal minutes"></ul>
 
-               <div class="column left text-center pad">
-                  <strong>&#160;</strong>
+
+               <div class="left column text-center">
                   <ul class="box pad list ampm">
                      <li class="activable">AM</li>
                      <li class="activable selected">PM</li>
                   </ul>
                </div>
 
-               <div class="left details text-center time-actions">
+               <div class="right details text-center time-actions">
                   <h1 class="timebox" id="timeBox"></h1>
-                  <div class="pad">
-                     <span data-action="ok" class="button primary icon-ok">OK</span>
-                  </div>
-                  <div class="pad">
-                     <span data-action="cancel" class="button icon-cancel">Cancel</span>
+                  <div>
+                     <span data-action="ok" class="button inline primary icon-ok">OK</span>
+                     <span data-action="cancel" class="button inline icon-cancel">Cancel</span>
                   </div>
                </div>
 
@@ -462,14 +456,33 @@
                   factory: function(app, viewUi) {
                      var timeData, time,
                            arrHours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-                           //arrMin = [0, 15, 30, 45],
-                           arrMin = [0, 10, 20, 30, 40, 50],
+                           // arrMin = [0, 10, 20, 30, 40, 50],
+                           arrMin = [],
 
                            uiTimeBox,
                            uiHours, uiMin, uiAmpm;
 
+                     (function() {
+                        for(var i = 0; i < 60; i++) {
+                           if(i % 5 === 0) {
+                              arrMin.push(i);
+                           }
+                           //arrMin[arrMin.length] = i;
+                        }
+                     })();
 
                      function timeRenderer(widget, item, i, value) {
+                        if(value < 10) {
+                           return "0" + value;
+                        }
+                        return value;
+                     }
+                     
+                     function minuteRenderer(widget, item, i, value) {
+                        if(value % 15 === 0) {
+                           item.addClass("highlite");
+                        }
+                        
                         if(value < 10) {
                            return "0" + value;
                         }
@@ -531,7 +544,7 @@
                            uiMin = $("#timeView ul.minutes").datalist({
                               itemClass: "activable",
                               data: arrMin,
-                              render: timeRenderer,
+                              render: minuteRenderer,
                               onselectionchange: handleTimeChanged
                            });
 
