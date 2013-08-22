@@ -150,10 +150,10 @@
                            });
                            
                            var arrItems = [];
-                           for(var i = 0; i < 100; i++) {
+                           for(var i = 0; i < 40; i++) {
                               arrItems[arrItems.length] = {
-                                 title: "Item " + i, 
-                                 description: "Description for Item " + i
+                                 title: "Item " + (i + 1), 
+                                 description: "Description for Item " + (i + 1)
                               };
                            }
                            uiList.setItems(arrItems);
@@ -190,9 +190,9 @@
                   <ul class="left years horizontal no-border years"></ul>
                   <span data-action="next" class="years-next box activable right icon-right-open"></span>
                </div>
-               <ul class="box list no-border months"></ul>
-               <ul class="box list pad alt-bg no-border days"></ul>
-               <ul class="box list pad dates"></ul>
+               <ul class="box alt-bg no-border months"></ul>
+               <ul class="box pad no-border days"></ul>
+               <ul class="box pad dates"></ul>
             </section>
             <section class="cal-actions">
                <div class="left half pad">
@@ -322,7 +322,6 @@
 
                            uiYears = $("#calendarView > .calendar > .year-bar > .years").datalist({
                               itemClass: "activable",
-                              listClass: "",
                               onselectionchange: function(val, oldVal) {
                                  calDate.setFullYear(val);
                                  updateCalendarDates();
@@ -339,7 +338,6 @@
                            // Months Control ------------------------------------------------------
 
                            uiMonths = $("#calendarView > .calendar > .months").datalist({
-                              listClass: "alt-bg",
                               itemClass: "activable",
                               data: months,
                               onselectionchange: function() {
@@ -353,7 +351,7 @@
                            // Days Calendar --------------------------------------------------------
 
                            uiDays = $("#calendarView > .calendar > .days").datalist({
-                              listClass: "alt-bg",
+                              listClass: "",
                               itemClass: "",
                               selectable: false,
                               data: days
@@ -430,7 +428,7 @@
                <strong class="label">Hours</strong>
                <ul class="box list horizontal hours"></ul>
 
-               <strong>Minutes</strong>
+               <strong class="label">Minutes</strong>
                <ul class="box list horizontal minutes"></ul>
 
 

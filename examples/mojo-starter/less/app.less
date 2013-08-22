@@ -3,13 +3,14 @@
 @alternate-color: #00B8FC;
 
 /* ------------------------------------------------ Framework Overrides -------------------------------------------- */
+/*
 .button, button, input[type="button"] {
    border-radius: 2px;
 }
 .list > li.selected {
    border-radius: 2px;
 }
-
+*/
 
 
 
@@ -328,14 +329,16 @@ a.button {
 }
 .viewport {
    background-color: @alt-bg-color;
+   /*
    -webkit-transition:  left ease-in 150ms;
    transition:          left ease-in 150ms;
+   */
 }
 .viewport.reveal-appmenu {
    left: 70%;
-   -webkit-box-shadow: -1px 0 10px darken(@alt-bg-color, 10%);
-   box-shadow: -1px 0 10px darken(@alt-bg-color, 10%);
-   border-left: 1px solid darken(@alt-bg-color, 10%);
+   -webkit-box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
+   box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
+   border-left: 1px solid darken(@alt-bg-color, 5%);
    height: 100%;
    overflow: hidden;
 }
@@ -456,12 +459,12 @@ a.button {
       }
       
       .calendar > .year-bar > .years > li.selected {
-         background-color: transparent;
+         background: transparent;
          color: @active-bg-color;
       }
 
 .calendar > .months {
-   padding: 5px 2%;
+   padding: 10px 2%;
    background-color: @alt-bg-color;
    color: @alt-text-color;
 
@@ -497,7 +500,8 @@ a.button {
 }
 
 .calendar > .days {
-   padding: 3px 5px;
+   padding: 5px;
+   background-color: darken(@bg-color, 8%);
 }
 .calendar > .dates {
    margin: 5px;
@@ -519,9 +523,17 @@ div.column, .span4 {
    background-color: darken(@bg-color, 8%);
 }
 
+.time .label {
+   display: inline-block;
+   padding: 3px 0;
+}
+
 .time .hours, .time .minutes, .time .ampm {
    padding: 10px;
    margin-bottom: 15px;
+}
+.time .minutes {
+   margin-bottom: 30px;
 }
 .time .hours li, .time .minutes li, .time .ampm li {
    border: none;
@@ -544,11 +556,11 @@ div.column, .span4 {
    color: @selected-text-color;
 }
 
-
+/*
 .time .minutes li.highlite, .time .minutes li.highlite-alt {
    border-radius: 3px;
 }
-
+*/
 
 .time div.details {
    width: 66.666%;

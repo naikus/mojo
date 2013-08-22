@@ -482,14 +482,14 @@ option {
   background-color: #f2f2f2;
 }
 /* ------------------------------------------------ Framework Overrides -------------------------------------------- */
-.button,
-button,
-input[type="button"] {
-  border-radius: 2px;
+/*
+.button, button, input[type="button"] {
+   border-radius: 2px;
 }
 .list > li.selected {
-  border-radius: 2px;
+   border-radius: 2px;
 }
+*/
 html,
 body {
   font-family: Helvetica;
@@ -796,14 +796,17 @@ a.button {
 }
 .viewport {
   background-color: #414141;
-  -webkit-transition: left ease-in 150ms;
-  transition: left ease-in 150ms;
+  /*
+   -webkit-transition:  left ease-in 150ms;
+   transition:          left ease-in 150ms;
+   */
+
 }
 .viewport.reveal-appmenu {
   left: 70%;
-  -webkit-box-shadow: -1px 0 10px #272727;
-  box-shadow: -1px 0 10px #272727;
-  border-left: 1px solid #272727;
+  -webkit-box-shadow: 0 0 10px #272727;
+  box-shadow: 0 0 10px #272727;
+  border-left: 1px solid #343434;
   height: 100%;
   overflow: hidden;
 }
@@ -905,11 +908,11 @@ a.button {
   font-weight: bold;
 }
 .calendar > .year-bar > .years > li.selected {
-  background-color: transparent;
+  background: transparent;
   color: #fcab55;
 }
 .calendar > .months {
-  padding: 5px 2%;
+  padding: 10px 2%;
   background-color: #414141;
   color: #ffffff;
   border-bottom: 1px solid #de6300;
@@ -939,7 +942,8 @@ a.button {
   margin: 0;
 }
 .calendar > .days {
-  padding: 3px 5px;
+  padding: 5px;
+  background-color: #dedede;
 }
 .calendar > .dates {
   margin: 5px;
@@ -959,11 +963,18 @@ div.column,
 .time .ampm {
   background-color: #dedede;
 }
+.time .label {
+  display: inline-block;
+  padding: 3px 0;
+}
 .time .hours,
 .time .minutes,
 .time .ampm {
   padding: 10px;
   margin-bottom: 15px;
+}
+.time .minutes {
+  margin-bottom: 30px;
 }
 .time .hours li,
 .time .minutes li,
@@ -985,10 +996,11 @@ div.column,
 .time .minutes li.highlite.selected {
   color: #ffffff;
 }
-.time .minutes li.highlite,
-.time .minutes li.highlite-alt {
-  border-radius: 3px;
+/*
+.time .minutes li.highlite, .time .minutes li.highlite-alt {
+   border-radius: 3px;
 }
+*/
 .time div.details {
   width: 66.666%;
   padding: 10px;
