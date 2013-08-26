@@ -324,7 +324,7 @@ a.button {
    position: fixed;
    left: 0;
    top: 0;
-   width: 70%;
+   width: 71%;
    min-height: 100%;
 }
 .viewport {
@@ -369,8 +369,10 @@ a.button {
 
 }
 .toolbar .action {
+   /*
    text-shadow: 0 0 2px #111;
    -webkit-text-shadow: 0 0 2px #111;
+   */
    display: inline-block;
    font-size: 1.1em;
    padding: 13px 10px;
@@ -486,9 +488,7 @@ a.button {
    box-sizing: border-box;
 }
 
-.calendar > .dates > li.selected {
-   border-bottom-color: @selected-bg-color;
-}
+.calendar > .dates > li.selected {}
 
 .calendar > .months > li {
    width: 16%;

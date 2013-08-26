@@ -21,9 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/* Default theme (gray blue) */
 /*#3395C2;*/
+/* Red theme */
 /*
-// Red theme
 @base-color: #f4f4f4;
 // Background color for viewport views and other boxes
 @bg-color: #eee;
@@ -35,13 +36,15 @@
 @alt-text-color: #f4f4f4;
 // Default selected background color
 @selected-bg-color: #B84126;
+@selected-bg-color-alt: #c95237;
 // Active background color, when an element becomes active i.e. :active class
 @active-bg-color: lighten(@selected-bg-color, 10%);
 @active-text-color: #303030;
 // Default selected text color
 @selected-text-color: #f0f0f0;
-
-// mint theme (green)
+*/
+/* Mint theme (green) */
+/*
 @base-color: #f0f0f0;
 // Background color for viewport views and other boxes
 @bg-color: #eee;
@@ -52,34 +55,35 @@
 // Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
 // Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #CEF263;
+@active-bg-color: #B5C982;
 @active-text-color: #303030;
 // Default selected background color
-@selected-bg-color: #99CC00;
-@selected-bg-color-alt: #3395C2;
+@selected-bg-color: #779F16;
+@selected-bg-color-alt: #779F16;
 // Default selected text color
 @selected-text-color: #fff;
-
-
-// Android theme
+*/
+/* Android theme */
+/*
 @base-color: #333;
 // Background color for viewport views and other boxes
-@bg-color: #434343;
+@bg-color: #333;
 // Background color for overlays, inlays etc.
-@alt-bg-color: #f1f1f1;
+@alt-bg-color: #222;
 // Text color to complement the background color
 @text-color: #f4f4f4;
 // Text color to complement alternate background color
-@alt-text-color: #333;
+@alt-text-color: #bbb;
 // Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #F7E596;
+@active-bg-color: #EDB657;
 @active-text-color: #222;
 // Default selected background color
-@selected-bg-color: #F2D44D;
-@selected-bg-color-alt: #3395C2;
+@selected-bg-color: #FFA100;
+@selected-bg-color-alt: #FFA100;
 // Default selected text color
 @selected-text-color: #222;
 */
+/* Origin theme */
 .translateNone {
   -moz-transform: none;
   -webkit-transform: none;
@@ -391,8 +395,8 @@ option {
 }
 .list > li {
   list-style-type: none;
-  border: 1px solid transparent;
-  border-bottom: 1px solid #e8e8e8;
+  border: 1px solid #f2f2f2;
+  border-bottom-color: #efefef;
   overflow: auto;
   position: relative;
 }
@@ -400,9 +404,10 @@ option {
   background-color: #ef8511;
   background-image: linear-gradient(to bottom, #ef8511, #e27d0f);
 }
-.alt-bg .list li,
-.list.alt-bg li {
-  border-bottom-color: #393939;
+.alt-bg .list > li,
+.list.alt-bg > li {
+  border: 1px solid #414141;
+  border-bottom-color: #3e3e3e;
 }
 .list > li .title,
 .list > li .desc,
@@ -422,6 +427,7 @@ option {
 }
 .activable.active {
   background-color: #fcab55 !important;
+  color: #333333;
 }
 .tabstrip,
 .tab {
@@ -791,7 +797,7 @@ a.button {
   position: fixed;
   left: 0;
   top: 0;
-  width: 70%;
+  width: 71%;
   min-height: 100%;
 }
 .viewport {
@@ -832,8 +838,11 @@ a.button {
 
 }
 .toolbar .action {
-  text-shadow: 0 0 2px #111;
-  -webkit-text-shadow: 0 0 2px #111;
+  /*
+   text-shadow: 0 0 2px #111;
+   -webkit-text-shadow: 0 0 2px #111;
+   */
+
   display: inline-block;
   font-size: 1.1em;
   padding: 13px 10px;
@@ -929,9 +938,6 @@ a.button {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-.calendar > .dates > li.selected {
-  border-bottom-color: #de6300;
 }
 .calendar > .months > li {
   width: 16%;
