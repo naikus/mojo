@@ -16,6 +16,8 @@
       
       <!-- Combined mojo.less and app.less -->
       <link rel="stylesheet" type="text/css" href="css/app.css" />
+      
+      <!-- script src="js/iscroll-lite-min.js"> </script -->
 
       <!--[if lt IE 9]>
          <script src ="js/json2.js"> </script>
@@ -63,6 +65,16 @@
          
          <!-- ====================================== Tab View ========================================== -->
          <article class="view" id="tabView">
+            <!-- Sample IScroll style -->
+            <!-- style scoped>
+               #tabTwo {
+                  position: absolute;
+                  height: 82%;
+                  width: 100%;
+                  overflow: hidden;
+                  padding-bottom: 10px;
+               }
+            </style -->
             <div class="toolbar">
                <span data-action="toggleMainMenu" class="activable action icon-menu"></span>
                <span class="title">Main</span>
@@ -77,12 +89,6 @@
                      data-template="views/calendar.html" 
                      data-path="/ui/calendar"
                      class="activable action icon-calendar right"></span>
-                     
-               
-               <!--span data-action="route" 
-                     data-template="views/newView.html" 
-                     data-path="/newView"
-                     class="activable active-text action icon-plus right"></span -->
             </div>
             <div class="content">
                <ul id="mainTab" class="tabstrip alt-bg">
@@ -136,7 +142,7 @@
                                   if(window.confirm("Log out?")) {}
                                }
                            });
-
+                           
                            // list item rendering template
                            uiListItemTemplate = $("#uiListItemTemplate").template();
 
@@ -161,11 +167,20 @@
                            uiList.on(Events.tap, function(e, item, itemModel) {
                               // Messages.info(itemModel.description);
                            });
-
+                           
+                           
+                           // var tabTwoScroll = new IScroll('#tabTwo');
                            // tabstrip widget
                            mainTab = $("#mainTab").tabstrip({
                               ontabchange: function(currTab, oldTab) {
                                  // Messages.info("Tab selected: " + this.getSelectedIndex());
+                                 /*
+                                 if(this.getSelectedIndex() == 1) {
+                                    setTimeout(function () {
+                                       tabTwoScroll.refresh();
+                                    }, 100);
+                                 }
+                                 */
                               }
                            });
                         },
@@ -422,6 +437,7 @@
          <!-- ====================================== Date Time View ====================================== -->
          <article class="view" id="timeView">
             <div class="toolbar">
+               <span class="action icon-clock"></span>
                <span id="timeTitle" class="title">Select Time</span>
             </div>
             <div class="content time pad">

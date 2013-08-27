@@ -802,11 +802,8 @@ a.button {
 }
 .viewport {
   background-color: #414141;
-  /*
-   -webkit-transition:  left ease-in 150ms;
-   transition:          left ease-in 150ms;
-   */
-
+  -webkit-transition: left ease 200ms;
+  transition: left ease 200ms;
 }
 .viewport.reveal-appmenu {
   left: 70%;
@@ -829,7 +826,7 @@ a.button {
   color: #ff9845;
   font-weight: bold;
   display: inline-block;
-  padding: 13px 10px;
+  padding: 13px 3px;
   /*
    background-image: url('../images/some-image.png');
    background-repeat: no-repeat;
