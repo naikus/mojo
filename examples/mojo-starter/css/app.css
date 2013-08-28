@@ -27,13 +27,13 @@
 /*
 @base-color: #f4f4f4;
 // Background color for viewport views and other boxes
-@bg-color: #eee;
+@bg-color: #dcdcdc;
 // Background color for overlays, inlays etc.
 @alt-bg-color: #2c2c2c;
 // Text color to complement the background color
-@text-color: #303030;
+@text-color: #484848;
 // Text color to complement alternate background color
-@alt-text-color: #f4f4f4;
+@alt-text-color: #f0f0f0;
 // Default selected background color
 @selected-bg-color: #B84126;
 @selected-bg-color-alt: #c95237;
@@ -396,7 +396,7 @@ option {
 .list > li {
   list-style-type: none;
   border: 1px solid #f2f2f2;
-  border-bottom-color: #efefef;
+  border-bottom-color: #ededed;
   overflow: auto;
   position: relative;
 }
@@ -407,7 +407,7 @@ option {
 .alt-bg .list > li,
 .list.alt-bg > li {
   border: 1px solid #414141;
-  border-bottom-color: #3e3e3e;
+  border-bottom-color: #3c3c3c;
 }
 .list > li .title,
 .list > li .desc,
