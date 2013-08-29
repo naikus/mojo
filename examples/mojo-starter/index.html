@@ -547,7 +547,7 @@
                         if(hrs >= 12) {
                             ampmIdx = 1;
                         }
-                        uiHours.selectItemAt(hours > 1 ? arrHours.indexOf(hours) : 0);
+                        uiHours.selectItemAt(hours == 0 ? 0 : arrHours.indexOf(hours));
 
                         var minIdx = arrMin.indexOf(min);
                         if(minIdx === -1) {
