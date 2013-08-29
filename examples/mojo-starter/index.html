@@ -269,7 +269,7 @@
                                 dow,
                                 date = dt.getDate(),
                                 arrDates = [];
-
+                        
                         dt.setDate(1);
                         dt.setMonth(month);
                         dt.setFullYear(year);
@@ -279,8 +279,6 @@
                         // set the date back to original
                         dt.setDate(date);
 
-                        // console.log("Day of week: " + dow);
-
                         for(var i = 0; i < dow; i++) {
                            arrDates[arrDates.length] = "";
                         }
@@ -288,7 +286,6 @@
                            arrDates[arrDates.length] = i;
                         }
 
-                        // console.log(arrDates);
                         return arrDates;
                      }
 
@@ -357,7 +354,21 @@
                               listClass: "",
                               data: months,
                               onselectionchange: function() {
-                                 var mon = uiMonths.getSelectedIndex();
+                                 var mon = uiMonths.getSelectedIndex(), 
+                                       currDate = calDate.getDate(),
+                                       lastDay = getLastDay(mon, calDate.getFullYear());
+                               
+                                 /* 
+                                  check if the current date is greater than last day
+                                  because if we set the month and the last day of month is less than the current day
+                                  the calendar will add a month. An example is if we select March 31 and then select
+                                  Feb as month, the calendar will think Feb 31 and add 1 to its month since the date
+                                  moved to a day in next month
+                                 */
+                                 if(currDate > lastDay) {
+                                    calDate.setDate(1);
+                                 }
+                                 
                                  calDate.setMonth(mon);
                                  updateCalendarDates();
                               }
@@ -536,7 +547,7 @@
                         if(hrs >= 12) {
                             ampmIdx = 1;
                         }
-                        uiHours.selectItemAt(arrHours.indexOf(hours));
+                        uiHours.selectItemAt(hours > 1 ? arrHours.indexOf(hours) : 0);
 
                         var minIdx = arrMin.indexOf(min);
                         if(minIdx === -1) {
@@ -545,6 +556,30 @@
                            uiMin.selectItemAt(minIdx);
                         }
                         uiAmpm.selectItemAt(ampmIdx);
+                     }
+                     
+                     /**
+                      * Rounds the given number to the nearest(ceil) multiple of the specified multiple.
+                      * e.g roundToNearestMultiple(21, 5) will give 25
+                      * @param {Number} number The number to round to
+                      * @param {Number} multiple The rounding multiple
+                      */
+                     function roundToNearestMultiple(number, multiple) {
+                        var rem = number % multiple;
+                        if(rem === 0) {
+                           return number;
+                        }
+                        return number + (multiple - (rem));
+                     }
+                     
+                     function getNearestTime() {
+                        var dt = new Date(), min = dt.getMinutes();
+                        // get the nearest minues (multiple of 5)
+                        min = roundToNearestMultiple(min, 5);
+                        
+                        // this will automatically adjust hours and minutes
+                        dt.setMinutes(min);
+                        return dt;
                      }
 
                      return {
@@ -582,12 +617,16 @@
                         },
 
                         activate: function(params, data) {
-                           timeData = data || {
-                              title: "Select Time",
-                              hours: 1,
-                              minutes: 0
-                           };
-                           time = new Date();
+                           timeData = data;
+                           time = getNearestTime();
+                           
+                           if(!timeData) {
+                              timeData = {
+                                 title: "Select Time",
+                                 hours: time.getHours(),
+                                 minutes: time.getMinutes()
+                              };
+                           }
 
                            $("#timeTitle").html(timeData.title)
                            time.setHours(timeData.hours);
