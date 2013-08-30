@@ -630,7 +630,7 @@ button.primary:active,
 .button.primary:active,
 .button.primary.active,
 button.primary.active {
-  background-color: #f5b671;
+  background-color: #0080b0;
 }
 input[type=button].alt,
 button.alt,
@@ -671,7 +671,7 @@ button.warn.active,
   padding: 10px;
 }
 .list.pad-extra > li {
-  padding: 15px 5px;
+  padding: 15px 10px;
 }
 .form .header {
   background-color: #e0e0e0;
