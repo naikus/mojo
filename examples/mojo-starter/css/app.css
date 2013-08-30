@@ -819,7 +819,7 @@ a.button {
   background-color: #4e4e4e;
   background-image: linear-gradient(to bottom, #4e4e4e, #464646);
   color: #ffffff;
-  border-bottom: 1px solid #343434;
+  border-bottom: 1px solid #373737;
   width: 100%;
 }
 .toolbar .title {
@@ -852,12 +852,12 @@ a.button {
 
 }
 .toolbar .action.on {
-  background-color: #343434;
+  background-color: #373737;
 }
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu,
 .alt-bg .menu {
-  background-color: #343434;
+  background-color: #373737;
 }
 .collapsed {
   height: 0;
