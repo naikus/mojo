@@ -205,7 +205,7 @@ input[type=button].alt.active, button.alt.active, .button.alt.active {
 }
 
 .no-border, .no-border > li, .dark .no-border li {
-   border: none;
+   border: none !important;
 }
 
 .list li .label {
@@ -383,7 +383,18 @@ a.button {
 }
 
 .toolbar .action.on {
-   background-color: lighten(@selected-bg-color, 10%);
+   // background-color: lighten(@selected-bg-color, 10%);
+   background-color: darken(@alt-bg-color, 5%);
+}
+
+
+/* -------------------------------------------- Collapsible ------------------------------------------------------- */
+.alt-bg.menu, .alt-bg .menu {
+   background-color: darken(@alt-bg-color, 5%);
+}
+.collapsed {
+   height: 0;
+   overflow: hidden;
 }
 
 

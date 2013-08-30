@@ -696,7 +696,7 @@ button.warn.active,
 .no-border,
 .no-border > li,
 .dark .no-border li {
-  border: none;
+  border: none !important;
 }
 .list li .label {
   padding: 4px 4px 2px;
@@ -852,7 +852,16 @@ a.button {
 
 }
 .toolbar .action.on {
-  background-color: #ff7c12;
+  background-color: #343434;
+}
+/* -------------------------------------------- Collapsible ------------------------------------------------------- */
+.alt-bg.menu,
+.alt-bg .menu {
+  background-color: #343434;
+}
+.collapsed {
+  height: 0;
+  overflow: hidden;
 }
 /* --------------------------------------------- UI Toggle for list items ---------------------------------------- */
 .list > li.toggle:after,

@@ -389,23 +389,23 @@ window.SERVER_URL = "/";
     */
    (function($, Events, App) {
       var defaultActions = {
-        back: function() {
-           App.popView();
-        },
-        route: function(elem) {
-           App.loadView(elem.attr("data-template"), elem.attr("data-path"));
-        },
-        logout: function() {
-           console.log("Logging out");
-        },
-        toggleMainMenu: function(elem) {
-           var viewPort = $("#viewPort");
-           if(viewPort.hasClass("reveal-appmenu")) {
-              viewPort.removeClass("reveal-appmenu");
-           }else {
-              viewPort.addClass("reveal-appmenu");
-           }
-        }
+         back: function() {
+            App.popView();
+         },
+         route: function(elem) {
+            App.loadView(elem.attr("data-template"), elem.attr("data-path"));
+         },
+         logout: function() {
+            console.log("Logging out");
+         },
+         toggleMainMenu: function(elem) {
+            var viewPort = $("#viewPort");
+            if(viewPort.hasClass("reveal-appmenu")) {
+               viewPort.removeClass("reveal-appmenu");
+            }else {
+               viewPort.addClass("reveal-appmenu");
+            }
+         }
       };
 
       $.extension("toolbar", function(acts) {

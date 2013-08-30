@@ -79,7 +79,7 @@
                <span data-action="toggleMainMenu" class="activable action icon-menu"></span>
                <span class="title">Main</span>
 
-               <span data-action="logout" class="activable action icon-logout right"></span>
+               <span id="menuToggle" class="activable action icon-ellipsis-vert right"></span>
                
                <span data-action="route" 
                      data-template="views/time.html" 
@@ -90,6 +90,14 @@
                      data-path="/ui/calendar"
                      class="activable action icon-calendar right"></span>
             </div>
+            <div id="menuContainer" class="alt-bg menu collapsed">
+               <ul class="list pad no-border" id="mainToolbarMenu">
+                  <li class="icon-paper-plane activable"> Send</li>
+                  <li class="icon-inbox activable"> Inbox</li>
+                  <li class="icon-basket activable"> Delete</li>
+               </ul>
+            </div>
+            
             <div class="content">
                <ul id="mainTab" class="tabstrip alt-bg">
                   <li class="tab activable" data-ref="#tabOne"><span>Tab One</span></li>
@@ -129,7 +137,7 @@
                   id: "#tabView",
                   factory: function(app, viewUi) {
                      
-                     var uiList, uiListItemTemplate, mainTab;
+                     var uiList, uiListItemTemplate, mainTab, menuToggle;
 
                      return {
                         initialize: function() {
@@ -142,6 +150,23 @@
                                   if(window.confirm("Log out?")) {}
                                }
                            });
+                           
+                           var menuContainer = $("#menuContainer");
+                           menuToggle = $("#menuToggle").toggle({
+                              onchange: function(val) {
+                                 if(val) {
+                                    menuContainer.removeClass("collapsed");
+                                 }else {
+                                    menuContainer.addClass("collapsed");
+                                 }
+                              }
+                           });
+                           menuContainer.on(Events.tap, function() {
+                              setTimeout(function() {
+                                 menuToggle.setOn(false);
+                              }, 200);
+                           });
+                           
                            
                            // list item rendering template
                            uiListItemTemplate = $("#uiListItemTemplate").template();
