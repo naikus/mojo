@@ -250,7 +250,6 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
   -ms-transition: -ms-transform 200ms ease;
   transition: transform 200ms ease;
 }
-/**/
 body {
   color: #424242;
 }
@@ -388,6 +387,10 @@ option {
   background-color: #de6300;
   color: #ffffff;
 }
+.alt-bg {
+  background-color: #414141;
+  color: #ffffff;
+}
 .list {
   margin: 0;
   padding: 0;
@@ -401,8 +404,8 @@ option {
   position: relative;
 }
 .list > li.selected {
-  background-color: #ef8511;
-  background-image: linear-gradient(to bottom, #ef8511, #e27d0f);
+  background-color: #de6300;
+  background-image: linear-gradient(to bottom, #de6300, #d45e00);
 }
 .alt-bg .list > li,
 .list.alt-bg > li {
@@ -427,7 +430,7 @@ option {
 }
 .activable.active {
   background-color: #fcab55 !important;
-  color: #333333;
+  color: #333333 !important;
 }
 .tabstrip,
 .tab {
@@ -474,7 +477,7 @@ option {
   border-right: 1px solid #464646;
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #ef8511;
+  color: #ff7c12;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -531,13 +534,6 @@ ul.horizontal li {
 }
 p {
   margin: 0;
-}
-.alt-bg {
-  background-color: #414141;
-  color: #ffffff;
-}
-.alt-bg-1 .list > li {
-  border-bottom-color: #e3e3e3;
 }
 .pad-vertical {
   padding-top: 10px;
@@ -682,20 +678,8 @@ button.warn.active,
   font-weight: bold;
   overflow: auto;
 }
-.alt-bg-1 .header,
-.form.alt-bg-1 .header {
-  background-color: #e0e0e0;
-}
-.dark .list > li {
-  border: none;
-  border-bottom: 1px solid #494949;
-}
-.dark .list > li:last-child {
-  border-bottom: none;
-}
-.no-border,
-.no-border > li,
-.dark .no-border li {
+.no-separator > li,
+.alg-bg .no-separator li {
   border: none !important;
 }
 .list li .label {

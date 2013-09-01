@@ -44,14 +44,6 @@ p {
    margin: 0;
 }
 
-.alt-bg {
-   background-color: @alt-bg-color;
-   color: @alt-text-color;
-}
-.alt-bg-1 .list > li {
-    border-bottom-color: darken(@bg-color, 6%);
-}
-
 .pad-vertical {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -193,19 +185,7 @@ input[type=button].alt.active, button.alt.active, .button.alt.active {
    overflow: auto;
 }
 
-.alt-bg-1 .header, .form.alt-bg-1 .header {
-   background-color: darken(@bg-color, 7%);
-}
-
-.dark .list > li {
-   border: none;
-   border-bottom: 1px solid lighten(@alt-bg-color, 3%);
-}
-.dark .list > li:last-child {
-   border-bottom: none;
-}
-
-.no-border, .no-border > li, .dark .no-border li {
+.no-separator > li, .alg-bg .no-separator li {
    border: none !important;
 }
 

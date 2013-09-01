@@ -91,7 +91,7 @@
                      class="activable action icon-calendar right"></span>
             </div>
             <div id="menuContainer" class="alt-bg menu collapsed">
-               <ul class="list pad-extra no-border" id="mainToolbarMenu">
+               <ul class="list pad-extra no-separator" id="mainToolbarMenu">
                   <li class="activable"><span class="icon-paper-plane"> Send</span></li>
                   <li class="activable"><span class="icon-inbox"> Inbox</span></li>
                   <li class="activable"><span class="icon-basket"> Delete</span></li>
@@ -227,11 +227,11 @@
             <section class="calendar">
                <div class="year-bar">
                   <span data-action="prev" class="years-previous box activable left icon-left-open"></span>
-                  <ul class="left years horizontal no-border years"></ul>
+                  <ul class="left years horizontal no-separator years"></ul>
                   <span data-action="next" class="years-next box activable right icon-right-open"></span>
                </div>
-               <ul class="box alt-bg no-border months"></ul>
-               <ul class="box pad no-border days"></ul>
+               <ul class="box alt-bg no-separator months"></ul>
+               <ul class="box pad no-separator days"></ul>
                <ul class="box pad dates"></ul>
             </section>
             <section class="cal-actions">
@@ -391,7 +391,7 @@
                                   moved to a day in next month
                                  */
                                  if(currDate > lastDay) {
-                                    calDate.setDate(1);
+                                    calDate.setDate(lastDay);
                                  }
                                  
                                  calDate.setMonth(mon);
@@ -414,7 +414,7 @@
                               render: function(widget, item, i, day) {
                                  var tn = document.createTextNode(day);
                                  if(!day) {
-                                    item.addClass("disabled");
+                                    item.removeClass("activable").addClass("disabled");
                                     item.html("&#160;");
                                  }else {
                                     item.get(0).appendChild(tn);

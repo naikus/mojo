@@ -318,7 +318,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 
 
-/**/
+
 .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
@@ -461,7 +461,14 @@ option {
 .selected {
    background-color: @selected-bg-color;
    color: @selected-text-color;
-}.list {
+}
+.alt-bg {
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
+}
+
+
+.list {
    margin: 0;
    padding: 0;
    overflow: auto;
@@ -475,8 +482,8 @@ option {
 }
 
 .list > li.selected {
-   background-color: @selected-bg-color-alt;
-   background-image: linear-gradient(to bottom, @selected-bg-color-alt, darken(@selected-bg-color-alt, 3%));
+   background-color: @selected-bg-color;
+   background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
 }
 
 .alt-bg .list > li, .list.alt-bg > li {
@@ -495,18 +502,25 @@ option {
 .list .desc {
    font-size: 0.7em;
 }
+
+
 .toggle {
 
 }
 .toggle.on {
 
-}.activable {
+}
+
+
+.activable {
     cursor: pointer;
 }
 .activable.active {
    background-color: @active-bg-color !important;
-   color: @active-text-color;
-}.tabstrip, .tab {
+   color: @active-text-color !important;
+}
+
+.tabstrip, .tab {
    -moz-box-sizing: border-box;
    -webkit-box-sizing: border-box;
    box-sizing: border-box;
@@ -555,7 +569,7 @@ option {
    border-right: 1px solid lighten(@alt-bg-color, 2%);
 }
 .tabstrip.alt-bg > .tab.selected {
-   color: @selected-bg-color-alt;
+   color: lighten(@selected-bg-color, 10%);
 }
 
 .tabstrip > .tab.active > span, .tabstrip > .tab:active > span {
@@ -570,3 +584,6 @@ option {
    display: block;
    background-color: @bg-color;
 }
+
+
+
