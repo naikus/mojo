@@ -113,6 +113,8 @@ window.SERVER_URL = "/";
 (function($, undefined) {
    var defaults = {
       baseUrl: window.SERVER_URL + "some/api/version",
+      username: null,
+      password: null,
       headers: {
         "Content-Type": "application/json" 
       }
@@ -120,7 +122,7 @@ window.SERVER_URL = "/";
    empty = {};
 
    /*
-    * REST API plugin that allows calling various api methods using oAuth protocol.
+    * Simple REST API plugin.
     * uses http-like method names to do rest calls.
     * e.g. 
     * <code>
@@ -231,21 +233,19 @@ window.SERVER_URL = "/";
          $.ajax({
             url: apiMethod + "?" + new Date().getTime(),
             method: method,
+            username: opts.username,
+            password: opts.password,
             data: reqData,
             headers: headers,
             dataType: options.dataType || "json",
-            success: function(data) {
-               // console.log(["SUCCESS", "method", apiMethod, JSON.stringify(data)].join(" "));
-               var err;
-               if((err = data.error)) {
-                  (options.failure || noop)(data);
-               } else {
-                  (options.success || noop)(data);
-               }
+            success: function(data, xhr) {
+               // console.log(["SUCCESS", "method", apiMethod, JSON.stringify(data)].join(" ");
+               (options.success || noop)(data, xhr);
             },
-            error: function(code) {
+            error: function(code, xhr) {
                // console.log(["ERROR", "method", apiMethod, JSON.stringify(code)].join(" "));
-               doc.dispatch("apierror", {api: options.apiMethod, data: code});
+               // doc.dispatch("apierror", {api: options.apiMethod, data: code});
+               (options.failure || noop)(code);
             }
          });
       }
@@ -262,6 +262,14 @@ window.SERVER_URL = "/";
          var paramArray = [];
          asParams(null, objData, paramArray);
          return paramArray.join("&");
+      };
+      
+      ret.option = function(name, value) {
+         if(arguments.length == 1) {
+            return opts[name];
+         }else {
+            opts[name] = value;
+         }
       };
 
       return ret;
@@ -325,7 +333,6 @@ window.SERVER_URL = "/";
             touchmove: "touchmove"
          },
          doc = $(document),
-         Api = $.Api(),
          App = $.Application();
          
    if(! ("ontouchstart" in document.documentElement)) {
@@ -451,7 +458,6 @@ window.SERVER_URL = "/";
       
       
    window.Events = Events;
-   window.Api = Api;
    window.Application = App;
 
    // enable touch activable using the mojo activables plugin
