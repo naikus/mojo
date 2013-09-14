@@ -245,7 +245,7 @@ window.SERVER_URL = "/";
             error: function(code, xhr) {
                // console.log(["ERROR", "method", apiMethod, JSON.stringify(code)].join(" "));
                // doc.dispatch("apierror", {api: options.apiMethod, data: code});
-               (options.failure || noop)(code);
+               (options.failure || noop)(code, xhr);
             }
          });
       }

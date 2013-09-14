@@ -310,12 +310,14 @@ a.button {
 }
 .viewport {
    background-color: @alt-bg-color;
-   -webkit-transition:  left ease 200ms;
-   transition:          left ease 200ms;
+   -webkit-transition:  -webkit-transform 200ms ease;
+   transition:          transform 200ms ease;
 }
 .viewport.reveal-appmenu {
-   left: 70%;
-   -webkit-box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
+   -webkit-transform: translateX(69%);
+   transform: translateX(69%);
+   
+   -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
    box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
    border-left: 1px solid darken(@alt-bg-color, 5%);
    height: 100%;

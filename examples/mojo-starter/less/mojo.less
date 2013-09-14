@@ -337,12 +337,6 @@ body {
    color: @text-color;
 }
 
-section > header {
-   font-weight: bold;
-   margin: 0;
-   background-color: darken(@alt-bg-color, 4%);
-}
-
 /* ----------------------------------------------- Form ----------------------------------------- */
 
 /*label {
@@ -475,8 +469,7 @@ option {
 }
 .list > li {
    list-style-type: none;
-   border: 1px solid @bg-color;
-   border-bottom-color: darken(@bg-color, 2%);
+   border-bottom: 1px solid darken(@bg-color, 2%);
    overflow: auto;
    position: relative;
 }
@@ -484,6 +477,7 @@ option {
 .list > li.selected {
    background-color: @selected-bg-color;
    background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
+   border-bottom-color: darken(@selected-bg-color, 2%);
 }
 
 .alt-bg .list > li, .list.alt-bg > li {
@@ -497,10 +491,10 @@ option {
 }
 .list .title {
    font-weight: bold;
-   font-size: 0.9em;
+   font-size: 0.95em;
 }
 .list .desc {
-   font-size: 0.7em;
+   font-size: 0.75em;
 }
 
 

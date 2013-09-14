@@ -253,11 +253,6 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 body {
   color: #424242;
 }
-section > header {
-  font-weight: bold;
-  margin: 0;
-  background-color: #373737;
-}
 /* ----------------------------------------------- Form ----------------------------------------- */
 /*label {
    padding: 10px;
@@ -398,14 +393,14 @@ option {
 }
 .list > li {
   list-style-type: none;
-  border: 1px solid #f2f2f2;
-  border-bottom-color: #ededed;
+  border-bottom: 1px solid #ededed;
   overflow: auto;
   position: relative;
 }
 .list > li.selected {
   background-color: #de6300;
   background-image: linear-gradient(to bottom, #de6300, #d45e00);
+  border-bottom-color: #d45e00;
 }
 .alt-bg .list > li,
 .list.alt-bg > li {
@@ -420,10 +415,10 @@ option {
 }
 .list .title {
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 .list .desc {
-  font-size: 0.7em;
+  font-size: 0.75em;
 }
 .activable {
   cursor: pointer;
@@ -786,12 +781,13 @@ a.button {
 }
 .viewport {
   background-color: #414141;
-  -webkit-transition: left ease 200ms;
-  transition: left ease 200ms;
+  -webkit-transition: -webkit-transform 200ms ease;
+  transition: transform 200ms ease;
 }
 .viewport.reveal-appmenu {
-  left: 70%;
-  -webkit-box-shadow: 0 0 10px #272727;
+  -webkit-transform: translatex(69%);
+  transform: translatex(69%);
+  -webkit-box-shadow: 0 0 5px #272727;
   box-shadow: 0 0 10px #272727;
   border-left: 1px solid #343434;
   height: 100%;
