@@ -79,11 +79,12 @@ img.activable:active, img.activable.active {
     color: @active-bg-color;
 }
 
+/*
 .alt-bg section > .header {
    background-color: darken(@alt-bg-color, 4%);
    font-weight: bold;
 }
-
+*/
 
 /* ------------------------------------- Simple Meters -------------------------------------- */
 
@@ -200,7 +201,7 @@ a.button {
 /* --------------------------------------- Css for ui messages --------------------------------------------- */
 .messages {
    position: fixed;
-   top: 0px;
+   bottom: 0;
    left: 0;
    width: 100%;
    min-height: 30px;
@@ -208,9 +209,10 @@ a.button {
 
    z-index: 199;
    margin: 0;
-   
-   box-shadow: 0 1px 2px #000;
-   -webkit-box-shadow: 0 1px 2px #000;
+   /*
+   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+   */
 }
 .messages > .message {
    font-size: 0.9em;
@@ -267,8 +269,8 @@ a.button {
 /* --------------------------------------- Css for 'loading...' text --------------------------------------------- */
 #loading {
    z-index: 399;
-   width: 80%;
-   margin: 0 10%;
+   width: 70%;
+   margin: 0 15%;
    padding: 10px 0;
 
    position: fixed;
@@ -280,9 +282,12 @@ a.button {
    border: 1px solid darken(@alt-bg-color, 5%);
    text-align: center;
 
-   /*opacity: 0.65;*/
+   opacity: 0.65;
+   /* box shadow causes slight mis-alignment of this control on view change */
+   /*
    box-shadow: 0 0 5px darken(@alt-bg-color, 3%);
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 3%);
+   */
 
    display: none;
 }
@@ -400,7 +405,17 @@ a.button {
    /*right: 12px;*/
 }
 
-
+section {
+   background-color: @bg-color;
+   margin-bottom: 20px;
+   overflow: auto;
+}
+section > header {
+   overflow: auto;
+   font-size: 1.3em;
+   color: lighten(@text-color, 4%);
+   border-bottom: 1px solid darken(@bg-color, 4%);
+}
 
 
 /* --------------------------------------- Map View ----------------------------------------- */

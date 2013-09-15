@@ -415,7 +415,7 @@ window.SERVER_URL = "/";
          }
       };
 
-      $.extension("toolbar", function(acts) {
+      $.extension("actionbar", function(acts) {
          var actions = $.shallowCopy({}, defaultActions, acts), self = this;
 
          self.on(Events.tap, function(e) {
