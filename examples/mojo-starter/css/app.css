@@ -796,8 +796,11 @@ a.button {
 .viewport.reveal-appmenu {
   -webkit-transform: translatex(69%);
   transform: translatex(69%);
-  -webkit-box-shadow: 0 0 5px #272727;
-  box-shadow: 0 0 10px #272727;
+  /*
+   -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
+   box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
+   */
+
   border-left: 1px solid #343434;
   height: 100%;
   overflow: hidden;

@@ -108,7 +108,7 @@ window.SERVER_URL = "/";
 
 
 /*
- * Ryde API client
+ * REST API client
  */
 (function($, undefined) {
    var defaults = {
