@@ -360,7 +360,7 @@
 
          // activate the controller
          ui.addClass("showing");
-         controller.activate(params, data);
+         // controller.activate(params, data);
          
          // indicate that both views are not transitioning
          if(currRoute) {
@@ -372,6 +372,8 @@
          ui.addClass("transitioning");
          
          setTimeout(function() {
+             controller.activate(params, data);
+             
             // transitiion the current view out
             if(currRoute) {
                currRoute.controller.deactivate();
@@ -430,9 +432,10 @@
          }
          
          ui.addClass("showing");
-         route.controller.activate(params, data);
+         // route.controller.activate(params, data);
         
          setTimeout(function() {
+            route.controller.activate(params, data);
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
@@ -520,6 +523,8 @@
 
       function stackViewUi(ui) {
          // ui.addClass("transitioning").addClass("stack").removeClass("in");
+         // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
+         
          ui.addClass("stack").removeClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -528,6 +533,8 @@
 
       function pushViewUi(ui) {
          // ui.addClass("transitioning").addClass("transition").addClass("in");
+         // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
+         
          ui.addClass("transition").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -578,6 +585,19 @@
          });
 
          ui.dispatch("transition" + tType, {
+            path: route.path,
+            bubbles: false
+         });
+      }
+      
+      function dispatchBeforeViewTransitionEvent(tType, ui, route) {
+          viewPort.dispatch("beforeviewtransition" + tType, {
+            path: route.path,
+            bubbles: false,
+            cancelable: true
+         });
+
+         ui.dispatch("beforetransition" + tType, {
             path: route.path,
             bubbles: false
          });
