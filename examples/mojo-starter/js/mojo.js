@@ -1082,9 +1082,10 @@
          listRoot.html("");
          
          if(data && data.length)   {
-            var items = document.createDocumentFragment(); //not supported in IE 5.5
-            forEach(data, function(datum, i) {
-               var $li = renderItem(widget, datum, i, opts);
+            var items = document.createDocumentFragment(), //not supported in IE 5.5
+                  i, len, $li;
+            for(i = 0, len = data.length; i < len; i++) {
+               $li = renderItem(widget, data[i], i, opts);
                items.appendChild($li.get(0));
                allItems[allItems.length] = $li;
                
@@ -1092,10 +1093,34 @@
                   selectedItem = $li;
                   $li.addClass("selected");
                }
-               
-            });
+            }
             listRoot.append(items);
          }
+      }
+      
+      function insertItemsAt(arrData, idx) {
+         var origItem, items, i, len, $li, arrLis = [], splice = Array.prototype.splice;
+         idx = Number(idx);
+         if(isNaN(idx) || idx < 0 || idx > data.length + 1) {
+            return;
+         }
+         
+         items = document.createDocumentFragment(); //not supported in IE 5.5
+         for(i = 0, len = arrData.length; i < len; i++) {
+            var $li = renderItem(widget, arrData[i], i, opts);
+            items.appendChild($li.get(0));
+            arrLis[arrLis.length] = $li;
+         };
+         
+         if(idx === data.length) {
+            listRoot.append(items);
+         }else {
+            origItem = allItems[idx];
+            origItem.before(items);
+         }
+         
+         splice.apply(allItems, [idx, 0].concat(arrLis));
+         splice.apply(data, [idx, 0].concat(arrData));
       }
       
       function fireSelectionChanged(item)  {
@@ -1246,6 +1271,13 @@
                i = data.length;
             }
             insertItemAt(objItem, i);
+         },
+         
+         insertItemsAt: function(arrObjItems, i) {
+            if(typeof i === "undefined") {
+               i = data.length;
+            }
+            insertItemsAt(arrObjItems, i);
          },
          
          insertItem: function(objItem) {

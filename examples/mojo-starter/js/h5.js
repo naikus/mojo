@@ -952,6 +952,7 @@
                if(spl) {
                   return elements[0][n];
                }
+               // getAttribute fails in older versions of safari ipod touch 3.1.2
                return elements[0].getAttribute ? elements[0].getAttribute(name) : elements[0][name];
             }else {
                for(i = 0, len = elements.length; i < len; i++) {
@@ -1648,7 +1649,7 @@
       // dispatch ajax start event on document
       dispatch("ajaxstart", url);
       
-      req = xmlhttp ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+      req = xmlhttp ? new XMLHttpRequest({mozSystem: true}) : new ActiveXObject("Microsoft.XMLHTTP");
       if(opt.username) { 
          req.open(opt.method, url, opt.async, opt.username, opt.password);
       }else {
