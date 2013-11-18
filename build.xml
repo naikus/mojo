@@ -5,18 +5,18 @@
   <property name="tools.dir" value="build-tools" />
   
   <macrodef name="lessc">
-      <attribute name="src" />
-      <attribute name="dest" />
-      <sequential>
-          <java jar="${tools.dir}/js.jar" fork="true" output="@{dest}">
-              <arg path="${tools.dir}/less-rhino-1.3.0.js" />
-              <arg path="@{src}" />
-          </java>
-          <echo>Lessjs: generated @{dest}</echo>
-      </sequential>
+     <attribute name="src" />
+     <attribute name="dest" />
+     <sequential>
+         <java jar="${tools.dir}/js.jar" fork="true" output="@{dest}">
+             <arg path="${tools.dir}/less-rhino-1.3.0.js" />
+             <arg path="@{src}" />
+         </java>
+         <echo>Lessjs: generated @{dest}</echo>
+     </sequential>
   </macrodef>
   
-  
+
   <target name="combine" depends="mkdist">
     <!-- Order is important here -->
     <concat destfile="dist/mojo.js">
@@ -61,11 +61,11 @@
     <antcall target="minify" />    
   </target>
   
-  <target name="build-example" depends="build" if="appName">
-     <copy file="${dist.dir}/mojo.less" tofile="examples/${appName}/less/mojo.less" />
-     <copy file="${dist.dir}/mojo.js" tofile="examples/${appName}/js/mojo.js" />
+  <target name="build-example" depends="build" if="app">
+     <copy file="${dist.dir}/mojo.less" tofile="examples/${app}/less/mojo.less" />
+     <copy file="${dist.dir}/mojo.js" tofile="examples/${app}/js/mojo.js" />
      
-     <lessc src="examples/${appName}/less/app.less" dest="examples/${appName}/css/app.css" />
+     <lessc src="examples/${app}/less/app.less" dest="examples/${app}/css/app.css" />
   </target>
 
   <target name="minify" depends="mkdist">
@@ -75,6 +75,12 @@
     <java jar="build-tools/yuicompressor-2.4.7.jar" fork="true">
       <arg line="-o dist/mojo.min.css --preserve-semi dist/mojo.css"/>
     </java>
+  </target>
+  
+  <target name="jshint" if="js">
+     <java  jar="build-tools/js.jar" fork="true" if="js">
+        <arg line="-opt -1 build-tools/jshint-rhino.js ${js}" />
+     </java>
   </target>
 
   <target name="clean">

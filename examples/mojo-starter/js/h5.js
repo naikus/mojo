@@ -375,7 +375,7 @@
                   }
                }
             }
-            return nodelist({elements: found});
+            return nodelist({elements: res});
          },
             
          /**
