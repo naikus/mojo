@@ -444,13 +444,36 @@
                var div = $(document.createElement("div")),
                        html = $(content),
                        scripts = html.find("script"), 
-                       exeScripts = [], code = [], finalScript;
+                       allScripts = [], inlineCode = [], 
+                       
+                       script, scriptSource, extScriptCount = 0, externalScripts,
+                       done = function() {
+                          var inlineScript = document.createElement("script");
+                          inlineScript.textContent = inlineCode.join('\n');
+                          div.append(inlineScript);
+
+                          if(callback) {
+                             callback(templateUrl);
+                          }
+                       },
+                       scriptLoaded = function() {
+                          extScriptCount -= 1;
+                          if(extScriptCount === 0) {
+                             done();
+                          }
+                       };
       
-               scripts.forEach(function(script) {
-                  var scr = $(script), type = scr.attr("type");
-                  if(!scr.attr("src") && (!type || type.indexOf("/javascript") !== -1)) {
-                     html.remove(script);
-                     exeScripts[exeScripts.length] = script;
+               scripts.forEach(function(scriptElem) {
+                  var scr = $(scriptElem), type = scr.attr("type"), source;
+                  
+                  if((source = scr.attr("src"))) {
+                     externalScripts = true;
+                     extScriptCount += 1;
+                  }
+                  
+                  if(!type || type.indexOf("/javascript") !== -1) {
+                     html.remove(scriptElem);
+                     allScripts[allScripts.length] = scr;
                   }
                });
       
@@ -460,19 +483,30 @@
       
                viewPort.append(div);
       
-               for(var i = 0, len = exeScripts.length; i < len; i++) {
-                   code[code.length] = exeScripts[i].textContent;
+               for(var i = 0, len = allScripts.length; i < len; i++) {
+                  script = allScripts[i];
+                  if((scriptSource = script.attr("src"))) {
+                     script = document.createElement("script");
+                     if("onreadystatechange" in script) {
+                        script.onreadystatechange = function() {
+                           if(this.readyState === "loaded" || this.readyState === "complete") {
+                              scriptLoaded();
+                           }
+                        };
+                     }else {
+                        script.onload = scriptLoaded;
+                     }
+                     script.src= scriptSource;
+                     script.async = 1;
+                     div.append(script);
+                  }else {
+                     inlineCode[inlineCode.length] = script.get(0).textContent;
+                  }
                }
-      
-      
-               finalScript = document.createElement("script");
-               finalScript.textContent = code.join('\n');
-      
-               div.append(finalScript);
-      
-               if(callback) {
-                  callback(templateUrl);
-               }
+               
+               if(!externalScripts && callback) {
+                  done();
+               } 
             }
          });
       }
