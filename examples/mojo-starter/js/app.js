@@ -118,8 +118,7 @@ window.SERVER_URL = "/";
       headers: {
         "Content-Type": "application/json" 
       }
-   }, 
-   empty = {};
+   };
 
    /*
     * Simple REST API plugin.
@@ -147,6 +146,17 @@ window.SERVER_URL = "/";
     *    success: An optional callback function to call upon successful call of the 'apiMethod'
     *    failure: An optional callback function to call upon failure calling the 'apiMethod'
     * }
+    * 
+    * If you are using https and base64 encoding and basic authorization use this like so. 
+    * This needs js/lib/base64.min.js included in your index.html
+    * 
+    * var Api = $.Api({
+    *    baseUrl: url,
+    *    headers: {
+    *       Authorization: 'Basic ' + Base64.encode(uname + ":" + pass),
+    *       "Content-Type": "application/json"
+    *    }
+    * });
     * </code>
     */
    $.Api = function(options) {
@@ -155,10 +165,8 @@ window.SERVER_URL = "/";
               getTypeOf = $.getTypeOf,
               opts = $.shallowCopy({}, defaults, options),
               noop = function() {},
-              GeoLocation = $.GeoLocation,
-              doc = $(document),
               ret = {};
-
+      
       function asParams(key, val, arrPostData) {
          if(isArray(val)) {
             encodeArray(key, val, arrPostData);
@@ -200,7 +208,7 @@ window.SERVER_URL = "/";
       
       function apiCall(method, options) {
          var apiMethod = opts.baseUrl + (options.apiMethod || ""), 
-                 reqData, headers = $.shallowCopy({}, defaults.headers, options.headers);
+                 reqData, headers = $.shallowCopy({}, opts.headers, options.headers);
          // console.log("Calling API method " + apiMethod);
          
          if(options.data) {
@@ -222,12 +230,6 @@ window.SERVER_URL = "/";
                   reqData = JSON.stringify(options.data);
                }
             }
-         }
-         
-         // update the geo latitude and longitude
-         if(GeoLocation) {
-            headers["X-Mojo-Geo-Lat"] = GeoLocation.lat();
-            headers["X-Mojo-Geo-Lng"] = GeoLocation.lng();
          }
          
          $.ajax({
@@ -265,13 +267,13 @@ window.SERVER_URL = "/";
       };
       
       ret.option = function(name, value) {
-         if(arguments.length == 1) {
+         if(arguments.length === 1) {
             return opts[name];
          }else {
             opts[name] = value;
          }
       };
-
+      
       return ret;
    };
 })(h5);
