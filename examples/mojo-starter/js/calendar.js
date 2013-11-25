@@ -111,8 +111,10 @@
             return {
                initialize: function() {
                   // Years control -------------------------------------------------------
-
-                  uiYears = $("#calendarView > .calendar > .year-bar > .years").datalist({
+                  var calendar = viewUi.find(".calendar");
+                  
+                  // uiYears = $("#calendarView > .calendar > .year-bar > .years").datalist({
+                  uiYears = calendar.find(".year-bar > .years").datalist({
                      itemClass: "activable",
                      onselectionchange: function(val, oldVal) {
                         calDate.setFullYear(val);
@@ -120,16 +122,16 @@
                      }
                   });
 
-                  actYearsPrevious = $("#calendarView > .calendar > .year-bar > .years-previous");
+                  actYearsPrevious = calendar.find(".year-bar > .years-previous");
                   actYearsPrevious.on(Events.tap, navigateYears);
 
-                  actYearsNext = $("#calendarView > .calendar > .year-bar > .years-next");
+                  actYearsNext = calendar.find(".year-bar > .years-next");
                   actYearsNext.on(Events.tap, navigateYears);
 
 
                   // Months Control ------------------------------------------------------
 
-                  uiMonths = $("#calendarView > .calendar > .months").datalist({
+                  uiMonths = calendar.find(".months").datalist({
                      itemClass: "activable",
                      listClass: "",
                      data: months,
@@ -157,14 +159,14 @@
 
                   // Days Calendar --------------------------------------------------------
 
-                  uiDays = $("#calendarView > .calendar > .days").datalist({
+                  uiDays = calendar.find(".days").datalist({
                      listClass: "",
                      itemClass: "",
                      selectable: false,
                      data: days
                   });
 
-                  uiDates = $("#calendarView > .calendar > .dates").datalist({
+                  uiDates = calendar.find(".dates").datalist({
                      itemClass: "activable",
                      render: function(widget, item, i, day) {
                         var tn = document.createTextNode(day);
@@ -188,7 +190,7 @@
 
 
                   // Actions -----------------------------------------------------
-                  $("#calendarView .cal-actions .button").on(Events.tap, function(e) {
+                  viewUi.find(".cal-actions .button").on(Events.tap, function(e) {
                      var t = $(e.target), act = t.attr("data-action"),
                            dt = new Date(); //, now = new Date(dt.getTime());
                      if(act === "cancel") {
