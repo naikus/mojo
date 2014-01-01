@@ -175,6 +175,8 @@ a, img, button {
 html, body {
    font-family: Helvetica, sans;
    overflow-x: hidden;
+   width: 100%;
+   display: block;
 }
 
 /*
@@ -366,6 +368,13 @@ textarea {
    /*-webkit-appearance: caret;*/
    width: 100%;
    margin: 2px 0;
+   
+   font-size: 0.95em;
+   font-family: inherit;
+}
+
+.field:focus, input:focus , select:focus {
+   border: 1px solid darken(@bg-color, 18%);
 }
 
 input[type=range] {
@@ -391,6 +400,9 @@ input[type=button], button, .button {
 
    width: 100%;
    
+   font-size: 0.95em;
+   font-family: inherit;
+   
    // -webkit-box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
    // box-shadow: 0 0 3px darken(@selected-bg-color, 10%);
 }
@@ -413,13 +425,13 @@ input.inline, input[type=button], button.inline, .button.inline, select.inline {
 }
 
 select {
-   background: transparent;
-   -webkit-appearance: none;
-   -moz-appearance: statusbar;
-   border: none;
+   // background: transparent;
+   // -webkit-appearance: none;
+   // -moz-appearance: statusbar;
+   // border: none;
 }
 option {
-   padding: 5px;
+   // padding: 5px;
 }
 
 

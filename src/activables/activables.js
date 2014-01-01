@@ -2,7 +2,7 @@
  * A working solution for activable elements
  * Requires .activable and .activable.active classes to change appearance
  */
-(function($) {
+;(function($) {
    var touchstart = "touchstart", touchend = "touchend", touchmove = "touchmove";
    if(! ("ontouchstart" in document.documentElement)) {
         touchstart = "mousedown";

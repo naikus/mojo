@@ -505,6 +505,7 @@ window.SERVER_URL = "/";
       App.initialize({
          viewPort: vPort, 
          loadFromPath: false,
+         enableHashChange: false,
          startView: "/tabView"
       });
 

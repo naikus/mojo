@@ -63,7 +63,7 @@
   
   <target name="build-example" depends="build" if="app">
      <copy file="${dist.dir}/mojo.less" tofile="examples/${app}/less/mojo.less" />
-     <copy file="${dist.dir}/mojo.js" tofile="examples/${app}/js/mojo.js" />
+     <copy file="${dist.dir}/mojo.js" tofile="examples/${app}/js/lib/mojo.js" />
      
      <lessc src="examples/${app}/less/app.less" dest="examples/${app}/css/app.css" />
   </target>

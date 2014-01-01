@@ -221,6 +221,8 @@
       
       transitionProp, // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
       
+      useHash = true,
+      
       viewPort;
       
       // ------------------------------ Private Methods ------------------------
@@ -675,15 +677,15 @@
          return this.ignoreNext = true;
       };
       
-      $(window).on("hashchange", RouteHandler);
-
       // ---------------------------- Application API --------------------------
       application = {
          addRoute: addRoute,
 
          showView: function(path, data, callback) {
             RouteHandler.ignoreNextHashChange();
-            window.location.hash = path;
+            if(useHash) {
+               window.location.hash = path;
+            }
             pushView(path, data, callback);
          },
                  
@@ -693,7 +695,9 @@
                 var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
                 if(route) {
                     RouteHandler.ignoreNextHashChange();
-                    window.location.hash = route.realPath;
+                    if(useHash) {
+                       window.location.hash = route.realPath;
+                    }
                 }
                 popView(result, toPath);
             }
@@ -727,8 +731,9 @@
          },
 
          initialize: function(options) {
-            viewPort = options.viewPort, 
+            viewPort = options.viewPort;
             transitionProp = "transitionProperty" in options ? options.transitionProperty : "transform";
+            useHash = (options.enableHashChange !== false);
             
             var path;
             if(options.loadFromPath !== false) {
@@ -738,6 +743,10 @@
             path = path || options.startView;
             if(path) {
                this.showView(path);
+            }
+
+            if(useHash) {
+               $(window).on("hashchange", RouteHandler);
             }
          }
       };
@@ -753,21 +762,37 @@
    var forEach = $.forEach, 
       getTypeOf = $.getTypeOf,
       Elem = document.documentElement,
-      setValue;
+      binders;
 
-   function setValueStandard(arrElems, value, formatter) {
+   function setContentStandard(arrElems, value) {
       for(var i = 0, len = arrElems.length; i < len; i++) {
-         arrElems[i].textContent = formatter ? formatter(value) : value;
+         arrElems[i].textContent = value;
       }
    }
    
-   function setValueIE(arrElems, value, formatter) {
+   function setContentIE(arrElems, value) {
       for(var i = 0, len = arrElems.length; i < len; i++) {
-         arrElems[i].innerText = formatter ? formatter(value) : value;
+         arrElems[i].innerText = value;
       }
    }
    
-   function getValue(key, obj) {
+   function getKey(theKey) {
+      var idx = theKey.indexOf(":"), type, key;
+      if(idx === -1) {
+         type = "text";
+         key = theKey;
+      }else {
+         type = theKey.substring(0, idx);
+         key = theKey.substring(idx + 1);
+      }
+      // console.log(type + ", " + key);
+      return {
+         type: type,
+         key: key
+      };
+   }
+   
+   function getValue(key, obj, formatter) {
       var i, len, val, keys = key.split("."), tmp = obj, par;
       for(i = 0, len = keys.length; i < len; i++) {
          par = tmp;
@@ -783,30 +808,76 @@
       }
       val = val || tmp;
       if(typeof val === "function") {
-         return val.call(par);
-      }else {
-         return val;
+         val = val.call(par);
       }
+      return formatter ? formatter(val) : val;
    }
+
    
-   // use appropriate function for textContent
-   /*
-    * This is done for performance reasons.
-    */
-   setValue = "textContent" in Elem ? setValueStandard : setValueIE;
+   binders = {
+      attr: function(arrElems, value, attr) {
+         for(var i = 0, len = arrElems.length; i < len; i++) {
+            arrElems[i].setAttribute(attr, value);
+         }
+      },
+      
+      value: function(arrElems, value) {
+         for(var i = 0, len = arrElems.length; i < len; i++) {
+            arrElems[i].value = value;
+         }
+      },
+      
+      // use appropriate function for textContent
+      text: ("textContent" in Elem ? setContentStandard : setContentIE),
+      
+      html: function(arrElems, value) {
+         for(var i = 0, len = arrElems.length; i < len; i++) {
+            arrElems[i].innerHTML = value;
+         }
+      }
+   };
    
    $.extension("binder", function(options) {
       options = options || {};
-      var model = options.model, self = this, boundElemMap = {}, formatters = options.formatters || {};
+      var model = options.model || {}, self = this, 
+            boundElemMap = {}, 
+            formatters = options.formatters || {};
       
       
       function applyBindings() {
-         forEach(boundElemMap, function(arrElems, valKey) {
-            var value = getValue(valKey, model), formatter = formatters[valKey];
-            setValue(arrElems, value, formatter);
+         forEach(boundElemMap, function(keyMap, modelKey) {
+            var value = getValue(modelKey, model, formatters[modelKey]);
+            applyBindingsForKey(modelKey, value);
          });
       }
+      
+      
+      function applyBindingsForKey(modelKey, value) {
+         var keyMap = boundElemMap[modelKey];
+         if(!keyMap) {
+            return;
+         }
+         forEach(keyMap, function(arrElems, typeKey) {
+            var attr, binder;
+            if(typeKey.indexOf("@") === 0) {
+               // we have attribute setter
+               attr = typeKey.substring(1);
+               binders.attr(arrElems, value, attr);
+            }else {
+               binder = binders[typeKey] || binders.text;
+               binder(arrElems, value);
+            }
+         });
+      }
+      
 
+      /**
+       * Partially updates the model from the specified model model
+       * @param {type} mdl The values to update in this binder's model
+       * @param {type} pKey Optional parent key (for nested keys e.g. user.name)
+       * @param {type} modelRef Optoinal parent model
+       * @returns {undefined}
+       */
       function updateModel(mdl, pKey, modelRef) {
          if(!mdl) {return;}
          var parentKey = pKey ? pKey + "." : "", pModel = modelRef || model;
@@ -816,11 +887,7 @@
                updateModel(value, key, pModel[key] || (pModel[key] = {}));
             }else {
                pModel[key] = value; //update our model
-               var arrElems = boundElemMap[actKey];
-               if(arrElems) {
-                  var formatter = formatters[actKey];
-                  setValue(arrElems, value == null ? "" : value, formatter); //intentional == check, for '0' values
-               }
+               applyBindingsForKey(actKey, value);
             }
          });
       }
@@ -841,36 +908,38 @@
          }
          
          // update the view
-         var arrElems = boundElemMap[key];
-         if(arrElems) {
-            var formatter = formatters[key];
-            setValue(arrElems, value == null ? "" : value, formatter); //intentional == check, for '0' values
-         }
-      }      
+         applyBindingsForKey(key, value);
+      }
       
+      /* Structure of bound element map
+      var boundElemMap = {
+         "user.firstname": {
+            "@title": [],
+            "text": [],
+            "html": []
+         }
+      };
+      */
       // search for all bound elements
       self.find("[data-bind]").forEach(function(elem) {
-         var key = elem.getAttribute("data-bind"), arr = boundElemMap[key];
-         if(!arr) {
-            arr = boundElemMap[key] = [];
-         }
-         arr[arr.length] = elem;
+         var bindKey = elem.getAttribute("data-bind"), 
+               keyInfo = getKey(bindKey),
+               keyMap = boundElemMap[keyInfo.key] || (boundElemMap[keyInfo.key] = {}), 
+               arrElems = keyMap[keyInfo.type] || (keyMap[keyInfo.type] = []);
+               
+         // console.log(boundElemMap);               
+         arrElems[arrElems.length] = elem;
       });
       
-      if(model) {
-         applyBindings(boundElemMap, model);
-      }
+      applyBindings(model);
       
       return {
          apply: function(mdl) {
-            model = mdl;
-            applyBindings(boundElemMap, model);
+            model = mdl || {};
+            applyBindings();
          },
          
          update: function(key, val) {
-            if(!model) {
-               model = {};
-            }
             if(typeof key === "string") {
                updateModelValue(key, val);
             }else {
@@ -1508,7 +1577,7 @@
  * A working solution for activable elements
  * Requires .activable and .activable.active classes to change appearance
  */
-(function($) {
+;(function($) {
    var touchstart = "touchstart", touchend = "touchend", touchmove = "touchmove";
    if(! ("ontouchstart" in document.documentElement)) {
         touchstart = "mousedown";

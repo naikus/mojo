@@ -99,6 +99,8 @@ html,
 body {
   font-family: Helvetica, sans;
   overflow-x: hidden;
+  width: 100%;
+  display: block;
 }
 /*
 html, body, .viewport {
@@ -280,6 +282,13 @@ select {
 
   width: 100%;
   margin: 2px 0;
+  font-size: 0.95em;
+  font-family: inherit;
+}
+.field:focus,
+input:focus,
+select:focus {
+  border: 1px solid #c4c4c4;
 }
 input[type=button],
 button,
@@ -295,6 +304,8 @@ button,
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
   width: 100%;
+  font-size: 0.95em;
+  font-family: inherit;
 }
 button:active,
 button.primary:active,
@@ -318,15 +329,6 @@ button.inline,
 .button.inline,
 select.inline {
   width: auto;
-}
-select {
-  background: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: statusbar;
-  border: none;
-}
-option {
-  padding: 5px;
 }
 /* -------------------------------------- Other ------------------------------------------------ */
 .box,

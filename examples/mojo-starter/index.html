@@ -102,6 +102,25 @@
                <div>
                   <div class="tab-content" id="tabOne">
                      <span class="pad">Contents of Tab One</span>
+                     
+                     <section id="binder" class="pad">
+                        <span class="field" data-bind="@title:user.firstname">
+                           <span data-bind="user.firstname">Name</span>
+                        </span>
+                        <input data-bind="value:user.lastname" type="text" />
+                        <span data-bind="user.nick"></span>
+                        <div data-bind="html:user.address"></div>
+                        <a data-bind="@href:user.email">Email</a>
+                        
+                        <select data-bind="value:user.nick">
+                           <option value="Naik">Naik</option>
+                           <option value="Nickey">Nickey</option>
+                           <option value="Aniket">Aniket</option>
+                           <option value="Nick Name">Nick Name</option>
+                        </select>
+                        
+                        <span class="button primary" id="updateModelBtn">Update Model</span>
+                     </section>
                   </div>
                   
                   <div class="tab-content" id="tabTwo">
@@ -144,6 +163,28 @@
                                logout: function() {
                                   if(window.confirm("Log out?")) {}
                                }
+                           });
+                           
+                           var binder = $("#binder").binder({
+                              model: {
+                                 user: {
+                                    firstname: "Aniket",
+                                    lastname: "Naik",
+                                    nick: "Nickey",
+                                    address: "<strong>Bavdhan Khurd, Pune, India</strong>",
+                                    email: "mailto:naikus@gmail.com"
+                                 }
+                              }
+                           });
+                           
+                           $("#updateModelBtn").on(Events.tap, function() {
+                              binder.update("user.nick", "Nick Name");
+                              binder.update({
+                                 user: {
+                                    firstname: "Naikus",
+                                    address: "<i>Bavdhan Khurd</i>"
+                                 }
+                              });
                            });
                            
                            var menuContainer = $("#menuContainer");

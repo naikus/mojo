@@ -196,6 +196,8 @@
       
       transitionProp, // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
       
+      useHash = true,
+      
       viewPort;
       
       // ------------------------------ Private Methods ------------------------
@@ -650,15 +652,15 @@
          return this.ignoreNext = true;
       };
       
-      $(window).on("hashchange", RouteHandler);
-
       // ---------------------------- Application API --------------------------
       application = {
          addRoute: addRoute,
 
          showView: function(path, data, callback) {
             RouteHandler.ignoreNextHashChange();
-            window.location.hash = path;
+            if(useHash) {
+               window.location.hash = path;
+            }
             pushView(path, data, callback);
          },
                  
@@ -668,7 +670,9 @@
                 var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
                 if(route) {
                     RouteHandler.ignoreNextHashChange();
-                    window.location.hash = route.realPath;
+                    if(useHash) {
+                       window.location.hash = route.realPath;
+                    }
                 }
                 popView(result, toPath);
             }
@@ -702,8 +706,9 @@
          },
 
          initialize: function(options) {
-            viewPort = options.viewPort, 
+            viewPort = options.viewPort;
             transitionProp = "transitionProperty" in options ? options.transitionProperty : "transform";
+            useHash = (options.enableHashChange !== false);
             
             var path;
             if(options.loadFromPath !== false) {
@@ -713,6 +718,10 @@
             path = path || options.startView;
             if(path) {
                this.showView(path);
+            }
+
+            if(useHash) {
+               $(window).on("hashchange", RouteHandler);
             }
          }
       };
