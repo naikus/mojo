@@ -796,12 +796,21 @@ a.button {
 }
 .viewport {
   background-color: #414141;
-  -webkit-transition: -webkit-transform 200ms ease;
-  transition: transform 200ms ease;
+  /*
+    * Transform has bugs in chrome where the viewport will start shifting with swipes
+    */
+
+  /*-webkit-transition:  -webkit-transform 150ms ease;
+   transition:          transform 150ms ease;*/
+
+  -webkit-transition: left 150ms ease;
+  transition: left 150ms ease;
 }
 .viewport.reveal-appmenu {
-  -webkit-transform: translatex(69%);
-  transform: translatex(69%);
+  /*-webkit-transform: translateX(69%);
+   transform: translateX(69%);*/
+
+  left: 69%;
   /*
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
    box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
@@ -902,6 +911,62 @@ section > header {
   top: 0;
   left: 0;
   z-index: -1;
+}
+/* --------------------------------------- Map View ----------------------------------------- */
+@media only screen and (min-width: 700px) {
+  .appmenu {
+    width: 17%;
+    z-index: 2;
+  }
+  .viewport {
+    left: 17%;
+    width: 83%;
+    border-left: 1px solid #4e4e4e;
+    z-index: 1;
+  }
+  .viewport.nomenu {
+    left: 0;
+    width: 100%;
+    border: none;
+  }
+  .viewport .icon-menu {
+    display: none;
+  }
+  /*
+      .view {
+         -moz-transform: scale(0.95, 0.95);
+         -webkit-transform: scale(0.95, 0.95);
+         -o-transform: scale(0.95, 0.95);
+         transform: scale(0.95, 0.95);
+         opacity: 0;
+      }
+      */
+  .view.in {
+    -moz-transform: translatex(0);
+    -webkit-transform: translatex(0);
+    /*-webkit-transform: translate3d(@x, 0, 0);*/
+  
+    -o-transform: translatex(0);
+    transform: translatex(0);
+  }
+  .view.stack,
+  .view.out {
+    -moz-transform: translatex(-100%);
+    -webkit-transform: translatex(-100%);
+    /*-webkit-transform: translate3d(@x, 0, 0);*/
+  
+    -o-transform: translatex(-100%);
+    transform: translatex(-100%);
+  }
+  .view,
+  .view.pop {
+    -moz-transform: translatex(100%);
+    -webkit-transform: translatex(100%);
+    /*-webkit-transform: translate3d(@x, 0, 0);*/
+  
+    -o-transform: translatex(100%);
+    transform: translatex(100%);
+  }
 }
 /* --------------------------------------- Additional Views ----------------------------------------- */
 /* ------------------------------------ Calendar View --------------------------------------- */

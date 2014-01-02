@@ -315,12 +315,20 @@ a.button {
 }
 .viewport {
    background-color: @alt-bg-color;
-   -webkit-transition:  -webkit-transform 200ms ease;
-   transition:          transform 200ms ease;
+   /*
+    * Transform has bugs in chrome where the viewport will start shifting with swipes
+    */
+   /*-webkit-transition:  -webkit-transform 150ms ease;
+   transition:          transform 150ms ease;*/
+   
+   -webkit-transition:  left 150ms ease;
+   transition:          left 150ms ease;
 }
 .viewport.reveal-appmenu {
-   -webkit-transform: translateX(69%);
-   transform: translateX(69%);
+   /*-webkit-transform: translateX(69%);
+   transform: translateX(69%);*/
+   
+   left: 69%;
    
    /*
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
@@ -432,7 +440,59 @@ section > header {
 }
 
 
+
+/* --------------------------------------- Map View ----------------------------------------- */
+
+@media only screen and (min-width: 700px) {
+    .appmenu {
+        width: 17%;
+        z-index: 2;
+    }
+    
+    .viewport {
+        left: 17%;
+        width: 83%;
+        border-left: 1px solid lighten(@alt-bg-color, 5%);
+        z-index: 1;
+    }
+    
+    .viewport.nomenu {
+        left: 0;
+        width: 100%;
+        border: none;
+    }
+    
+    .viewport .icon-menu {
+        display: none;
+    }
+    
+    /*
+    .view {
+       -moz-transform: scale(0.95, 0.95);
+       -webkit-transform: scale(0.95, 0.95);
+       -o-transform: scale(0.95, 0.95);
+       transform: scale(0.95, 0.95);
+       opacity: 0;
+    }
+    */
+    
+    .view.in {
+       .translateX(0);
+    }
+    .view.stack, .view.out {
+       .translateX(-100%);
+    }
+    .view, .view.pop {
+       .translateX(100%);
+    }
+
+}
+
+
 /* --------------------------------------- Additional Views ----------------------------------------- */
 
 @import "calendar.less";
 @import "time.less";
+
+
+
