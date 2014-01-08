@@ -185,6 +185,10 @@
             }else {
                updateModel(key); // key is actually a partial model object
             }
+         },
+         
+         getModel: function() {
+            return model;
          }
       };
       
