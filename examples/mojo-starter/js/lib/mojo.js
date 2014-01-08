@@ -364,14 +364,15 @@
          ui.addClass("showing");
          // controller.activate(params, data);
          
-         // indicate that both views are not transitioning
+         // indicate that both views are transitioning
          if(currRoute) {
             // called when the view shown is popped, to pass data to the calling view
             currRoute.callback = callback;
             
-            currRoute.ui.addClass("transitioning");
+            // currRoute.ui.addClass("transitioning");
          }
-         ui.addClass("transitioning");
+         // ui.addClass("transitioning");
+         viewPort.addClass("view-transitioning");
          
          setTimeout(function() {
              controller.activate(params, data);
@@ -425,8 +426,9 @@
          }
 
          // indicate that this view is transitioning
-         ui.addClass("transitioning");
-         currRoute.ui.addClass("transitioning");
+         // ui.addClass("transitioning");
+         // currRoute.ui.addClass("transitioning");
+         viewPort.addClass("view-transitioning");
          
          if(typeof callback === "function") {
             callback(data);
@@ -589,7 +591,8 @@
             return; // not a view or not a 'transitionProp' transition on this view.
          }
 
-         ui.removeClass("transitioning");
+         // ui.removeClass("transitioning");
+         viewPort.removeClass("view-transitioning");
 
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
@@ -682,8 +685,8 @@
          addRoute: addRoute,
 
          showView: function(path, data, callback) {
-            RouteHandler.ignoreNextHashChange();
             if(useHash) {
+               RouteHandler.ignoreNextHashChange();
                window.location.hash = path;
             }
             pushView(path, data, callback);
@@ -694,8 +697,8 @@
             if(len >= 2) {
                 var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
                 if(route) {
-                    RouteHandler.ignoreNextHashChange();
                     if(useHash) {
+                       RouteHandler.ignoreNextHashChange();
                        window.location.hash = route.realPath;
                     }
                 }
@@ -945,6 +948,10 @@
             }else {
                updateModel(key); // key is actually a partial model object
             }
+         },
+         
+         getModel: function() {
+            return model;
          }
       };
       

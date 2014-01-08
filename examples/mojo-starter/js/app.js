@@ -408,11 +408,11 @@ window.SERVER_URL = "/";
             console.log("Logging out");
          },
          toggleMainMenu: function(elem) {
-            var viewPort = $("#viewPort");
-            if(viewPort.hasClass("reveal-appmenu")) {
-               viewPort.removeClass("reveal-appmenu");
+            var body = $(document.body);
+            if(body.hasClass("reveal-appmenu")) {
+               body.removeClass("reveal-appmenu");
             }else {
-               viewPort.addClass("reveal-appmenu");
+               body.addClass("reveal-appmenu");
             }
          }
       };

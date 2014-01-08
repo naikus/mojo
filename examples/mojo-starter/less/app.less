@@ -111,21 +111,28 @@ img.activable:active, img.activable.active {
 }
 
 
+.view-transitioning {
+   overflow: hidden;
+}
 
 /* 
  * Enable this if you don't want your views to jump after transitioning when previous or next views have
  * higher height values
  */
-.view.transitioning {
+/*
+.view-transitioning .view {
    height: 100%;
    overflow: hidden;
 }
+*/
 /*
  * This hides elements with .transition-hide class while view is transitioning
  */
-.view.transitioning .transition-hide {
+/*
+.view-transitioning .transition-hide {
    display: none;
 }
+*/
 
 .alt-bg input, .alt-bg textarea {
    background-color: transparent;
@@ -318,17 +325,19 @@ a.button {
    /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
-   /*-webkit-transition:  -webkit-transform 150ms ease;
-   transition:          transform 150ms ease;*/
+   -webkit-transition:  -webkit-transform 150ms ease 100ms;
+   transition:          transform 150ms ease 100ms;
    
+   /*
    -webkit-transition:  left 150ms ease;
    transition:          left 150ms ease;
+   */
 }
-.viewport.reveal-appmenu {
-   /*-webkit-transform: translateX(69%);
-   transform: translateX(69%);*/
+.reveal-appmenu .viewport {
+   -webkit-transform: translateX(69%);
+   transform: translateX(69%);
    
-   left: 69%;
+   // left: 69%;
    
    /*
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
@@ -337,6 +346,14 @@ a.button {
    border-left: 1px solid darken(@alt-bg-color, 5%);
    height: 100%;
    overflow: hidden;
+}
+.reveal-appmenu {
+   overflow-x: hidden;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
 }
 
 

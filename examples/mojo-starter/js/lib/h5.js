@@ -1594,7 +1594,11 @@
             return rDoc;
          },
          json: function(req) {
-            return JSON.parse(req.responseText);
+            var resTxt = req.responseText;
+            if(resTxt) {
+               return JSON.parse(req.responseText);
+            }
+            return "";
          },
          text: function(req) {
             return req.responseText;

@@ -175,13 +175,8 @@ a, img, button {
 html, body {
    font-family: Helvetica, sans;
    overflow-x: hidden;
-   display: block;
-   position: absolute;
-   top: 0;
-   left: 0;
-   
    width: 100%;
-   min-height: 100%;
+   display: block;
 }
 
 /*
@@ -209,9 +204,13 @@ html, body, .viewport {
 }
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
-.view.transitioning {
+.view-transitioning {
    
 }
+.view-transitioning .view{
+   
+}
+
 
 
 
@@ -253,13 +252,6 @@ html, body, .viewport {
    z-index: 199;
 }
 
-.transition {
-   -moz-transition: -moz-transform 225ms ease 50ms;
-   -webkit-transition: -webkit-transform 225ms ease 50ms;
-   -o-transition: -o-transform 225ms ease 50ms;
-   -ms-transition: -ms-transform 225ms ease 50ms;
-   transition: transform 225ms ease 50ms;
-}
 .view.in {
    .translateX(0);
 }
@@ -281,7 +273,7 @@ html, body, .viewport {
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 */
-/**/
+/*
 .view {
     -moz-transform: scale(1.05, 1.05);
     -webkit-transform: scale(1.05, 1.05);
@@ -306,22 +298,16 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
     opacity: 0;
 }
 .view.pop {
-    /*
-    -moz-transform: scale(1.3, 1.3);
-    -webkit-transform: scale(1.3, 1.3);
-    -o-transform: scale(1.3, 1.3);
-    -ms-transform: scale(1.3, 1.3);
-    transform: scale(1.3, 1.3);
-    */
     opacity: 0;
 }
+*/
 
 .transition {
-   -moz-transition: -moz-transform 200ms ease;
-   -webkit-transition: -webkit-transform 200ms ease;
-   -o-transition: -o-transform 200ms ease;
-   -ms-transition: -ms-transform 200ms ease;
-   transition: transform 200ms ease;
+   -moz-transition: -moz-transform 225ms ease 50ms;
+   -webkit-transition: -webkit-transform 225ms ease 50ms;
+   -o-transition: -o-transform 225ms ease 50ms;
+   -ms-transition: -ms-transform 225ms ease 50ms;
+   transition: transform 225ms ease 50ms;
 }
 
 
