@@ -48,7 +48,7 @@
          self.on(touchmove, move);
          
          // start the timer
-         timer = setTimeout(activate, 100);
+         timer = setTimeout(activate, 90);
       }
 
       function end(e) {
@@ -59,7 +59,7 @@
                deactivate();
             }else {
                element.addClass("active");
-               setTimeout(deactivate, 100);
+               setTimeout(deactivate, 90);
             }
          }
       }
