@@ -34,20 +34,27 @@
    action = "ontouchstart" in document.documentElement ? "tap" : "click"; 
    
    /**
-    * Render each item using the specified renderer
+    * Render the item 
+    * @param {type} widget The list widget
+    * @param {type} uiItem The current UI item (li)
+    * @param {type} objItem The model item
+    * @param {type} itemIdx The index at which currently rendering
+    * @param {type} opts The options passed to widget
+    * @returns {unresolved} Either the rendered item that will be attached to the li element
+    * (string, dom element) or the if renderer itself appends to li, returns null or undefined
     */
-   function renderItem(widget, objItem, itemIdx, opts)  {
-      var li = document.createElement("li"), item = $(li), content, liRaw, i, len, itmCls = opts.itemClass;
-      item.data(MODEL_KEY, objItem);
+   function renderItem(widget, uiItem, objItem, itemIdx, opts)  {
+      var content, i, len, itmCls = opts.itemClass, liRaw
+      uiItem.data(MODEL_KEY, objItem);
 
       if(itmCls) {
          for(i = 0, len = itmCls.length; i < len; i++) {
-            item.addClass(itmCls[i]);
+            uiItem.addClass(itmCls[i]);
          }
       }
-      content = opts.render(widget, item, itemIdx, objItem);
+      content = opts.render(widget, uiItem, itemIdx, objItem);
       
-      liRaw = item.get(0);
+      liRaw = uiItem.get(0);
       if(!liRaw.id) {
          liRaw.id = "itm"+ uuid();
       }
@@ -55,14 +62,14 @@
       // check if the renderer has already appended
       if(content) {
          if(isTypeOf(content, "String"))   {
-            item.html(content);
+            uiItem.html(content);
          }else {
-            item.append(content);
+            uiItem.append(content);
          }
       }
       // @TODO will this create a leak?
-      li._item_ = item; // store this to quickly retrieve the item selection change
-      return item;
+      liRaw._item_ = uiItem; // store this to quickly retrieve the item selection change
+      return uiItem;
    }
    
    $.extension("datalist", function(options) {
@@ -96,7 +103,7 @@
          return opts.template ? opts.template.process(datum) : datum + "";
       };
       
-      /**
+      /*
        * Render the entire list widget
        */
       function render(selIndex) {
@@ -107,7 +114,8 @@
             var items = document.createDocumentFragment(), //not supported in IE 5.5
                   i, len, $li;
             for(i = 0, len = data.length; i < len; i++) {
-               $li = renderItem(widget, data[i], i, opts);
+               $li = $(document.createElement("li"));
+               $li = renderItem(widget, $li, data[i], i, opts);
                items.appendChild($li.get(0));
                allItems[allItems.length] = $li;
                
@@ -408,6 +416,12 @@
          
          clearSelection: function() {
             fireSelectionChanged(null);
+         },
+         
+         update: function(idx) {
+            if(typeof idx !== "undefined") {
+               renderItem(this, allItems[idx], data[idx], idx, opts);
+            }
          }
       };
       

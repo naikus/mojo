@@ -504,15 +504,53 @@ window.SERVER_URL = "/";
       }).on("ajaxend", function() {
          loading.removeClass("show");
       });
+      
+      
+      // global menu ------------------------------------------------------------------
+      
+      var menuData = [
+            {
+               label: "Settings", 
+               icon: "icon-cog", 
+               action: function() {
+                  Messages.info("View settings");
+               }
+            },
+            {
+               label: "Logout",
+               icon: "icon-logout",
+               action: function() {
+                  if(window.confirm("Logout?")) {
+                     window.location.replace("index.html");
+                  }
+               }
+            }
+         ],
+
+         appMenu = $("#appMenu").datalist({
+            itemClass: "activable", 
+            selectable: false,
+            template: $.template('<span class="{icon}"> {label}</span>'),
+            data: menuData
+         });
+
+      appMenu.on(Events.tap, function(e, item, itemData) {
+         if(itemData.action) {
+            itemData.action(itemData);
+         }
+      });
 
       // initialize our app
       App.initialize({
          viewPort: vPort, 
-         loadFromPath: false,
-         enableHashChange: false,
-         startView: "/tabView"
+         loadFromPath: false
+         // enableHashChange: false,
+         // startView: "/tabView"
       });
-
+      
+      App.loadView("views/tabs.html", "/tabs");
+      
+      
       /*
       if(typeof google !== "undefined") {
          google.maps.visualRefresh = true;

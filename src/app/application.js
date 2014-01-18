@@ -229,6 +229,8 @@
          var route = $.shallowCopy({}, routeOpts);
          route.routeTemplate = $.UriTemplate(path);
          route.path = path;
+         
+         console.log("Adding route:" + path);
          // add this route to the top, latest added routes get preferences over the older ones
          routes.unshift(route);
       }
@@ -279,7 +281,7 @@
             throw new Error("Please provide the route id, a selector that is the view UI.");
          }
 
-         var ui = route.ui = $(route.id);
+         var ui = route.ui = $("#" + route.id);
          if(!ui.count()) {
             throw new Error("UI for view or overlay route not found: " + route.path);
          }
@@ -339,14 +341,11 @@
          ui.addClass("showing");
          // controller.activate(params, data);
          
-         // indicate that both views are transitioning
          if(currRoute) {
             // called when the view shown is popped, to pass data to the calling view
             currRoute.callback = callback;
-            
-            // currRoute.ui.addClass("transitioning");
          }
-         // ui.addClass("transitioning");
+         // indicate that both views are transitioning
          viewPort.addClass("view-transitioning");
          
          setTimeout(function() {
@@ -359,7 +358,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 150);
+         }, 50);
 
          stack.push(route);
       }
@@ -418,7 +417,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
-         }, 150);
+         }, 50);
       }
         
         
@@ -519,7 +518,6 @@
       // UI Transitioning CSS class changes -------------------------------------------------------------
 
       function unstackViewUi(ui) {
-         // ui.addClass("transitioning").removeClass("stack").addClass("in");
          ui.removeClass("stack").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -535,7 +533,6 @@
       }
 
       function stackViewUi(ui) {
-         // ui.addClass("transitioning").addClass("stack").removeClass("in");
          // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("stack").removeClass("in");
@@ -545,7 +542,6 @@
       }
 
       function pushViewUi(ui) {
-         // ui.addClass("transitioning").addClass("transition").addClass("in");
          // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("transition").addClass("in");
@@ -566,27 +562,21 @@
             return; // not a view or not a 'transitionProp' transition on this view.
          }
 
-         // ui.removeClass("transitioning");
-         viewPort.removeClass("view-transitioning");
-
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
             // route.controller.deactivate();
             ui.removeClass("showing");
+            viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
             dispatchViewTransitionEvent("out", ui, route);
-            return;
-         }
-
-         // if ui has transitioned in
-         if(ui.hasClass("in")) {
+            
+         }else if(ui.hasClass("in")) {// if ui has transitioned in
+            viewPort.removeClass("view-transitioning");
             dispatchViewTransitionEvent("in", ui, route);
-            return;
-         }
-
-         // if view has been popped
-         if(ui.hasClass("pop")) {
+            
+         }else if(ui.hasClass("pop")) { // if view has been popped
             // route.controller.deactivate();
             ui.removeClass("showing").removeClass("transition").removeClass("pop");
+            viewPort.removeClass("view-transitioning");
             dispatchViewTransitionEvent("out", ui, route);
          }
       }
@@ -595,12 +585,13 @@
          viewPort.dispatch("viewtransition" + tType, {
             path: route.path,
             bubbles: false,
-            cancelable: true
+            cancelable: false
          });
 
          ui.dispatch("transition" + tType, {
             path: route.path,
-            bubbles: false
+            bubbles: false,
+            cancelable: false
          });
       }
       
@@ -685,22 +676,23 @@
             var route = stack.length ? stack[stack.length - 1] : null;
             if(route) {
                return {
-                  id: route.view || route.overlay,
+                  id: route.id,
                   path: route.path,
-                  realPath: route.realPath
+                  realPath: route.realPath,
+                  controller: route.controller
                };
             }
             return null;
          },
                  
-         loadView: function(viewTemplateUrl, path, data, callback) {
+         loadView: function(viewTemplateUrl, path, data, resultCallback) {
             var route = getMatchingRoute(path), app = this;
             if(!route) {
                 loader(viewTemplateUrl, function() {
-                    app.showView(path, data, callback);
+                    app.showView(path, data, resultCallback);
                 });
             }else {
-                this.showView(path, data, callback);
+                this.showView(path, data, resultCallback);
             }
          },
                  
@@ -728,6 +720,14 @@
             }
          }
       };
+      
+      $(window).on("unload", function() {
+         $.forEach(routes, function(r) {
+            try {
+               r.controller.destroy();
+            }catch(ignore) {}
+         });
+      });
       
       return application;
    };

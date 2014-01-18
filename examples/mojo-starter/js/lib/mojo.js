@@ -254,6 +254,8 @@
          var route = $.shallowCopy({}, routeOpts);
          route.routeTemplate = $.UriTemplate(path);
          route.path = path;
+         
+         console.log("Adding route:" + path);
          // add this route to the top, latest added routes get preferences over the older ones
          routes.unshift(route);
       }
@@ -304,7 +306,7 @@
             throw new Error("Please provide the route id, a selector that is the view UI.");
          }
 
-         var ui = route.ui = $(route.id);
+         var ui = route.ui = $("#" + route.id);
          if(!ui.count()) {
             throw new Error("UI for view or overlay route not found: " + route.path);
          }
@@ -364,14 +366,11 @@
          ui.addClass("showing");
          // controller.activate(params, data);
          
-         // indicate that both views are transitioning
          if(currRoute) {
             // called when the view shown is popped, to pass data to the calling view
             currRoute.callback = callback;
-            
-            // currRoute.ui.addClass("transitioning");
          }
-         // ui.addClass("transitioning");
+         // indicate that both views are transitioning
          viewPort.addClass("view-transitioning");
          
          setTimeout(function() {
@@ -384,7 +383,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 150);
+         }, 50);
 
          stack.push(route);
       }
@@ -443,7 +442,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(route.ui);
-         }, 150);
+         }, 50);
       }
         
         
@@ -544,7 +543,6 @@
       // UI Transitioning CSS class changes -------------------------------------------------------------
 
       function unstackViewUi(ui) {
-         // ui.addClass("transitioning").removeClass("stack").addClass("in");
          ui.removeClass("stack").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -560,7 +558,6 @@
       }
 
       function stackViewUi(ui) {
-         // ui.addClass("transitioning").addClass("stack").removeClass("in");
          // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("stack").removeClass("in");
@@ -570,7 +567,6 @@
       }
 
       function pushViewUi(ui) {
-         // ui.addClass("transitioning").addClass("transition").addClass("in");
          // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("transition").addClass("in");
@@ -591,27 +587,21 @@
             return; // not a view or not a 'transitionProp' transition on this view.
          }
 
-         // ui.removeClass("transitioning");
-         viewPort.removeClass("view-transitioning");
-
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
             // route.controller.deactivate();
             ui.removeClass("showing");
+            viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
             dispatchViewTransitionEvent("out", ui, route);
-            return;
-         }
-
-         // if ui has transitioned in
-         if(ui.hasClass("in")) {
+            
+         }else if(ui.hasClass("in")) {// if ui has transitioned in
+            viewPort.removeClass("view-transitioning");
             dispatchViewTransitionEvent("in", ui, route);
-            return;
-         }
-
-         // if view has been popped
-         if(ui.hasClass("pop")) {
+            
+         }else if(ui.hasClass("pop")) { // if view has been popped
             // route.controller.deactivate();
             ui.removeClass("showing").removeClass("transition").removeClass("pop");
+            viewPort.removeClass("view-transitioning");
             dispatchViewTransitionEvent("out", ui, route);
          }
       }
@@ -620,12 +610,13 @@
          viewPort.dispatch("viewtransition" + tType, {
             path: route.path,
             bubbles: false,
-            cancelable: true
+            cancelable: false
          });
 
          ui.dispatch("transition" + tType, {
             path: route.path,
-            bubbles: false
+            bubbles: false,
+            cancelable: false
          });
       }
       
@@ -710,22 +701,23 @@
             var route = stack.length ? stack[stack.length - 1] : null;
             if(route) {
                return {
-                  id: route.view || route.overlay,
+                  id: route.id,
                   path: route.path,
-                  realPath: route.realPath
+                  realPath: route.realPath,
+                  controller: route.controller
                };
             }
             return null;
          },
                  
-         loadView: function(viewTemplateUrl, path, data, callback) {
+         loadView: function(viewTemplateUrl, path, data, resultCallback) {
             var route = getMatchingRoute(path), app = this;
             if(!route) {
                 loader(viewTemplateUrl, function() {
-                    app.showView(path, data, callback);
+                    app.showView(path, data, resultCallback);
                 });
             }else {
-                this.showView(path, data, callback);
+                this.showView(path, data, resultCallback);
             }
          },
                  
@@ -754,6 +746,14 @@
          }
       };
       
+      $(window).on("unload", function() {
+         $.forEach(routes, function(r) {
+            try {
+               r.controller.destroy();
+            }catch(ignore) {}
+         });
+      });
+      
       return application;
    };
     
@@ -764,7 +764,6 @@
 ;(function($) {
    var forEach = $.forEach, 
       getTypeOf = $.getTypeOf,
-      Elem = document.documentElement,
       binders;
 
    function setContentStandard(arrElems, value) {
@@ -807,7 +806,7 @@
          }
       }
       if(!val && i < len) { // this means some object in the chain is null and we still have keys left
-         return "";
+         return formatter ? formatter(val) : "";
       }
       val = val || tmp;
       if(typeof val === "function") {
@@ -831,7 +830,7 @@
       },
       
       // use appropriate function for textContent
-      text: ("textContent" in Elem ? setContentStandard : setContentIE),
+      text: ("textContent" in document.documentElement ? setContentStandard : setContentIE),
       
       html: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
@@ -885,18 +884,19 @@
          if(!mdl) {return;}
          var parentKey = pKey ? pKey + "." : "", pModel = modelRef || model;
          forEach(mdl, function(value, key) {
-            var actKey = parentKey + key, type = getTypeOf(value);
+            var actKey = parentKey + key, type = getTypeOf(value), formatter = formatters[actKey];
             if(type === "Object") {
+               applyBindingsForKey(actKey, formatter ? formatter(value) : value);
                updateModel(value, key, pModel[key] || (pModel[key] = {}));
             }else {
                pModel[key] = value; //update our model
-               applyBindingsForKey(actKey, value);
+               applyBindingsForKey(actKey,  formatter ? formatter(value) : value);
             }
          });
       }
 
       function updateModelValue(key, value) {
-         var keys = key.split("."), modelValue, partKey, tmpModel = model;
+         var keys = key.split("."), modelValue, partKey, tmpModel = model, formatter = formatters[key];
          for(var i = 0, len = keys.length; i < len; i++) {
             partKey = keys[i];
             modelValue = tmpModel[partKey];
@@ -911,7 +911,7 @@
          }
          
          // update the view
-         applyBindingsForKey(key, value);
+         applyBindingsForKey(key, formatter ? formatter(value) : value);
       }
       
       /* Structure of bound element map
@@ -1122,20 +1122,27 @@
    action = "ontouchstart" in document.documentElement ? "tap" : "click"; 
    
    /**
-    * Render each item using the specified renderer
+    * Render the item 
+    * @param {type} widget The list widget
+    * @param {type} uiItem The current UI item (li)
+    * @param {type} objItem The model item
+    * @param {type} itemIdx The index at which currently rendering
+    * @param {type} opts The options passed to widget
+    * @returns {unresolved} Either the rendered item that will be attached to the li element
+    * (string, dom element) or the if renderer itself appends to li, returns null or undefined
     */
-   function renderItem(widget, objItem, itemIdx, opts)  {
-      var li = document.createElement("li"), item = $(li), content, liRaw, i, len, itmCls = opts.itemClass;
-      item.data(MODEL_KEY, objItem);
+   function renderItem(widget, uiItem, objItem, itemIdx, opts)  {
+      var content, i, len, itmCls = opts.itemClass, liRaw
+      uiItem.data(MODEL_KEY, objItem);
 
       if(itmCls) {
          for(i = 0, len = itmCls.length; i < len; i++) {
-            item.addClass(itmCls[i]);
+            uiItem.addClass(itmCls[i]);
          }
       }
-      content = opts.render(widget, item, itemIdx, objItem);
+      content = opts.render(widget, uiItem, itemIdx, objItem);
       
-      liRaw = item.get(0);
+      liRaw = uiItem.get(0);
       if(!liRaw.id) {
          liRaw.id = "itm"+ uuid();
       }
@@ -1143,14 +1150,14 @@
       // check if the renderer has already appended
       if(content) {
          if(isTypeOf(content, "String"))   {
-            item.html(content);
+            uiItem.html(content);
          }else {
-            item.append(content);
+            uiItem.append(content);
          }
       }
       // @TODO will this create a leak?
-      li._item_ = item; // store this to quickly retrieve the item selection change
-      return item;
+      liRaw._item_ = uiItem; // store this to quickly retrieve the item selection change
+      return uiItem;
    }
    
    $.extension("datalist", function(options) {
@@ -1184,7 +1191,7 @@
          return opts.template ? opts.template.process(datum) : datum + "";
       };
       
-      /**
+      /*
        * Render the entire list widget
        */
       function render(selIndex) {
@@ -1195,7 +1202,8 @@
             var items = document.createDocumentFragment(), //not supported in IE 5.5
                   i, len, $li;
             for(i = 0, len = data.length; i < len; i++) {
-               $li = renderItem(widget, data[i], i, opts);
+               $li = $(document.createElement("li"));
+               $li = renderItem(widget, $li, data[i], i, opts);
                items.appendChild($li.get(0));
                allItems[allItems.length] = $li;
                
@@ -1496,6 +1504,12 @@
          
          clearSelection: function() {
             fireSelectionChanged(null);
+         },
+         
+         update: function(idx) {
+            if(typeof idx !== "undefined") {
+               renderItem(this, allItems[idx], data[idx], idx, opts);
+            }
          }
       };
       
@@ -1630,7 +1644,7 @@
          self.on(touchmove, move);
          
          // start the timer
-         timer = setTimeout(activate, 100);
+         timer = setTimeout(activate, 90);
       }
 
       function end(e) {
@@ -1641,7 +1655,7 @@
                deactivate();
             }else {
                element.addClass("active");
-               setTimeout(deactivate, 100);
+               setTimeout(deactivate, 90);
             }
          }
       }

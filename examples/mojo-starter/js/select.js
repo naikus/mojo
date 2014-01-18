@@ -1,5 +1,5 @@
 Application.addRoute("/ui/select", {
-   id: "#selectListView",
+   id: "selectListView",
    factory: function(app, viewUi) {
       var selectList, selectListTitle, itemTemplate, listData;
       return {

@@ -1,0 +1,70 @@
+<!-- ====================================== Tab View ========================================== -->
+<article class="view" id="tabView">
+   <!-- Sample IScroll style -->
+   <!-- style scoped>
+      #tabTwo {
+         position: absolute;
+         height: 82%;
+         width: 100%;
+         overflow: hidden;
+         padding-bottom: 10px;
+      }
+   </style -->
+   <div class="toolbar">
+      <span data-action="toggleMainMenu" class="activable action icon-menu"></span>
+      <span class="title"> Main</span>
+
+      <span data-action="route" 
+            data-template="views/time.html" 
+            data-path="/ui/time"
+            class="activable action icon-clock right"></span>
+      <span data-action="route" 
+            data-template="views/calendar.html" 
+            data-path="/ui/calendar"
+            class="activable action icon-calendar-empty right"></span>
+   </div>
+   <div id="menuContainer" class="alt-bg menu collapsed">
+      <ul class="list pad-extra no-separator" id="mainToolbarMenu">
+         <li class="activable"><span class="icon-star"> Item</span></li>
+         <li class="activable"><span class="icon-star"> Item</span></li>
+         <li class="activable"><span class="icon-star"> Item</span></li>
+      </ul>
+   </div>
+
+   <div class="content">
+      <ul id="mainTab" class="tabstrip alt-bg">
+         <li class="tab activable" data-ref="#tabOne"><span>Tab One</span></li>
+         <li class="tab activable" data-ref="#tabTwo"><span>Tab Two</span></li>
+         <li class="tab activable" data-ref="#tabThree"><span>Tab Three</span></li>
+      </ul>
+      <div>
+         <div class="tab-content pad" id="tabOne">
+            <span class="pad">Contents of Tab One</span>
+         </div>
+
+         <div class="tab-content" id="tabTwo">
+            <!-- Sample List -->
+            <ul id="uiList"></ul>
+         </div>
+
+         <div class="tab-content pad" id="tabThree">
+            <span class="pad">Contents of Tab Three</span>
+         </div>
+      </div>
+   </div>
+
+   <!-- List Item Template -->
+   <script id="uiListItemTemplate" type="text/template">
+      <div class="box pad">
+         <p class="title">
+            {title}
+         </p>
+         <p class="desc left">
+            {description}
+         </p>
+      </div>
+   </script>
+
+   <script src="js/tabs.js"> </script>
+   <script defer></script>
+</article>

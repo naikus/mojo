@@ -179,17 +179,6 @@ html, body {
    display: block;
 }
 
-/*
-html, body, .viewport {
-   width: 100%;
-   min-height: 100%;
-   margin: 0;
-   padding: 0;
-   
-   background-color: @bg-color;
-}
-*/
-
 .viewport {
    position: absolute;
    top: 0;
@@ -216,7 +205,7 @@ html, body, .viewport {
 
 
 /* ---------------------------- Default transition effects for views ---------------------------- */
-.view, .overlay {
+.view { //, .overlay {
    position: absolute;
    left: 0;
    top: 0;
@@ -237,20 +226,24 @@ html, body, .viewport {
    .translateX(100%);
 }
 
+/*
 .overlay {
    .translateY(-100%);
    background-color: @alt-bg-color;
    color: @alt-text-color;
 }
+*/
 
-.view.showing, .overlay.showing {
+.view.showing { //}, .overlay.showing {
    z-index: 99;
    display: block;
 }
 
+/*
 .overlay.showing  {
    z-index: 199;
 }
+*/
 
 .view.in {
    .translateX(0);
@@ -262,12 +255,14 @@ html, body, .viewport {
    .translateX(100%);
 }
 
+/*
 .overlay.in {
    .translateY(0);
 }
 .overlay.pop {
    .translateY(-100%);
 }
+*/
 
 
 /*
@@ -303,15 +298,21 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 */
 
 .transition {
-   -moz-transition: -moz-transform 225ms ease 50ms;
-   -webkit-transition: -webkit-transform 225ms ease 50ms;
-   -o-transition: -o-transform 225ms ease 50ms;
-   -ms-transition: -ms-transform 225ms ease 50ms;
-   transition: transform 225ms ease 50ms;
+   -moz-transition: -moz-transform 225ms ease;
+   -webkit-transition: -webkit-transform 225ms ease;
+   -o-transition: -o-transform 225ms ease;
+   -ms-transition: -ms-transform 225ms ease;
+   transition: transform 225ms ease;
 }
 
-
-
+/* Slightly different transition effect */
+/*
+.transition {
+   -moz-transition: -moz-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   -webkit-transition: -webkit-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   transition: trasform 450ms ease;
+}
+*/
 .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
@@ -355,17 +356,18 @@ textarea {
    -webkit-box-sizing: border-box;
    
    padding:10px 5px;
-   border: 1px solid darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 5%);
    /*-webkit-appearance: caret;*/
    width: 100%;
    margin: 2px 0;
    
    font-size: 0.95em;
    font-family: inherit;
+   color: @text-color;
 }
 
 .field:focus, input:focus , select:focus {
-   border: 1px solid darken(@bg-color, 18%);
+   border: 1px solid darken(@bg-color, 8%);
 }
 
 input[type=range] {

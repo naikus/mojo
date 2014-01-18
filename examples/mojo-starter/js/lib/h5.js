@@ -739,6 +739,8 @@
          cellpadding: "cellPadding",
          rowspan: "rowSpan",
          colspan: "colSpan",
+         disable: "disabled",
+         checked: "checked",
          usemap: "useMap",
          frameborder: "frameBorder",
          contenteditable: "contentEditable"
@@ -1368,8 +1370,8 @@
                return;
             }
             touch = cTouches[0];
-            if(touch.identifier === state.id && 
-                  !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
+            if(touch.identifier === state.id && !state.moved &&
+                  // !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
                   state.target === target) {
                $(target).dispatch("tap");
             }

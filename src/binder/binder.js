@@ -1,7 +1,6 @@
 ;(function($) {
    var forEach = $.forEach, 
       getTypeOf = $.getTypeOf,
-      Elem = document.documentElement,
       binders;
 
    function setContentStandard(arrElems, value) {
@@ -44,7 +43,7 @@
          }
       }
       if(!val && i < len) { // this means some object in the chain is null and we still have keys left
-         return "";
+         return formatter ? formatter(val) : "";
       }
       val = val || tmp;
       if(typeof val === "function") {
@@ -68,7 +67,7 @@
       },
       
       // use appropriate function for textContent
-      text: ("textContent" in Elem ? setContentStandard : setContentIE),
+      text: ("textContent" in document.documentElement ? setContentStandard : setContentIE),
       
       html: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
@@ -122,18 +121,19 @@
          if(!mdl) {return;}
          var parentKey = pKey ? pKey + "." : "", pModel = modelRef || model;
          forEach(mdl, function(value, key) {
-            var actKey = parentKey + key, type = getTypeOf(value);
+            var actKey = parentKey + key, type = getTypeOf(value), formatter = formatters[actKey];
             if(type === "Object") {
+               applyBindingsForKey(actKey, formatter ? formatter(value) : value);
                updateModel(value, key, pModel[key] || (pModel[key] = {}));
             }else {
                pModel[key] = value; //update our model
-               applyBindingsForKey(actKey, value);
+               applyBindingsForKey(actKey,  formatter ? formatter(value) : value);
             }
          });
       }
 
       function updateModelValue(key, value) {
-         var keys = key.split("."), modelValue, partKey, tmpModel = model;
+         var keys = key.split("."), modelValue, partKey, tmpModel = model, formatter = formatters[key];
          for(var i = 0, len = keys.length; i < len; i++) {
             partKey = keys[i];
             modelValue = tmpModel[partKey];
@@ -148,7 +148,7 @@
          }
          
          // update the view
-         applyBindingsForKey(key, value);
+         applyBindingsForKey(key, formatter ? formatter(value) : value);
       }
       
       /* Structure of bound element map

@@ -1,5 +1,5 @@
       Application.addRoute("/ui/calendar", {
-         id: "#calendarView",
+         id: "calendarView",
          factory: function(app, viewUi) {
             var actYearsPrevious, actYearsNext, uiYears, uiMonths, uiDates, uiDays,
 

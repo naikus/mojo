@@ -1,0 +1,47 @@
+@media only screen and (min-width: 700px) {
+   .appmenu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 12%;
+      border-right: 1px solid lighten(@selected-bg-color, 5%);
+
+      -webkit-transform: none;
+      transform: none;
+
+      -webkit-transition: none;
+      transition: none;
+
+      z-index: 2;
+   }
+
+   .viewport {
+      left: 12%;
+      width: 88%;
+      z-index: 1;
+   }
+
+   body.nomenu .viewport {
+      left: 0;
+      width: 100%;
+      border: none;
+   }
+   body.nomenu .appmenu {
+      display: none;
+   }
+
+   .viewport .icon-menu {
+      display: none;
+   }
+   
+   .view .toolbar > .title {
+      padding-left: 15px;
+   }
+   
+   .tabstrip .tab {
+      min-width: 100px;
+      width: auto;
+   }
+
+}

@@ -102,16 +102,6 @@ body {
   width: 100%;
   display: block;
 }
-/*
-html, body, .viewport {
-   width: 100%;
-   min-height: 100%;
-   margin: 0;
-   padding: 0;
-   
-   background-color: @bg-color;
-}
-*/
 .viewport {
   position: absolute;
   top: 0;
@@ -124,8 +114,7 @@ html, body, .viewport {
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 /* ---------------------------- Default transition effects for views ---------------------------- */
-.view,
-.overlay {
+.view {
   position: absolute;
   left: 0;
   top: 0;
@@ -147,22 +136,22 @@ html, body, .viewport {
   -o-transform: translatex(100%);
   transform: translatex(100%);
 }
+/*
 .overlay {
-  -moz-transform: translatey(-100%);
-  -webkit-transform: translatey(-100%);
-  -o-transform: translatey(-100%);
-  transform: translatey(-100%);
-  background-color: #414141;
-  color: #ffffff;
+   .translateY(-100%);
+   background-color: @alt-bg-color;
+   color: @alt-text-color;
 }
-.view.showing,
-.overlay.showing {
+*/
+.view.showing {
   z-index: 99;
   display: block;
 }
-.overlay.showing {
-  z-index: 199;
+/*
+.overlay.showing  {
+   z-index: 199;
 }
+*/
 .view.in {
   -moz-transform: translatex(0);
   -webkit-transform: translatex(0);
@@ -188,18 +177,14 @@ html, body, .viewport {
   -o-transform: translatex(100%);
   transform: translatex(100%);
 }
+/*
 .overlay.in {
-  -moz-transform: translatey(0);
-  -webkit-transform: translatey(0);
-  -o-transform: translatey(0);
-  transform: translatey(0);
+   .translateY(0);
 }
 .overlay.pop {
-  -moz-transform: translatey(-100%);
-  -webkit-transform: translatey(-100%);
-  -o-transform: translatey(-100%);
-  transform: translatey(-100%);
+   .translateY(-100%);
 }
+*/
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 */
@@ -232,12 +217,20 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 */
 .transition {
-  -moz-transition: -moz-transform 225ms ease 50ms;
-  -webkit-transition: -webkit-transform 225ms ease 50ms;
-  -o-transition: -o-transform 225ms ease 50ms;
-  -ms-transition: -ms-transform 225ms ease 50ms;
-  transition: transform 225ms ease 50ms;
+  -moz-transition: -moz-transform 225ms ease;
+  -webkit-transition: -webkit-transform 225ms ease;
+  -o-transition: -o-transform 225ms ease;
+  -ms-transition: -ms-transform 225ms ease;
+  transition: transform 225ms ease;
 }
+/* Slightly different transition effect */
+/*
+.transition {
+   -moz-transition: -moz-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   -webkit-transition: -webkit-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   transition: trasform 450ms ease;
+}
+*/
 body {
   color: #424242;
 }
@@ -263,18 +256,19 @@ select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   padding: 10px 5px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #e5e5e5;
   /*-webkit-appearance: caret;*/
 
   width: 100%;
   margin: 2px 0;
   font-size: 0.95em;
   font-family: inherit;
+  color: #424242;
 }
 .field:focus,
 input:focus,
 select:focus {
-  border: 1px solid #c4c4c4;
+  border: 1px solid #dedede;
 }
 input[type=button],
 button,
@@ -504,6 +498,9 @@ h6 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 ul {
   margin: 0;
@@ -742,9 +739,6 @@ a.button {
 .bordered {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-.tab-content {
-  padding: 10px;
-}
 /* --------------------------------------- Css for 'loading...' text --------------------------------------------- */
 #loading {
   z-index: 399;
@@ -809,14 +803,17 @@ a.button {
   height: 100%;
   overflow: hidden;
 }
+/*
+ // transition of menu doesn't work in firefox if this is enabled
 .reveal-appmenu {
-  overflow-x: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+   overflow-x: hidden;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
 }
+*/
 /* ------------------------------------------------ View Toolbar -----------------------------------------------*/
 .toolbar {
   overflow: auto;
@@ -908,62 +905,6 @@ section > header {
   top: 0;
   left: 0;
   z-index: -1;
-}
-/* --------------------------------------- Map View ----------------------------------------- */
-@media only screen and (min-width: 700px) {
-  .appmenu {
-    width: 17%;
-    z-index: 2;
-  }
-  .viewport {
-    left: 17%;
-    width: 83%;
-    border-left: 1px solid #4e4e4e;
-    z-index: 1;
-  }
-  .viewport.nomenu {
-    left: 0;
-    width: 100%;
-    border: none;
-  }
-  .viewport .icon-menu {
-    display: none;
-  }
-  /*
-      .view {
-         -moz-transform: scale(0.95, 0.95);
-         -webkit-transform: scale(0.95, 0.95);
-         -o-transform: scale(0.95, 0.95);
-         transform: scale(0.95, 0.95);
-         opacity: 0;
-      }
-      */
-  .view.in {
-    -moz-transform: translatex(0);
-    -webkit-transform: translatex(0);
-    /*-webkit-transform: translate3d(@x, 0, 0);*/
-  
-    -o-transform: translatex(0);
-    transform: translatex(0);
-  }
-  .view.stack,
-  .view.out {
-    -moz-transform: translatex(-100%);
-    -webkit-transform: translatex(-100%);
-    /*-webkit-transform: translate3d(@x, 0, 0);*/
-  
-    -o-transform: translatex(-100%);
-    transform: translatex(-100%);
-  }
-  .view,
-  .view.pop {
-    -moz-transform: translatex(100%);
-    -webkit-transform: translatex(100%);
-    /*-webkit-transform: translate3d(@x, 0, 0);*/
-  
-    -o-transform: translatex(100%);
-    transform: translatex(100%);
-  }
 }
 /* --------------------------------------- Additional Views ----------------------------------------- */
 /* ------------------------------------ Calendar View --------------------------------------- */
@@ -1094,5 +1035,43 @@ div.column,
   margin: 0;
   padding-bottom: 6px;
   text-shadow: 0 0 2px #fff;
+}
+@media only screen and (min-width: 700px) {
+  .appmenu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12%;
+    border-right: 1px solid #f86e00;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transition: none;
+    transition: none;
+    z-index: 2;
+  }
+  .viewport {
+    left: 12%;
+    width: 88%;
+    z-index: 1;
+  }
+  body.nomenu .viewport {
+    left: 0;
+    width: 100%;
+    border: none;
+  }
+  body.nomenu .appmenu {
+    display: none;
+  }
+  .viewport .icon-menu {
+    display: none;
+  }
+  .view .toolbar > .title {
+    padding-left: 15px;
+  }
+  .tabstrip .tab {
+    min-width: 100px;
+    width: auto;
+  }
 }
 
