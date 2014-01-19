@@ -468,10 +468,6 @@ window.SERVER_URL = "/";
    // initialize our application on ready ------------------------------------------------------------
    $.ready(function() {
       var vPort = $("#viewPort");
-      
-      vPort.on($.Env.property("transitionend"), function() {
-         
-      });
 
       // hide the URL bar when a view transitions in
       /*
