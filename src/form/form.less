@@ -1,8 +1,37 @@
-.toggle {
-
+.widget.toggle, .widget.toggle > .thumb {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
 }
-.toggle.on {
+.widget.toggle {
+   position: relative;
+   display: inline-block;
+   width: 50px;
+   background-color: darken(@bg-color, 4%);
+   height: 2.4em;
+   border: 1px solid darken(@bg-color, 7%);
+}
+.widget.toggle.on {
+   background-color: @selected-bg-color;
+   color: @selected-text-color;
+   border-color: @selected-bg-color;
+}
+.widget.toggle > .thumb {
+   width: 70%;
+   position: absolute;
+   height: 100%;
+   display: block;
+   background-color: lighten(@bg-color, 2%);
+   left: 0;
+   transition: left 100ms ease;
+   border: 1px solid darken(@bg-color, 4%);
+   
+}
 
+.widget.toggle.on > .thumb {
+   left: 30%;
+   border-color: @selected-bg-color;
+   // background-color: darken(@bg-color, 3%);
 }
 
 

@@ -402,6 +402,39 @@ select.inline {
 .list .desc {
   font-size: 0.75em;
 }
+.widget.toggle,
+.widget.toggle > .thumb {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.widget.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  background-color: #e8e8e8;
+  height: 2.4em;
+  border: 1px solid #e0e0e0;
+}
+.widget.toggle.on {
+  background-color: #de6300;
+  color: #ffffff;
+  border-color: #de6300;
+}
+.widget.toggle > .thumb {
+  width: 70%;
+  position: absolute;
+  height: 100%;
+  display: block;
+  background-color: #f7f7f7;
+  left: 0;
+  transition: left 100ms ease;
+  border: 1px solid #e8e8e8;
+}
+.widget.toggle.on > .thumb {
+  left: 30%;
+  border-color: #de6300;
+}
 .activable {
   cursor: pointer;
 }
@@ -700,10 +733,10 @@ a.button {
   color: #ffffff;
 }
 .info {
-  background-color: #6aadc9;
+  background-color: #007bd3;
 }
 .info-text {
-  color: #295c71;
+  color: #00223a;
 }
 .success {
   background-color: #94b75f;

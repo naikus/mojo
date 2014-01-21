@@ -47,6 +47,8 @@ Application.addRoute("/tabs", {
                   Messages.info("Tab selected: " + this.getSelectedIndex());
                }
             });
+            
+            $("#tabsToggle").toggle();
          },
 
          activate: function(routeParams, data) {
