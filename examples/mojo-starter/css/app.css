@@ -44,25 +44,6 @@
 @selected-text-color: #f0f0f0;
 */
 /* Mint theme (green) */
-/*
-@base-color: #f0f0f0;
-// Background color for viewport views and other boxes
-@bg-color: #eee;
-// Background color for overlays, inlays etc.
-@alt-bg-color: #2c2c2c;
-// Text color to complement the background color
-@text-color: #303030;
-// Text color to complement alternate background color
-@alt-text-color: #f4f4f4;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #B5C982;
-@active-text-color: #303030;
-// Default selected background color
-@selected-bg-color: #779F16;
-@selected-bg-color-alt: #779F16;
-// Default selected text color
-@selected-text-color: #fff;
-*/
 /* Android theme */
 /*
 @base-color: #333;
@@ -75,15 +56,34 @@
 // Text color to complement alternate background color
 @alt-text-color: #bbb;
 // Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #EDB657;
+@active-bg-color: #F7C53D;
 @active-text-color: #222;
 // Default selected background color
-@selected-bg-color: #FFA100;
+@selected-bg-color: #F7C53D;
 @selected-bg-color-alt: #FFA100;
 // Default selected text color
 @selected-text-color: #222;
 */
 /* Origin theme */
+/*
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #3F3B39; //#414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Default selected background color
+@selected-bg-color: #F46A1A; //#DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
+@active-text-color: #333;
+*/
 .translateNone {
   -moz-transform: none;
   -webkit-transform: none;
@@ -110,7 +110,7 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f2f2f2;
+  background-color: #eeeeee;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 /* ---------------------------- Default transition effects for views ---------------------------- */
@@ -126,7 +126,7 @@ body {
   /* -webkit-perspective: 1000; */
 
   -webkit-backface-visibility: hidden;
-  background-color: #f2f2f2;
+  background-color: #eeeeee;
 }
 .view {
   -moz-transform: translatex(100%);
@@ -232,7 +232,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 */
 body {
-  color: #424242;
+  color: #303030;
 }
 /* ----------------------------------------------- Form ----------------------------------------- */
 /*label {
@@ -256,19 +256,19 @@ select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   padding: 10px 5px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #e1e1e1;
   /*-webkit-appearance: caret;*/
 
   width: 100%;
   margin: 2px 0;
   font-size: 0.95em;
   font-family: inherit;
-  color: #424242;
+  color: #303030;
 }
 .field:focus,
 input:focus,
 select:focus {
-  border: 1px solid #dedede;
+  border: 1px solid #dadada;
 }
 input[type=button],
 button,
@@ -279,7 +279,7 @@ button,
   box-sizing: border-box;
   margin: 2px 0;
   padding: 10px;
-  background-color: #727272;
+  background-color: #6f6f6f;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
@@ -295,13 +295,13 @@ button.primary:active,
 .button.primary.active,
 button.active,
 button.primary.active {
-  background-color: #fcab55;
+  background-color: #b5c982;
 }
 input[type=button].primary,
 button.primary,
 .button.primary {
-  background-color: #ff7c12;
-  color: #ffffff;
+  background-color: #99cc1c;
+  color: #f4f4f4;
 }
 input.inline,
 input[type=button],
@@ -361,12 +361,12 @@ select.inline {
   padding: 10px;
 }
 .selected {
-  background-color: #de6300;
+  background-color: #779f16;
   color: #ffffff;
 }
 .alt-bg {
-  background-color: #414141;
-  color: #ffffff;
+  background-color: #2c2c2c;
+  color: #f4f4f4;
 }
 .list {
   margin: 0;
@@ -375,19 +375,19 @@ select.inline {
 }
 .list > li {
   list-style-type: none;
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid #e9e9e9;
   overflow: auto;
   position: relative;
 }
 .list > li.selected {
-  background-color: #de6300;
-  background-image: linear-gradient(to bottom, #de6300, #d45e00);
-  border-bottom-color: #d45e00;
+  background-color: #779f16;
+  background-image: linear-gradient(to bottom, #779f16, #709615);
+  border-bottom-color: #709615;
 }
 .alt-bg .list > li,
 .list.alt-bg > li {
-  border: 1px solid #414141;
-  border-bottom-color: #3c3c3c;
+  border: 1px solid #2c2c2c;
+  border-bottom-color: #272727;
 }
 .list > li .title,
 .list > li .desc,
@@ -412,35 +412,35 @@ select.inline {
   position: relative;
   display: inline-block;
   width: 50px;
-  background-color: #e8e8e8;
+  background-color: #e4e4e4;
   height: 2.4em;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #dcdcdc;
 }
 .widget.toggle.on {
-  background-color: #de6300;
+  background-color: #779f16;
   color: #ffffff;
-  border-color: #de6300;
+  border-color: #779f16;
 }
 .widget.toggle > .thumb {
   width: 70%;
   position: absolute;
   height: 100%;
   display: block;
-  background-color: #f7f7f7;
+  background-color: #f3f3f3;
   left: 0;
   transition: left 100ms ease;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e4e4e4;
 }
 .widget.toggle.on > .thumb {
   left: 30%;
-  border-color: #de6300;
+  border-color: #779f16;
 }
 .activable {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #fcab55 !important;
-  color: #333333 !important;
+  background-color: #b5c982 !important;
+  color: #303030 !important;
 }
 .tabstrip,
 .tab {
@@ -453,7 +453,7 @@ select.inline {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #de6300;
+  border-bottom: 1px solid #779f16;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -466,7 +466,7 @@ select.inline {
   position: relative;
 }
 .tabstrip > .tab > span {
-  border-right: 1px solid #d9d9d9;
+  border-right: 1px solid #d5d5d5;
   min-height: 20px;
   padding: 4px 10px;
   margin: 6px 0;
@@ -477,17 +477,17 @@ select.inline {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #de6300;
-  color: #424242;
+  border-bottom: 3px solid #779f16;
+  color: #303030;
 }
 .tabstrip.alt-bg {
-  background-color: #414141;
+  background-color: #2c2c2c;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #464646;
+  border-right: 1px solid #313131;
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #ff7c12;
+  color: #99cc1c;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -498,7 +498,7 @@ select.inline {
 }
 .tab-content.current {
   display: block;
-  background-color: #f2f2f2;
+  background-color: #eeeeee;
 }
 /* ------------------------------------------------ Framework Overrides -------------------------------------------- */
 /*
@@ -564,7 +564,7 @@ img.activable {
 }
 img.activable:active,
 img.activable.active {
-  border-color: #de6300;
+  border-color: #779f16;
 }
 .large {
   font-size: 1.2em;
@@ -575,10 +575,10 @@ img.activable.active {
   font-weight: normal;
 }
 .selected-text {
-  color: #de6300;
+  color: #779f16;
 }
 .active-text {
-  color: #fcab55;
+  color: #b5c982;
 }
 /*
 .alt-bg section > .header {
@@ -588,7 +588,7 @@ img.activable.active {
 */
 /* ------------------------------------- Simple Meters -------------------------------------- */
 .meter {
-  background-color: #1b1b1b;
+  background-color: #060606;
   /*box-shadow: 0 0 2px #000000 inset;*/
 
   overflow: auto;
@@ -636,13 +636,13 @@ img.activable.active {
   border: none;
   /*border-bottom: 1px solid lighten(@alt-bg-color, 10%);*/
 
-  color: #ffffff;
+  color: #f4f4f4;
 }
 input[type=button].primary,
 button.primary,
 .button.primary {
   background-color: #00b8fc;
-  color: #ffffff;
+  color: #f4f4f4;
 }
 button.primary:active,
 .button.primary:active,
@@ -653,14 +653,14 @@ button.primary.active {
 input[type=button].alt,
 button.alt,
 .button.alt {
-  background-color: #d9d9d9;
-  border-color: #cccccc;
-  color: #424242;
+  background-color: #d5d5d5;
+  border-color: #c8c8c8;
+  color: #303030;
 }
 input[type=button].alt.active,
 button.alt.active,
 .button.alt.active {
-  background-color: #e5e5e5;
+  background-color: #e1e1e1;
 }
 .success:active,
 input[type=button].success.active,
@@ -692,10 +692,10 @@ button.warn.active,
   padding: 15px 10px;
 }
 .form .header {
-  background-color: #e0e0e0;
+  background-color: #dcdcdc;
   padding: 10px !important;
   margin: 0;
-  color: #424242;
+  color: #303030;
   border: none;
   font-weight: bold;
   overflow: auto;
@@ -730,7 +730,7 @@ a.button {
   font-size: 0.9em;
   margin: 0;
   padding: 7px;
-  color: #ffffff;
+  color: #f4f4f4;
 }
 .info {
   background-color: #007bd3;
@@ -766,7 +766,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #fcab55;
+  background-color: #b5c982;
   color: #fff;
 }
 .bordered {
@@ -782,8 +782,8 @@ a.button {
   bottom: 10%;
   left: 0;
   color: #fefefe;
-  background-color: #4e4e4e;
-  border: 1px solid #343434;
+  background-color: #393939;
+  border: 1px solid #1f1f1f;
   text-align: center;
   opacity: 0.65;
   /* box shadow causes slight mis-alignment of this control on view change */
@@ -811,7 +811,7 @@ a.button {
   min-height: 100%;
 }
 .viewport {
-  background-color: #414141;
+  background-color: #2c2c2c;
   /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
@@ -832,7 +832,7 @@ a.button {
    box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
    */
 
-  border-left: 1px solid #343434;
+  border-left: 1px solid #1f1f1f;
   height: 100%;
   overflow: hidden;
 }
@@ -850,14 +850,14 @@ a.button {
 /* ------------------------------------------------ View Toolbar -----------------------------------------------*/
 .toolbar {
   overflow: auto;
-  background-color: #4e4e4e;
-  background-image: linear-gradient(to bottom, #4e4e4e, #464646);
-  color: #ffffff;
-  border-bottom: 1px solid #373737;
+  background-color: #393939;
+  background-image: linear-gradient(to bottom, #393939, #313131);
+  color: #f4f4f4;
+  border-bottom: 1px solid #222222;
   width: 100%;
 }
 .toolbar .title {
-  color: #ff9845;
+  color: #b1e338;
   font-weight: bold;
   display: inline-block;
   padding: 13px 3px;
@@ -886,12 +886,12 @@ a.button {
 
 }
 .toolbar .action.on {
-  background-color: #373737;
+  background-color: #222222;
 }
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu,
 .alt-bg .menu {
-  background-color: #373737;
+  background-color: #222222;
 }
 .collapsed {
   height: 0;
@@ -908,27 +908,27 @@ a.button {
    right: 15px;
    */
 
-  color: #d9d9d9;
+  color: #d5d5d5;
   font-size: 1.6em;
 }
 .list > li.toggle.on:after {
   content: '\e812';
   /* tick mark icon */
 
-  color: #ef8511;
+  color: #779f16;
   /*right: 12px;*/
 
 }
 section {
-  background-color: #f2f2f2;
+  background-color: #eeeeee;
   margin-bottom: 20px;
   overflow: auto;
 }
 section > header {
   overflow: auto;
   font-size: 1.3em;
-  color: #4c4c4c;
-  border-bottom: 1px solid #e8e8e8;
+  color: #3a3a3a;
+  border-bottom: 1px solid #e4e4e4;
 }
 /* --------------------------------------- Map View ----------------------------------------- */
 .google-map {
@@ -943,9 +943,9 @@ section > header {
 /* ------------------------------------ Calendar View --------------------------------------- */
 .calendar > .year-bar {
   overflow: auto;
-  background-color: #4e4e4e;
+  background-color: #393939;
   color: #eee;
-  border-bottom: 1px solid #585858;
+  border-bottom: 1px solid #434343;
 }
 .calendar > .year-bar > span {
   padding: 13px 10px;
@@ -964,19 +964,19 @@ section > header {
   width: 25%;
   padding: 7px 0;
   text-align: center;
-  color: #676767;
+  color: #525252;
   font-size: 1em;
   font-weight: bold;
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #fcab55;
+  color: #b5c982;
 }
 .calendar > .months {
   padding: 10px 2%;
-  background-color: #414141;
-  color: #ffffff;
-  border-bottom: 1px solid #de6300;
+  background-color: #2c2c2c;
+  color: #f4f4f4;
+  border-bottom: 1px solid #779f16;
 }
 .calendar > .months > li,
 .calendar > .days > li,
@@ -1001,7 +1001,7 @@ section > header {
 }
 .calendar > .days {
   padding: 5px;
-  background-color: #dedede;
+  background-color: #dadada;
 }
 .calendar > .dates {
   margin: 5px;
@@ -1019,7 +1019,7 @@ div.column,
 .time .hours,
 .time .minutes,
 .time .ampm {
-  background-color: #dedede;
+  background-color: #dadada;
 }
 .time .label {
   display: inline-block;
@@ -1049,7 +1049,7 @@ div.column,
   width: auto;
 }
 .time .minutes li.highlite {
-  color: #de6300;
+  color: #779f16;
 }
 .time .minutes li.highlite.selected {
   color: #ffffff;
@@ -1076,7 +1076,7 @@ div.column,
     top: 0;
     bottom: 0;
     width: 12%;
-    border-right: 1px solid #f86e00;
+    border-right: 1px solid #88b519;
     -webkit-transform: none;
     transform: none;
     -webkit-transition: none;

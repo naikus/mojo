@@ -31,6 +31,34 @@
  *    } 
  * });
  * 
+ * New Feature: An optional map of value functions aka formatters can also be passed to 
+ * template extension.
+ * 
+ * This allows one to do two things:
+ * 1. Format values as they are replaced in template
+ * 2. Add arbitrary keys to template and provide value functions to compute values from other
+ *    properties in the template's data object (thats passed to 'template.process')
+ * 
+ * var templ = $.template("Hi, my name is {firstname} and my full name is {fullName}", {
+ *    firstName: function(val, obj) {
+ *       return val ? capitalize(val) : "Mac"; // here 'val' is the value for obj["firstName"]
+ *    },
+ *    fullName: function(val, obj) {
+ *       return obj.firstName + " " + obj.lastName;
+ *    }
+ * });
+ * 
+ * templ.process({
+ *    firstName: "John",
+ *    lastName:  "Doe",
+ *    address: {
+ *       street: "1st"
+ *    } 
+ * });
+ * 
+ * Notice 'fullName' property is not present in the object passed to template's process method
+ * but
+ * 
  * @author aniketn3@gmail.com
  */
 (function($) {
@@ -50,7 +78,7 @@
          allParts.push({
             rawKey:match[0], 
             key: match[1]
-            });
+         });
          lastIndex = regExp.lastIndex;
          match = regExp.exec(templateStr);
       }
@@ -59,7 +87,7 @@
          allParts.push(templateStr.substring(lastIndex));
       }
 
-      return function(objMap) {
+      return function(objMap, valFuncs) {
          var str = [], i, len, part;
          if(!objMap) {
             return allParts.join("");
@@ -70,14 +98,14 @@
             if(typeof(part) === "string")   {
                str[str.length] = part;
             }else {
-               str[str.length] = getValue(part.key, objMap);
+               str[str.length] = getValue(part.key, objMap, valFuncs[part.key]);
             }
          }
          return str.join("");
       };
    }
    
-   function getValue(key, obj) {
+   function getValue(key, obj, valueFunc) {
       var i, len, val, keys = key.split("."), tmp = obj, par;
       for(i = 0, len = keys.length; i < len; i++) {
          par = tmp;
@@ -89,20 +117,21 @@
          }
       }
       if(!val && i < len) { // this means some object in the chain is null and we still have keys left
-         return "";
+         return valueFunc ? valueFunc(val, obj) : "";
       }
       val = val || tmp;
       if(typeof val === "function") {
-         return val.call(par);
+         return valueFunc ? valueFunc(val.call(par), obj) : val.call(par, obj);
       }else {
-         return val;
+         return valueFunc ? valueFunc(val, obj) : val;
       }
    }
    
-   $.template = function(text) {
+   $.template = function(text, valFuncMap) {
       /* The original template string */
       var templateStr = text,
-      templateFunc = compile(text);
+            templateFunc = compile(text),
+            valueFuncs = valFuncMap || {};
       
       return {
          template: templateStr,
@@ -112,13 +141,13 @@
           * @param {Object} objMap The object containing tokens and their values as properties
           */
          process: function(objMap) {
-            return templateFunc(objMap);
+            return templateFunc(objMap, valueFuncs);
          }
       };
    };
    
-   $.extension("template", function() {
-      return $.template(this.html());
+   $.extension("template", function(fmts) {
+      return $.template(this.html(), fmts);
    });
 })(h5);
 
