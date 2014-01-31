@@ -825,7 +825,10 @@
       
       value: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
-            arrElems[i].value = value;
+            var elem = arrElems[i];
+            if(elem.value !== value) {
+               arrElems[i].value = value;
+            }
          }
       },
       
@@ -889,8 +892,10 @@
                applyBindingsForKey(actKey, formatter ? formatter(value) : value);
                updateModel(value, key, pModel[key] || (pModel[key] = {}));
             }else {
-               pModel[key] = value; //update our model
-               applyBindingsForKey(actKey,  formatter ? formatter(value) : value);
+               if(pModel[key] !== value) {
+                  pModel[key] = value; //update our model
+                  applyBindingsForKey(actKey,  formatter ? formatter(value) : value);
+               }
             }
          });
       }
@@ -901,7 +906,9 @@
             partKey = keys[i];
             modelValue = tmpModel[partKey];
             if(i === len - 1) {
-               tmpModel[partKey] = value;
+               if(tmpModel[partKey] !== value) {
+                  tmpModel[partKey] = value;
+               }
             }else {
                if(!modelValue) {
                   tmpModel[partKey] = {};
