@@ -44,11 +44,13 @@ Application.addRoute("/tabs", {
             // tabstrip widget
             mainTab = $("#mainTab").tabstrip({
                ontabchange: function(currTab, oldTab) {
-                  Messages.info("Tab selected: " + this.getSelectedIndex());
+                  // Messages.info("Tab selected: " + this.getSelectedIndex());
                }
             });
             
             $("#tabsToggle").toggle();
+            
+            $("#expandPanel").expandable();
          },
 
          activate: function(routeParams, data) {

@@ -83,6 +83,11 @@ img.activable:active, img.activable.active {
     color: @active-bg-color;
 }
 
+.panel {
+   background-color: lighten(@bg-color, 2.5%);
+   border: 1px solid darken(@bg-color, 6%);
+}
+
 /*
 .alt-bg section > .header {
    background-color: darken(@alt-bg-color, 4%);
@@ -209,6 +214,10 @@ a.button {
    text-decoration: none;
 }
 
+.expandable.on > .trigger {
+   // background-color: darken(@bg-color, 5%);
+}
+
 /* --------------------------------------- Css for ui messages --------------------------------------------- */
 .messages {
    position: fixed;
@@ -329,8 +338,8 @@ a.button {
    /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
-   -webkit-transition:  -webkit-transform 150ms ease 100ms;
-   transition:          transform 150ms ease 100ms;
+   -webkit-transition:  -webkit-transform 150ms ease;
+   transition:          transform 150ms ease;
    
    /*
    -webkit-transition:  left 150ms ease;
