@@ -54,3 +54,44 @@
 
 
 
+(function($) {
+   var action = "ontouchstart" in document.documentElement ? "tap" : "click";
+
+   $.extension("expandable", function(delay) {
+      var self = this, expanded = false, delay = delay || 100;
+
+      var trigger = $(self.children(".trigger")[0]);
+      trigger.on(action, function() {
+         setExpanded(!expanded);
+      });
+
+      function setExpanded(bEx) {
+         expanded = bEx;
+         setTimeout(renderUI, delay);
+      }
+
+      function renderUI() {
+         if(expanded) {
+            if(!self.hasClass("on")) {
+               self.addClass("on");
+            }
+         }else {
+            self.removeClass("on");
+         }
+      }
+
+      if(trigger.hasClass("on")) {
+         expanded = true;
+      }
+
+      return {
+         expand: setExpanded,
+         isExpanded: function() {
+            expanded;
+         }
+      };
+   });
+})(h5);
+
+
+
