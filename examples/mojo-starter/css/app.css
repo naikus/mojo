@@ -295,7 +295,7 @@ button.primary:active,
 .button.primary.active,
 button.active,
 button.primary.active {
-  background-color: #b5c982;
+  background-color: #a6ce39;
 }
 input[type=button].primary,
 button.primary,
@@ -381,7 +381,6 @@ select.inline {
 }
 .list > li.selected {
   background-color: #779f16;
-  background-image: linear-gradient(to bottom, #779f16, #709615);
   border-bottom-color: #709615;
 }
 .alt-bg .list > li,
@@ -435,11 +434,18 @@ select.inline {
   left: 30%;
   border-color: #779f16;
 }
+.expandable > .expandable-content {
+  display: none;
+  overflow: auto;
+}
+.expandable.on > .expandable-content {
+  display: block;
+}
 .activable {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #b5c982 !important;
+  background-color: #a6ce39 !important;
   color: #303030 !important;
 }
 .tabstrip,
@@ -578,7 +584,11 @@ img.activable.active {
   color: #779f16;
 }
 .active-text {
-  color: #b5c982;
+  color: #a6ce39;
+}
+.panel {
+  background-color: #f4f4f4;
+  border: 1px solid #dfdfdf;
 }
 /*
 .alt-bg section > .header {
@@ -766,7 +776,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #b5c982;
+  background-color: #a6ce39;
   color: #fff;
 }
 .bordered {
@@ -816,8 +826,8 @@ a.button {
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
 
-  -webkit-transition: -webkit-transform 150ms ease 100ms;
-  transition: transform 150ms ease 100ms;
+  -webkit-transition: -webkit-transform 150ms ease;
+  transition: transform 150ms ease;
   /*
    -webkit-transition:  left 150ms ease;
    transition:          left 150ms ease;
@@ -970,7 +980,7 @@ section > header {
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #b5c982;
+  color: #a6ce39;
 }
 .calendar > .months {
   padding: 10px 2%;

@@ -112,7 +112,7 @@ window.SERVER_URL = "/";
  */
 (function($, undefined) {
    var defaults = {
-      baseUrl: window.SERVER_URL + "some/api/version",
+      baseUrl: "/api",
       username: null,
       password: null,
       headers: {
@@ -165,7 +165,16 @@ window.SERVER_URL = "/";
               getTypeOf = $.getTypeOf,
               opts = $.shallowCopy({}, defaults, options),
               noop = function() {},
+              onLine = ("online" in navigator) ? navigator.onLine : true,
               ret = {};
+      
+      function gotOnline() {
+         onLine = true;
+      }
+      
+      function gotOffline() {
+         onLine = false;
+      }
       
       function asParams(key, val, arrPostData) {
          if(isArray(val)) {
@@ -207,8 +216,14 @@ window.SERVER_URL = "/";
        */
       
       function apiCall(method, options) {
+         if(!onLine) {
+            console.log("Application is offline.");
+            return;
+         }
+         
          var apiMethod = opts.baseUrl + (options.apiMethod || ""), 
                  reqData, headers = $.shallowCopy({}, opts.headers, options.headers);
+         
          // console.log("Calling API method " + apiMethod);
          
          if(options.data) {
@@ -217,7 +232,8 @@ window.SERVER_URL = "/";
             }else if(method === "DELETE") {
                reqData = null;
             }else {
-               if(headers["Content-Type"] === "application/x-www-form-urlencoded") {
+               var ct = headers["Content-Type"];
+               if(ct === "application/x-www-form-urlencoded") {
                   if(typeof options.data === "string") {
                      reqData = options.data;
                   }else {
@@ -226,14 +242,20 @@ window.SERVER_URL = "/";
                      reqData = postData.join("&");
                   }
                }else {
-                  headers["Content-Type"] = "application/json";
+                  if(!ct) {
+                     headers["Content-Type"] = "application/json";
+                  }
                   reqData = JSON.stringify(options.data);
                }
             }
          }
          
+         if(options.timestamp !== false) {
+            apiMethod += "?" + new Date().getTime();
+         }
+         
          $.ajax({
-            url: apiMethod + "?" + new Date().getTime(),
+            url: apiMethod,
             method: method,
             username: opts.username,
             password: opts.password,
@@ -274,6 +296,11 @@ window.SERVER_URL = "/";
          }
       };
       
+      ret.getBaseUrl = function() {
+         return opts.baseUrl;
+      };
+      
+      $(window).on("offline", gotOffline).on("online", gotOnline);
       return ret;
    };
 })(h5);

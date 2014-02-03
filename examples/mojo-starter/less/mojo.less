@@ -83,7 +83,7 @@
 // Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
 // Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #B5C982;
+@active-bg-color: #A6CE39;
 @active-text-color: #303030;
 // Default selected background color
 @selected-bg-color: #779F16;
@@ -480,7 +480,7 @@ option {
 
 .list > li.selected {
    background-color: @selected-bg-color;
-   background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
+   // background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
    border-bottom-color: darken(@selected-bg-color, 2%);
 }
 
@@ -539,6 +539,18 @@ option {
 }
 
 
+.expandable {
+   
+}
+.expandable > .expandable-content {
+   display: none;
+   overflow: auto;
+}
+.expandable.on {
+}
+.expandable.on > .expandable-content {
+   display: block;
+}
 .activable {
     cursor: pointer;
 }
