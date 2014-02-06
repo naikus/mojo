@@ -222,7 +222,7 @@
       var ret = [];
       forEach(arr, function(val, i, arr) {
          if(typeof val !== "undefined") {
-            var retVal = callback.call(thisObj, val);
+            var retVal = callback.call(thisObj, val, i, arr);
             if(retVal !== null && typeof retVal !== "undefined") {
                ret[ret.length] = retVal;
             }
@@ -894,12 +894,11 @@
       html: function(markup)  {
          var elements = this.elements, ret, isStr;
          if(arguments.length === 0) {
-            ret = [];
-            forEach(elements, function(el) {
-               ret[ret.length] = el.innerHTML;
-            });
-            return ret.join("");
+            return $.map(elements, function(el) {
+               return el.innerHTML;
+            }).join("");
          }
+         
          markup = markup == null ?  "" : markup;
          isStr = isTypeOf(markup, "String");
          
@@ -1265,11 +1264,9 @@
       css: function(prop, val) {
          var style, elements = this.elements, len = elements.length, elem;
          if(getTypeOf(prop) === "Object") {
-            style = [];
-            forEach(prop, function(v, k) {
-               style[style.length] = k + ":" + v;
-            });
-            style = style.join(";");
+            style = $.map(prop, function(v, k) {
+               return k + ":" + v;
+            }).join(";");
          }else {
             style = prop + ":" + val;
          }
@@ -1281,7 +1278,7 @@
                s.cssText = oldCss + ";" + style;
             }else {
                s.cssText = style;
-            } 
+            }            
          }
       },
          
@@ -1342,7 +1339,7 @@
    
    function hasMoved(x1, y1, x2, y2) {
       var dx = x1 - x2, dy = y1 - y2;
-      return Math.abs(dx) > 30 || Math.abs(dy) > 30;
+      return Math.abs(dx) > 10 || Math.abs(dy) > 10;
    }
    
    function handler(te) {
@@ -1433,7 +1430,7 @@
    
    function hasMoved(x1, y1, x2, y2) {
       var dx = x1 - x2, dy = y1 - y2;
-      return Math.abs(dx) > 30 || Math.abs(dy) > 30;
+      return Math.abs(dx) > 20 || Math.abs(dy) > 20;
    }
    
    function clearState() {
@@ -1569,7 +1566,7 @@
  */
 (function($) {
    var forEach = $.forEach,
-      isTypeOf = $.isTypeOf,
+      // isTypeOf = $.isTypeOf,
       getTypeOf = $.getTypeOf,
       slice = $.slice,
       noop = function() {},
