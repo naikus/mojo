@@ -739,7 +739,7 @@
          cellpadding: "cellPadding",
          rowspan: "rowSpan",
          colspan: "colSpan",
-         disable: "disabled",
+         disabled: "disabled",
          checked: "checked",
          usemap: "useMap",
          frameborder: "frameBorder",
