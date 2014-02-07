@@ -1339,7 +1339,7 @@
    
    function hasMoved(x1, y1, x2, y2) {
       var dx = x1 - x2, dy = y1 - y2;
-      return Math.abs(dx) > 10 || Math.abs(dy) > 10;
+      return Math.abs(dx) > 15 || Math.abs(dy) > 15;
    }
    
    function handler(te) {
