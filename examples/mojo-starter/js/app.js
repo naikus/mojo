@@ -45,69 +45,6 @@ window.SERVER_URL = "/";
 
 
 /*
- * Geolocation plugin 
- */
-(function($) {
-   if("geolocation" in navigator) {
-      var lat = 0, lng = 0, hasError, errorMessage, posOptions = {
-         enableHighAccuracy: false,
-         timeout: 10000,
-         maximumAge: (5 * 60 * 1000)
-      };
-
-      function updatePosition(pos) {
-         hasError = false;
-         errorMessage = "";
-
-         lat = pos.coords.latitude;
-         lng = pos.coords.longitude;
-      }
-
-      function handleError(error) {
-         var msg = "Error obtaining your location";
-         switch(error.code) {
-            case 1:
-               msg = "You need to share your location to correctly determine where you are.";
-               break;
-            case 2:
-               msg = "Location unavailable. " + error.message;
-               break;
-            case 3:
-               msg = "Location lookup timed out.";
-               break;
-            default:
-               break;
-         }
-         hasError = true;
-         errorMessage = msg;
-      }
-   
-      /* Uncomment if you want to enable geo-location */
-      /*
-      navigator.geolocation.getCurrentPosition(updatePosition, handleError, posOptions);
-      navigator.geolocation.watchPosition(updatePosition, handleError, posOptions);
-      */
-      
-      $.GeoLocation = {
-         lat: function() {
-            return lat;
-         },
-         lng: function() {
-            return lng;
-         },
-         hasError: function() {
-            return hasError;
-         },
-         getErrorMessage: function() {
-            return errorMessage;
-         }
-      };
-   }
-})(h5);
-
-
-
-/*
  * REST API client
  */
 (function($, undefined) {
@@ -282,11 +219,13 @@ window.SERVER_URL = "/";
          };
       });
       
+      
       ret.asParams = function(objData) {
          var paramArray = [];
          asParams(null, objData, paramArray);
          return paramArray.join("&");
       };
+      
       
       ret.option = function(name, value) {
          if(arguments.length === 1) {
@@ -295,6 +234,7 @@ window.SERVER_URL = "/";
             opts[name] = value;
          }
       };
+      
       
       ret.getBaseUrl = function() {
          return opts.baseUrl;
@@ -419,7 +359,8 @@ window.SERVER_URL = "/";
      });
    })($, Events);
      
-      
+   
+   
    /*
     * Toolbar plugin
     */
@@ -459,7 +400,9 @@ window.SERVER_URL = "/";
          });
       });
    })($, Events, App);
-      
+    
+   
+   
    /*
     * Meter plugin
     */
@@ -484,8 +427,9 @@ window.SERVER_URL = "/";
          };
       });
    })($);
-      
-      
+   
+   
+   
    window.Events = Events;
    window.Application = App;
 

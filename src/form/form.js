@@ -95,3 +95,34 @@
 
 
 
+   /*
+   (function($) {
+      var defaults = {
+         icon: "icon-spinner",
+         uri: null
+      };
+      $.extension("busyIndicator", function(opts) {
+         var options = $.shallowCopy({}, defaults, opts), self = this,
+               pattern = options.pattern,
+               spinner = $('<span class="block spinner"><span class="' 
+                       + options.icon 
+                       + ' spin"> </span></span>');
+         
+         $(document).on("ajaxstart", function(e) {
+               var url = e.data;
+               if(pattern.test(url)) {
+                  self.html(spinner);
+               }
+            })
+            .on("ajaxend", function(e) {
+               var url = e.data;
+               if(pattern.test(url)) {
+                  setTimeout(function() {
+                     self.html("");
+                  }, 300);
+               }
+            });
+      });
+   })($);
+   */
+
