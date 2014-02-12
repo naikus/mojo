@@ -7,7 +7,7 @@
       
    $.extension("toggle", function(opts) {
       opts = opts || {};
-      var state = !!opts.value, elem = this, onchange = opts.onchange || noop, widget;
+      var state = !!opts.value, elem = $(this.get(0)), onchange = opts.onchange || noop, widget;
       
       function renderUi() {
          if(state) {
