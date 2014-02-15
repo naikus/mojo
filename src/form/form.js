@@ -1,6 +1,7 @@
 /*
  * Simple CSS based toggle control
  */
+/*
 (function($) {
    var action = "ontouchstart" in document.documentElement ? "tap" : "click",
       noop = function() {};
@@ -51,9 +52,42 @@
       return widget;
    });
 })(h5);
+*/
+
+(function($, undefined) {
+   $.observable = function() {
+      var handlerMap = {};
+      
+      return {
+         on: function(evt, handler) {
+            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
+            handlers.push(handler);
+         },
+         
+         un: function(evt, handler) {
+            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
+            for(var i = 0, len = handlers.length; i < len; i++) {
+               if(handlers[i] === handler) {
+                  handlers.splice(i, 1);
+                  break;
+               }
+            }
+         },
+         
+         dispatch: function(evt) {
+            var handlers = handlerMap[evt.type];
+            if(!handlers) {
+               return;
+            }
+            for(var i = 0, len = handlers.length; i < len; i++) {
+               handlers[i](evt);
+            }
+         }
+      };
+   };
+})(h5);
 
 
-/*
 (function($, undefined) {
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
    
@@ -66,13 +100,15 @@
    }
          
    $.extension("toggle", function(values) {
-      var self = this, state, len = self.count();
+      var self = this, state, len = self.count(), observable = $.observable(), observablesOne = $.observable();
+      
+      observablesOne.on("bobo", function() {});
       
       function doToggle(el, i) {
          var val = !state[i];
          state[i] = val;
          renderUI(el, val);
-         self.dispatch("change", {value: val, index: i});
+         observable.dispatch({type: "change", target: self, value: val, index: i});
       }
       
       if(values && values.length) {
@@ -86,7 +122,7 @@
          state = new Array(len);
       }
       
-      self.forEach(self, function(elem, i) {
+      self.forEach(function(elem, i) {
          var el = $(elem);
          el.on(action, function() {
             doToggle(el, i);
@@ -97,7 +133,8 @@
          element: self,
          
          on: function(type, handler) {
-             return self.on(type, handler);
+             observable.on(type, handler);
+             return self;
          },
          
          toggle: function(index) {
@@ -124,7 +161,7 @@
       };
    });
 })(h5);
-*/
+
 
 
 (function($) {

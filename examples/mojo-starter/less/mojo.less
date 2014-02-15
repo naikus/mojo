@@ -193,7 +193,7 @@ html, body {
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
-   
+   overflow: hidden;
 }
 .view-transitioning .view{
    
@@ -473,7 +473,7 @@ option {
 }
 .list > li {
    list-style-type: none;
-   border-bottom: 1px solid darken(@bg-color, 2%);
+   border-bottom: 1px solid darken(@bg-color, 3%);
    overflow: auto;
    position: relative;
 }
@@ -481,7 +481,7 @@ option {
 .list > li.selected {
    background-color: @selected-bg-color;
    // background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
-   border-bottom-color: darken(@selected-bg-color, 2%);
+   border-bottom-color: darken(@selected-bg-color, 3%);
 }
 
 .alt-bg .list > li, .list.alt-bg > li {
@@ -511,9 +511,9 @@ option {
    position: relative;
    display: inline-block;
    width: 50px;
-   background-color: darken(@bg-color, 4%);
+   background-color: darken(@bg-color, 5%);
    height: 2.4em;
-   border: 1px solid darken(@bg-color, 7%);
+   border: 1px solid darken(@bg-color, 10%);
 }
 .widget.toggle.on {
    background-color: @selected-bg-color;
@@ -528,7 +528,7 @@ option {
    background-color: lighten(@bg-color, 2%);
    left: 0;
    transition: left 100ms ease;
-   border: 1px solid darken(@bg-color, 4%);
+   border: 1px solid darken(@bg-color, 10%);
    
 }
 

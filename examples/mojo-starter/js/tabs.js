@@ -48,7 +48,10 @@ Application.addRoute("/tabs", {
                }
             });
             
-            $("#tabsToggle").toggle();
+            var toggle = $("#toggles").find(".toggle").toggle();
+            toggle.on("change", function(e) {
+               Messages.info("Value is " + e.value + " at " + e.index);
+            });
             
             $("#expandPanel").expandable();
          },
