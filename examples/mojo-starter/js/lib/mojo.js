@@ -1574,64 +1574,8 @@
 
 
 
-/*
- * Simple CSS based toggle control
- */
-/*
-(function($) {
-   var action = "ontouchstart" in document.documentElement ? "tap" : "click",
-      noop = function() {};
-      
-   $.extension("toggle", function(opts) {
-      opts = opts || {};
-      var state = !!opts.value, elem = $(this.get(0)), onchange = opts.onchange || noop, widget;
-      
-      function renderUi() {
-         if(state) {
-            elem.addClass("on");
-         }else {
-            elem.removeClass("on");
-         }
-      }
-      
-      elem.on(action, function() {
-         state = !state;
-         renderUi();
-         onchange.call(widget, state);
-      });
-      
-      renderUi();
-      
-      widget = {
-         element: elem,
-         toggle: function() {
-            state = !state;
-            renderUi();
-            onchange.call(widget, state);
-         },
-         setOn: function(bOn) {
-            var old = state;
-            state = !!bOn;
-            if(old !== state) {
-               renderUi();
-               onchange.call(widget, state);
-            }
-         },
-         isOn: function() {
-            return state;
-         },
-         getValue: function() {
-            return state;            
-         }
-      };
-      
-      return widget;
-   });
-})(h5);
-*/
-
 (function($, undefined) {
-   $.observable = function() {
+   $.eventHelper = function() {
       var handlerMap = {};
       
       return {
@@ -1663,7 +1607,9 @@
    };
 })(h5);
 
-
+/*
+ * Simple CSS based toggle control
+ */
 (function($, undefined) {
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
    
@@ -1676,15 +1622,12 @@
    }
          
    $.extension("toggle", function(values) {
-      var self = this, state, len = self.count(), observable = $.observable(), observablesOne = $.observable();
-      
-      observablesOne.on("bobo", function() {});
-      
+      var self = this, state, len = self.count(), eventHelper = $.eventHelper();      
       function doToggle(el, i) {
          var val = !state[i];
          state[i] = val;
          renderUI(el, val);
-         observable.dispatch({type: "change", target: self, value: val, index: i});
+         eventHelper.dispatch({type: "change", target: self, value: val, index: i});
       }
       
       if(values && values.length) {
@@ -1700,16 +1643,15 @@
       
       self.forEach(function(elem, i) {
          var el = $(elem);
+         renderUI(el, state[i]);
          el.on(action, function() {
             doToggle(el, i);
          });
       });
       
       return {
-         element: self,
-         
          on: function(type, handler) {
-             observable.on(type, handler);
+             eventHelper.on(type, handler);
              return self;
          },
          
@@ -1780,7 +1722,6 @@
 })(h5);
 
 
-/*
 (function($,undefined) {
     $.extension("slider", function(opts) {
         var self = this, options = $.shallowCopy({}, opts);
@@ -1795,7 +1736,6 @@
         
     });
 })(h5);
-*/
 
 
 /*

@@ -79,7 +79,7 @@
 // Background color for overlays, inlays etc.
 @alt-bg-color: #2c2c2c;
 // Text color to complement the background color
-@text-color: #303030;
+@text-color: #404040;
 // Text color to complement alternate background color
 @alt-text-color: #f4f4f4;
 // Active background color, when an element becomes active i.e. :active class
@@ -536,6 +536,39 @@ option {
    left: 30%;
    border-color: @selected-bg-color;
    // background-color: darken(@bg-color, 3%);
+}
+
+
+.slider {
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
+}
+.slider > .value {
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
+}
+.slider > .thumb {
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
+}
+.slider > .thumb.active {
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
+}
+.slider.horizontal > .thumb {
+   height: 30px;
 }
 
 

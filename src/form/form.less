@@ -35,6 +35,39 @@
 }
 
 
+.slider {
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
+}
+.slider > .value {
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
+}
+.slider > .thumb {
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
+}
+.slider > .thumb.active {
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
+}
+.slider.horizontal > .thumb {
+   height: 30px;
+}
+
+
 .expandable {
    
 }
