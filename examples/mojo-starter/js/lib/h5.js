@@ -23,6 +23,7 @@
  */
  
  
+
 /**
  * @fileOverview h5 is a compact and lightweight html5 library 
  * @author <a href="mailto:aniket3@gmail.com">Aniket Naik</a>
@@ -116,8 +117,13 @@
    }
    
    function sliceList(start, end)  {
-      var arr, i, len = this.length, s = start || 0, e = end || len;
+      var arr, i, 
+              /* jshint validthis:true */
+              len = this.length, 
+              s = start || 0, e = end || len;
+      /* jshint validthis:true */
       if(isArray(this)) {
+         /* jshint validthis:true */
          arr = nSlice.call(this, s, e);
       }else {
          // so that we can have things like sliceList(1, -1);
@@ -440,7 +446,7 @@
       nodelist.slice = function(arrayLike, start, end) {
          return slice.call(arrayLike, start, end);
       };
-      nodelist.trim = String.prototype.trim ? function(str) {return str.trim();} : function(str) {return trim(str);}
+      nodelist.trim = String.prototype.trim ? function(str) {return str.trim();} : function(str) {return trim(str);};
       nodelist.shallowCopy = shallowCopy;
       nodelist.getFragments = fragments;
       nodelist.uuid = uuid;
@@ -478,6 +484,7 @@
    global.h5 = global.$ = h5;
     
 })(this);
+
 
 
 
@@ -690,7 +697,7 @@
       type = definition.type;
       if(!type) { // this is unmanaged eager definition, probably defining multiple custom events
          $.ready(function() {
-            definition.setup()
+            definition.setup();
          });
          $(document).on("unload", function() {
             definition.destroy();
@@ -711,6 +718,7 @@
       }
    };
 })(h5);
+
 
 
 
@@ -985,7 +993,7 @@
        * @memberOf nodelist
        */             
       val: function(theVal)   {
-         var n, opts, vals, opv, el, ret, elem, elements = this.elements, i, j, k, len = elements.length, rlen;
+         var n, opts, opt, vals, opv, el, ret, elem, elements = this.elements, i, j, k, len = elements.length, rlen;
          if(!len) {
             return theVal ? this : null;
          }
@@ -999,12 +1007,13 @@
                   vals = isTypeOf(theVal, "Array") ? theVal : [theVal];
                          
                   elem.selectedIndex = -1;
-                         
+                  
+                  var val;
                   for(j = 0; j < vals.length; j++) {
-                      var val = vals[j];
+                      val = vals[j];
                       try {
                         for(k = 0; k < opts.length; k++) {
-                            var opt = opts[k];
+                            opt = opts[k];
                             opv = opt.value || opt.innerHTML;
                             if(opv === val) {
                                opt.selected = "selected";
@@ -1025,7 +1034,7 @@
                ret = [];
                opts = $("option", el).elements;
                for(i = 0; i < opts.length; i++) {
-                  var opt = opts[i];
+                  opt = opts[i];
                   if(opt.selected) {
                      opv = opt.value || opt.innerHTML;
                      ret[ret.length] = opv;
@@ -1133,20 +1142,21 @@
        * &lt;p id="bar" class="foo baz"&gt;Hello world&lt;/p&gt;
        */
       remove: function(/* selector */) {
-         var sel, elems = this.elements, e, len = elems.length;
+         var sel, elems = this.elements, e, len = elems.length, i,
+               remover = function(re) {
+                  var n = re.parentNode;
+                  return n ? n.removeChild(re) : null;
+               };
          if(!arguments.length) {
-            for(var i = 0; i < len; i++) {
+            for(i = 0; i < len; i++) {
                 e = elems[i];
                 e.parentNode.removeChild(e);
             }
             this.elements = [];
          }else if(elems.length) {
             sel = arguments[0];
-            for(var i = 0; i < len; i++) {
-               $(sel, elems[i]).forEach(function(re) {
-                  var n = re.parentNode;
-                  return n ? n.removeChild(re) : null;
-               });
+            for(i = 0; i < len; i++) {
+               $(sel, elems[i]).forEach(remover);
             }
          }
          return this;
@@ -1251,9 +1261,9 @@
             elem = elements[i];
             style = elem.style;
             if(type === "Object") {
-               forEach(props, function(val, key) {
-                  style[key] = val;
-               });
+               for(var key in props) {
+                  style[key] = props[key];
+               }
             }else if(props === "String") {
                style[props] = value || "";
             }
@@ -1320,6 +1330,7 @@
 
 
 
+
 /**
  * Defines custom events for touch related gusters.
  * Following events are defined:
@@ -1330,11 +1341,11 @@
 /**
  * Tap event definition
  */
-(function($, undefn) {
-   var undef = undefn, state = {/* id, x, y, target */};
+(function($, undefined) {
+   var state = {/* id, x, y, target */};
    
    function clearState() {
-      state.id = state.x = state.y = state.moved = state.target = undef;
+      state.id = state.x = state.y = state.moved = state.target = undefined;
    }
    
    function hasMoved(x1, y1, x2, y2) {
@@ -1396,7 +1407,7 @@
 /**
  * Double Tap event definition
  */
-(function($) {
+(function($, undefined) {
    var state = {/* last, target */};
 
    function handler(te) {
@@ -1425,8 +1436,8 @@
 /**
  * Tap hold event
  */
-(function($, undefn) {
-      var undef = undefn, state = {/* moved, x, y */}, timer;
+(function($, undefined) {
+      var state = {/* moved, x, y */}, timer;
    
    function hasMoved(x1, y1, x2, y2) {
       var dx = x1 - x2, dy = y1 - y2;
@@ -1454,11 +1465,14 @@
             break;
          case "touchmove":
             if(!state.moved) {
-               state.moved = hasMoved(state.x, state.y, te.pageX, te.pageY);
+               if(state.moved = hasMoved(state.x, state.y, te.pageX, te.pageY)) { // jshint ignore:line
+                  clearTimeout(timer);
+               }
             }
             break;
          case "touchend":
          case "touchcancel":
+            /* falls through */
          default:
             clearTimeout(timer);
             clearState();
@@ -1483,8 +1497,8 @@
 /**
  * Swipe event
  */
-(function($, undefn) {
-   var undef = undefn, state = {};
+(function($, undefined) {
+   var state = {};
    
    /**
     * Calculate the delta difference between two points (x1,y1) and (x2,y2)
@@ -1557,6 +1571,7 @@
       }
    });
 })(h5);
+
 
 
 
