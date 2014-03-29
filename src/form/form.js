@@ -110,7 +110,8 @@
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
 
    $.extension("expandable", function(delay) {
-      var self = $(this.get(0)), expanded = false, delay = delay || 100;
+      var self = $(this.get(0)), expanded = false; 
+      delay = delay || 100;
 
       var trigger = $(self.children(".trigger")[0]);
       trigger.on(action, function() {
@@ -139,7 +140,7 @@
       return {
          expand: setExpanded,
          isExpanded: function() {
-            expanded;
+            return expanded;
          }
       };
    });
@@ -160,6 +161,34 @@
         
     });
 })(h5);
+
+
+
+
+/*
+ * Progress Meter plugin
+ */
+(function($) {
+   $.extension("progress", function(options) {
+      var self = this, valueElem, value = options ? options.value || 0 : 0;
+
+      self.addClass("progress");
+      self.append("<div class='value selected'></div>");
+
+      valueElem = self.find("div.value");
+
+      return {
+         setValue: function(numVal) {
+            value = Number(numVal) || 0;
+            valueElem.css("width", value + "%");
+         },
+
+         getValue: function() {
+            return value;
+         }
+      };
+   });
+})($);
 
 
 /*

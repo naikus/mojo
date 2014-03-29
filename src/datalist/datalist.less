@@ -2,18 +2,19 @@
    margin: 0;
    padding: 0;
    overflow: auto;
-}
-.list > li {
-   list-style-type: none;
-   border-bottom: 1px solid darken(@bg-color, 3%);
-   overflow: auto;
-   position: relative;
-}
-
-.list > li.selected {
-   background-color: @selected-bg-color;
-   // background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
-   border-bottom-color: darken(@selected-bg-color, 3%);
+   
+   > li {
+      list-style-type: none;
+      border-bottom: 1px solid darken(@bg-color, 3%);
+      overflow: auto;
+      position: relative;
+      
+      &.selected {
+         background-color: @selected-bg-color;
+         // background-image: linear-gradient(to bottom, @selected-bg-color, darken(@selected-bg-color, 2%));
+         border-bottom-color: darken(@selected-bg-color, 3%);
+      }
+   }
 }
 
 .alt-bg .list > li, .list.alt-bg > li {
@@ -21,16 +22,5 @@
    border-bottom-color: darken(@alt-bg-color, 2%);
 }
 
-.list > li .title, .list > li .desc, .list > li p {
-   margin: 0;
-   padding: 2px 5px;
-}
-.list .title {
-   font-weight: bold;
-   font-size: 0.95em;
-}
-.list .desc {
-   font-size: 0.75em;
-}
 
 

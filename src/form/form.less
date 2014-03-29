@@ -68,6 +68,9 @@
 }
 
 
+
+
+
 .expandable {
    
 }
@@ -79,4 +82,29 @@
 }
 .expandable.on > .expandable-content {
    display: block;
+}
+
+
+
+
+.progress {
+    background-color: darken(@alt-bg-color, 15%);
+    /*box-shadow: 0 0 2px #000000 inset;*/
+    overflow: auto;
+    padding: 2px;
+    position: relative;
+}
+.progress > .value {
+    height: 4px;
+    left: 0px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    /*border: 1px solid rgba(255,255,255,0.2);*/
+    
+    -moz-transition: width 700ms ease 50ms;
+    -webkit-transition: width 700ms ease 50ms;
+    -o-transition: width 700ms ease 50ms;
+    -ms-transition: width 700ms ease 50ms;
+    transition: width 700ms ease 50ms;
 }

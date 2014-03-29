@@ -1,4 +1,5 @@
-"use strict";
+/*globals window, document, h5, console */
+//"use strict"; // jshint ignore:line
 (function($) {
    var div = document.createElement("div"),
       style = div.style,
@@ -68,12 +69,12 @@
                   return props[name];
                }else {
                   // console.log("Testing property: " + name);
-                  var test = tests[name], val;
+                  var test = tests[name], value;
                   if(typeof test === "function") {
-                     val = test.call(this);
-                     props[name] = val;
+                     value = test.call(this);
+                     props[name] = value;
                   }
-                  return val;
+                  return value;
                }
             }
          },
@@ -88,7 +89,6 @@
 
 
 
-"use strict";
 (function($) {
    // var paramPattern = /:([\w\.-]+)/g;
    
@@ -132,9 +132,9 @@
       return expander;
    }
    
-   function UriTemplate(uriPattern) {
+   function UriTemplate(uriPtrn) {
       var paramPattern = /:([\w\.-]+)/g, 
-            uriPattern = uriPattern,
+            uriPattern = uriPtrn,
             
             // the order of these two lines is important, in IE8, otherwise the paramPattern.exec will return null
             expander = compile(uriPattern, paramPattern),
@@ -178,8 +178,7 @@
 
 
 
-"use strict";
-(function($) {
+(function($, window) {
    var Env = $.Env,
       hasTransition = !!(Env.property("transition")),
       transitionEndEvent = Env.property("transitionend") || "transitionend",
@@ -193,6 +192,8 @@
       stack = [],
       
       application,
+      
+      setTimeout = window.setTimeout,
       
       transitionProp, // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
       
@@ -464,6 +465,11 @@
                           if(extScriptCount === 0) {
                              done();
                           }
+                       },
+                       callLoaded = function() {
+                           if(this.readyState === "loaded" || this.readyState === "complete") {
+                              scriptLoaded();
+                           }
                        };
       
                scripts.forEach(function(scriptElem) {
@@ -488,14 +494,10 @@
       
                for(var i = 0, len = allScripts.length; i < len; i++) {
                   script = allScripts[i];
-                  if((scriptSource = script.attr("src"))) {
+                  if((scriptSource = script.attr("src"))) { // jshint ignore:line
                      script = document.createElement("script");
                      if("onreadystatechange" in script) {
-                        script.onreadystatechange = function() {
-                           if(this.readyState === "loaded" || this.readyState === "complete") {
-                              scriptLoaded();
-                           }
-                        };
+                        script.onreadystatechange = callLoaded;
                      }else {
                         script.onload = scriptLoaded;
                      }
@@ -643,7 +645,7 @@
          }
       }
       RouteHandler.ignoreNextHashChange = function() {
-         return this.ignoreNext = true;
+         this.ignoreNext = true;
       };
       
       // ---------------------------- Application API --------------------------
@@ -732,7 +734,7 @@
       return application;
    };
     
-})(h5);
+})(h5, window);
 
 
 

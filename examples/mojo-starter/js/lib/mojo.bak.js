@@ -23,9 +23,7 @@
  */
  
  
-
-/*globals window, document, h5, console */
-//"use strict"; // jshint ignore:line
+"use strict";
 (function($) {
    var div = document.createElement("div"),
       style = div.style,
@@ -95,12 +93,12 @@
                   return props[name];
                }else {
                   // console.log("Testing property: " + name);
-                  var test = tests[name], value;
+                  var test = tests[name], val;
                   if(typeof test === "function") {
-                     value = test.call(this);
-                     props[name] = value;
+                     val = test.call(this);
+                     props[name] = val;
                   }
-                  return value;
+                  return val;
                }
             }
          },
@@ -115,6 +113,7 @@
 
 
 
+"use strict";
 (function($) {
    // var paramPattern = /:([\w\.-]+)/g;
    
@@ -158,9 +157,9 @@
       return expander;
    }
    
-   function UriTemplate(uriPtrn) {
+   function UriTemplate(uriPattern) {
       var paramPattern = /:([\w\.-]+)/g, 
-            uriPattern = uriPtrn,
+            uriPattern = uriPattern,
             
             // the order of these two lines is important, in IE8, otherwise the paramPattern.exec will return null
             expander = compile(uriPattern, paramPattern),
@@ -204,7 +203,8 @@
 
 
 
-(function($, window) {
+"use strict";
+(function($) {
    var Env = $.Env,
       hasTransition = !!(Env.property("transition")),
       transitionEndEvent = Env.property("transitionend") || "transitionend",
@@ -218,8 +218,6 @@
       stack = [],
       
       application,
-      
-      setTimeout = window.setTimeout,
       
       transitionProp, // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
       
@@ -491,11 +489,6 @@
                           if(extScriptCount === 0) {
                              done();
                           }
-                       },
-                       callLoaded = function() {
-                           if(this.readyState === "loaded" || this.readyState === "complete") {
-                              scriptLoaded();
-                           }
                        };
       
                scripts.forEach(function(scriptElem) {
@@ -520,10 +513,14 @@
       
                for(var i = 0, len = allScripts.length; i < len; i++) {
                   script = allScripts[i];
-                  if((scriptSource = script.attr("src"))) { // jshint ignore:line
+                  if((scriptSource = script.attr("src"))) {
                      script = document.createElement("script");
                      if("onreadystatechange" in script) {
-                        script.onreadystatechange = callLoaded;
+                        script.onreadystatechange = function() {
+                           if(this.readyState === "loaded" || this.readyState === "complete") {
+                              scriptLoaded();
+                           }
+                        };
                      }else {
                         script.onload = scriptLoaded;
                      }
@@ -671,7 +668,7 @@
          }
       }
       RouteHandler.ignoreNextHashChange = function() {
-         this.ignoreNext = true;
+         return this.ignoreNext = true;
       };
       
       // ---------------------------- Application API --------------------------
@@ -760,8 +757,7 @@
       return application;
    };
     
-})(h5, window);
-
+})(h5);
 
 
 
@@ -970,7 +966,6 @@
 })(h5);
 
 
-
 /**
  * A simple templating mechanism for creating string templates. A template has replacement tokens
  * that are of the format '{' followed by anystring followed by '}'. 
@@ -1127,7 +1122,6 @@
 
 
 
-
 /**
  * The DataList widget. Creates a selectable list from the specified data
  * @Usage 
@@ -1174,7 +1168,7 @@
     * (string, dom element) or the if renderer itself appends to li, returns null or undefined
     */
    function renderItem(widget, uiItem, objItem, itemIdx, opts)  {
-      var content, i, len, itmCls = opts.itemClass, liRaw;
+      var content, i, len, itmCls = opts.itemClass, liRaw
       uiItem.data(MODEL_KEY, objItem);
 
       if(itmCls) {
@@ -1267,10 +1261,10 @@
          
          items = document.createDocumentFragment(); //not supported in IE 5.5
          for(i = 0, len = arrData.length; i < len; i++) {
-            $li = renderItem(widget, arrData[i], i, opts);
+            var $li = renderItem(widget, arrData[i], i, opts);
             items.appendChild($li.get(0));
             arrLis[arrLis.length] = $li;
-         }
+         };
          
          if(idx === data.length) {
             listRoot.append(items);
@@ -1508,7 +1502,7 @@
                   }
                }
             }else {
-               for(i = 0; i < len; i++) {
+               for(var i = 0; i < len; i++) {
                   if(filter === data[i]) {
                      idx = i;
                      break;
@@ -1576,7 +1570,6 @@
       return widget;
    });
 })(h5);
-
 
 
 
@@ -1693,8 +1686,7 @@
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
 
    $.extension("expandable", function(delay) {
-      var self = $(this.get(0)), expanded = false; 
-      delay = delay || 100;
+      var self = $(this.get(0)), expanded = false, delay = delay || 100;
 
       var trigger = $(self.children(".trigger")[0]);
       trigger.on(action, function() {
@@ -1723,7 +1715,7 @@
       return {
          expand: setExpanded,
          isExpanded: function() {
-            return expanded;
+            expanded;
          }
       };
    });
@@ -1744,34 +1736,6 @@
         
     });
 })(h5);
-
-
-
-
-/*
- * Progress Meter plugin
- */
-(function($) {
-   $.extension("progress", function(options) {
-      var self = this, valueElem, value = options ? options.value || 0 : 0;
-
-      self.addClass("progress");
-      self.append("<div class='value selected'></div>");
-
-      valueElem = self.find("div.value");
-
-      return {
-         setValue: function(numVal) {
-            value = Number(numVal) || 0;
-            valueElem.css("width", value + "%");
-         },
-
-         getValue: function() {
-            return value;
-         }
-      };
-   });
-})($);
 
 
 /*
@@ -1804,7 +1768,6 @@
    });
 })($);
 */
-
 
 /*
  * A working solution for activable elements
@@ -1885,7 +1848,6 @@
       self.on(touchstart, start).on(touchend, end);
    });
 })(h5);
-
 
 
 

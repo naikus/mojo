@@ -44,7 +44,7 @@
     * (string, dom element) or the if renderer itself appends to li, returns null or undefined
     */
    function renderItem(widget, uiItem, objItem, itemIdx, opts)  {
-      var content, i, len, itmCls = opts.itemClass, liRaw
+      var content, i, len, itmCls = opts.itemClass, liRaw;
       uiItem.data(MODEL_KEY, objItem);
 
       if(itmCls) {
@@ -137,10 +137,10 @@
          
          items = document.createDocumentFragment(); //not supported in IE 5.5
          for(i = 0, len = arrData.length; i < len; i++) {
-            var $li = renderItem(widget, arrData[i], i, opts);
+            $li = renderItem(widget, arrData[i], i, opts);
             items.appendChild($li.get(0));
             arrLis[arrLis.length] = $li;
-         };
+         }
          
          if(idx === data.length) {
             listRoot.append(items);
@@ -378,7 +378,7 @@
                   }
                }
             }else {
-               for(var i = 0; i < len; i++) {
+               for(i = 0; i < len; i++) {
                   if(filter === data[i]) {
                      idx = i;
                      break;

@@ -403,30 +403,7 @@ window.SERVER_URL = "/";
     
    
    
-   /*
-    * Meter plugin
-    */
-   (function($) {
-      $.extension("meter", function(options) {
-         var self = this, valueElem, value = options ? options.value || 0 : 0;
 
-         self.addClass("meter");
-         self.append("<div class='value selected'></div>");
-
-         valueElem = self.find("div.value");
-
-         return {
-            setValue: function(numVal) {
-               value = Number(numVal) || 0;
-               valueElem.css("width", value + "%");
-            },
-
-            getValue: function() {
-               return value;
-            }
-         };
-      });
-   })($);
    
    
    

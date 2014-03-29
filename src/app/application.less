@@ -35,7 +35,6 @@ a, img, button {
 }
 
 html, body {
-   font-family: Helvetica, sans;
    overflow-x: hidden;
    width: 100%;
    display: block;
@@ -45,12 +44,12 @@ html, body {
    position: absolute;
    top: 0;
    left: 0;
-   
+
    width: 100%;
    min-height: 100%;
    margin: 0;
    padding: 0;
-   
+
    background-color: @bg-color;
 }
 
@@ -58,73 +57,43 @@ html, body {
 .view-transitioning {
    overflow: hidden;
 }
-.view-transitioning .view{
-   
-}
-
 
 
 
 
 /* ---------------------------- Default transition effects for views ---------------------------- */
-.view { //, .overlay {
+
+.view {
    position: absolute;
    left: 0;
    top: 0;
-   
+
    width: 100%;
    min-height: 100%;
-   
+
    display: none;
-   
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
    /* -webkit-perspective: 1000; */
    -webkit-backface-visibility: hidden;  
-   
    background-color: @bg-color;
-}
-
-.view {
+   
    .translateX(100%);
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      .translateX(0);
+   }
+   &.stack, &.out {
+      .translateX(-100%);
+   }
+   &.pop {
+      .translateX(100%);
+   }
 }
 
-/*
-.overlay {
-   .translateY(-100%);
-   background-color: @alt-bg-color;
-   color: @alt-text-color;
-}
-*/
-
-.view.showing { //}, .overlay.showing {
-   z-index: 99;
-   display: block;
-}
-
-/*
-.overlay.showing  {
-   z-index: 199;
-}
-*/
-
-.view.in {
-   .translateX(0);
-}
-.view.stack, .view.out {
-   .translateX(-100%);
-}
-.view.pop {
-   .translateX(100%);
-}
-
-/*
-.overlay.in {
-   .translateY(0);
-}
-.overlay.pop {
-   .translateY(-100%);
-}
-*/
 
 
 /*
@@ -132,30 +101,33 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 */
 /*
 .view {
-    -moz-transform: scale(1.05, 1.05);
-    -webkit-transform: scale(1.05, 1.05);
-    -o-transform: scale(1.05, 1.05);
-    -ms-transform: scale(1.05, 1.05);
-    transform: scale(1.05, 1.05);
-    opacity: 0;
-}
-.view.in {
-    -moz-transform: none;
-    -webkit-transform: none;
-    -o-transform: none;
-    -ms-transform: none;
-    transform: none;
-    opacity: 1;    
-}
-.view.stack {
-    -moz-transform: scale(0.95, 0.95);
-    -webkit-transform: scale(0.95, 0.95);
-    -o-transform: scale(0.95, 0.95);
-    transform: scale(0.95, 0.95);
-    opacity: 0;
-}
-.view.pop {
-    opacity: 0;
+   -moz-transform: scale(1.05, 1.05);
+   -webkit-transform: scale(1.05, 1.05);
+   -o-transform: scale(1.05, 1.05);
+   -ms-transform: scale(1.05, 1.05);
+   transform: scale(1.05, 1.05);
+   opacity: 0;
+
+   &.in {
+      -moz-transform: none;
+      -webkit-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+      transform: none;
+      opacity: 1;    
+   }
+
+   &.stack {
+      -moz-transform: scale(0.95, 0.95);
+      -webkit-transform: scale(0.95, 0.95);
+      -o-transform: scale(0.95, 0.95);
+      transform: scale(0.95, 0.95);
+      opacity: 0;
+   }
+
+   &.pop {
+      opacity: 0;
+   }
 }
 */
 
