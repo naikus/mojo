@@ -29,7 +29,7 @@ var config = {
    mojoless: [
       "LICENSE",
       
-      "src/app/colors.less",
+      //"src/app/colors.less",
       "src/app/application.less",
       "src/app/base.less",
 

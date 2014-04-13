@@ -553,6 +553,7 @@
       }
 
       function popViewUi(ui) {
+         dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
          // ui.addClass("transitioning").removeClass("in").addClass("pop");
          ui.removeClass("in").addClass("pop");
          if(!hasTransition || !transitionProp) {
@@ -561,7 +562,7 @@
       }
 
       function stackViewUi(ui) {
-         // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
+         dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("stack").removeClass("in");
          if(!hasTransition || !transitionProp) {
@@ -570,7 +571,7 @@
       }
 
       function pushViewUi(ui) {
-         // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
+         dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("transition").addClass("in");
          if(!hasTransition || !transitionProp) {

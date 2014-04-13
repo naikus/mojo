@@ -1,0 +1,193 @@
+@import "mojo.less";
+
+* {
+  /* prevent callout when holding tap on links (the native dialog that comes up) */
+  -webkit-touch-callout: none; 
+
+  /* prevent webkit from resizing text to fit */
+  -webkit-text-size-adjust: none; 
+
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.base-bg {
+   background-color: @base-color;
+}
+
+/*
+ * This hides elements with .transition-hide class while view is transitioning
+ */
+/*
+.view-transitioning .transition-hide {
+   display: none;
+}
+*/
+
+.list.pad-items > li {
+   padding: 10px;
+}
+.list.pad-items-extra > li {
+   padding: 15px 10px;
+}
+
+.form .header {
+   background-color: darken(@bg-color, 7%);
+   padding: 10px !important;
+   margin: 0;
+   color: @text-color;
+   border: none;
+   font-weight: bold;
+   overflow: auto;
+}
+
+.no-separator > li, .alg-bg .no-separator li {
+   border: none !important;
+}
+
+.list li .label {
+   padding: 4px 4px 2px;
+}
+
+
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   min-height: 30px;
+   overflow: auto;
+
+   z-index: 199;
+   margin: 0;
+   /*
+   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+   */
+}
+.messages > .message {
+   font-size: 0.9em;
+   margin: 0;
+   padding: 7px;
+   color: @alt-text-color;
+}
+
+.info {
+   background-color: @info-color;
+}
+.info-text {
+   color: darken(@info-color, 30%);
+}
+.success {
+   background-color: @success-color;
+   color: #fff;
+}
+.success-text {
+   color: @success-color;
+}
+.error {
+   background-color: @error-color;
+   color: #fff;
+}
+.error-text {
+   color: @error-color;
+}
+.warn {
+   background-color: @warn-color;
+   color: #fff;
+}
+.warn-text {
+   color: @warn-color;
+}
+.indicate {
+   background-color: @error-color;
+}
+.indicate-alt {
+   color: @error-color;
+}
+.active {
+    background-color: @active-bg-color;
+    color: #fff;
+}
+.bordered {
+    border: 1px solid rgba(0, 0, 0, 0.2)
+}
+
+
+/* ------------------------------------------------ App Toolbar -----------------------------------------------*/
+.view {
+   padding-top: 60px; // since toolbar is 50px
+}
+
+.toolbar {
+   overflow: auto;
+   border-bottom: 1px solid darken(@alt-bg-color, 8%);
+   //box-shadow: 0 0 4px darken(@alt-bg-color, 8%);
+   width: 100%;
+   height: 50px;
+   position: fixed;
+   top: 0;
+   z-index: 100;
+   
+   .title {
+      color: lighten(@selected-bg-color, 20%);
+      font-weight: bold;
+      display: inline-block;
+      padding: 14px 3px;
+   }
+   
+   .title:first-child {
+      padding-left: 10px;
+   }
+   
+   .action {
+      /*
+      text-shadow: 0 0 2px #111;
+      -webkit-text-shadow: 0 0 2px #111;
+      */
+      display: inline-block;
+      font-weight: bold;
+      padding: 14px 10px;
+      /* border-right: 1px solid lighten(@alt-bg-color, 9%); */
+      
+      &.right {
+         border: none;
+         /* border-left: 1px solid lighten(@alt-bg-color, 9%); */
+      }
+      &.action.on {
+         // background-color: lighten(@selected-bg-color, 10%);
+         background-color: darken(@alt-bg-color, 4%);
+      }
+      
+      .icon {
+         font-size: 1.2em;
+      }
+   }
+}
+
+
+.fill-container {
+   width: 100%;
+   height: 100%;
+}
+
+
+section {
+   background-color: @bg-color;
+   margin-bottom: 20px;
+   overflow: auto;
+}
+section > header {
+   overflow: auto;
+   font-size: 1.3em;
+   color: lighten(@text-color, 4%);
+   border-bottom: 1px solid darken(@bg-color, 4%);
+}
+
+
+
+/* --------------------------------------- Additional Views ----------------------------------------- */
+
+
+

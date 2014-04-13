@@ -1,3 +1,5 @@
+@import "colors.less";
+
 .translate(@x: 0, @y: 0) {
    -moz-transform: translate(@x, @y);
    /** 
@@ -78,6 +80,14 @@ html, body {
    background-color: @bg-color;
    
    .translateX(100%);
+   
+   &.transition {
+      -moz-transition: -moz-transform 225ms ease;
+      -webkit-transition: -webkit-transform 225ms ease;
+      -o-transition: -o-transform 225ms ease;
+      -ms-transition: -ms-transform 225ms ease;
+      transition: transform 225ms ease;
+   }
 
    &.showing {
       z-index: 99;
@@ -131,13 +141,7 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 }
 */
 
-.transition {
-   -moz-transition: -moz-transform 225ms ease;
-   -webkit-transition: -webkit-transform 225ms ease;
-   -o-transition: -o-transform 225ms ease;
-   -ms-transition: -ms-transform 225ms ease;
-   transition: transform 225ms ease;
-}
+
 
 /* Slightly different transition effect */
 /*
