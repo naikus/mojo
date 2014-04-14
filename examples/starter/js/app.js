@@ -418,9 +418,11 @@ window.SERVER_URL = "/";
       
       vPort.on("beforeviewtransitionout", function() {
          //actionBar.setItems(null);
+         actionBar.getElement().addClass("hidden");
       });
       
       vPort.on("viewtransitionin", function() {
+         actionBar.getElement().removeClass("hidden");
          var route = App.getCurrentRoute();
          var actions = route.controller.actions;
          actionBar.setItems(actions);
