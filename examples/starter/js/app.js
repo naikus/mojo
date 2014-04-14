@@ -417,7 +417,7 @@ window.SERVER_URL = "/";
       });
       
       vPort.on("beforeviewtransitionout", function() {
-         actionBar.setItems(null);
+         //actionBar.setItems(null);
       });
       
       vPort.on("viewtransitionin", function() {

@@ -19,6 +19,9 @@ Application.addRoute("/", {
          ],
          
          initialize: function() {
+            viewUi.on(Events.tap, function() {
+               app.loadView("views/about.html", "/about");
+            });
          },
 
          activate: function(routeParams, data) {

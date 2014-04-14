@@ -1421,7 +1421,7 @@
          },
          
          setItems: function(itemData, selIndex) {
-            listRoot.html("");
+            // listRoot.html("");
             data = itemData || [];
             selectedItem = null;
             render(selIndex);
