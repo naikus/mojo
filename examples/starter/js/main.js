@@ -11,7 +11,7 @@ Application.addRoute("/", {
             {
                type: "action",
                alignment: "right",
-               icon: "fa fa-info",
+               icon: "fa-info",
                handler: function() {
                   app.loadView("views/about.html", "/about");
                }

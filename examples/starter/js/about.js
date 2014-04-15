@@ -7,7 +7,7 @@ Application.addRoute("/about", {
             {
                type: "action",
                alignment: "left",
-               icon: "fa fa-arrow-left",
+               icon: "fa-left-big",
                handler: function() {
                   app.popView();
                }
