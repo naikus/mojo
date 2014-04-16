@@ -528,6 +528,8 @@
       // UI Transitioning CSS class changes -------------------------------------------------------------
 
       function unstackViewUi(ui) {
+         // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
+         
          ui.removeClass("stack").addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -535,8 +537,8 @@
       }
 
       function popViewUi(ui) {
-         dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
-         // ui.addClass("transitioning").removeClass("in").addClass("pop");
+         // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
+
          ui.removeClass("in").addClass("pop");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -544,7 +546,7 @@
       }
 
       function stackViewUi(ui) {
-         dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
+         // dispatchBeforeViewTransitionEvent("out", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("stack").removeClass("in");
          if(!hasTransition || !transitionProp) {
@@ -553,7 +555,7 @@
       }
 
       function pushViewUi(ui) {
-         dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
+         // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
          ui.addClass("transition").addClass("in");
          if(!hasTransition || !transitionProp) {
@@ -575,17 +577,27 @@
             // route.controller.deactivate();
             ui.removeClass("showing");
             viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
-            dispatchViewTransitionEvent("out", ui, route);
+            
+            // rendering performance
+            setTimeout(function() {
+               dispatchViewTransitionEvent("out", ui, route);
+            }, 50);
             
          }else if(ui.hasClass("in")) {// if ui has transitioned in
             viewPort.removeClass("view-transitioning");
-            dispatchViewTransitionEvent("in", ui, route);
+            
+            setTimeout(function() {
+               dispatchViewTransitionEvent("in", ui, route);
+            }, 50);
             
          }else if(ui.hasClass("pop")) { // if view has been popped
             // route.controller.deactivate();
             ui.removeClass("showing").removeClass("transition").removeClass("pop");
             viewPort.removeClass("view-transitioning");
-            dispatchViewTransitionEvent("out", ui, route);
+            
+            setTimeout(function() {
+               dispatchViewTransitionEvent("out", ui, route);
+            }, 50);
          }
       }
       
@@ -604,7 +616,7 @@
       }
       
       function dispatchBeforeViewTransitionEvent(tType, ui, route) {
-          viewPort.dispatch("beforeviewtransition" + tType, {
+         viewPort.dispatch("beforeviewtransition" + tType, {
             path: route.path,
             bubbles: false,
             cancelable: true

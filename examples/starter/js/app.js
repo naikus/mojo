@@ -420,10 +420,11 @@ window.SERVER_URL = "/";
          }
       });
       
+      /* Not supported any more (rendering performance hit)
       vPort.on("beforeviewtransitionout", function() {
-         //actionBar.setItems(null);
          actionBar.getElement().addClass("hidden");
       });
+      */
       
       vPort.on("viewtransitionin", function() {
          actionBar.getElement().removeClass("hidden");
