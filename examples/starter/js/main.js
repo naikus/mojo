@@ -13,14 +13,14 @@ Application.addRoute("/", {
                alignment: "right",
                icon: "fa-info",
                handler: function() {
-                  app.loadView("views/about.html", "/about");
+                  app.showView("/about");
                }
             }
          ],
          
          initialize: function() {
             viewUi.on(Events.tap, function() {
-               app.loadView("views/about.html", "/about");
+               app.showView("/about");
             });
          },
 

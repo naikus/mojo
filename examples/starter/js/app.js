@@ -385,9 +385,13 @@ window.SERVER_URL = "/";
       // initialize our app
       App.initialize({
          viewPort: vPort, 
-         loadFromPath: false
+         loadFromPath: false,
          // enableHashChange: false,
          // startView: "/tabView"
+         routes: [
+            {path: "/", viewPath: "views/main.html"},
+            {path: "/about", viewPath: "views/about.html"}
+         ]
       });
       
       
@@ -428,8 +432,8 @@ window.SERVER_URL = "/";
          actionBar.setItems(actions);
       });
       
-      
-      App.loadView("views/main.html", "/");
+      // show root view
+      App.showView("/");
    });
    
 })(window, h5);

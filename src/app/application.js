@@ -188,6 +188,7 @@
       var noop = function() {},
       controllerMethods = ["initialize", "activate", "update", "deactivate", "destroy"],
 
+      routeConfigs = [],
       routes = [],
       stack = [],
       
@@ -221,19 +222,27 @@
       }
 
       /**
-       * Adds/registers a route with the application. These are currently view or overlay routes
+       * Adds/registers a route with the application. These are currently view routes
        * @param {String} path The path for which this route's view is shown
        * @param {type} routeOpts The route options
        * @returns {undefined}
        */
       function addRoute(path, routeOpts) {
          var route = $.shallowCopy({}, routeOpts);
-         route.routeTemplate = $.UriTemplate(path);
+         route.pathTemplate = $.UriTemplate(path);
          route.path = path;
          
          console.log("Adding route:" + path);
          // add this route to the top, latest added routes get preferences over the older ones
          routes.unshift(route);
+      }
+      
+      function addRouteConfig(cfg) {
+         console.log("Adding route config: " + cfg.path);
+         routeConfigs.unshift({
+            pathTemplate: $.UriTemplate(cfg.path),
+            viewPath: cfg.viewPath
+         });
       }
 
       /**
@@ -255,14 +264,15 @@
       /**
        * Finds the first matching route for the given URL
        * @param {String} url
-       * @returns {Object} Route
+       * @param {Array} arrRoutesOrCfg An array of routes or routeconfigs
+       * @returns {Object} Route or routeconfig 
        */
-      function getMatchingRoute(url) {
-         var route;
-         for(var i = 0, len = routes.length; i < len; i++) {
-            route = routes[i];
-            if(route.routeTemplate.matches(url)) {
-               return route;
+      function getMatching(url, arrRoutesOrCfg) {
+         var match;
+         for(var i = 0, len = arrRoutesOrCfg.length; i < len; i++) {
+            match = arrRoutesOrCfg[i];
+            if(match.pathTemplate.matches(url)) {
+               return match;
             }
          }
          return null;
@@ -284,25 +294,26 @@
 
          var ui = route.ui = $("#" + route.id);
          if(!ui.count()) {
-            throw new Error("UI for view or overlay route not found: " + route.path);
+            throw new Error("UI for route not found: " + route.path);
          }
 
          // store the path on UI object so that we can retrieve routes when we handle events
          ui.data("path", route.path);
 
-         ui.on(transitionEndEvent, route.overlay ? handleOverlayTransitionEnd : handleViewTransitionEnd);
+         ui.on(transitionEndEvent, handleViewTransitionEnd);
          route.controller = route.factory(application, ui);
          ensureLifecycle(route.controller);
       }
 
-      function pushView(path, data, resultCallback) {
-         var controller, ui, route = getMatchingRoute(path), params;
+      function pushView(path, data, resultCallback, optRoute) {
+         var controller, ui, route = optRoute || getMatching(path, routes), params;
+         
          if(!route) {
             console.log("Unrecognized route: " + path);
             return;
          }
          
-         params = route.routeTemplate.match(path);
+         params = route.pathTemplate.match(path);
          ui = route.ui; 
          controller = route.controller;
          
@@ -391,7 +402,7 @@
          resultCallback = route.onresult;
          path = route.realPath;
             
-         params = route.routeTemplate.match(path);
+         params = route.pathTemplate.match(path);
          ui = route.ui;
          
          // if its in the history and not stacked, stack it first
@@ -552,9 +563,6 @@
 
       // ------------------------------------------------------------------------------------------------
 
-      function handleOverlayTransitionEnd(evt) {
-      }
-
       function handleViewTransitionEnd(evt) {
          var target = evt.target, ui = $(target), route = getRouteByPath(ui.data("path"));
          
@@ -617,7 +625,7 @@
             return;
          }
      
-         var nPath = getPath(), route = getMatchingRoute(nPath), currRoute, params;
+         var nPath = getPath(), route = getMatching(nPath, routes), currRoute, params;
 
          // console.log("Calling route handler: " + nPath);
          if(!route) {
@@ -625,7 +633,7 @@
             return;
          }
          currRoute = stack[stack.length - 1];
-         params = route.routeTemplate.match(nPath);
+         params = route.pathTemplate.match(nPath);
 
          // same route handler probably params are different, so update
          if(currRoute === route) {
@@ -638,7 +646,7 @@
             if(route === stack[stack.length - 2]) {
                popView(null);
             }else {
-               pushView(nPath, null);
+               pushView(nPath, null, null, route);
             }
          }
       }
@@ -650,13 +658,26 @@
       application = {
          addRoute: addRoute,
 
-         showView: function(routePath, data, resultCallback) {
+         showView: function(path, data, resultCallback) {
             if(useHash) {
                RouteHandler.ignoreNextHashChange();
-               window.location.hash = routePath;
+               window.location.hash = path;
             }
             
-            pushView(routePath, data, resultCallback);
+            var route = getMatching(path, routes);
+            if(!route) {
+               // check if configured
+               var cfg = getMatching(path, routeConfigs);
+               if(!cfg) {
+                  throw new Error("View not found at " + path);
+               }
+               
+               loader(cfg.viewPath, function() {
+                  pushView(path, data, resultCallback);
+               });
+            }else {
+               pushView(path, data, resultCallback, route);
+            }
          },
                  
          popView: function(result, toPath) {
@@ -685,9 +706,9 @@
             }
             return null;
          },
-                 
+         
          loadView: function(viewTemplateUrl, path, data, resultCallback) {
-            var route = getMatchingRoute(path), app = this;
+            var route = getMatching(path, routes), app = this;
             if(!route) {
                 loader(viewTemplateUrl, function() {
                     app.showView(path, data, resultCallback);
@@ -704,7 +725,11 @@
          initialize: function(options) {
             viewPort = options.viewPort;
             transitionProp = "transitionProperty" in options ? options.transitionProperty : "transform";
-            useHash = (options.enableHashChange !== false);
+            useHash = (options.enableHashChange !== false);            
+            
+            $.forEach(options.routes || [], function(cfg) {
+               addRouteConfig(cfg);
+            });
             
             var path;
             if(options.loadFromPath !== false) {
