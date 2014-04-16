@@ -18,14 +18,9 @@ Application.addRoute("/", {
             }
          ],
          
-         initialize: function() {
-            viewUi.on(Events.tap, function() {
-               app.showView("/about");
-            });
-         },
+         initialize: function() {},
 
-         activate: function(routeParams, data) {
-         },
+         activate: function(routeParams, data) {},
          
          deactivate: function() {},
          

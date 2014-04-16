@@ -646,25 +646,38 @@
       // var oPath, nPath;
       function RouteHandler(e) {
          if(e && RouteHandler.ignoreNext) {
-            // console.log("RouteHandler: Ignoring hashchange this time");
             RouteHandler.ignoreNext = false;
+            console.log("RouteHandler: Ignoring hashchange this time");
             return;
          }
      
-         var nPath = getPath(), route = getMatching(nPath, routes), currRoute, params;
-
-         // console.log("Calling route handler: " + nPath);
+         var nPath = getPath(), route = getMatching(nPath, routes);
          if(!route) {
-            console.log("No matching route, doing nothing");
-            return;
+            // check if configured
+            var cfg = getMatching(nPath, routeConfigs);
+            if(!cfg) {
+               throw new Error("View not found at " + nPath);
+            }
+            loader(cfg.viewPath, function() {
+               RouteHandler.processView(nPath);
+            });
+         }else {
+            RouteHandler.processView(nPath, route);
          }
-         currRoute = stack[stack.length - 1];
-         params = route.pathTemplate.match(nPath);
+         
+      }
+      RouteHandler.ignoreNextHashChange = function() {
+         this.ignoreNext = true;
+      };
+      RouteHandler.processView = function(path, route) {
+         var currRoute = stack[stack.length - 1], params;
+         route = route || getMatching(path, routes);
+         params = route.pathTemplate.match(path);
 
          // same route handler probably params are different, so update
          if(currRoute === route) {
-             if(currRoute.realPath !== nPath) {
-                 currRoute.realPath = nPath;
+             if(currRoute.realPath !== path) {
+                 currRoute.realPath = path;
                  route.controller.update(params);
              }
          }else {
@@ -672,20 +685,21 @@
             if(route === stack[stack.length - 2]) {
                popView(null);
             }else {
-               pushView(nPath, null, null, route);
+               pushView(path, null, null, route);
             }
-         }
-      }
-      RouteHandler.ignoreNextHashChange = function() {
-         this.ignoreNext = true;
+         }         
       };
+
+      
       
       // ---------------------------- Application API --------------------------
       application = {
          addRoute: addRoute,
 
          showView: function(path, data, resultCallback) {
-            if(useHash) {
+            // console.log(path + ", " + window.location.hash);
+            // path check is because we may also load from <a href="#/somepath"></a>
+            if(useHash && ("#" + path !== window.location.hash)) {
                RouteHandler.ignoreNextHashChange();
                window.location.hash = path;
             }

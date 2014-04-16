@@ -387,7 +387,7 @@ window.SERVER_URL = "/";
          viewPort: vPort, 
          loadFromPath: false,
          // enableHashChange: false,
-         // startView: "/tabView"
+         // startView: "/"
          routes: [
             {path: "/", viewPath: "views/main.html"},
             {path: "/about", viewPath: "views/about.html"}
