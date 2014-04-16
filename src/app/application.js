@@ -187,7 +187,7 @@
    $.Application = function() {
       var noop = function() {},
       controllerMethods = ["initialize", "activate", "update", "deactivate", "destroy"],
-      
+
       routes = [],
       stack = [],
       
@@ -295,7 +295,7 @@
          ensureLifecycle(route.controller);
       }
 
-      function pushView(path, data, callback) {
+      function pushView(path, data, resultCallback) {
          var controller, ui, route = getMatchingRoute(path), params;
          if(!route) {
             console.log("Unrecognized route: " + path);
@@ -315,7 +315,8 @@
             ui = route.ui;
             controller = route.controller;
 
-            ui.addClass("showing");
+            ui.addClass("showing"); // this is needed if the controller wants to get some DOM values
+                                    // such as offsets etc.
             controller.initialize(params, data);
          }
          
@@ -338,13 +339,11 @@
             ui.removeClass("transition").removeClass("stack");
          }
 
-         // activate the controller
          ui.addClass("showing");
-         // controller.activate(params, data);
          
          if(currRoute) {
             // called when the view shown is popped, to pass data to the calling view
-            currRoute.callback = callback;
+            currRoute.onresult = resultCallback;
          }
          // indicate that both views are transitioning
          viewPort.addClass("view-transitioning");
@@ -365,7 +364,7 @@
       }
 
       function popView(data, toPath) {
-         var route, currRoute, path, ui, params, callback;
+         var route, currRoute, path, ui, params, resultCallback;
 
          // no routes on stack
          if(stack.length <= 1) {
@@ -389,7 +388,7 @@
             route = stack[stack.length - 1];
          }
          
-         callback = route.callback;
+         resultCallback = route.onresult;
          path = route.realPath;
             
          params = route.routeTemplate.match(path);
@@ -401,17 +400,15 @@
          }
 
          // indicate that this view is transitioning
-         // ui.addClass("transitioning");
-         // currRoute.ui.addClass("transitioning");
          viewPort.addClass("view-transitioning");
          
-         if(typeof callback === "function") {
-            callback(data);
-            route.callback = null;
+         if(typeof resultCallback === "function") {
+            resultCallback(data);
+            route.onresult = null;
          }
          
+         // make this view visible
          ui.addClass("showing");
-         // route.controller.activate(params, data);
         
          setTimeout(function() {
             route.controller.activate(params, data);
@@ -653,12 +650,13 @@
       application = {
          addRoute: addRoute,
 
-         showView: function(path, data, callback) {
+         showView: function(routePath, data, resultCallback) {
             if(useHash) {
                RouteHandler.ignoreNextHashChange();
-               window.location.hash = path;
+               window.location.hash = routePath;
             }
-            pushView(path, data, callback);
+            
+            pushView(routePath, data, resultCallback);
          },
                  
          popView: function(result, toPath) {

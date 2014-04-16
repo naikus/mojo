@@ -114,6 +114,10 @@ html, body {
       -ms-transition: -ms-transform 225ms ease;
       transition: transform 225ms ease;
    }
+   
+   &.pop {
+      .translateX(100%);
+   }
 
    &.showing {
       z-index: 99;
@@ -124,9 +128,6 @@ html, body {
    }
    &.stack, &.out {
       .translateX(-100%);
-   }
-   &.pop {
-      .translateX(100%);
    }
 }
 

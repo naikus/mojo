@@ -158,6 +158,13 @@ body {
   -ms-transition: -ms-transform 225ms ease;
   transition: transform 225ms ease;
 }
+.view.pop {
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -o-transform: translateX(100%);
+  transform: translateX(100%);
+}
 .view.showing {
   z-index: 99;
   display: block;
@@ -176,13 +183,6 @@ body {
   /*-webkit-transform: translate3d(@x, 0, 0);*/
   -o-transform: translateX(-100%);
   transform: translateX(-100%);
-}
-.view.pop {
-  -moz-transform: translateX(100%);
-  -webkit-transform: translateX(100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
-  -o-transform: translateX(100%);
-  transform: translateX(100%);
 }
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
@@ -352,8 +352,8 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border: 1px solid #c1e3f7;
-  box-shadow: 0 0 2px #c1e3f7;
+  border: 1px solid #39bbe4;
+  box-shadow: 0 0 2px #39bbe4;
   outline: 0;
 }
 input[disabled],
@@ -566,8 +566,8 @@ form .hint {
   border-radius: 30px;
 }
 .slider > .thumb.active {
-  background-color: #93cff2;
-  border: 1px solid #65bbed;
+  background-color: #1ca3ce;
+  border: 1px solid #167fa1;
 }
 .slider.horizontal > .thumb {
   height: 30px;
@@ -603,7 +603,7 @@ form .hint {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #93cff2 !important;
+  background-color: #1ca3ce !important;
   color: #666666 !important;
 }
 .tabstrip,
@@ -843,7 +843,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #93cff2;
+  background-color: #1ca3ce;
   color: #fff;
 }
 .bordered {
@@ -1035,7 +1035,7 @@ section > header {
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #93cff2;
+  color: #1ca3ce;
 }
 .calendar > .months {
   padding: 10px 2%;

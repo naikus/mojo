@@ -78,6 +78,13 @@ body {
   -ms-transition: -ms-transform 225ms ease;
   transition: transform 225ms ease;
 }
+.view.pop {
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -o-transform: translateX(100%);
+  transform: translateX(100%);
+}
 .view.showing {
   z-index: 99;
   display: block;
@@ -96,13 +103,6 @@ body {
   /*-webkit-transform: translate3d(@x, 0, 0);*/
   -o-transform: translateX(-100%);
   transform: translateX(-100%);
-}
-.view.pop {
-  -moz-transform: translateX(100%);
-  -webkit-transform: translateX(100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
-  -o-transform: translateX(100%);
-  transform: translateX(100%);
 }
 /*
 Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
