@@ -16,6 +16,7 @@
     "gulp-if": "0.0.5",
     "gulp-less": "^1.2.3",
     "gulp-debug": "^0.2.0",
-    "event-stream": "^3.1.1"
+    "event-stream": "^3.1.1",
+    "gulp-connect": "^2.0.5"
   }
 }

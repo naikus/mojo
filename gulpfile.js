@@ -7,7 +7,8 @@ var gulp = require("gulp"),
       uglify = require("gulp-uglify"),
       less = require("gulp-less"),
       debug = require("gulp-debug"),
-      eventStream = require("event-stream");
+      eventStream = require("event-stream"),
+      connect = require("gulp-connect");
 
 
 /** 
@@ -133,4 +134,12 @@ gulp.task("build-example", ["copy-files"], function() {
          .pipe(less())
          // .pipe(debug({verbose: true}))
          .pipe(gulp.dest(example + "/css"));
+});
+
+
+gulp.task("server", function() {
+   connect.server({
+      root: "examples",
+      port: 9000
+   });
 });

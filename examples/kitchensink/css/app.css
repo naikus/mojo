@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 /* Default theme (gray blue) */
-/*#3395C2;*/
 /* Red theme */
 /*
 @base-color: #f4f4f4;
@@ -63,25 +62,6 @@
 @selected-text-color: #fff;
 */
 /* Android theme */
-/*
-@base-color: #333;
-// Background color for viewport views and other boxes
-@bg-color: #333;
-// Background color for overlays, inlays etc.
-@alt-bg-color: #222;
-// Text color to complement the background color
-@text-color: #f4f4f4;
-// Text color to complement alternate background color
-@alt-text-color: #bbb;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #F7C53D;
-@active-text-color: #222;
-// Default selected background color
-@selected-bg-color: #F7C53D;
-@selected-bg-color-alt: #FFA100;
-// Default selected text color
-@selected-text-color: #222;
-*/
 /* Origin theme */
 /*
 @base-color: #A6A6A6;
@@ -127,7 +107,7 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #333333;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
@@ -144,7 +124,7 @@ body {
   /* Avoid flickering in webkit browsers, thanks stackoverflow */
   /* -webkit-perspective: 1000; */
   -webkit-backface-visibility: hidden;
-  background-color: #f0f0f0;
+  background-color: #333333;
   -moz-transform: translateX(100%);
   -webkit-transform: translateX(100%);
   /*-webkit-transform: translate3d(@x, 0, 0);*/
@@ -152,11 +132,11 @@ body {
   transform: translateX(100%);
 }
 .view.transition {
-  -moz-transition: -moz-transform 225ms ease;
-  -webkit-transition: -webkit-transform 225ms ease;
-  -o-transition: -o-transform 225ms ease;
-  -ms-transition: -ms-transform 225ms ease;
-  transition: transform 225ms ease;
+  -moz-transition: -moz-transform 200ms ease;
+  -webkit-transition: -webkit-transform 200ms ease;
+  -o-transition: -o-transform 200ms ease;
+  -ms-transition: -ms-transform 200ms ease;
+  transition: transform 200ms ease;
 }
 .view.pop {
   -moz-transform: translateX(100%);
@@ -230,8 +210,8 @@ html,
 body {
   font-family: "Helvetica Neue", Helvetica, sans;
   font-size: 1em;
-  background-color: #f0f0f0;
-  color: #737373;
+  background-color: #333333;
+  color: #a6a6a6;
   padding: 0;
   margin: 0;
 }
@@ -317,8 +297,8 @@ select {
   overflow: auto;
 }
 .alt-bg {
-  background-color: #373737;
-  color: #eeeeee;
+  background-color: #222222;
+  color: #bbbbbb;
 }
 input,
 button,
@@ -327,14 +307,14 @@ textarea,
 .button {
   padding: 9px;
   font-size: 1em;
-  border: 1px solid #cacaca;
+  border: 1px solid #0d0d0d;
   border-radius: 2px;
   display: block;
   position: relative;
   width: 100%;
   margin-bottom: 12px;
   background-color: #fff;
-  color: #666666;
+  color: #999999;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -352,8 +332,8 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border: 1px solid #39bbe4;
-  box-shadow: 0 0 2px #39bbe4;
+  border: 1px solid #f9d46e;
+  box-shadow: 0 0 2px #f9d46e;
   outline: 0;
 }
 input[disabled],
@@ -361,7 +341,7 @@ button[disabled],
 select[disabled],
 textarea[disabled],
 .button[disabled] {
-  background-color: #d7d7d7 !important;
+  background-color: #1a1a1a !important;
 }
 input.inline,
 button.inline,
@@ -382,7 +362,7 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  background-color: #bdbdbd;
+  background-color: #000000;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   cursor: pointer;
@@ -400,8 +380,8 @@ input[type=button]:hover,
 button:hover,
 input[type=reset]:hover,
 input[type=submit]:hover {
-  background-color: #373737;
-  color: #eeeeee;
+  background-color: #222222;
+  color: #bbbbbb;
 }
 .button:focus,
 input[type=button]:focus,
@@ -426,7 +406,7 @@ button.primary,
 input[type=reset].primary,
 input[type=submit].primary {
   background-color: #28769a;
-  color: #ffffff;
+  color: #222222;
 }
 .button.primary:hover,
 input[type=button].primary:hover,
@@ -467,7 +447,7 @@ input[type=reset][disabled]:active,
 input[type=submit][disabled]:active {
   box-shadow: none !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  color: #bfbfbf !important;
+  color: #f2f2f2 !important;
   padding: 10px !important;
 }
 label {
@@ -492,8 +472,8 @@ form .hint {
   padding: 3px 0;
 }
 .selected {
-  background-color: #1ca3ce;
-  color: #ffffff;
+  background-color: #f7c53d;
+  color: #222222;
 }
 .list {
   margin: 0;
@@ -506,7 +486,7 @@ form .hint {
   position: relative;
 }
 .list > li.selected {
-  background-color: #1ca3ce;
+  background-color: #f7c53d;
 }
 .widget.toggle,
 .widget.toggle > .thumb {
@@ -518,39 +498,39 @@ form .hint {
   position: relative;
   display: inline-block;
   width: 50px;
-  background-color: #e3e3e3;
+  background-color: #262626;
   height: 2.4em;
-  border: 1px solid #d7d7d7;
+  border: 1px solid #1a1a1a;
 }
 .widget.toggle.on {
-  background-color: #1ca3ce;
-  color: #ffffff;
-  border-color: #1ca3ce;
+  background-color: #f7c53d;
+  color: #222222;
+  border-color: #f7c53d;
 }
 .widget.toggle > .thumb {
   width: 70%;
   position: absolute;
   height: 100%;
   display: block;
-  background-color: #f5f5f5;
+  background-color: #383838;
   left: 0;
   transition: left 100ms ease;
-  border: 1px solid #d7d7d7;
+  border: 1px solid #1a1a1a;
 }
 .widget.toggle.on > .thumb {
   left: 30%;
-  border-color: #1ca3ce;
+  border-color: #f7c53d;
 }
 .slider {
   position: relative;
   height: 5px;
-  background-color: #d7d7d7;
-  border: 1px solid #bdbdbd;
+  background-color: #1a1a1a;
+  border: 1px solid #000000;
 }
 .slider > .value {
   height: 5px;
   width: 0;
-  background-color: #1ca3ce;
+  background-color: #f7c53d;
 }
 .slider > .thumb {
   display: block;
@@ -561,13 +541,13 @@ form .hint {
   top: -11px;
   width: 25px;
   height: 25px;
-  background-color: #f5f5f5;
-  border: 1px solid #d7d7d7;
+  background-color: #383838;
+  border: 1px solid #1a1a1a;
   border-radius: 30px;
 }
 .slider > .thumb.active {
-  background-color: #1ca3ce;
-  border: 1px solid #167fa1;
+  background-color: #f7c53d;
+  border: 1px solid #f5b60c;
 }
 .slider.horizontal > .thumb {
   height: 30px;
@@ -580,7 +560,7 @@ form .hint {
   display: block;
 }
 .progress {
-  background-color: #111111;
+  background-color: #000000;
   /*box-shadow: 0 0 2px #000000 inset;*/
   overflow: auto;
   padding: 2px;
@@ -603,8 +583,8 @@ form .hint {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #1ca3ce !important;
-  color: #666666 !important;
+  background-color: #f7c53d !important;
+  color: #222222 !important;
 }
 .tabstrip,
 .tab {
@@ -617,7 +597,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #1ca3ce;
+  border-bottom: 1px solid #f7c53d;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -629,7 +609,7 @@ form .hint {
   position: relative;
 }
 .tabstrip > .tab > span {
-  border-right: 1px solid #d7d7d7;
+  border-right: 1px solid #1a1a1a;
   min-height: 20px;
   padding: 4px 10px;
   margin: 6px 0;
@@ -640,17 +620,17 @@ form .hint {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #1ca3ce;
-  color: #666666;
+  border-bottom: 3px solid #f7c53d;
+  color: #999999;
 }
 .tabstrip.alt-bg {
-  background-color: #373737;
+  background-color: #222222;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #3c3c3c;
+  border-right: 1px solid #272727;
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #39bbe4;
+  color: #f9d46e;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -661,7 +641,7 @@ form .hint {
 }
 .tab-content.current {
   display: block;
-  background-color: #f0f0f0;
+  background-color: #333333;
 }
 /* ------------------------------------------------ Framework Overrides -------------------------------------------- */
 .half {
@@ -700,11 +680,11 @@ img.activable {
 }
 img.activable:active,
 img.activable.active {
-  border-color: #1ca3ce;
+  border-color: #f7c53d;
 }
 .panel {
-  background-color: #f6f6f6;
-  border: 1px solid #e1e1e1;
+  background-color: #393939;
+  border: 1px solid #242424;
 }
 /*
 .alt-bg section > .header {
@@ -738,7 +718,7 @@ img.activable.active {
   background-color: transparent;
   border: none;
   /*border-bottom: 1px solid lighten(@alt-bg-color, 10%);*/
-  color: #eeeeee;
+  color: #bbbbbb;
 }
 .success:active,
 input[type=button].success.active,
@@ -770,10 +750,10 @@ button.warn.active,
   padding: 15px 10px;
 }
 .form .header {
-  background-color: #dedede;
+  background-color: #212121;
   padding: 10px !important;
   margin: 0;
-  color: #666666;
+  color: #999999;
   border: none;
   font-weight: bold;
   overflow: auto;
@@ -807,7 +787,7 @@ a.button {
   font-size: 0.9em;
   margin: 0;
   padding: 7px;
-  color: #eeeeee;
+  color: #bbbbbb;
 }
 .info {
   background-color: #007bd3;
@@ -843,7 +823,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #1ca3ce;
+  background-color: #f7c53d;
   color: #fff;
 }
 .bordered {
@@ -859,8 +839,8 @@ a.button {
   bottom: 10%;
   left: 0;
   color: #fefefe;
-  background-color: #444444;
-  border: 1px solid #2a2a2a;
+  background-color: #2f2f2f;
+  border: 1px solid #151515;
   text-align: center;
   opacity: 0.65;
   /* box shadow causes slight mis-alignment of this control on view change */
@@ -886,7 +866,7 @@ a.button {
   min-height: 100%;
 }
 .viewport {
-  background-color: #373737;
+  background-color: #222222;
   /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
@@ -904,7 +884,7 @@ a.button {
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
    box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
    */
-  border-left: 1px solid #2a2a2a;
+  border-left: 1px solid #151515;
   height: 100%;
   overflow: hidden;
 }
@@ -922,14 +902,14 @@ a.button {
 /* ------------------------------------------------ View Toolbar -----------------------------------------------*/
 .toolbar {
   overflow: auto;
-  background-color: #444444;
-  background-image: linear-gradient(to bottom, #444444, #3c3c3c);
-  color: #eeeeee;
-  border-bottom: 1px solid #2d2d2d;
+  background-color: #2f2f2f;
+  background-image: linear-gradient(to bottom, #2f2f2f, #272727);
+  color: #bbbbbb;
+  border-bottom: 1px solid #181818;
   width: 100%;
 }
 .toolbar .title {
-  color: #66caea;
+  color: #fbe29f;
   font-weight: bold;
   display: inline-block;
   padding: 13px 3px;
@@ -954,12 +934,12 @@ a.button {
   /* border-left: 1px solid lighten(@alt-bg-color, 9%); */
 }
 .toolbar .action.on {
-  background-color: #2d2d2d;
+  background-color: #181818;
 }
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu,
 .alt-bg .menu {
-  background-color: #2d2d2d;
+  background-color: #181818;
 }
 .collapsed {
   height: 0;
@@ -975,25 +955,25 @@ a.button {
    top: 15px;
    right: 15px;
    */
-  color: #d7d7d7;
+  color: #1a1a1a;
   font-size: 1.6em;
 }
 .list > li.toggle.on:after {
   content: '\e812';
   /* tick mark icon */
-  color: #3395c2;
+  color: #ffa100;
   /*right: 12px;*/
 }
 section {
-  background-color: #f0f0f0;
+  background-color: #333333;
   margin-bottom: 20px;
   overflow: auto;
 }
 section > header {
   overflow: auto;
   font-size: 1.3em;
-  color: #707070;
-  border-bottom: 1px solid #e6e6e6;
+  color: #a3a3a3;
+  border-bottom: 1px solid #292929;
 }
 /* --------------------------------------- Map View ----------------------------------------- */
 .google-map {
@@ -1008,9 +988,9 @@ section > header {
 /* ------------------------------------ Calendar View --------------------------------------- */
 .calendar > .year-bar {
   overflow: auto;
-  background-color: #444444;
+  background-color: #2f2f2f;
   color: #eee;
-  border-bottom: 1px solid #4e4e4e;
+  border-bottom: 1px solid #393939;
 }
 .calendar > .year-bar > span {
   padding: 13px 10px;
@@ -1029,19 +1009,19 @@ section > header {
   width: 25%;
   padding: 7px 0;
   text-align: center;
-  color: #5d5d5d;
+  color: #484848;
   font-size: 1em;
   font-weight: bold;
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #1ca3ce;
+  color: #f7c53d;
 }
 .calendar > .months {
   padding: 10px 2%;
-  background-color: #373737;
-  color: #eeeeee;
-  border-bottom: 1px solid #1ca3ce;
+  background-color: #222222;
+  color: #bbbbbb;
+  border-bottom: 1px solid #f7c53d;
 }
 .calendar > .months > li,
 .calendar > .days > li,
@@ -1066,7 +1046,7 @@ section > header {
 }
 .calendar > .days {
   padding: 5px;
-  background-color: #dcdcdc;
+  background-color: #1f1f1f;
 }
 .calendar > .dates {
   margin: 5px;
@@ -1084,7 +1064,7 @@ div.column,
 .time .hours,
 .time .minutes,
 .time .ampm {
-  background-color: #dcdcdc;
+  background-color: #1f1f1f;
 }
 .time .label {
   display: inline-block;
@@ -1114,10 +1094,10 @@ div.column,
   width: auto;
 }
 .time .minutes li.highlite {
-  color: #1ca3ce;
+  color: #f7c53d;
 }
 .time .minutes li.highlite.selected {
-  color: #ffffff;
+  color: #222222;
 }
 /*
 .time .minutes li.highlite, .time .minutes li.highlite-alt {
@@ -1141,7 +1121,7 @@ div.column,
     top: 0;
     bottom: 0;
     width: 12%;
-    border-right: 1px solid #22b3e1;
+    border-right: 1px solid #f8cc55;
     -webkit-transform: none;
     transform: none;
     -webkit-transition: none;
