@@ -687,7 +687,7 @@ form .hint {
   padding-top: 60px;
 }
 .toolbar {
-  overflow: auto;
+  overflow: hidden;
   border-bottom: 1px solid #4aafde;
   box-shadow: 0 0 4px #4aafde;
   width: 100%;
