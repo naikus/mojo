@@ -79,8 +79,15 @@ html, body {
    -webkit-backface-visibility: hidden;  
    background-color: @bg-color;
    
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
+   
    .translateX(100%);
    
+   /*
    &.transition {
       -moz-transition: -moz-transform 250ms ease;
       -webkit-transition: -webkit-transform 250ms ease;
@@ -88,6 +95,7 @@ html, body {
       -ms-transition: -ms-transform 250ms ease;
       transition: transform 250ms ease;
    }
+   */
    
    &.pop {
       .translateX(100%);

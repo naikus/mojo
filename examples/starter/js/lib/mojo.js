@@ -373,7 +373,7 @@
 
          // check if this view was earlier stacked because some other view was shown over it.
          if(ui.hasClass("stack")) {
-            ui.removeClass("transition").removeClass("stack");
+            ui.removeClass("stack");
          }
 
          ui.addClass("showing");
@@ -432,8 +432,8 @@
          ui = route.ui;
          
          // if its in the history and not stacked, stack it first
-         if(!ui.hasClass("stack") && !ui.hasClass("transition")) {
-            ui.addClass("stack").addClass("transition");
+         if(!ui.hasClass("stack")) {
+            ui.addClass("stack");
          }
 
          // indicate that this view is transitioning
@@ -583,7 +583,7 @@
       function pushViewUi(ui) {
          // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
-         ui.addClass("transition").addClass("in");
+         ui.addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
          }
@@ -618,7 +618,7 @@
             
          }else if(ui.hasClass("pop")) { // if view has been popped
             // route.controller.deactivate();
-            ui.removeClass("showing").removeClass("transition").removeClass("pop");
+            ui.removeClass("showing").removeClass("pop");
             viewPort.removeClass("view-transitioning");
             
             setTimeout(function() {
