@@ -389,7 +389,7 @@ window.SERVER_URL = "/";
          // enableHashChange: false,
          // startView: "/"
          routes: [
-            {path: "/", viewPath: "views/main.html"},
+            {path: "/", viewPath: "views/main.html", fullscreen: true},
             {path: "/about", viewPath: "views/about.html"}
          ]
       });
@@ -401,17 +401,18 @@ window.SERVER_URL = "/";
          '</a>'].join("")
       );
       
-      var actionBar = $("#globalActionBar").datalist({
-         selectable: false,
-         listClass: "list",
-         itemClass: "",
-         render: function(actionBar, li, i, action) {
-            li.addClass("activable")
-                  .addClass(action.type || "action")
-                  .addClass(action.alignment || "left");
-            return actTemplate.process(action);
-         }
-      });
+      var actionBarContainer = $("#globalActionBar"), 
+            actionBar = actionBarContainer.datalist({
+               selectable: false,
+               listClass: "list",
+               itemClass: "",
+               render: function(actionBar, li, i, action) {
+                  li.addClass("activable")
+                        .addClass(action.type || "action")
+                        .addClass(action.alignment || "left");
+                  return actTemplate.process(action);
+               }
+            });
       
       actionBar.on(Events.tap, function(e, item, action) {
          var handler = action.handler;
@@ -420,17 +421,26 @@ window.SERVER_URL = "/";
          }
       });
       
-      /* Not supported any more (rendering performance hit)
-      vPort.on("beforeviewtransitionout", function() {
-         actionBar.getElement().addClass("hidden");
+      /*
+      vPort.on("beforeviewtransitionin", function(e) {
+         // actionBar.getElement().addClass("hidden");
+         if(e.path === "/") {
+            $("#globalActionBar").addClass("hide");
+         }else {
+            $("#globalActionBar").removeClass("hide");
+         }
       });
       */
       
       vPort.on("viewtransitionin", function() {
-         actionBar.getElement().removeClass("hidden");
          var route = App.getCurrentRoute();
          var actions = route.controller.actions;
          actionBar.setItems(actions);
+         if(actions && actions.length) {
+            actionBarContainer.removeClass("hide");
+         }else {
+            actionBarContainer.addClass("hide");
+         }
       });
       
       // show root view

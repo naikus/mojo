@@ -7,22 +7,22 @@
 
 
 /* Default theme (gray blue) */
-@base-color: #6CBEE4;
+@base-color: #404040;
 // Background color for viewport views and other boxes
-@bg-color: #F8FCFF;
+@bg-color: #404040;
 // Background color for overlays, inlays etc.
-@alt-bg-color: #E9F2F8;
+@alt-bg-color: #333;
 // Text color to complement the background color
-@text-color: #4F4C4D;
+@text-color: #aaa;
 // Text color to complement alternate background color
-@alt-text-color: #153C54;
+@alt-text-color: #bbb;
 // Default selected background color
-@selected-bg-color: #7CAF45;
-@selected-bg-color-alt: #C8DD76;
+@selected-bg-color: darken(@bg-color, 10%); // #F49F3D; // #6CBEE4;
+@selected-bg-color-alt: @selected-bg-color;
 // Active background color, when an element becomes active i.e. :active class
-@active-bg-color: #E9F2C7;
-@active-text-color: #636B59;
+@active-bg-color: darken(@selected-bg-color, 10%);
+@active-text-color: #bbb;
 // Default selected text color
-@selected-text-color: #4F4C4D;
+@selected-text-color: #fff;
 
 @primary-color: #E658A0;

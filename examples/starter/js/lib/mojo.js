@@ -664,6 +664,11 @@
          }
      
          var nPath = getPath(), route = getMatching(nPath, routes);
+         if(!nPath) {
+            console.log("Warning, no path specified using '/'");
+            nPath = "/";
+         }
+         
          if(!route) {
             // check if configured
             var cfg = getMatching(nPath, routeConfigs);

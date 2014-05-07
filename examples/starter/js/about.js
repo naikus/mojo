@@ -3,6 +3,7 @@ Application.addRoute("/about", {
    factory: function(app, viewUi) {
 
       return {
+         /*
          actions: [
             {
                type: "action",
@@ -17,6 +18,7 @@ Application.addRoute("/about", {
                title: "About Starter App"
             }
          ],
+         */
          
          initialize: function() {
          },
