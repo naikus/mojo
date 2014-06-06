@@ -19,11 +19,11 @@ article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inl
 
 // basic styles and rulesets
 .box {
-   display: block;
+   display: block !important;
    overflow: auto;
 }
 .inline-box {
-   display: inline-block;
+   display: inline-block !important;
    overflow: auto;
 }
 .left {
@@ -69,6 +69,12 @@ article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inl
 .pad-b {
    padding-bottom: @pad-default;
 }
+.pad-l {
+   padding-left: @pad-default;
+}
+.pad-r {
+   padding-right: @pad-default;
+}
 .pad-extra {
    padding: @pad-default + 5;
 }
@@ -87,15 +93,16 @@ input,
       select,
       textarea,
       .button {
-   padding: 9px;
+   padding: @pad-default;
    font-size: 1em;
-   border: 1px solid darken(@bg-color, 15%);
+   border: 1px solid rgba(0,0,0,0.2);
    border-radius: 2px;
    display: block;
    position: relative;
    width: 100%;
+   margin: 0;
    margin-bottom: 12px;
-   background-color: #fff;
+   background-color: lighten(@bg-color, 5%);
    color: @text-color;
    
    -webkit-box-sizing: border-box;
@@ -108,8 +115,8 @@ input,
    }
    
    &:focus {
-      border: 1px solid lighten(@active-bg-color, 10%);
-      box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
+      border: 1px solid rgba(0,0,0,0.4);
+      // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
       outline: 0;
    }
    
@@ -118,7 +125,7 @@ input,
    }
    
    &.inline {
-      display: inline;
+      display: inline-block;
       width: auto;
    }
 }
@@ -133,11 +140,14 @@ textarea {
    border: 1px solid rgba(0,0,0,0.1);
    border-radius: 2px;
    cursor: pointer;
+   text-align: center;
    
+   /*
    > .fa {
       font-size: 1.1em;
       margin-right: 5px;
    }
+   */
    
    &:hover {
       background-color: @alt-bg-color;
@@ -167,6 +177,7 @@ textarea {
    }
    &.primary:active {
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+      background-color: darken(@primary-color, 10%);
    }
    
    &[disabled], &[disabled]:hover, &[disabled]:active {

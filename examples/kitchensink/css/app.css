@@ -246,11 +246,11 @@ select {
   box-sizing: border-box;
 }
 .box {
-  display: block;
+  display: block !important;
   overflow: auto;
 }
 .inline-box {
-  display: inline-block;
+  display: inline-block !important;
   overflow: auto;
 }
 .left {
@@ -297,6 +297,12 @@ select {
 .pad-b {
   padding-bottom: 11px;
 }
+.pad-l {
+  padding-left: 11px;
+}
+.pad-r {
+  padding-right: 11px;
+}
 .pad-extra {
   padding: 16px;
 }
@@ -312,15 +318,15 @@ button,
 select,
 textarea,
 .button {
-  padding: 9px;
+  padding: 11px;
   font-size: 1em;
-  border: 1px solid #0d0d0d;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   display: block;
   position: relative;
   width: 100%;
   margin-bottom: 12px;
-  background-color: #fff;
+  background-color: #404040;
   color: #999999;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -339,8 +345,7 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border: 1px solid #f9d46e;
-  box-shadow: 0 0 2px #f9d46e;
+  border: 1px solid rgba(0, 0, 0, 0.4);
   outline: 0;
 }
 input[disabled],
@@ -355,7 +360,7 @@ button.inline,
 select.inline,
 textarea.inline,
 .button.inline {
-  display: inline;
+  display: inline-block;
   width: auto;
 }
 a.button {
@@ -373,6 +378,7 @@ input[type=submit] {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   cursor: pointer;
+  text-align: center;
 }
 .button > .fa,
 input[type=button] > .fa,

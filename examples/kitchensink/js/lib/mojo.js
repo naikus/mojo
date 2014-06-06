@@ -1322,6 +1322,7 @@
          
          items = document.createDocumentFragment(); //not supported in IE 5.5
          for(i = 0, len = arrData.length; i < len; i++) {
+            $li = $(document.createElement("li"));
             $li = renderItem(widget, arrData[i], i, opts);
             items.appendChild($li.get(0));
             arrLis[arrLis.length] = $li;
@@ -1370,7 +1371,9 @@
          if(isNaN(idx) || idx < 0 || idx > data.length + 1) {
             return;
          }
-         itm = renderItem(widget, objItem, idx, opts);
+         
+         var $li = $(document.createElement("li"));
+         itm = renderItem(widget, $li, objItem, idx, opts);
          
          if(idx === data.length) {
             listRoot.append(itm);

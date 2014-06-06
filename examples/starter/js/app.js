@@ -337,7 +337,7 @@ window.SERVER_URL = "/";
         function message(type, msg, bSticky) {
            var id = "msg_" + uuid();
            self.removeClass("hidden");
-           self.append('<p id="' + id + '" class="message appear' + type + '">' + msg + '</p>');
+           self.append('<p id="' + id + '" class="message appear ' + type + '">' + msg + '</p>');
            if(bSticky !== true) {
               setTimeout(function() {
                  widget.clear(id);
@@ -408,6 +408,7 @@ window.SERVER_URL = "/";
                itemClass: "",
                render: function(actionBar, li, i, action) {
                   li.addClass("activable")
+                        .addClass(action.cssClass || "")
                         .addClass(action.type || "action")
                         .addClass(action.alignment || "left");
                   return actTemplate.process(action);
