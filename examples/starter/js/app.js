@@ -53,16 +53,16 @@ window.SERVER_URL = "/";
       username: null,
       password: null,
       headers: {
-        "Content-Type": "application/json" 
+        "Content-Type": "application/json"
       }
    };
 
    /*
     * Simple REST API plugin.
     * uses http-like method names to do rest calls.
-    * e.g. 
+    * e.g.
     * <code>
-    * REST     METHOD  
+    * REST     METHOD
     * ----------------
     * delete   del
     * create   post
@@ -70,7 +70,7 @@ window.SERVER_URL = "/";
     * get      get
     * ----------------
     * </code>
-    * 
+    *
     * The Api object exposes four methods that map to crud operations.
     * <code>
     * get, post, put, del
@@ -83,10 +83,10 @@ window.SERVER_URL = "/";
     *    success: An optional callback function to call upon successful call of the 'apiMethod'
     *    failure: An optional callback function to call upon failure calling the 'apiMethod'
     * }
-    * 
-    * If you are using https and base64 encoding and basic authorization use this like so. 
+    *
+    * If you are using https and base64 encoding and basic authorization use this like so.
     * This needs js/lib/base64.min.js included in your index.html
-    * 
+    *
     * var Api = $.Api({
     *    baseUrl: url,
     *    headers: {
@@ -104,15 +104,15 @@ window.SERVER_URL = "/";
               noop = function() {},
               onLine = ("online" in navigator) ? navigator.onLine : true,
               ret = {};
-      
+
       function gotOnline() {
          onLine = true;
       }
-      
+
       function gotOffline() {
          onLine = false;
       }
-      
+
       function asParams(key, val, arrPostData) {
          if(isArray(val)) {
             encodeArray(key, val, arrPostData);
@@ -136,7 +136,7 @@ window.SERVER_URL = "/";
             asParams(key, arrVals[i], arrPostData);
          }
       }
-      
+
       /**
        * Calls an API method using one of the http methods
        * @param {String} method The http method. One of get|post|put|delete
@@ -151,18 +151,17 @@ window.SERVER_URL = "/";
        * }
        * </code>
        */
-      
       function apiCall(method, options) {
          if(!onLine) {
             console.log("Application is offline.");
             return;
          }
-         
-         var apiMethod = opts.baseUrl + (options.apiMethod || ""), 
+
+         var apiMethod = opts.baseUrl + (options.apiMethod || ""),
                  reqData, headers = $.shallowCopy({}, opts.headers, options.headers);
-         
+
          // console.log("Calling API method " + apiMethod);
-         
+
          if(options.data) {
             if(method === "GET") {
                reqData = options.data;
@@ -186,11 +185,11 @@ window.SERVER_URL = "/";
                }
             }
          }
-         
+
          if(options.timestamp !== false) {
             apiMethod += "?" + new Date().getTime();
          }
-         
+
          $.ajax({
             url: apiMethod,
             method: method,
@@ -218,15 +217,15 @@ window.SERVER_URL = "/";
             apiCall(m.toUpperCase(), options);
          };
       });
-      
-      
+
+
       ret.asParams = function(objData) {
          var paramArray = [];
          asParams(null, objData, paramArray);
          return paramArray.join("&");
       };
-      
-      
+
+
       ret.option = function(name, value) {
          if(arguments.length === 1) {
             return opts[name];
@@ -234,12 +233,12 @@ window.SERVER_URL = "/";
             opts[name] = value;
          }
       };
-      
-      
+
+
       ret.getBaseUrl = function() {
          return opts.baseUrl;
       };
-      
+
       $(window).on("offline", gotOffline).on("online", gotOnline);
       return ret;
    };
@@ -290,9 +289,9 @@ window.SERVER_URL = "/";
 
 /* ------------------------------- Application Code And Initialization ---------------------------------------- */
 
-(function(window, $, undefined) {   
+(function(window, $, undefined) {
 
-   
+
    // set the default user action event (tap in touch enabled browsers or fallback to click
    var Events = {
             tap: "tap",
@@ -303,7 +302,7 @@ window.SERVER_URL = "/";
          },
          doc = $(document),
          App = $.Application();
-         
+
    if(! ("ontouchstart" in document.documentElement)) {
       Events = {
         tap: "click",
@@ -313,13 +312,13 @@ window.SERVER_URL = "/";
         touchmove: "mousemove"
       };
    }
-      
+
    /*
     * App global messages, plugin
     */
    (function($) {
       $.extension("notifications", function() {
-         var self = this, uuid = $.uuid, 
+         var self = this, uuid = $.uuid, timer,
             widget = {
                 clear: function(id) {
                   if(id) {
@@ -338,11 +337,15 @@ window.SERVER_URL = "/";
            var id = "msg_" + uuid();
            self.removeClass("hidden");
            self.append('<p id="' + id + '" class="message appear ' + type + '">' + msg + '</p>');
+           var m = self.find("#" + id);
            if(bSticky !== true) {
               setTimeout(function() {
-                 widget.clear(id);
+                 self.remove(m)
               }, 4000);
            }
+           m.on(Events.tap, function() {
+              self.remove(m);
+           });
         }
 
         $.forEach(["info", "error", "success", "warn"], function(val) {
@@ -351,15 +354,11 @@ window.SERVER_URL = "/";
            };
         });
 
-        self.on(Events.tap, function() {
-           widget.clear();
-        });
-
         return widget;
      });
-   })($, Events);     
-   
-   
+   })($, Events);
+
+
    window.Events = Events;
    window.Application = App;
 
@@ -369,22 +368,22 @@ window.SERVER_URL = "/";
    // initialize our application on ready ------------------------------------------------------------
    $.ready(function() {
       var vPort = $("#viewPort");
-      
+
       // Messages
       window.Notification = $("#notifications").notifications();
 
       // set up loading
-      var loading = $("#loading"); 
+      var loading = $("#loading");
       doc.on("ajaxstart", function() {
          loading.addClass("show");
       }).on("ajaxend", function() {
          loading.removeClass("show");
       });
-      
-      
+
+
       // initialize our app
       App.initialize({
-         viewPort: vPort, 
+         viewPort: vPort,
          loadFromPath: false,
          // enableHashChange: false,
          // startView: "/"
@@ -393,15 +392,15 @@ window.SERVER_URL = "/";
             {path: "/about", viewPath: "views/about.html"}
          ]
       });
-      
-      
+
+
       var actTemplate = $.template([
          '<a class="box fill-container">',
             '<span class="icon {icon}"></span> {title}',
          '</a>'].join("")
       );
-      
-      var actionBarContainer = $("#globalActionBar"), 
+
+      var actionBarContainer = $("#globalActionBar"),
             actionBar = actionBarContainer.datalist({
                selectable: false,
                listClass: "list",
@@ -414,14 +413,14 @@ window.SERVER_URL = "/";
                   return actTemplate.process(action);
                }
             });
-      
+
       actionBar.on(Events.tap, function(e, item, action) {
          var handler = action.handler;
          if(typeof handler === "function") {
             handler.call(null, item, action);
          }
       });
-      
+
       /*
       vPort.on("beforeviewtransitionin", function(e) {
          // actionBar.getElement().addClass("hidden");
@@ -432,7 +431,7 @@ window.SERVER_URL = "/";
          }
       });
       */
-      
+
       vPort.on("viewtransitionin", function() {
          var route = App.getCurrentRoute();
          var actions = route.controller.actions;
@@ -443,9 +442,9 @@ window.SERVER_URL = "/";
             actionBarContainer.addClass("hide");
          }
       });
-      
+
       // show root view
       App.showView("/");
    });
-   
+
 })(window, h5);

@@ -265,6 +265,7 @@ textarea,
   display: block;
   position: relative;
   width: 100%;
+  margin: 0;
   margin-bottom: 12px;
   background-color: #4d4d4d;
   color: #aaaaaa;
@@ -319,14 +320,12 @@ input[type=submit] {
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
-}
-.button > .fa,
-input[type=button] > .fa,
-button > .fa,
-input[type=reset] > .fa,
-input[type=submit] > .fa {
-  font-size: 1.1em;
-  margin-right: 5px;
+  /*
+   > .fa {
+      font-size: 1.1em;
+      margin-right: 5px;
+   }
+   */
 }
 .button:hover,
 input[type=button]:hover,
@@ -382,6 +381,7 @@ button.primary:active,
 input[type=reset].primary:active,
 input[type=submit].primary:active {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+  background-color: #df2c87;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -664,7 +664,7 @@ a {
   font-size: 0.9em;
   margin: 0;
   padding: 7px;
-  color: #bbbbbb;
+  color: #fff;
 }
 .info {
   background-color: #007bd3;
