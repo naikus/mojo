@@ -8,7 +8,7 @@ Application.addRoute("/", {
          actions: [
             {
                type: "title",
-               title: "Welcome"
+               title: "Starter App"
             },
             {
                type: "action",
