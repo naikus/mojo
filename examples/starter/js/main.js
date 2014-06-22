@@ -1,12 +1,14 @@
 Application.addRoute("/", {
    id: "mainView",
    factory: function(app, viewUi) {
+      
+      var types = ["info", "warn", "success", "error"];
 
       return {
          actions: [
             {
                type: "title",
-               title: "Welcome"
+               title: "Starter App"
             },
             {
                type: "action",
@@ -18,7 +20,12 @@ Application.addRoute("/", {
             }
          ],
          
-         initialize: function() {},
+         initialize: function() {
+            $("#messageButton").on(Events.tap, function() {
+               var type = types[Math.floor(Math.random() * 4)];
+               Notification[type]("This is a random " + type + " message");
+            });
+         },
 
          activate: function(routeParams, data) {},
          

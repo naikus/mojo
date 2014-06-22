@@ -289,6 +289,7 @@ input,
    display: block;
    position: relative;
    width: 100%;
+   margin: 0;
    margin-bottom: 12px;
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
@@ -330,10 +331,12 @@ textarea {
    cursor: pointer;
    text-align: center;
    
+   /*
    > .fa {
       font-size: 1.1em;
       margin-right: 5px;
    }
+   */
    
    &:hover {
       background-color: @alt-bg-color;
@@ -363,6 +366,7 @@ textarea {
    }
    &.primary:active {
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+      background-color: darken(@primary-color, 10%);
    }
    
    &[disabled], &[disabled]:hover, &[disabled]:active {
