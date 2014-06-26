@@ -1,5 +1,17 @@
 @pad-default: 11px;
 
+.border-box {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
 html, body {
    font-family: "Helvetica Neue", Helvetica, sans;
    font-size: 1em;
@@ -12,9 +24,7 @@ html, body {
 // box sizing
 article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inline-box, input, 
       textarea, select {
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
+    .border-box;
 }
 
 // basic styles and rulesets
@@ -105,9 +115,7 @@ input,
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
    
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
+   .border-box;
    
    &::-moz-focus-inner {
       outline: 0;
@@ -141,6 +149,8 @@ textarea {
    border-radius: 2px;
    cursor: pointer;
    text-align: center;
+   
+   .no-select;
    
    /*
    > .fa {

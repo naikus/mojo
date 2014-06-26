@@ -1,40 +1,52 @@
 .widget.toggle, .widget.toggle > .thumb {
-   -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-   box-sizing: border-box;
+   .border-box;
 }
+
 .widget.toggle {
    position: relative;
    display: inline-block;
-   width: 50px;
+   min-width: 70px;
    background-color: darken(@bg-color, 5%);
    height: 2.4em;
-   border: 1px solid darken(@bg-color, 10%);
-}
-.widget.toggle.on {
-   background-color: @selected-bg-color;
-   color: @selected-text-color;
-   border-color: @selected-bg-color;
-}
-.widget.toggle > .thumb {
-   width: 70%;
-   position: absolute;
-   height: 100%;
-   display: block;
-   background-color: lighten(@bg-color, 2%);
-   left: 0;
-   transition: left 100ms ease;
-   border: 1px solid darken(@bg-color, 10%);
+   border: 2px solid lighten(@bg-color, 2%);
+   // border-radius: 30px;
    
+   .border-box;
+   
+   > .thumb {
+        .border-box;
+        width: 50%;
+        position: absolute;
+        height: 100%;
+        display: block;
+        background-color: lighten(@bg-color, 2%);
+        left: -1px;
+        transition: left 100ms ease;
+        border: 5px solid saturate(darken(@selected-bg-color, 30%), 15%);
+        // border-radius: 40px;
+        
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+   }
+   
+   &.on {
+      background-color: darken(@selected-bg-color, 10%);
+      color: @selected-text-color;
+      //border-color: @selected-bg-color;
+      
+      > .thumb {
+          left: 51%;
+          //border-color: @selected-bg-color;
+      }
+   }
+   
+
 }
 
-.widget.toggle.on > .thumb {
-   left: 30%;
-   border-color: @selected-bg-color;
-   // background-color: darken(@bg-color, 3%);
-}
 
 
+
+
+/*
 .slider {
    position: relative;
    height: 5px;
@@ -66,22 +78,23 @@
 .slider.horizontal > .thumb {
    height: 30px;
 }
+*/
 
 
 
 
 
 .expandable {
+   > .expandable-content {
+       display: none;
+       overflow: auto;
+   }
    
-}
-.expandable > .expandable-content {
-   display: none;
-   overflow: auto;
-}
-.expandable.on {
-}
-.expandable.on > .expandable-content {
-   display: block;
+   &.on {
+       > .expandable-content {
+           display: block;
+       }
+   }
 }
 
 
@@ -93,18 +106,19 @@
     overflow: auto;
     padding: 2px;
     position: relative;
-}
-.progress > .value {
-    height: 4px;
-    left: 0px;
-    position: absolute;
-    top: 0;
-    width: 0;
-    /*border: 1px solid rgba(255,255,255,0.2);*/
     
-    -moz-transition: width 700ms ease 50ms;
-    -webkit-transition: width 700ms ease 50ms;
-    -o-transition: width 700ms ease 50ms;
-    -ms-transition: width 700ms ease 50ms;
-    transition: width 700ms ease 50ms;
+    > .value {
+        height: 4px;
+        left: 0px;
+        position: absolute;
+        top: 0;
+        width: 0;
+        /*border: 1px solid rgba(255,255,255,0.2);*/
+
+        -moz-transition: width 700ms ease 50ms;
+        -webkit-transition: width 700ms ease 50ms;
+        -o-transition: width 700ms ease 50ms;
+        -ms-transition: width 700ms ease 50ms;
+        transition: width 700ms ease 50ms;
+    }
 }

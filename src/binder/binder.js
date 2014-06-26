@@ -82,6 +82,7 @@
    $.extension("binder", function(options) {
       options = options || {};
       var model = options.model || {}, self = this, 
+            bindingAttr = options.attr || "data-bind",
             boundElemMap = {}, 
             formatters = options.formatters || {};
       
@@ -95,10 +96,7 @@
       
       
       function applyBindingsForKey(modelKey, value) {
-         var keyMap = boundElemMap[modelKey];
-         if(!keyMap) {
-            return;
-         }
+         var keyMap = boundElemMap[modelKey] || {};
          forEach(keyMap, function(arrElems, typeKey) {
             var attr, binder;
             if(typeKey.indexOf("@") === 0) {
@@ -110,6 +108,13 @@
                binder(arrElems, value);
             }
          });
+         
+         if($.getTypeOf(value) === "Object") {
+            var k = modelKey + ".";
+            $.forEach(value, function(val, prop) {
+               applyBindingsForKey(k + prop, val);
+            });
+         }
       }
       
 
@@ -168,8 +173,8 @@
       };
       */
       // search for all bound elements
-      self.find("[data-bind]").forEach(function(elem) {
-         var bindKey = elem.getAttribute("data-bind"), 
+      self.find("[" + bindingAttr + "]").forEach(function(elem) {
+         var bindKey = elem.getAttribute(bindingAttr), 
                keyInfo = getKey(bindKey),
                keyMap = boundElemMap[keyInfo.key] || (boundElemMap[keyInfo.key] = {}), 
                arrElems = keyMap[keyInfo.type] || (keyMap[keyInfo.type] = []);

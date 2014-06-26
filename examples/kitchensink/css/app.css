@@ -108,6 +108,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #333333;
+  color: #999999;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
@@ -213,12 +214,20 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    transition: trasform 450ms ease;
 }
 */
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 html,
 body {
   font-family: "Helvetica Neue", Helvetica, sans;
   font-size: 1em;
-  background-color: #333333;
-  color: #a6a6a6;
   padding: 0;
   margin: 0;
 }
@@ -325,6 +334,7 @@ textarea,
   display: block;
   position: relative;
   width: 100%;
+  margin: 0;
   margin-bottom: 12px;
   background-color: #404040;
   color: #999999;
@@ -379,14 +389,15 @@ input[type=submit] {
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
-}
-.button > .fa,
-input[type=button] > .fa,
-button > .fa,
-input[type=reset] > .fa,
-input[type=submit] > .fa {
-  font-size: 1.1em;
-  margin-right: 5px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /*
+   > .fa {
+      font-size: 1.1em;
+      margin-right: 5px;
+   }
+   */
 }
 .button:hover,
 input[type=button]:hover,
@@ -442,6 +453,7 @@ button.primary:active,
 input[type=reset].primary:active,
 input[type=submit].primary:active {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+  background-color: #1e5771;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -503,68 +515,75 @@ form .hint {
 }
 .widget.toggle,
 .widget.toggle > .thumb {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .widget.toggle {
   position: relative;
   display: inline-block;
-  width: 50px;
+  min-width: 70px;
   background-color: #262626;
   height: 2.4em;
-  border: 1px solid #1a1a1a;
-}
-.widget.toggle.on {
-  background-color: #f7c53d;
-  color: #222222;
-  border-color: #f7c53d;
+  border: 2px solid #383838;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .widget.toggle > .thumb {
-  width: 70%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 50%;
   position: absolute;
   height: 100%;
   display: block;
   background-color: #383838;
-  left: 0;
+  left: -1px;
   transition: left 100ms ease;
-  border: 1px solid #1a1a1a;
+  border: 5px solid #9b7100;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.widget.toggle.on {
+  background-color: #f5b60c;
+  color: #222222;
 }
 .widget.toggle.on > .thumb {
-  left: 30%;
-  border-color: #f7c53d;
+  left: 51%;
 }
+/*
 .slider {
-  position: relative;
-  height: 5px;
-  background-color: #1a1a1a;
-  border: 1px solid #000000;
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
 }
 .slider > .value {
-  height: 5px;
-  width: 0;
-  background-color: #f7c53d;
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
 }
 .slider > .thumb {
-  display: block;
-  position: absolute;
-  transition: left 100ms ease;
-  left: 0;
-  right: 45%;
-  top: -11px;
-  width: 25px;
-  height: 25px;
-  background-color: #383838;
-  border: 1px solid #1a1a1a;
-  border-radius: 30px;
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
 }
 .slider > .thumb.active {
-  background-color: #f7c53d;
-  border: 1px solid #f5b60c;
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
 }
 .slider.horizontal > .thumb {
-  height: 30px;
+   height: 30px;
 }
+*/
 .expandable > .expandable-content {
   display: none;
   overflow: auto;
@@ -601,8 +620,8 @@ form .hint {
 }
 .tabstrip,
 .tab {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .tabstrip {
@@ -610,7 +629,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #f7c53d;
+  border-bottom: 1px solid #404040;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -639,11 +658,11 @@ form .hint {
 .tabstrip.alt-bg {
   background-color: #222222;
 }
-.tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #272727;
-}
 .tabstrip.alt-bg > .tab.selected {
   color: #f9d46e;
+}
+.tabstrip.alt-bg > .tab > span {
+  border-right: 1px solid #272727;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -654,7 +673,6 @@ form .hint {
 }
 .tab-content.current {
   display: block;
-  background-color: #333333;
 }
 /* ------------------------------------------------ Framework Overrides -------------------------------------------- */
 .half {

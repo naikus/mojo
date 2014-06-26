@@ -54,6 +54,21 @@ Application.addRoute("/tabs", {
             });
             
             $("#expandPanel").expandable();
+            
+            
+            var binder = viewUi.binder({
+                attr: "data-i18n",
+                model: {
+                    name: {
+                        first: "First Name",
+                        last: "Last Name"
+                    },
+                    address: {
+                        street: "Street",
+                        pin: "PIN Code"
+                    }
+                }
+            });
          },
 
          activate: function(routeParams, data) {

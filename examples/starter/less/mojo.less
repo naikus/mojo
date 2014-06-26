@@ -79,6 +79,7 @@ html, body {
    padding: 0;
 
    background-color: @bg-color;
+   color: @text-color;
 }
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
@@ -189,11 +190,23 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
 
 @pad-default: 11px;
 
+.border-box {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
 html, body {
    font-family: "Helvetica Neue", Helvetica, sans;
    font-size: 1em;
-   background-color: @bg-color;
-   color: lighten(@text-color, 5%);
+   // background-color: @bg-color;
+   // color: lighten(@text-color, 5%);
    padding: 0;
    margin: 0;
 }
@@ -201,9 +214,7 @@ html, body {
 // box sizing
 article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inline-box, input, 
       textarea, select {
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
+    .border-box;
 }
 
 // basic styles and rulesets
@@ -294,9 +305,7 @@ input,
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
    
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
+   .border-box;
    
    &::-moz-focus-inner {
       outline: 0;
@@ -330,6 +339,8 @@ textarea {
    border-radius: 2px;
    cursor: pointer;
    text-align: center;
+   
+   .no-select;
    
    /*
    > .fa {
@@ -431,42 +442,52 @@ label {
 
 
 .widget.toggle, .widget.toggle > .thumb {
-   -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-   box-sizing: border-box;
+   .border-box;
+   border-radius: 3px;
+   box-shadow: 0 0 4px rgba(0,0,0,0.3) inset;
 }
+
 .widget.toggle {
    position: relative;
    display: inline-block;
-   width: 50px;
+   min-width: 50px;
    background-color: darken(@bg-color, 5%);
-   height: 2.4em;
-   border: 1px solid darken(@bg-color, 10%);
-}
-.widget.toggle.on {
-   background-color: @selected-bg-color;
-   color: @selected-text-color;
-   border-color: @selected-bg-color;
-}
-.widget.toggle > .thumb {
-   width: 70%;
-   position: absolute;
-   height: 100%;
-   display: block;
-   background-color: lighten(@bg-color, 2%);
-   left: 0;
-   transition: left 100ms ease;
+   height: 2.3em;
    border: 1px solid darken(@bg-color, 10%);
    
+   .border-box;
+   
+   > .thumb {
+        .border-box;
+        width: 70%;
+        position: absolute;
+        height: 100%;
+        display: block;
+        background-color: lighten(@bg-color, 2%);
+        left: 0;
+        transition: left 100ms ease;
+        border: 1px solid darken(@bg-color, 10%);
+   }
+   
+   &.on {
+      background-color: darken(@selected-bg-color, 15%);
+      color: @selected-text-color;
+      border-color: @selected-bg-color;
+      
+      > .thumb {
+          left: 30%;
+          border-color: @selected-bg-color;
+      }
+   }
+   
+
 }
 
-.widget.toggle.on > .thumb {
-   left: 30%;
-   border-color: @selected-bg-color;
-   // background-color: darken(@bg-color, 3%);
-}
 
 
+
+
+/*
 .slider {
    position: relative;
    height: 5px;
@@ -498,22 +519,23 @@ label {
 .slider.horizontal > .thumb {
    height: 30px;
 }
+*/
 
 
 
 
 
 .expandable {
+   > .expandable-content {
+       display: none;
+       overflow: auto;
+   }
    
-}
-.expandable > .expandable-content {
-   display: none;
-   overflow: auto;
-}
-.expandable.on {
-}
-.expandable.on > .expandable-content {
-   display: block;
+   &.on {
+       > .expandable-content {
+           display: block;
+       }
+   }
 }
 
 
@@ -525,20 +547,21 @@ label {
     overflow: auto;
     padding: 2px;
     position: relative;
-}
-.progress > .value {
-    height: 4px;
-    left: 0px;
-    position: absolute;
-    top: 0;
-    width: 0;
-    /*border: 1px solid rgba(255,255,255,0.2);*/
     
-    -moz-transition: width 700ms ease 50ms;
-    -webkit-transition: width 700ms ease 50ms;
-    -o-transition: width 700ms ease 50ms;
-    -ms-transition: width 700ms ease 50ms;
-    transition: width 700ms ease 50ms;
+    > .value {
+        height: 4px;
+        left: 0px;
+        position: absolute;
+        top: 0;
+        width: 0;
+        /*border: 1px solid rgba(255,255,255,0.2);*/
+
+        -moz-transition: width 700ms ease 50ms;
+        -webkit-transition: width 700ms ease 50ms;
+        -o-transition: width 700ms ease 50ms;
+        -ms-transition: width 700ms ease 50ms;
+        transition: width 700ms ease 50ms;
+    }
 }
 
 .activable {
@@ -551,59 +574,64 @@ label {
 
 
 .tabstrip, .tab {
-   -moz-box-sizing: border-box;
-   -webkit-box-sizing: border-box;
-   box-sizing: border-box;
+   .border-box;
 }
 .tabstrip {
    overflow: auto;
    margin: 0;
    padding: 0;
    width: 100%;
-   border-bottom: 1px solid @selected-bg-color;
-}
-
-.tabstrip > .tab {
-   list-style-type: none;
+   border-bottom: 1px solid lighten(@bg-color, 5%);
    
-   /* A display of table-cell with 10000px width will automatically adjust tab widths */
-   display: table-cell;
-   width: 10000px;
+   > .tab {
+      list-style-type: none;
+      /* A display of table-cell with 10000px width will automatically adjust tab widths */
+      display: table-cell;
+      width: 10000px;
+  
+      font-size: 0.95em;
+      text-align: center;
+      position: relative;
+      
+      > span {
+         border-right: 1px solid darken(@bg-color, 10%);
+         min-height: 20px;
+         padding: 4px 10px;
+         margin: 6px 0;
+         display: block;
+      }
+      
+      &:last-child > span {
+         border-right-width: 0;
+      }
+      
+      &.selected {
+         background: none;
+         border-bottom: 3px solid @selected-bg-color;
+         color: @text-color;
+      }
+   }
    
-   font-size: 0.95em;
-   text-align: center;
-   position: relative;
-}
-
-.tabstrip > .tab > span {
-   border-right: 1px solid darken(@bg-color, 10%);
-   min-height: 20px;
-   padding: 4px 10px;
-   margin: 6px 0;
-   display: block;
-}
-.tabstrip > .tab:last-child > span {
-   border-right-width: 0;
-}
-
-.tabstrip > .tab.selected {
-   background: none;
-   border-bottom: 3px solid @selected-bg-color;
-   color: @text-color;
-}
-
-.tabstrip.alt-bg {
-   background-color: @alt-bg-color;
-}
-.tabstrip.alt-bg > .tab > span {
-   border-right: 1px solid lighten(@alt-bg-color, 2%);
-}
-.tabstrip.alt-bg > .tab.selected {
-   color: lighten(@selected-bg-color, 10%);
-}
-
-.tabstrip > .tab.active > span, .tabstrip > .tab:active > span {
-   border-right-color: transparent;
+   
+   &.alt-bg {
+      background-color: @alt-bg-color;
+      
+      > .tab {
+         &.selected {
+            color: lighten(@selected-bg-color, 10%);
+         }
+         > span {
+             border-right: 1px solid lighten(@alt-bg-color, 2%);
+         }
+      }
+   }
+   
+   > .tab {
+      &.active > span, &:active > span {
+         border-right-color: transparent;
+      }
+   }
+     
 }
 
 .tab-content {
@@ -612,7 +640,7 @@ label {
 
 .tab-content.current {
    display: block;
-   background-color: @bg-color;
+   // background-color: @bg-color;
 }
 
 

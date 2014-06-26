@@ -48,6 +48,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #404040;
+  color: #aaaaaa;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
@@ -153,12 +154,20 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    transition: trasform 450ms ease;
 }
 */
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 html,
 body {
   font-family: "Helvetica Neue", Helvetica, sans;
   font-size: 1em;
-  background-color: #404040;
-  color: #b7b7b7;
   padding: 0;
   margin: 0;
 }
@@ -320,6 +329,9 @@ input[type=submit] {
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   /*
    > .fa {
       font-size: 1.1em;
@@ -443,24 +455,27 @@ form .hint {
 }
 .widget.toggle,
 .widget.toggle > .thumb {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3) inset;
 }
 .widget.toggle {
   position: relative;
   display: inline-block;
-  width: 50px;
+  min-width: 50px;
   background-color: #333333;
-  height: 2.4em;
+  height: 2.3em;
   border: 1px solid #272727;
-}
-.widget.toggle.on {
-  background-color: #272727;
-  color: #ffffff;
-  border-color: #272727;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .widget.toggle > .thumb {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 70%;
   position: absolute;
   height: 100%;
@@ -470,41 +485,48 @@ form .hint {
   transition: left 100ms ease;
   border: 1px solid #272727;
 }
+.widget.toggle.on {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #272727;
+}
 .widget.toggle.on > .thumb {
   left: 30%;
   border-color: #272727;
 }
+/*
 .slider {
-  position: relative;
-  height: 5px;
-  background-color: #272727;
-  border: 1px solid #0d0d0d;
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
 }
 .slider > .value {
-  height: 5px;
-  width: 0;
-  background-color: #272727;
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
 }
 .slider > .thumb {
-  display: block;
-  position: absolute;
-  transition: left 100ms ease;
-  left: 0;
-  right: 45%;
-  top: -11px;
-  width: 25px;
-  height: 25px;
-  background-color: #454545;
-  border: 1px solid #272727;
-  border-radius: 30px;
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
 }
 .slider > .thumb.active {
-  background-color: #0d0d0d;
-  border: 1px solid #000000;
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
 }
 .slider.horizontal > .thumb {
-  height: 30px;
+   height: 30px;
 }
+*/
 .expandable > .expandable-content {
   display: none;
   overflow: auto;
@@ -541,8 +563,8 @@ form .hint {
 }
 .tabstrip,
 .tab {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .tabstrip {
@@ -550,7 +572,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #272727;
+  border-bottom: 1px solid #4d4d4d;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -579,11 +601,11 @@ form .hint {
 .tabstrip.alt-bg {
   background-color: #333333;
 }
-.tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #383838;
-}
 .tabstrip.alt-bg > .tab.selected {
   color: #404040;
+}
+.tabstrip.alt-bg > .tab > span {
+  border-right: 1px solid #383838;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -594,7 +616,6 @@ form .hint {
 }
 .tab-content.current {
   display: block;
-  background-color: #404040;
 }
 * {
   /* prevent callout when holding tap on links (the native dialog that comes up) */
@@ -757,8 +778,8 @@ a {
   /* border-right: 1px solid lighten(@alt-bg-color, 9%); */
   min-width: 40px;
   text-align: center;
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .toolbar .action.right {
