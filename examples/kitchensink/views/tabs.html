@@ -1,7 +1,7 @@
 <!-- ====================================== Tab View ========================================== -->
 <article class="view" id="tabView">
    <!-- Sample IScroll style -->
-   <!-- style scoped>
+   <style scoped>
       #tabTwo {
          position: absolute;
          height: 82%;
@@ -9,7 +9,12 @@
          overflow: hidden;
          padding-bottom: 10px;
       }
-   </style -->
+      #tabView .tabstrip {
+          border-bottom: 1px solid #222;
+          box-shadow: 0 0 5px #222;
+          -webkit-box-shadow: 0 0 5px #222;
+      }
+   </style>
    <div class="toolbar">
       <span data-action="toggleMainMenu" class="activable action icon-menu"></span>
       <span class="title"> Main</span>
@@ -109,5 +114,7 @@
    </script>
 
    <script src="js/tabs.js"> </script>
-   <script defer></script>
+   <script defer>
+       
+   </script>
 </article>

@@ -1,36 +1,3 @@
-(function($, undefined) {
-   $.eventHelper = function() {
-      var handlerMap = {};
-      
-      return {
-         on: function(evt, handler) {
-            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
-            handlers.push(handler);
-         },
-         
-         un: function(evt, handler) {
-            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
-            for(var i = 0, len = handlers.length; i < len; i++) {
-               if(handlers[i] === handler) {
-                  handlers.splice(i, 1);
-                  break;
-               }
-            }
-         },
-         
-         dispatch: function(evt) {
-            var handlers = handlerMap[evt.type];
-            if(!handlers) {
-               return;
-            }
-            for(var i = 0, len = handlers.length; i < len; i++) {
-               handlers[i](evt);
-            }
-         }
-      };
-   };
-})(h5);
-
 /*
  * Simple CSS based toggle control
  */

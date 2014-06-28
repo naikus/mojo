@@ -443,40 +443,42 @@ label {
 
 .widget.toggle, .widget.toggle > .thumb {
    .border-box;
-   border-radius: 3px;
-   box-shadow: 0 0 4px rgba(0,0,0,0.3) inset;
 }
 
 .widget.toggle {
    position: relative;
    display: inline-block;
-   min-width: 50px;
+   min-width: 70px;
    background-color: darken(@bg-color, 5%);
-   height: 2.3em;
-   border: 1px solid darken(@bg-color, 10%);
+   height: 2.4em;
+   border: 2px solid lighten(@bg-color, 2%);
+   // border-radius: 30px;
    
    .border-box;
    
    > .thumb {
         .border-box;
-        width: 70%;
+        width: 50%;
         position: absolute;
         height: 100%;
         display: block;
         background-color: lighten(@bg-color, 2%);
-        left: 0;
+        left: -1px;
         transition: left 100ms ease;
-        border: 1px solid darken(@bg-color, 10%);
+        border: 5px solid saturate(darken(@selected-bg-color, 30%), 15%);
+        // border-radius: 40px;
+        
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
    }
    
    &.on {
-      background-color: darken(@selected-bg-color, 15%);
+      background-color: darken(@selected-bg-color, 10%);
       color: @selected-text-color;
-      border-color: @selected-bg-color;
+      //border-color: @selected-bg-color;
       
       > .thumb {
-          left: 30%;
-          border-color: @selected-bg-color;
+          left: 51%;
+          //border-color: @selected-bg-color;
       }
    }
    

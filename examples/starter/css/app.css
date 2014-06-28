@@ -458,16 +458,14 @@ form .hint {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border-radius: 3px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3) inset;
 }
 .widget.toggle {
   position: relative;
   display: inline-block;
-  min-width: 50px;
+  min-width: 70px;
   background-color: #333333;
-  height: 2.3em;
-  border: 1px solid #272727;
+  height: 2.4em;
+  border: 2px solid #454545;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -476,23 +474,22 @@ form .hint {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  width: 70%;
+  width: 50%;
   position: absolute;
   height: 100%;
   display: block;
   background-color: #454545;
-  left: 0;
+  left: -1px;
   transition: left 100ms ease;
-  border: 1px solid #272727;
+  border: 5px solid #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 .widget.toggle.on {
-  background-color: #000000;
+  background-color: #0d0d0d;
   color: #ffffff;
-  border-color: #272727;
 }
 .widget.toggle.on > .thumb {
-  left: 30%;
-  border-color: #272727;
+  left: 51%;
 }
 /*
 .slider {

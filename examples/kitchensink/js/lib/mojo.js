@@ -26,6 +26,52 @@
 
 /*globals window, document, h5, console */
 //"use strict"; // jshint ignore:line
+
+/*
+ * A generic event helper that other components can use to support eventing
+ * It manages registering unregistering of handlers and dispatching events to
+ * handlers
+ */
+(function($, undefined) {
+   $.eventHelper = function() {
+      var handlerMap = {};
+      
+      return {
+         on: function(evt, handler) {
+            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
+            handlers.push(handler);
+         },
+         
+         un: function(evt, handler) {
+            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
+            for(var i = 0, len = handlers.length; i < len; i++) {
+               if(handlers[i] === handler) {
+                  handlers.splice(i, 1);
+                  break;
+               }
+            }
+         },
+         
+         dispatch: function(evt) {
+            var handlers = handlerMap[evt.type];
+            if(!handlers) {
+               return;
+            }
+            for(var i = 0, len = handlers.length; i < len; i++) {
+               handlers[i](evt);
+            }
+         }
+      };
+   };
+})(h5);
+
+
+
+/*
+ * Tests for various browser properties support, out of the box supported are
+ * those that are required by the application framework:
+ * transition, transform, hashchange
+ */
 (function($) {
    var div = document.createElement("div"),
       style = div.style,
@@ -114,7 +160,18 @@
 })(h5);
 
 
-
+/*
+ * A URI template that can be used to match URS with parameter substitution
+ * e.g. Given a URI template: 
+ * <pre>
+ * 
+ * var t = $.UriTemplate("/catlogue/:catId/product/:prodId/name");
+ * t.matches("/catalogue/1/product/23/name"); // will return true
+ * t.match("/catalogue/1/product/23/name"); // returns {catId: "1", prodId: "23"}
+ * t.expand({catId: 2, prodId: 40}); // will return "/catalogue/2/product/40/name"
+ * 
+ * </pre>
+ */
 (function($) {
    // var paramPattern = /:([\w\.-]+)/g;
    
@@ -1643,39 +1700,6 @@
 
 
 
-
-(function($, undefined) {
-   $.eventHelper = function() {
-      var handlerMap = {};
-      
-      return {
-         on: function(evt, handler) {
-            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
-            handlers.push(handler);
-         },
-         
-         un: function(evt, handler) {
-            var handlers = handlerMap[evt] || (handlerMap[evt] = []);
-            for(var i = 0, len = handlers.length; i < len; i++) {
-               if(handlers[i] === handler) {
-                  handlers.splice(i, 1);
-                  break;
-               }
-            }
-         },
-         
-         dispatch: function(evt) {
-            var handlers = handlerMap[evt.type];
-            if(!handlers) {
-               return;
-            }
-            for(var i = 0, len = handlers.length; i < len; i++) {
-               handlers[i](evt);
-            }
-         }
-      };
-   };
-})(h5);
 
 /*
  * Simple CSS based toggle control

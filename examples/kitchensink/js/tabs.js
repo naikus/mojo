@@ -29,7 +29,7 @@ Application.addRoute("/tabs", {
             });
 
             var arrItems = [];
-            for(var i = 0; i < 20; i++) {
+            for(var i = 0; i < 100; i++) {
                arrItems[arrItems.length] = {
                   title: "Item " + (i + 1), 
                   description: "Description for Item " + (i + 1)
@@ -42,9 +42,16 @@ Application.addRoute("/tabs", {
             });
 
             // tabstrip widget
+            var scroll;
             mainTab = $("#mainTab").tabstrip({
                ontabchange: function(currTab, oldTab) {
                   // Messages.info("Tab selected: " + this.getSelectedIndex());
+                  if(!scroll && this.getSelectedIndex() === 1) {
+                    scroll = new IScroll("#tabTwo");
+                    setTimeout(function() {
+                        scroll.refresh();
+                    }, 200);
+                  }
                }
             });
             
