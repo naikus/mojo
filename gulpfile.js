@@ -117,10 +117,10 @@ gulp.task("copy-files", ["build"], function() {
    
    return eventStream.merge(
       gulp.src(config.dist_dir + "mojo.js")
-            .pipe(gulp.dest(example + "/js/lib")),
+            .pipe(gulp.dest(example + "/src/web/js/lib")),
    
       gulp.src(config.dist_dir + "mojo.less")
-            .pipe(gulp.dest(example + "/less"))
+            .pipe(gulp.dest(example + "/src/web/less"))
    );
  
 });
@@ -129,11 +129,11 @@ gulp.task("copy-files", ["build"], function() {
 gulp.task("build-example", ["copy-files"], function() {
    var example = getExample();
  
-   gulp.src(example + "/less/app.less")
+   gulp.src(example + "/src/web/less/app.less")
          // .pipe(debug({verbose: true}))
          .pipe(less())
          // .pipe(debug({verbose: true}))
-         .pipe(gulp.dest(example + "/css"));
+         .pipe(gulp.dest(example + "/src/web/css"));
 });
 
 

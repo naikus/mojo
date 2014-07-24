@@ -2,5 +2,5 @@
 /nbproject/private/
 /nbproject/
 /node_modules/
-/examples/base/nbproject/private/
-/examples/starter/nbproject/private/
+/examples/kitchensink/cordova-app
+/examples/starter/cordova-app
