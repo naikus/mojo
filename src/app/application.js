@@ -406,6 +406,10 @@
          if(ui.hasClass("stack")) {
             ui.removeClass("stack");
          }
+         
+         /*
+         appendView(ui);
+         */
 
          ui.addClass("showing");
          
@@ -429,6 +433,31 @@
          }, 50);
 
          stack.push(route);
+      }
+      
+      function appendView(ui) {
+         // console.log("unstack Parent node");
+         // console.log(ui.get(0).parentNode.parentNode);
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, appendElem;
+         if(viewParent === viewPort.get(0)) {
+            appendElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            appendElem = viewParent;
+         }
+         
+         if(appendElem) {
+            viewPort.append(appendElem);
+         }
+      }
+      
+      function removeView(ui) {
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, removeElem;
+         if(viewParent === viewPort.get(0)) {
+            removeElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            removeElem = viewParent;
+         }
+         viewPort.remove(removeElem);
       }
 
       function popView(data, toPath) {
@@ -466,6 +495,10 @@
          if(!ui.hasClass("stack")) {
             ui.addClass("stack");
          }
+         
+         /*
+         appendView(ui);
+         */
 
          // indicate that this view is transitioning
          viewPort.addClass("view-transitioning");
@@ -482,7 +515,7 @@
             route.controller.activate(params, data);
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
-            unstackViewUi(route.ui);
+            unstackViewUi(ui);
          }, 50);
       }
         
@@ -552,7 +585,7 @@
                });
       
                div.addClass("remote");
-               div.attr("data-id", templateUrl);
+               div.attr("data-view-template", templateUrl);
                div.append(html);
       
                viewPort.append(div);
@@ -623,7 +656,7 @@
       // ------------------------------------------------------------------------------------------------
 
       function handleViewTransitionEnd(evt) {
-         var target = evt.target, ui = $(target), route = getRouteByPath(ui.data("path"));
+         var target = evt.target, ui = $(target), route = getRouteByPath(ui.data("path")), eType;
          
          if(!route || (transitionProp !== null && evt.propertyName.indexOf(transitionProp) === -1)) {
             return; // not a view or not a 'transitionProp' transition on this view.
@@ -631,29 +664,26 @@
 
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
-            // route.controller.deactivate();
             ui.removeClass("showing");
             viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
-            
-            // rendering performance
-            setTimeout(function() {
-               dispatchViewTransitionEvent("out", ui, route);
-            }, 50);
-            
+            eType = "out";
          }else if(ui.hasClass("in")) {// if ui has transitioned in
             viewPort.removeClass("view-transitioning");
-            
-            setTimeout(function() {
-               dispatchViewTransitionEvent("in", ui, route);
-            }, 50);
-            
+            eType = "in";
          }else if(ui.hasClass("pop")) { // if view has been popped
-            // route.controller.deactivate();
             ui.removeClass("showing").removeClass("pop");
             viewPort.removeClass("view-transitioning");
-            
-            setTimeout(function() {
-               dispatchViewTransitionEvent("out", ui, route);
+            eType = "out";
+         }
+         
+         if(eType) {
+            setTimeout(function() { // rendering performance
+               dispatchViewTransitionEvent(eType, ui, route);
+               /*
+               if(eType === "out") {
+                  removeView(ui);
+               }
+               */
             }, 50);
          }
       }

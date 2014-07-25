@@ -1152,7 +1152,7 @@
                 e = elems[i];
                 e.parentNode.removeChild(e);
             }
-            this.elements = [];
+            // this.elements = [];
          }else if(elems.length) {
             sel = arguments[0];
             for(i = 0; i < len; i++) {
