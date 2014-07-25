@@ -406,10 +406,9 @@
          if(ui.hasClass("stack")) {
             ui.removeClass("stack");
          }
-         
-         /*
+
+         // Experimental!!!
          appendView(ui);
-         */
 
          ui.addClass("showing");
          
@@ -435,31 +434,6 @@
          stack.push(route);
       }
       
-      function appendView(ui) {
-         // console.log("unstack Parent node");
-         // console.log(ui.get(0).parentNode.parentNode);
-         var viewElem = ui.get(0), viewParent = viewElem.parentNode, appendElem;
-         if(viewParent === viewPort.get(0)) {
-            appendElem = viewElem;
-         }else if(viewParent.getAttribute("data-view-template")) {
-            appendElem = viewParent;
-         }
-         
-         if(appendElem) {
-            viewPort.append(appendElem);
-         }
-      }
-      
-      function removeView(ui) {
-         var viewElem = ui.get(0), viewParent = viewElem.parentNode, removeElem;
-         if(viewParent === viewPort.get(0)) {
-            removeElem = viewElem;
-         }else if(viewParent.getAttribute("data-view-template")) {
-            removeElem = viewParent;
-         }
-         viewPort.remove(removeElem);
-      }
-
       function popView(data, toPath) {
          var route, currRoute, path, ui, params, resultCallback;
 
@@ -496,9 +470,8 @@
             ui.addClass("stack");
          }
          
-         /*
+         // Experimental!!!
          appendView(ui);
-         */
 
          // indicate that this view is transitioning
          viewPort.addClass("view-transitioning");
@@ -517,6 +490,31 @@
             popViewUi(currRoute.ui);
             unstackViewUi(ui);
          }, 50);
+      }
+      
+      function appendView(ui) {
+         // console.log("unstack Parent node");
+         // console.log(ui.get(0).parentNode.parentNode);
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, appendElem;
+         if(viewParent === viewPort.get(0)) {
+            appendElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            appendElem = viewParent;
+         }
+         
+         if(appendElem) {
+            viewPort.append(appendElem);
+         }
+      }
+      
+      function removeView(ui) {
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, removeElem;
+         if(viewParent === viewPort.get(0)) {
+            removeElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            removeElem = viewParent;
+         }
+         viewPort.remove(removeElem);
       }
         
         
@@ -665,25 +663,23 @@
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
             ui.removeClass("showing");
-            viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
             eType = "out";
          }else if(ui.hasClass("in")) {// if ui has transitioned in
-            viewPort.removeClass("view-transitioning");
             eType = "in";
          }else if(ui.hasClass("pop")) { // if view has been popped
             ui.removeClass("showing").removeClass("pop");
-            viewPort.removeClass("view-transitioning");
             eType = "out";
          }
+         viewPort.removeClass("view-transitioning");
          
          if(eType) {
             setTimeout(function() { // rendering performance
                dispatchViewTransitionEvent(eType, ui, route);
-               /*
+               
+               // Experimental!!!
                if(eType === "out") {
                   removeView(ui);
                }
-               */
             }, 50);
          }
       }

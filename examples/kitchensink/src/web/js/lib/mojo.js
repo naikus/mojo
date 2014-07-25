@@ -432,10 +432,10 @@
          if(ui.hasClass("stack")) {
             ui.removeClass("stack");
          }
-         
-         /*
+
+         // Experimental!!!
          appendView(ui);
-         */
+         
 
          ui.addClass("showing");
          
@@ -522,9 +522,8 @@
             ui.addClass("stack");
          }
          
-         /*
+         // Experimental!!!
          appendView(ui);
-         */
 
          // indicate that this view is transitioning
          viewPort.addClass("view-transitioning");
@@ -705,11 +704,11 @@
          if(eType) {
             setTimeout(function() { // rendering performance
                dispatchViewTransitionEvent(eType, ui, route);
-               /*
+               
+               // Experimental!!!
                if(eType === "out") {
                   removeView(ui);
                }
-               */
             }, 50);
          }
       }
