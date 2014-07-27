@@ -408,7 +408,7 @@
          }
 
          // Experimental!!!
-         appendView(ui);
+         // appendView(ui);
 
          ui.addClass("showing");
          
@@ -471,7 +471,7 @@
          }
          
          // Experimental!!!
-         appendView(ui);
+         // appendView(ui);
 
          // indicate that this view is transitioning
          viewPort.addClass("view-transitioning");
@@ -677,9 +677,11 @@
                dispatchViewTransitionEvent(eType, ui, route);
                
                // Experimental!!!
+               /*
                if(eType === "out") {
                   removeView(ui);
                }
+               */
             }, 50);
          }
       }

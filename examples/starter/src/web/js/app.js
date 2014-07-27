@@ -291,7 +291,6 @@ window.SERVER_URL = "/";
 
 (function(window, $, undefined) {
 
-
    // set the default user action event (tap in touch enabled browsers or fallback to click
    var Events = {
             tap: "tap",
@@ -356,19 +355,19 @@ window.SERVER_URL = "/";
 
         return widget;
      });
-   })($, Events);
+   })($, Events);   
 
 
    window.Events = Events;
    window.Application = App;
-
+   
    // enable touch activable using the mojo activables plugin
    doc.activables();
-
+   
    // initialize our application on ready ------------------------------------------------------------
    $.ready(function() {
       var vPort = $("#viewPort");
-
+      
       // Messages
       window.Notification = $("#notifications").notifications();
 
@@ -387,23 +386,26 @@ window.SERVER_URL = "/";
          loadFromPath: false,
          // enableHashChange: false,
          // startView: "/"
+         // transitionProperty: "opacity",
          routes: [
-            {path: "/", viewPath: "views/main.html", fullscreen: true},
+            {path: "/", viewPath: "views/main.html"},
+            {path: "/form", viewPath: "views/form.html"},
             {path: "/about", viewPath: "views/about.html"}
          ]
       });
 
 
       var actTemplate = $.template([
-         '<a class="box fill-container">',
-            '<span class="icon {icon}"></span> {title}',
-         '</a>'].join("")
+            '<a class="box">',
+               '<span class="icon {icon}"></span> {title}',
+            '</a>'
+         ].join("")
       );
 
       var actionBarContainer = $("#globalActionBar"),
             actionBar = actionBarContainer.datalist({
                selectable: false,
-               listClass: "list",
+               listClass: "",
                itemClass: "",
                render: function(actionBar, li, i, action) {
                   li.addClass("activable")
@@ -444,7 +446,7 @@ window.SERVER_URL = "/";
       });
 
       // show root view
-      App.showView("/");
+      App.showView("/");      
    });
 
 })(window, h5);

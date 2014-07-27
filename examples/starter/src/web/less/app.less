@@ -122,23 +122,28 @@ a {
 
 /* ------------------------------------------------ App Toolbar -----------------------------------------------*/
 .view {
-   padding-top: 50px; // since toolbar is 50px
+   padding-top: 55px; // since toolbar is 50px
    
    &.no-toolbar {
       padding-top: 0;
    }
 }
 
+
 .toolbar {
-   overflow: hidden;
-   border-bottom: 1px solid lighten(@base-color, 3%);
-   //box-shadow: 0 0 4px darken(@base-color, 8%);
+   overflow: auto;
+   border-bottom: 1px solid darken(@base-color, 9%);
+   -webkit-box-shadow: 0 0 4px darken(@base-color, 8%);
+   box-shadow: 0 0 4px darken(@base-color, 8%);
    width: 100%;
-   height: 48px;
-   position: fixed;
+   // height: 45px;
+   
+   // will only work if user-scalable=no in viewport meta tag
+   position: fixed; 
+   
    top: 0;
    left: 0;
-   z-index: 100;
+   z-index: 110;
    
    -moz-transition: -moz-transform 250ms ease;
    -webkit-transition: -webkit-transform 250ms ease;
@@ -147,10 +152,7 @@ a {
    transition: transform 250ms ease;
    
    &.hide {
-      position: absolute;
-      -webkit-transform: translateY(-100%);
-      -moz-transform: translateY(-100%);
-      transform: translateY(-100%);
+      .translateY(-100%);
    }
    
    padding: 0;
@@ -173,15 +175,11 @@ a {
    }
    
    .action {
-      /*
-      text-shadow: 0 0 2px #111;
-      -webkit-text-shadow: 0 0 2px #111;
-      */
       float: left;
       display: block;
       font-weight: bold;
       padding: 12px 11px;
-      /* border-right: 1px solid lighten(@alt-bg-color, 9%); */
+      // border-right: 1px solid lighten(@alt-bg-color, 9%);
       min-width: 40px;
       text-align: center;
       
@@ -192,12 +190,12 @@ a {
       }
       
       &.active {
-         //background-color: @selected-bg-color-alt !important;
+         // background-color: @selected-bg-color-alt !important;
       }
       
       &.right {
          border: none;
-         /* border-left: 1px solid lighten(@alt-bg-color, 9%); */
+         // border-left: 1px solid lighten(@alt-bg-color, 9%);
       }
       &.action.on {
          // background-color: lighten(@selected-bg-color, 10%);
@@ -208,12 +206,6 @@ a {
          font-size: 1.2em;
       }
    }
-}
-
-
-.fill-container {
-   width: 100%;
-   height: 100%;
 }
 
 .hidden {

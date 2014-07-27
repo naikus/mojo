@@ -17,6 +17,14 @@ Application.addRoute("/", {
                handler: function() {
                   app.showView("/about");
                }
+            },
+            {
+               type: "action",
+               alignment: "right",
+               icon: "fa-bookmark",
+               handler: function() {
+                  app.showView("/form");
+               }
             }
          ],
          

@@ -1,0 +1,49 @@
+<!-- ====================================== Form View ====================================== -->
+<article class="view" id="formView">
+   <style scoped>
+      .val {
+         color: #5bc0de;
+      }
+   </style>
+   <div class="content pad">      
+      <section class="pad">
+         <header class="pad-b">
+            <i class="fa fa-bookmark"></i> Sample Form
+         </header>
+         <div class="panel">
+            <ul class="list pad-b">
+               <li id="building" class="expandable activable">
+                  <div class="trigger pad-extra overflow">
+                     <span class="box left">Your Building</span>
+                     <span class="pad-l right fa-down-open"></span>
+                     <strong class="box val right" data-bind="building"></strong>
+                  </div>
+                  <ul id="buildingList" class="pad-items-extra alt-bg list expandable-content">
+
+                  </ul>
+               </li>
+            </ul>
+            
+            <ul class="list pad-b">
+               <li id="flat" class="expandable activable">
+                  <div class="trigger pad-extra overflow">
+                     <span class="box left">Your Flat</span>
+                     <span class="pad-l right fa-down-open"></span>
+                     <strong class="box val right" data-bind="flat"></strong>
+                  </div>
+                  <ul id="flatList" class="pad-items-extra alt-bg list expandable-content"></ul>
+               </li>
+            </ul>
+            
+            <input id="displayName" type="text" placeholder="Display Name" data-bind="displayName" />
+            
+            <label class="pad-v" data-bind="displayName"></label>
+            
+            <div class="pad-v">
+               <span id="btnSave" class="button primary activable">Save</span>
+            </div>
+         </div>
+      </section>
+   </div>
+   <script src="js/form.js"> </script>
+</article>
