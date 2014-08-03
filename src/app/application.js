@@ -429,7 +429,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 50);
+         }, 100);
 
          stack.push(route);
       }
@@ -489,7 +489,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(ui);
-         }, 50);
+         }, 100);
       }
       
       function appendView(ui) {

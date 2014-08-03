@@ -389,10 +389,11 @@ textarea {
       border: 1px solid rgba(0, 0, 0, 0.3);
       outline: 0;
    }
-   &:active {
+   &:active, &.active {
       border: 1px solid rgba(0, 0, 0, 0.3);
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
       // padding: 10px 8px 8px 10px;
+      color: @active-text-color;
    }
    
    &.primary {
@@ -406,16 +407,16 @@ textarea {
       box-shadow: 0 0 2px lighten(@primary-color, 10%);
       outline: none;
    }
-   &.primary:active {
+   &.primary:active, &.primary.active {
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
       background-color: darken(@primary-color, 10%);
    }
    
-   &[disabled], &[disabled]:hover, &[disabled]:active {
+   &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       box-shadow: none !important;
       border: 1px solid rgba(0,0,0,0.1) !important;
       color: lighten(@text-color, 35%) !important;
-      padding: 10px !important;
+      // padding: 10px !important;
    }
 }
 label {

@@ -395,13 +395,7 @@ window.SERVER_URL = "/";
       });
 
 
-      var actTemplate = $.template([
-            '<a class="box">',
-               '<span class="icon {icon}"></span> {title}',
-            '</a>'
-         ].join("")
-      );
-
+      var actTemplate = $.template('<span class="icon {icon}"></span> {title}');
       var actionBarContainer = $("#globalActionBar"),
             actionBar = actionBarContainer.datalist({
                selectable: false,
