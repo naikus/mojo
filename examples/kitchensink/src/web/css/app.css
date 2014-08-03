@@ -63,25 +63,6 @@
 */
 /* Android theme */
 /* Origin theme */
-/*
-@base-color: #A6A6A6;
-// Background color for viewport views and other boxes
-@bg-color: #F2F2F2;
-// Background color for overlays, inlays etc.
-@alt-bg-color: #3F3B39; //#414141;
-// Text color to complement the background color
-@text-color: #424242;
-// Text color to complement alternate background color
-@alt-text-color: #FFFFFF;
-// Default selected background color
-@selected-bg-color: #F46A1A; //#DE6300;
-@selected-bg-color-alt: #ef8511;
-// Default selected text color
-@selected-text-color: #fff;
-// Active background color, when an element becomes active i.e. :active class
-@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
-@active-text-color: #333;
-*/
 .translateNone {
   -moz-transform: none;
   -webkit-transform: none;
@@ -107,11 +88,12 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #333333;
-  color: #999999;
+  background-color: #f2f2f2;
+  color: #424242;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
+  height: 100%;
   overflow: hidden;
 }
 /* ---------------------------- Default transition effects for views ---------------------------- */
@@ -123,33 +105,23 @@ body {
   min-height: 100%;
   display: none;
   /* Avoid flickering in webkit browsers, thanks stackoverflow */
-  /* -webkit-perspective: 1000; */
   -webkit-backface-visibility: hidden;
-  background-color: #333333;
+  background-color: #f2f2f2;
+}
+.view {
   -moz-transition: -moz-transform 250ms ease;
   -webkit-transition: -webkit-transform 250ms ease;
   -o-transition: -o-transform 250ms ease;
   -ms-transition: -ms-transform 250ms ease;
   transition: transform 250ms ease;
   -moz-transform: translateX(100%);
-  -webkit-transform: translateX(100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translateX(100%);
   transform: translateX(100%);
-  /*
-   &.transition {
-      -moz-transition: -moz-transform 250ms ease;
-      -webkit-transition: -webkit-transform 250ms ease;
-      -o-transition: -o-transform 250ms ease;
-      -ms-transition: -ms-transform 250ms ease;
-      transition: transform 250ms ease;
-   }
-   */
 }
 .view.pop {
   -moz-transform: translateX(100%);
-  -webkit-transform: translateX(100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translateX(100%);
   transform: translateX(100%);
 }
@@ -159,21 +131,41 @@ body {
 }
 .view.in {
   -moz-transform: translateX(0);
-  -webkit-transform: translateX(0);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -webkit-transform: translate3d(0, 0, 0);
   -o-transform: translateX(0);
   transform: translateX(0);
 }
-.view.stack,
-.view.out {
+.view.stack {
   -moz-transform: translateX(-100%);
-  -webkit-transform: translateX(-100%);
-  /*-webkit-transform: translate3d(@x, 0, 0);*/
+  -webkit-transform: translate3d(-100%, 0, 0);
   -o-transform: translateX(-100%);
   transform: translateX(-100%);
 }
 /*
-Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
+.view {
+   opacity: 0;
+
+   -moz-transition: opacity 250ms ease;
+   -webkit-transition: opacity 250ms ease;
+   -o-transition: opacity 250ms ease;
+   -ms-transition: opacity 250ms ease;
+   transition: opacity 250ms ease;
+   
+    &.pop {
+       opacity: 0;
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      opacity: 1;
+   }
+}
+*/
+/*
+Alternate Android2.3.x-like transition effect for views. Beta!
 */
 /*
 .view {
@@ -183,6 +175,12 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
+   
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
 
    &.in {
       -moz-transform: none;
@@ -191,6 +189,11 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
       -ms-transform: none;
       transform: none;
       opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
    }
 
    &.stack {
@@ -319,8 +322,8 @@ select {
   overflow: auto;
 }
 .alt-bg {
-  background-color: #222222;
-  color: #bbbbbb;
+  background-color: #3f3b39;
+  color: #ffffff;
 }
 input,
 button,
@@ -336,8 +339,8 @@ textarea,
   width: 100%;
   margin: 0;
   margin-bottom: 12px;
-  background-color: #404040;
-  color: #999999;
+  background-color: #ffffff;
+  color: #424242;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -363,7 +366,7 @@ button[disabled],
 select[disabled],
 textarea[disabled],
 .button[disabled] {
-  background-color: #1a1a1a !important;
+  background-color: #d9d9d9 !important;
 }
 input.inline,
 button.inline,
@@ -384,7 +387,7 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  background-color: #000000;
+  background-color: #bfbfbf;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   cursor: pointer;
@@ -404,8 +407,8 @@ input[type=button]:hover,
 button:hover,
 input[type=reset]:hover,
 input[type=submit]:hover {
-  background-color: #222222;
-  color: #bbbbbb;
+  background-color: #3f3b39;
+  color: #ffffff;
 }
 .button:focus,
 input[type=button]:focus,
@@ -429,22 +432,22 @@ input[type=button].primary,
 button.primary,
 input[type=reset].primary,
 input[type=submit].primary {
-  background-color: #28769a;
-  color: #222222;
+  background-color: #3395c2;
+  color: #ffffff;
 }
 .button.primary:hover,
 input[type=button].primary:hover,
 button.primary:hover,
 input[type=reset].primary:hover,
 input[type=submit].primary:hover {
-  background-color: #236685;
+  background-color: #2e85ae;
 }
 .button.primary:focus,
 input[type=button].primary:focus,
 button.primary:focus,
 input[type=reset].primary:focus,
 input[type=submit].primary:focus {
-  box-shadow: 0 0 2px #3395c2;
+  box-shadow: 0 0 2px #56abd2;
   outline: none;
 }
 .button.primary:active,
@@ -453,7 +456,7 @@ button.primary:active,
 input[type=reset].primary:active,
 input[type=submit].primary:active {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
-  background-color: #1e5771;
+  background-color: #28769a;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -472,7 +475,7 @@ input[type=reset][disabled]:active,
 input[type=submit][disabled]:active {
   box-shadow: none !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  color: #f2f2f2 !important;
+  color: #9b9b9b !important;
   padding: 10px !important;
 }
 label {
@@ -497,8 +500,8 @@ form .hint {
   padding: 3px 0;
 }
 .selected {
-  background-color: #f7c53d;
-  color: #222222;
+  background-color: #f46a1a;
+  color: #ffffff;
 }
 .list {
   margin: 0;
@@ -511,7 +514,7 @@ form .hint {
   position: relative;
 }
 .list > li.selected {
-  background-color: #f7c53d;
+  background-color: #f46a1a;
 }
 .widget.toggle,
 .widget.toggle > .thumb {
@@ -523,9 +526,10 @@ form .hint {
   position: relative;
   display: inline-block;
   min-width: 70px;
-  background-color: #262626;
-  height: 2.4em;
-  border: 2px solid #383838;
+  background-color: #d9d9d9;
+  height: 2.2em;
+  overflow: hidden;
+  border: 1px solid #cccccc;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -538,15 +542,14 @@ form .hint {
   position: absolute;
   height: 100%;
   display: block;
-  background-color: #383838;
-  left: -1px;
-  transition: left 100ms ease;
-  border: 5px solid #9b7100;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background-color: #fcfcfc;
+  left: 0px;
+  transition: left 200ms ease;
+  border: 1px solid #ffffff;
 }
 .widget.toggle.on {
-  background-color: #f5b60c;
-  color: #222222;
+  background-color: #d1530a;
+  color: #ffffff;
 }
 .widget.toggle.on > .thumb {
   left: 52%;
@@ -592,7 +595,7 @@ form .hint {
   display: block;
 }
 .progress {
-  background-color: #000000;
+  background-color: #171515;
   /*box-shadow: 0 0 2px #000000 inset;*/
   overflow: auto;
   padding: 2px;
@@ -615,8 +618,8 @@ form .hint {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #f7c53d !important;
-  color: #222222 !important;
+  background-color: #e5e5e5 !important;
+  color: #333333 !important;
 }
 .tabstrip,
 .tab {
@@ -629,7 +632,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #404040;
+  border-bottom: 1px solid #ffffff;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -641,7 +644,7 @@ form .hint {
   position: relative;
 }
 .tabstrip > .tab > span {
-  border-right: 1px solid #1a1a1a;
+  border-right: 1px solid #d9d9d9;
   min-height: 20px;
   padding: 4px 10px;
   margin: 6px 0;
@@ -652,17 +655,17 @@ form .hint {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #f7c53d;
-  color: #999999;
+  border-bottom: 3px solid #f46a1a;
+  color: #424242;
 }
 .tabstrip.alt-bg {
-  background-color: #222222;
+  background-color: #3f3b39;
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #f9d46e;
+  color: #f68a4b;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #272727;
+  border-right: 1px solid #44403e;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -711,11 +714,11 @@ img.activable {
 }
 img.activable:active,
 img.activable.active {
-  border-color: #f7c53d;
+  border-color: #f46a1a;
 }
 .panel {
-  background-color: #393939;
-  border: 1px solid #242424;
+  background-color: #f8f8f8;
+  border: 1px solid #e3e3e3;
 }
 /*
 .alt-bg section > .header {
@@ -749,7 +752,7 @@ img.activable.active {
   background-color: transparent;
   border: none;
   /*border-bottom: 1px solid lighten(@alt-bg-color, 10%);*/
-  color: #bbbbbb;
+  color: #ffffff;
 }
 .success:active,
 input[type=button].success.active,
@@ -781,10 +784,10 @@ button.warn.active,
   padding: 15px 10px;
 }
 .form .header {
-  background-color: #212121;
+  background-color: #e0e0e0;
   padding: 10px !important;
   margin: 0;
-  color: #999999;
+  color: #424242;
   border: none;
   font-weight: bold;
   overflow: auto;
@@ -818,7 +821,7 @@ a.button {
   font-size: 0.9em;
   margin: 0;
   padding: 7px;
-  color: #bbbbbb;
+  color: #ffffff;
 }
 .info {
   background-color: #007bd3;
@@ -854,7 +857,7 @@ a.button {
   color: #d66b55;
 }
 .active {
-  background-color: #f7c53d;
+  background-color: #e5e5e5;
   color: #fff;
 }
 .bordered {
@@ -870,8 +873,8 @@ a.button {
   bottom: 10%;
   left: 0;
   color: #fefefe;
-  background-color: #2f2f2f;
-  border: 1px solid #151515;
+  background-color: #4c4845;
+  border: 1px solid #322e2d;
   text-align: center;
   opacity: 0.65;
   /* box shadow causes slight mis-alignment of this control on view change */
@@ -897,7 +900,7 @@ a.button {
   min-height: 100%;
 }
 .viewport {
-  background-color: #222222;
+  background-color: #f2f2f2;
   /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
@@ -915,7 +918,7 @@ a.button {
    -webkit-box-shadow: 0 0 5px darken(@alt-bg-color, 10%);
    box-shadow: 0 0 10px darken(@alt-bg-color, 10%);
    */
-  border-left: 1px solid #151515;
+  border-left: 1px solid #322e2d;
   height: 100%;
   overflow: hidden;
 }
@@ -933,14 +936,14 @@ a.button {
 /* ------------------------------------------------ View Toolbar -----------------------------------------------*/
 .toolbar {
   overflow: auto;
-  background-color: #2f2f2f;
-  background-image: linear-gradient(to bottom, #2f2f2f, #272727);
-  color: #bbbbbb;
-  border-bottom: 1px solid #181818;
+  background-color: #4c4845;
+  background-image: linear-gradient(to bottom, #4c4845, #44403e);
+  color: #ffffff;
+  border-bottom: 1px solid #34312f;
   width: 100%;
 }
 .toolbar .title {
-  color: #fbe29f;
+  color: #f9a97b;
   font-weight: bold;
   display: inline-block;
   padding: 13px 3px;
@@ -965,12 +968,12 @@ a.button {
   /* border-left: 1px solid lighten(@alt-bg-color, 9%); */
 }
 .toolbar .action.on {
-  background-color: #181818;
+  background-color: #34312f;
 }
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu,
 .alt-bg .menu {
-  background-color: #181818;
+  background-color: #34312f;
 }
 .collapsed {
   height: 0;
@@ -986,25 +989,25 @@ a.button {
    top: 15px;
    right: 15px;
    */
-  color: #1a1a1a;
+  color: #d9d9d9;
   font-size: 1.6em;
 }
 .list > li.toggle.on:after {
   content: '\e812';
   /* tick mark icon */
-  color: #ffa100;
+  color: #ef8511;
   /*right: 12px;*/
 }
 section {
-  background-color: #333333;
+  background-color: #f2f2f2;
   margin-bottom: 20px;
   overflow: auto;
 }
 section > header {
   overflow: auto;
   font-size: 1.3em;
-  color: #a3a3a3;
-  border-bottom: 1px solid #292929;
+  color: #4c4c4c;
+  border-bottom: 1px solid #e8e8e8;
 }
 /* --------------------------------------- Map View ----------------------------------------- */
 .google-map {
@@ -1019,9 +1022,9 @@ section > header {
 /* ------------------------------------ Calendar View --------------------------------------- */
 .calendar > .year-bar {
   overflow: auto;
-  background-color: #2f2f2f;
+  background-color: #4c4845;
   color: #eee;
-  border-bottom: 1px solid #393939;
+  border-bottom: 1px solid #57524f;
 }
 .calendar > .year-bar > span {
   padding: 13px 10px;
@@ -1040,19 +1043,19 @@ section > header {
   width: 25%;
   padding: 7px 0;
   text-align: center;
-  color: #484848;
+  color: #67615d;
   font-size: 1em;
   font-weight: bold;
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #f7c53d;
+  color: #e5e5e5;
 }
 .calendar > .months {
   padding: 10px 2%;
-  background-color: #222222;
-  color: #bbbbbb;
-  border-bottom: 1px solid #f7c53d;
+  background-color: #3f3b39;
+  color: #ffffff;
+  border-bottom: 1px solid #f46a1a;
 }
 .calendar > .months > li,
 .calendar > .days > li,
@@ -1077,7 +1080,7 @@ section > header {
 }
 .calendar > .days {
   padding: 5px;
-  background-color: #1f1f1f;
+  background-color: #dedede;
 }
 .calendar > .dates {
   margin: 5px;
@@ -1095,7 +1098,7 @@ div.column,
 .time .hours,
 .time .minutes,
 .time .ampm {
-  background-color: #1f1f1f;
+  background-color: #dedede;
 }
 .time .label {
   display: inline-block;
@@ -1125,10 +1128,10 @@ div.column,
   width: auto;
 }
 .time .minutes li.highlite {
-  color: #f7c53d;
+  color: #f46a1a;
 }
 .time .minutes li.highlite.selected {
-  color: #222222;
+  color: #ffffff;
 }
 /*
 .time .minutes li.highlite, .time .minutes li.highlite-alt {
@@ -1152,7 +1155,7 @@ div.column,
     top: 0;
     bottom: 0;
     width: 12%;
-    border-right: 1px solid #f8cc55;
+    border-right: 1px solid #f57a32;
     -webkit-transform: none;
     transform: none;
     -webkit-transition: none;

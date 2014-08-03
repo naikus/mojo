@@ -434,8 +434,7 @@
          }
 
          // Experimental!!!
-         appendView(ui);
-         
+         // appendView(ui);
 
          ui.addClass("showing");
          
@@ -461,31 +460,6 @@
          stack.push(route);
       }
       
-      function appendView(ui) {
-         // console.log("unstack Parent node");
-         // console.log(ui.get(0).parentNode.parentNode);
-         var viewElem = ui.get(0), viewParent = viewElem.parentNode, appendElem;
-         if(viewParent === viewPort.get(0)) {
-            appendElem = viewElem;
-         }else if(viewParent.getAttribute("data-view-template")) {
-            appendElem = viewParent;
-         }
-         
-         if(appendElem) {
-            viewPort.append(appendElem);
-         }
-      }
-      
-      function removeView(ui) {
-         var viewElem = ui.get(0), viewParent = viewElem.parentNode, removeElem;
-         if(viewParent === viewPort.get(0)) {
-            removeElem = viewElem;
-         }else if(viewParent.getAttribute("data-view-template")) {
-            removeElem = viewParent;
-         }
-         viewPort.remove(removeElem);
-      }
-
       function popView(data, toPath) {
          var route, currRoute, path, ui, params, resultCallback;
 
@@ -523,7 +497,7 @@
          }
          
          // Experimental!!!
-         appendView(ui);
+         // appendView(ui);
 
          // indicate that this view is transitioning
          viewPort.addClass("view-transitioning");
@@ -542,6 +516,31 @@
             popViewUi(currRoute.ui);
             unstackViewUi(ui);
          }, 50);
+      }
+      
+      function appendView(ui) {
+         // console.log("unstack Parent node");
+         // console.log(ui.get(0).parentNode.parentNode);
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, appendElem;
+         if(viewParent === viewPort.get(0)) {
+            appendElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            appendElem = viewParent;
+         }
+         
+         if(appendElem) {
+            viewPort.append(appendElem);
+         }
+      }
+      
+      function removeView(ui) {
+         var viewElem = ui.get(0), viewParent = viewElem.parentNode, removeElem;
+         if(viewParent === viewPort.get(0)) {
+            removeElem = viewElem;
+         }else if(viewParent.getAttribute("data-view-template")) {
+            removeElem = viewParent;
+         }
+         viewPort.remove(removeElem);
       }
         
         
@@ -690,25 +689,25 @@
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
             ui.removeClass("showing");
-            viewPort.removeClass("view-transitioning"); // this is called after removing 'showing' class
             eType = "out";
          }else if(ui.hasClass("in")) {// if ui has transitioned in
-            viewPort.removeClass("view-transitioning");
             eType = "in";
          }else if(ui.hasClass("pop")) { // if view has been popped
             ui.removeClass("showing").removeClass("pop");
-            viewPort.removeClass("view-transitioning");
             eType = "out";
          }
+         viewPort.removeClass("view-transitioning");
          
          if(eType) {
             setTimeout(function() { // rendering performance
                dispatchViewTransitionEvent(eType, ui, route);
                
                // Experimental!!!
+               /*
                if(eType === "out") {
                   removeView(ui);
                }
+               */
             }, 50);
          }
       }
@@ -970,9 +969,9 @@
       
       value: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
-            var elem = arrElems[i];
-            if(elem.value !== value) {
-               arrElems[i].value = value;
+            var elem = $(arrElems[i]);
+            if(elem.val() !== value) {
+               elem.val(value);
             }
          }
       },
@@ -985,6 +984,10 @@
             arrElems[i].innerHTML = value;
          }
       }
+   };
+   
+   $.binder = {
+      
    };
    
    $.extension("binder", function(options) {
@@ -1001,7 +1004,6 @@
             applyBindingsForKey(modelKey, value);
          });
       }
-      
       
       function applyBindingsForKey(modelKey, value) {
          var keyMap = boundElemMap[modelKey] || {};
@@ -1023,8 +1025,7 @@
                applyBindingsForKey(k + prop, val);
             });
          }
-      }
-      
+      }      
 
       /**
        * Partially updates the model from the specified model model
@@ -1071,6 +1072,18 @@
          applyBindingsForKey(key, formatter ? formatter(value) : value);
       }
       
+      function changeListener(e) {
+         updateModelValue(bindKey, e.target.value);
+      }
+      
+      function attachListeners(elem, bindKey) {
+         var eName = elem.nodeName.toLowerCase(), type = eName.type;
+         if((eName === "input" || eName === "textarea" || eName === "select") && 
+                 (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {
+            $(elem).on("input", changeListener).on("change", changeListener);
+         }
+      }
+      
       /* Structure of bound element map
       var boundElemMap = {
          "user.firstname": {
@@ -1089,6 +1102,8 @@
                
          // console.log(boundElemMap);               
          arrElems[arrElems.length] = elem;
+         
+         attachListeners(elem, keyInfo.key);
       });
       
       applyBindings(model);

@@ -32,15 +32,15 @@
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-   /**-webkit-transform: translate3d(@x, @y, 0);*/
-   -webkit-transform: translate(@x, @y);
+   -webkit-transform: translate3d(@x, @y, 0);
+   // -webkit-transform: translate(@x, @y);
    -o-transform: translate(@x, @y);
    transform: translate(@x, @y);
 }
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
-   -webkit-transform: translateX(@x);
-   /*-webkit-transform: translate3d(@x, 0, 0);*/
+   // -webkit-transform: translateX(@x);
+   -webkit-transform: translate3d(@x, 0, 0);
    -o-transform: translateX(@x);
    transform: translateX(@x);
 }
@@ -52,7 +52,8 @@
 }
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
-   -webkit-transform: translateY(@y);
+   -webkit-transform: translate3d(0, @y, 0);
+   // -webkit-transform: translateY(@y);
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
@@ -84,6 +85,7 @@ html, body {
 
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
+   height: 100%;
    overflow: hidden;
 }
 
@@ -102,10 +104,13 @@ html, body {
 
    display: none;
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
-   /* -webkit-perspective: 1000; */
+   // -webkit-perspective: 1000;
    -webkit-backface-visibility: hidden;  
    background-color: @bg-color;
-   
+}
+
+
+.view {
    -moz-transition: -moz-transform 250ms ease;
    -webkit-transition: -webkit-transform 250ms ease;
    -o-transition: -o-transform 250ms ease;
@@ -113,16 +118,6 @@ html, body {
    transition: transform 250ms ease;
    
    .translateX(100%);
-   
-   /*
-   &.transition {
-      -moz-transition: -moz-transform 250ms ease;
-      -webkit-transition: -webkit-transform 250ms ease;
-      -o-transition: -o-transform 250ms ease;
-      -ms-transition: -ms-transform 250ms ease;
-      transition: transform 250ms ease;
-   }
-   */
    
    &.pop {
       .translateX(100%);
@@ -135,15 +130,40 @@ html, body {
    &.in {
       .translateX(0);
    }
-   &.stack, &.out {
+   &.stack {
       .translateX(-100%);
    }
 }
 
 
+/*
+.view {
+   opacity: 0;
+
+   -moz-transition: opacity 250ms ease;
+   -webkit-transition: opacity 250ms ease;
+   -o-transition: opacity 250ms ease;
+   -ms-transition: opacity 250ms ease;
+   transition: opacity 250ms ease;
+   
+    &.pop {
+       opacity: 0;
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      opacity: 1;
+   }
+}
+*/
+
+
 
 /*
-Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
+Alternate Android2.3.x-like transition effect for views. Beta!
 */
 /*
 .view {
@@ -153,6 +173,12 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
+   
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
 
    &.in {
       -moz-transform: none;
@@ -161,6 +187,11 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
       -ms-transform: none;
       transform: none;
       opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
    }
 
    &.stack {
@@ -449,10 +480,13 @@ label {
    position: relative;
    display: inline-block;
    min-width: 70px;
-   background-color: darken(@bg-color, 5%);
-   height: 2.4em;
-   border: 2px solid lighten(@bg-color, 2%);
+   background-color: darken(@bg-color, 10%);
+   height: 2.2em;
+   // border: 2px solid lighten(@bg-color, 2%);
    // border-radius: 30px;
+   // box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+   overflow: hidden;
+   border: 1px solid darken(@bg-color, 15%);
    
    .border-box;
    
@@ -462,13 +496,19 @@ label {
         position: absolute;
         height: 100%;
         display: block;
-        background-color: lighten(@bg-color, 2%);
-        left: -1px;
-        transition: left 100ms ease;
-        border: 5px solid saturate(darken(@selected-bg-color, 30%), 15%);
-        // border-radius: 40px;
+        // background-color: darken(@bg-color, 2%);
+        background-color: lighten(@bg-color, 4%);
         
-        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        left: 0px;
+        
+        transition: left 200ms ease;
+        // transition: -webkit-transform 500ms ease;
+        
+        border: 1px solid lighten(@bg-color, 20%);
+        
+        // border: 10px solid desaturate(lighten(@selected-bg-color, 10%), 15%);
+        // border-radius: 40px;
+        // box-shadow: 0 0 5px rgba(0,0,0,0.2);
    }
    
    &.on {
@@ -478,7 +518,8 @@ label {
       
       > .thumb {
           left: 52%;
-          //border-color: @selected-bg-color;
+          // border-color: @selected-bg-color;
+         // .translateX(100%);
       }
    }
    

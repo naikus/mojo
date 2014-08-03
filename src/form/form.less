@@ -6,10 +6,13 @@
    position: relative;
    display: inline-block;
    min-width: 70px;
-   background-color: darken(@bg-color, 5%);
-   height: 2.4em;
-   border: 2px solid lighten(@bg-color, 2%);
+   background-color: darken(@bg-color, 10%);
+   height: 2.2em;
+   // border: 2px solid lighten(@bg-color, 2%);
    // border-radius: 30px;
+   // box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+   overflow: hidden;
+   border: 1px solid darken(@bg-color, 15%);
    
    .border-box;
    
@@ -19,13 +22,19 @@
         position: absolute;
         height: 100%;
         display: block;
-        background-color: lighten(@bg-color, 2%);
-        left: -1px;
-        transition: left 100ms ease;
-        border: 5px solid saturate(darken(@selected-bg-color, 30%), 15%);
-        // border-radius: 40px;
+        // background-color: darken(@bg-color, 2%);
+        background-color: lighten(@bg-color, 4%);
         
-        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        left: 0px;
+        
+        transition: left 200ms ease;
+        // transition: -webkit-transform 500ms ease;
+        
+        border: 1px solid lighten(@bg-color, 20%);
+        
+        // border: 10px solid desaturate(lighten(@selected-bg-color, 10%), 15%);
+        // border-radius: 40px;
+        // box-shadow: 0 0 5px rgba(0,0,0,0.2);
    }
    
    &.on {
@@ -35,7 +44,8 @@
       
       > .thumb {
           left: 52%;
-          //border-color: @selected-bg-color;
+          // border-color: @selected-bg-color;
+         // .translateX(100%);
       }
    }
    

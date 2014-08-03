@@ -34,7 +34,9 @@ Application.addRoute("/form", {
             // viewUi.find(".toolbar").actionbar();
             
             // data binder for this form
-            formBinder = viewUi.binder();
+            formBinder = viewUi.binder({
+               
+            });
             
             var buildingExpandable = $("#building").expandable();
             // list of lats
@@ -46,8 +48,6 @@ Application.addRoute("/form", {
                formBinder.update("building", item);
                buildingExpandable.expand(false);
             });
-            
-            
             
             // expanding panel
             var flatExpandable = $("#flat").expandable();
@@ -61,14 +61,7 @@ Application.addRoute("/form", {
                formBinder.update("flat", item);
                flatExpandable.expand(false);
             });
-            
-            
-            // name
-            var updateName = function() {
-               formBinder.update("displayName", this.value);
-            };
-            $("#displayName").on("input", updateName)
-                    .on("change", updateName);
+
             
             
             // save button

@@ -66,6 +66,8 @@ body {
   /* Avoid flickering in webkit browsers, thanks stackoverflow */
   -webkit-backface-visibility: hidden;
   background-color: #404040;
+}
+.view {
   -moz-transition: -moz-transform 250ms ease;
   -webkit-transition: -webkit-transform 250ms ease;
   -o-transition: -o-transform 250ms ease;
@@ -75,15 +77,6 @@ body {
   -webkit-transform: translate3d(100%, 0, 0);
   -o-transform: translateX(100%);
   transform: translateX(100%);
-  /*
-   &.transition {
-      -moz-transition: -moz-transform 250ms ease;
-      -webkit-transition: -webkit-transform 250ms ease;
-      -o-transition: -o-transform 250ms ease;
-      -ms-transition: -ms-transform 250ms ease;
-      transition: transform 250ms ease;
-   }
-   */
 }
 .view.pop {
   -moz-transform: translateX(100%);
@@ -131,7 +124,7 @@ body {
 }
 */
 /*
-Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
+Alternate Android2.3.x-like transition effect for views. Beta!
 */
 /*
 .view {
@@ -141,6 +134,12 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
+   
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
 
    &.in {
       -moz-transform: none;
@@ -149,6 +148,11 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
       -ms-transform: none;
       transform: none;
       opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
    }
 
    &.stack {
@@ -481,9 +485,10 @@ form .hint {
   position: relative;
   display: inline-block;
   min-width: 70px;
-  background-color: #333333;
-  height: 2.4em;
-  border: 2px solid #454545;
+  background-color: #272727;
+  height: 2.2em;
+  overflow: hidden;
+  border: 1px solid #1a1a1a;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -496,11 +501,10 @@ form .hint {
   position: absolute;
   height: 100%;
   display: block;
-  background-color: #454545;
-  left: -1px;
-  transition: left 100ms ease;
-  border: 5px solid #000000;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background-color: #4a4a4a;
+  left: 0px;
+  transition: left 200ms ease;
+  border: 1px solid #737373;
 }
 .widget.toggle.on {
   background-color: #0d0d0d;

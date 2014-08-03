@@ -27,6 +27,7 @@
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
    -webkit-transform: translate3d(0, @y, 0);
+   // -webkit-transform: translateY(@y);
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
@@ -80,7 +81,10 @@ html, body {
    // -webkit-perspective: 1000;
    -webkit-backface-visibility: hidden;  
    background-color: @bg-color;
-   
+}
+
+
+.view {
    -moz-transition: -moz-transform 250ms ease;
    -webkit-transition: -webkit-transform 250ms ease;
    -o-transition: -o-transform 250ms ease;
@@ -88,16 +92,6 @@ html, body {
    transition: transform 250ms ease;
    
    .translateX(100%);
-   
-   /*
-   &.transition {
-      -moz-transition: -moz-transform 250ms ease;
-      -webkit-transition: -webkit-transform 250ms ease;
-      -o-transition: -o-transform 250ms ease;
-      -ms-transition: -ms-transform 250ms ease;
-      transition: transform 250ms ease;
-   }
-   */
    
    &.pop {
       .translateX(100%);
@@ -114,6 +108,7 @@ html, body {
       .translateX(-100%);
    }
 }
+
 
 /*
 .view {
@@ -142,7 +137,7 @@ html, body {
 
 
 /*
-Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
+Alternate Android2.3.x-like transition effect for views. Beta!
 */
 /*
 .view {
@@ -152,6 +147,12 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
+   
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
 
    &.in {
       -moz-transform: none;
@@ -160,6 +161,11 @@ Alternate Android2.3.x-like transition effect for views. EXPERIMENTAL!!
       -ms-transform: none;
       transform: none;
       opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
    }
 
    &.stack {

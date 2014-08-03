@@ -46,12 +46,14 @@ Application.addRoute("/tabs", {
             mainTab = $("#mainTab").tabstrip({
                ontabchange: function(currTab, oldTab) {
                   // Messages.info("Tab selected: " + this.getSelectedIndex());
+                  /*
                   if(!scroll && this.getSelectedIndex() === 1) {
                     scroll = new IScroll("#tabTwo");
                     setTimeout(function() {
                         scroll.refresh();
                     }, 200);
                   }
+                  */
                }
             });
             

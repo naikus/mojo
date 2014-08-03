@@ -969,9 +969,9 @@
       
       value: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
-            var elem = arrElems[i];
-            if(elem.value !== value) {
-               arrElems[i].value = value;
+            var elem = $(arrElems[i]);
+            if(elem.val() !== value) {
+               elem.val(value);
             }
          }
       },
@@ -984,6 +984,10 @@
             arrElems[i].innerHTML = value;
          }
       }
+   };
+   
+   $.binder = {
+      
    };
    
    $.extension("binder", function(options) {
@@ -1000,7 +1004,6 @@
             applyBindingsForKey(modelKey, value);
          });
       }
-      
       
       function applyBindingsForKey(modelKey, value) {
          var keyMap = boundElemMap[modelKey] || {};
@@ -1022,8 +1025,7 @@
                applyBindingsForKey(k + prop, val);
             });
          }
-      }
-      
+      }      
 
       /**
        * Partially updates the model from the specified model model
@@ -1070,6 +1072,18 @@
          applyBindingsForKey(key, formatter ? formatter(value) : value);
       }
       
+      function changeListener(e) {
+         updateModelValue(bindKey, e.target.value);
+      }
+      
+      function attachListeners(elem, bindKey) {
+         var eName = elem.nodeName.toLowerCase(), type = eName.type;
+         if((eName === "input" || eName === "textarea" || eName === "select") && 
+                 (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {
+            $(elem).on("input", changeListener).on("change", changeListener);
+         }
+      }
+      
       /* Structure of bound element map
       var boundElemMap = {
          "user.firstname": {
@@ -1088,6 +1102,8 @@
                
          // console.log(boundElemMap);               
          arrElems[arrElems.length] = elem;
+         
+         attachListeners(elem, keyInfo.key);
       });
       
       applyBindings(model);
