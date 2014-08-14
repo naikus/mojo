@@ -384,7 +384,7 @@ window.SERVER_URL = "/";
       App.initialize({
          viewPort: vPort,
          loadFromPath: false,
-         // enableHashChange: false,
+         // enableHashChange: false, //if set to true, drops the framerate in chrome by half :(
          // startView: "/"
          // transitionProperty: "opacity",
          routes: [

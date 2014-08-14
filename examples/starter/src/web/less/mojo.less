@@ -57,6 +57,13 @@
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
+.transition-transform(@time: 200ms, @anim: ease) {
+   -moz-transition: -moz-transform @time @anim;
+   -webkit-transition: -webkit-transform @time @anim;
+   -o-transition: -o-transform @time @anim;
+   -ms-transition: -ms-transform @time @anim;
+   transition: transform @time @anim;
+}
 
 
 a, img, button {
@@ -111,13 +118,14 @@ html, body {
 
 
 .view {
-   -moz-transition: -moz-transform 250ms ease;
-   -webkit-transition: -webkit-transform 250ms ease;
-   -o-transition: -o-transform 250ms ease;
-   -ms-transition: -ms-transform 250ms ease;
-   transition: transform 250ms ease;
-   
    .translateX(100%);
+   
+   .transition-transform;
+   /*
+   &.transition {
+      .transition-transform(300ms);
+   }
+   */
    
    &.pop {
       .translateX(100%);
@@ -131,7 +139,12 @@ html, body {
       .translateX(0);
    }
    &.stack {
-      .translateX(-100%);
+      .translateX(-60%);
+      
+      .transition-transform(300ms, ease);
+      /*&.transition {
+         .transition-transform(400ms);
+      }*/
    }
 }
 

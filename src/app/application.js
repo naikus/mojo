@@ -404,6 +404,7 @@
 
          // check if this view was earlier stacked because some other view was shown over it.
          if(ui.hasClass("stack")) {
+            // ui.removeClass("transition").removeClass("stack");
             ui.removeClass("stack");
          }
 
@@ -429,7 +430,7 @@
             }
             // transition in the new view
             pushViewUi(ui);
-         }, 100);
+         }, 50);
 
          stack.push(route);
       }
@@ -489,7 +490,7 @@
             currRoute.controller.deactivate();
             popViewUi(currRoute.ui);
             unstackViewUi(ui);
-         }, 100);
+         }, 50);
       }
       
       function appendView(ui) {
@@ -645,6 +646,7 @@
       function pushViewUi(ui) {
          // dispatchBeforeViewTransitionEvent("in", ui, getRouteByPath(ui.data("path")));
          
+         // ui.addClass("transition").addClass("in");
          ui.addClass("in");
          if(!hasTransition || !transitionProp) {
             handleViewTransitionEnd({target: ui.get(0), propertyName: transitionProp});
@@ -659,7 +661,7 @@
          if(!route || (transitionProp !== null && evt.propertyName.indexOf(transitionProp) === -1)) {
             return; // not a view or not a 'transitionProp' transition on this view.
          }
-
+         
          // if ui has transitioned to stacked, deactivate it
          if(ui.hasClass("stack")) {
             ui.removeClass("showing");
@@ -675,7 +677,6 @@
          if(eType) {
             setTimeout(function() { // rendering performance
                dispatchViewTransitionEvent(eType, ui, route);
-               
                // Experimental!!!
                /*
                if(eType === "out") {

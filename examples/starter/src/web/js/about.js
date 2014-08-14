@@ -21,6 +21,9 @@ Application.addRoute("/about", {
          */
          
          initialize: function() {
+            $("#aboutBack").on(Events.tap, function() {
+               app.popView();
+            });
          },
 
          activate: function(routeParams, data) {

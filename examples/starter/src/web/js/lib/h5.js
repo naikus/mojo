@@ -1445,7 +1445,7 @@
    }
    
    function clearState() {
-      state.moved = state.x = state.y = undef;
+      state.moved = state.x = state.y = undefined;
    }
    
    function handler(te) {
@@ -1520,7 +1520,7 @@
    }
    
    function clearState() {
-      state.id = state.x = state.y = state.movement = undef;
+      state.id = state.x = state.y = state.movement = undefined;
    }
    
    function handler(te) {
