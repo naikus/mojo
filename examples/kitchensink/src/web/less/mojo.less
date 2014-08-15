@@ -119,13 +119,7 @@ html, body {
 
 .view {
    .translateX(100%);
-   
    .transition-transform;
-   /*
-   &.transition {
-      .transition-transform(300ms);
-   }
-   */
    
    &.pop {
       .translateX(100%);
@@ -136,15 +130,12 @@ html, body {
       display: block;
    }
    &.in {
-      .translateX(0);
+      // .translateX(0); Fixed position elements won't work with this
+      .translateNone;
    }
    &.stack {
       .translateX(-60%);
-      
       .transition-transform(300ms, ease);
-      /*&.transition {
-         .transition-transform(400ms);
-      }*/
    }
 }
 
@@ -187,11 +178,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    transform: scale(1.05, 1.05);
    opacity: 0;
    
-   -moz-transition: -moz-transform 250ms ease;
-   -webkit-transition: -webkit-transform 250ms ease;
-   -o-transition: -o-transform 250ms ease;
-   -ms-transition: -ms-transform 250ms ease;
-   transition: transform 250ms ease;
+   .transition-transform(300ms);
 
    &.in {
       -moz-transform: none;
@@ -638,7 +625,7 @@ label {
    margin: 0;
    padding: 0;
    width: 100%;
-   border-bottom: 1px solid lighten(@bg-color, 5%);
+   border-bottom: 1px solid @bg-color;
    
    > .tab {
       list-style-type: none;

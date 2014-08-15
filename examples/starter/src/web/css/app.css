@@ -94,10 +94,10 @@ body {
   display: block;
 }
 .view.in {
-  -moz-transform: translateX(0);
-  -webkit-transform: translate3d(0, 0, 0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
 }
 .view.stack {
   -moz-transform: translateX(-60%);

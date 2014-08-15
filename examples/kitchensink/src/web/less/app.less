@@ -2,7 +2,44 @@
 
 @alternate-color: #00B8FC;
 
-/* ------------------------------------------------ Framework Overrides -------------------------------------------- */
+/* --------------------------------------- Framework Overrides -------------------------------- */
+.view {
+   -moz-transform: scale(1.05, 1.05);
+   -webkit-transform: scale(1.05, 1.05);
+   -o-transform: scale(1.05, 1.05);
+   -ms-transform: scale(1.05, 1.05);
+   transform: scale(1.05, 1.05);
+   opacity: 0;
+   
+   .transition-transform(300ms);
+
+   &.in {
+      -moz-transform: none;
+      -webkit-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+      transform: none;
+      opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+
+   &.stack {
+      -moz-transform: scale(0.95, 0.95);
+      -webkit-transform: scale(0.95, 0.95);
+      -o-transform: scale(0.95, 0.95);
+      transform: scale(0.95, 0.95);
+      opacity: 0;
+   }
+
+   &.pop {
+      opacity: 0;
+   }
+}
+
 
 .half {
    width: 50%;
@@ -65,27 +102,25 @@ img.activable:active, img.activable.active {
 }
 */
 
+.view {
+   padding-top: 55px;
+   
+   &.no-toolbar {
+      padding-top: 0;
+   }
+}
 
 .view-transitioning {
    overflow: hidden;
 }
 
-/* 
- * Enable this if you don't want your views to jump after transitioning when previous or next views have
- * higher height values
- */
-/*
-.view-transitioning .view {
-   height: 100%;
-   overflow: hidden;
-}
-*/
 /*
  * This hides elements with .transition-hide class while view is transitioning
  */
 .view-transitioning .transition-hide {
    display: none;
 }
+
 
 .alt-bg input, .alt-bg textarea {
    background-color: transparent;
@@ -259,7 +294,7 @@ a.button {
    min-height: 100%;
 }
 .viewport {
-   background-color: @bg-color;
+   background-color: @alt-bg-color;
    /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
@@ -343,6 +378,19 @@ a.button {
    background-color: darken(@alt-bg-color, 4%);
 }
 
+.toolbar {
+   position: fixed;
+   top: 0;
+   min-height: 45px;
+   z-index: 50;
+   // box-shadow: 0 0 5px darken(@bg-color, 10%);
+   // -webkit-box-shadow: 0 0 5px darken(@bg-color, 10%);
+}
+
+.view-transitioning .toolbar {
+   position: absolute;
+}
+
 
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu, .alt-bg .menu {
@@ -403,7 +451,7 @@ section > header {
 
 @import "calendar.less";
 @import "time.less";
-
+@import "tabs.less";
 
 @import "layout-wide.less";
 

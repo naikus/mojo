@@ -118,11 +118,6 @@ body {
   -o-transition: -o-transform 200ms ease;
   -ms-transition: -ms-transform 200ms ease;
   transition: transform 200ms ease;
-  /*
-   &.transition {
-      .transition-transform(300ms);
-   }
-   */
 }
 .view.pop {
   -moz-transform: translateX(100%);
@@ -135,10 +130,10 @@ body {
   display: block;
 }
 .view.in {
-  -moz-transform: translateX(0);
-  -webkit-transform: translate3d(0, 0, 0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
 }
 .view.stack {
   -moz-transform: translateX(-60%);
@@ -150,9 +145,6 @@ body {
   -o-transition: -o-transform 300ms ease;
   -ms-transition: -ms-transform 300ms ease;
   transition: transform 300ms ease;
-  /*&.transition {
-         .transition-transform(400ms);
-      }*/
 }
 /*
 .view {
@@ -189,11 +181,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    transform: scale(1.05, 1.05);
    opacity: 0;
    
-   -moz-transition: -moz-transform 250ms ease;
-   -webkit-transition: -webkit-transform 250ms ease;
-   -o-transition: -o-transform 250ms ease;
-   -ms-transition: -ms-transform 250ms ease;
-   transition: transform 250ms ease;
+   .transition-transform(300ms);
 
    &.in {
       -moz-transform: none;
@@ -660,7 +648,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid #f2f2f2;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -705,7 +693,42 @@ form .hint {
 .tab-content.current {
   display: block;
 }
-/* ------------------------------------------------ Framework Overrides -------------------------------------------- */
+/* --------------------------------------- Framework Overrides -------------------------------- */
+.view {
+  -moz-transform: scale(1.05, 1.05);
+  -webkit-transform: scale(1.05, 1.05);
+  -o-transform: scale(1.05, 1.05);
+  -ms-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05);
+  opacity: 0;
+  -moz-transition: -moz-transform 300ms ease;
+  -webkit-transition: -webkit-transform 300ms ease;
+  -o-transition: -o-transform 300ms ease;
+  -ms-transition: -ms-transform 300ms ease;
+  transition: transform 300ms ease;
+}
+.view.in {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+  opacity: 1;
+}
+.view.showing {
+  z-index: 99;
+  display: block;
+}
+.view.stack {
+  -moz-transform: scale(0.95, 0.95);
+  -webkit-transform: scale(0.95, 0.95);
+  -o-transform: scale(0.95, 0.95);
+  transform: scale(0.95, 0.95);
+  opacity: 0;
+}
+.view.pop {
+  opacity: 0;
+}
 .half {
   width: 50%;
 }
@@ -754,19 +777,15 @@ img.activable.active {
    font-weight: bold;
 }
 */
+.view {
+  padding-top: 55px;
+}
+.view.no-toolbar {
+  padding-top: 0;
+}
 .view-transitioning {
   overflow: hidden;
 }
-/* 
- * Enable this if you don't want your views to jump after transitioning when previous or next views have
- * higher height values
- */
-/*
-.view-transitioning .view {
-   height: 100%;
-   overflow: hidden;
-}
-*/
 /*
  * This hides elements with .transition-hide class while view is transitioning
  */
@@ -926,7 +945,7 @@ a.button {
   min-height: 100%;
 }
 .viewport {
-  background-color: #f2f2f2;
+  background-color: #3f3b39;
   /*
     * Transform has bugs in chrome where the viewport will start shifting with swipes
     */
@@ -995,6 +1014,15 @@ a.button {
 }
 .toolbar .action.on {
   background-color: #34312f;
+}
+.toolbar {
+  position: fixed;
+  top: 0;
+  min-height: 45px;
+  z-index: 50;
+}
+.view-transitioning .toolbar {
+  position: absolute;
 }
 /* -------------------------------------------- Collapsible ------------------------------------------------------- */
 .alt-bg.menu,
@@ -1173,6 +1201,21 @@ div.column,
   margin: 0;
   padding-bottom: 6px;
   text-shadow: 0 0 2px #fff;
+}
+#tabView .tab-content {
+  padding-top: 35px;
+}
+#tabView .main-tab {
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  top: 45px;
+}
+#tabView .main-tab > .tab {
+  position: static;
+}
+.view-transitioning #tabView .main-tab {
+  position: absolute;
 }
 @media only screen and (min-width: 700px) {
   .appmenu {

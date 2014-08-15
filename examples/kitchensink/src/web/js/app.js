@@ -488,18 +488,10 @@ window.SERVER_URL = "/";
       App.initialize({
          viewPort: vPort, 
          loadFromPath: false
-         // enableHashChange: false,
-         // startView: "/tabView"
+         // , enableHashChange: false
       });
       
       App.loadView("views/tabs.html", "/tabs");
-      
-      
-      /*
-      if(typeof google !== "undefined") {
-         google.maps.visualRefresh = true;
-      }
-      */
    });
    
 })(window, h5);
