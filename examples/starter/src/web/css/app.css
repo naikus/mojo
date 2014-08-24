@@ -77,11 +77,6 @@ body {
   -o-transition: -o-transform 200ms ease;
   -ms-transition: -ms-transform 200ms ease;
   transition: transform 200ms ease;
-  /*
-   &.transition {
-      .transition-transform(300ms);
-   }
-   */
 }
 .view.pop {
   -moz-transform: translateX(100%);
@@ -109,9 +104,6 @@ body {
   -o-transition: -o-transform 300ms ease;
   -ms-transition: -ms-transform 300ms ease;
   transition: transform 300ms ease;
-  /*&.transition {
-         .transition-transform(400ms);
-      }*/
 }
 /*
 .view {
@@ -148,11 +140,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    transform: scale(1.05, 1.05);
    opacity: 0;
    
-   -moz-transition: -moz-transform 250ms ease;
-   -webkit-transition: -webkit-transform 250ms ease;
-   -o-transition: -o-transform 250ms ease;
-   -ms-transition: -ms-transform 250ms ease;
-   transition: transform 250ms ease;
+   .transition-transform(300ms);
 
    &.in {
       -moz-transform: none;
@@ -619,7 +607,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #4d4d4d;
+  border-bottom: 1px solid #404040;
 }
 .tabstrip > .tab {
   list-style-type: none;
