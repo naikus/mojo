@@ -388,8 +388,7 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  background-color: #bfbfbf;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
@@ -433,6 +432,7 @@ input[type=submit].active {
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   color: #333333;
+  background-color: #322e2d;
 }
 .button.primary,
 input[type=button].primary,
@@ -467,7 +467,8 @@ input[type=button].primary.active,
 button.primary.active,
 input[type=reset].primary.active,
 input[type=submit].primary.active {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+  border: 1px solid #0e2835;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
   background-color: #28769a;
 }
 .button[disabled],

@@ -22,7 +22,7 @@ html, body {
 }
 
 // box sizing
-article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inline-box, input, 
+article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inline-box, input,
       textarea, select {
     .border-box;
 }
@@ -114,24 +114,24 @@ input,
    margin-bottom: 12px;
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
-   
+
    .border-box;
-   
+
    &::-moz-focus-inner {
       outline: 0;
       border: 0;
    }
-   
+
    &:focus {
       border: 1px solid rgba(0,0,0,0.4);
       // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
       outline: 0;
    }
-   
+
    &[disabled] {
       background-color: darken(@bg-color, 10%) !important;
    }
-   
+
    &.inline {
       display: inline-block;
       width: auto;
@@ -144,21 +144,21 @@ textarea {
    min-height: 100px;
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
-   background-color: darken(@bg-color, 20%);
-   border: 1px solid rgba(0,0,0,0.1);
+   // background-color: darken(@bg-color, 20%);
+   border: 1px solid rgba(0,0,0,0.3);
    border-radius: 2px;
    cursor: pointer;
    text-align: center;
-   
+
    .no-select;
-   
+
    /*
    > .fa {
       font-size: 1.1em;
       margin-right: 5px;
    }
    */
-   
+
    &:hover {
       background-color: @alt-bg-color;
       color: @alt-text-color;
@@ -173,8 +173,9 @@ textarea {
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
       // padding: 10px 8px 8px 10px;
       color: @active-text-color;
+      background-color: darken(@alt-bg-color, 5%);
    }
-   
+
    &.primary {
       background-color: @primary-color;
       color: @selected-text-color;
@@ -187,10 +188,11 @@ textarea {
       outline: none;
    }
    &.primary:active, &.primary.active {
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+      border: 1px solid darken(@primary-color, 35%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
       background-color: darken(@primary-color, 10%);
    }
-   
+
    &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       box-shadow: none !important;
       border: 1px solid rgba(0,0,0,0.1) !important;
@@ -206,14 +208,14 @@ label {
    .para {
       font-size: 0.95em;
    }
-   
+
    label {
       font-weight: bold;
       > .hint {
          font-weight: normal;
       }
    }
-   
+
    .hint {
       display: inline-block;
       padding: 3px 0;
