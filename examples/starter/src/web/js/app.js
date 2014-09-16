@@ -317,7 +317,8 @@ window.SERVER_URL = "/";
     */
    (function($) {
       $.extension("notifications", function() {
-         var self = this, uuid = $.uuid, timer,
+         var self = this, uuid = $.uuid, timer, msgQueue = [],
+				running = false,
             widget = {
                 clear: function(id) {
                   if(id) {
@@ -328,28 +329,52 @@ window.SERVER_URL = "/";
                      return;
                   }
                   self.html("");
-                  self.addClass("hidden");
+                  // self.addClass("hidden");
                }
             };
-
-        function message(type, msg, bSticky) {
-           var id = "msg_" + uuid();
-           self.removeClass("hidden");
-           self.append('<p id="' + id + '" class="message appear ' + type + '">' + msg + '</p>');
-           var m = self.find("#" + id);
-           if(bSticky !== true) {
-              setTimeout(function() {
-                 self.remove(m)
-              }, 4000);
-           }
-           m.on(Events.tap, function() {
-              self.remove(m);
-           });
-        }
+		  
+		  function clear() {
+			  self.removeClass("show");
+			  widget.clear();
+		  }
+		  
+		  function showMessages() {
+			  var msg;
+			  if(msgQueue.length) {
+				  msg = msgQueue.shift();
+				  self.append([
+					  '<p data-sticky="', msg.sticky, '" id="', msg.id, '" class="message ', msg.type, '">', 
+					  msg.content, 
+					  '</p>'
+				  ].join(""));
+				  self.addClass("show");
+				  setTimeout(clear, 3000);
+				  setTimeout(showMessages, 3600);
+			  }else {
+				  self.addClass("hidden");
+				  self.removeClass("show");
+				  running = false;
+			  }
+		  }
+		  
+		  function notify() {
+			  if(!running) {
+				  running = true;
+				  self.removeClass("hidden");
+				  showMessages();
+			  }
+		  }
 
         $.forEach(["info", "error", "success", "warn"], function(val) {
            widget[val] = function(msg, sticky) {
-              message(val, msg, sticky);
+				  msgQueue.push({
+					  id: "msg_" + uuid(),
+					  type: val,
+					  content: msg,
+					  sticky: !!sticky
+				  });
+				  notify();
+              // message(val, msg, sticky);
            };
         });
 

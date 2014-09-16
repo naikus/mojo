@@ -70,16 +70,26 @@ a {
 
    z-index: 199;
    margin: 0;
+	
+	opacity: 0;
+	-moz-transition: opacity 300ms ease;
+	-webkit-transition: opacity 300ms ease;
+	transition: opacity 300ms ease;
+	
    /*
    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
    */
-}
-.messages > .message {
-   font-size: 0.9em;
-   margin: 0;
-   padding: 7px;
-   color: #fff;
+	&.show {
+		opacity: 1;
+	}
+	
+	> .message {
+		font-size: 0.9em;
+		margin: 0;
+		padding: 7px;
+		color: #fff;
+	}
 }
 
 .info {
