@@ -342,17 +342,28 @@ window.SERVER_URL = "/";
 			  var msg;
 			  if(msgQueue.length) {
 				  msg = msgQueue.shift();
-				  self.append([
+				  self.prepend([
 					  '<p data-sticky="', msg.sticky, '" id="', msg.id, '" class="message ', msg.type, '">', 
 					  msg.content, 
 					  '</p>'
 				  ].join(""));
-				  self.addClass("show");
-				  setTimeout(clear, 3000);
-				  setTimeout(showMessages, 3600);
+				  var m = self.find("#" + msg.id),
+						remove = function() {
+							m.remove();
+						};
+				  setTimeout(function() {
+						m.addClass("show");
+						if(!msg.sticky) {
+							setTimeout(remove, 3000);
+						}else {
+							m.on(Events.tap, remove);
+						}
+						setTimeout(showMessages, 3600);
+				  }, 50);
 			  }else {
-				  self.addClass("hidden");
-				  self.removeClass("show");
+				  if(self.children().length === 0) {
+					  self.addClass("hidden");
+				  }
 				  running = false;
 			  }
 		  }

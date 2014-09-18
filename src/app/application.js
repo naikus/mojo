@@ -40,6 +40,14 @@
 })(h5);
 
 
+(function($, undefined) {
+	window.requestAnimationFrame = window.requestAnimationFrame || 
+			window.webkitRequestAnimationFrame || 
+			window.mozRequestAnimationFrame || 
+			window.msRequestAnimationFrame || 
+			function(cb) { return window.setTimeout(cb, 1000 / 60); };
+})(h5);
+
 
 /*
  * Tests for various browser properties support, out of the box supported are
@@ -422,14 +430,18 @@
          
          setTimeout(function() {
              controller.activate(params, data);
+				 if(currRoute) {
+					 currRoute.controller.deactivate();
+				 }
              
             // transitiion the current view out
-            if(currRoute) {
-               currRoute.controller.deactivate();
-               stackViewUi(currRoute.ui);
-            }
-            // transition in the new view
-            pushViewUi(ui);
+				requestAnimationFrame(function() {
+					if(currRoute) {
+						stackViewUi(currRoute.ui);
+					}
+					// transition in the new view
+					pushViewUi(ui);
+				});
          }, 50);
 
          stack.push(route);
@@ -488,8 +500,10 @@
          setTimeout(function() {
             route.controller.activate(params, data);
             currRoute.controller.deactivate();
-            popViewUi(currRoute.ui);
-            unstackViewUi(ui);
+				requestAnimationFrame(function() {
+					popViewUi(currRoute.ui);
+					unstackViewUi(ui);
+				});
          }, 50);
       }
       

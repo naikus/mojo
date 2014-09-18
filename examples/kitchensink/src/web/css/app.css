@@ -695,41 +695,44 @@ form .hint {
   display: block;
 }
 /* --------------------------------------- Framework Overrides -------------------------------- */
+/*
 .view {
-  -moz-transform: scale(1.05, 1.05);
-  -webkit-transform: scale(1.05, 1.05);
-  -o-transform: scale(1.05, 1.05);
-  -ms-transform: scale(1.05, 1.05);
-  transform: scale(1.05, 1.05);
-  opacity: 0;
-  -moz-transition: -moz-transform 300ms ease;
-  -webkit-transition: -webkit-transform 300ms ease;
-  -o-transition: -o-transform 300ms ease;
-  -ms-transition: -ms-transform 300ms ease;
-  transition: transform 300ms ease;
+   -moz-transform: scale(1.05, 1.05);
+   -webkit-transform: scale(1.05, 1.05);
+   -o-transform: scale(1.05, 1.05);
+   -ms-transform: scale(1.05, 1.05);
+   transform: scale(1.05, 1.05);
+   opacity: 0;
+   
+   .transition-transform(300ms);
+
+   &.in {
+      -moz-transform: none;
+      -webkit-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+      transform: none;
+      opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+
+   &.stack {
+      -moz-transform: scale(0.95, 0.95);
+      -webkit-transform: scale(0.95, 0.95);
+      -o-transform: scale(0.95, 0.95);
+      transform: scale(0.95, 0.95);
+      opacity: 0;
+   }
+
+   &.pop {
+      opacity: 0;
+   }
 }
-.view.in {
-  -moz-transform: none;
-  -webkit-transform: none;
-  -o-transform: none;
-  -ms-transform: none;
-  transform: none;
-  opacity: 1;
-}
-.view.showing {
-  z-index: 99;
-  display: block;
-}
-.view.stack {
-  -moz-transform: scale(0.95, 0.95);
-  -webkit-transform: scale(0.95, 0.95);
-  -o-transform: scale(0.95, 0.95);
-  transform: scale(0.95, 0.95);
-  opacity: 0;
-}
-.view.pop {
-  opacity: 0;
-}
+*/
 .half {
   width: 50%;
 }

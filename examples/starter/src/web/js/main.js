@@ -31,7 +31,7 @@ Application.addRoute("/", {
          initialize: function() {
             $("#messageButton").on(Events.tap, function() {
                var type = types[Math.floor(Math.random() * 4)];
-               Notification[type]("This is a random " + type + " message");
+               Notification[type]("This is a random " + type + " message", type === "error");
             });
          },
 
