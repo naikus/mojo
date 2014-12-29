@@ -225,7 +225,12 @@
     * returns the values returned by callback for each of these in an array
     */
    function map(arr, callback, thisObj) {
-      var ret = [];
+		  var nMap = arr.map, ret;
+		  if(nMap && isFunction(nMap)) {
+			   return nMap.call(arr, callback, thisObj);
+		  }
+		
+      ret = [];
       forEach(arr, function(val, i, arr) {
          if(typeof val !== "undefined") {
             var retVal = callback.call(thisObj, val, i, arr);
@@ -236,7 +241,7 @@
       });
       return ret;
    }
-    
+	
     
    /**
     * Extends the target object from multiple sources
