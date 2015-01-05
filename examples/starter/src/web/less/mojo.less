@@ -135,7 +135,7 @@ html, body {
    }
    &.stack {
       .translateX(-60%);
-      .transition-transform(300ms, ease);
+      .transition-transform(350ms, ease);
    }
 }
 
@@ -326,7 +326,7 @@ input,
       .button {
    padding: @pad-default;
    font-size: 1em;
-   border: 1px solid rgba(0,0,0,0.2);
+   border: 1px solid rgba(0,0,0,0.07);
    border-radius: 2px;
    display: block;
    position: relative;
@@ -344,7 +344,7 @@ input,
    }
 
    &:focus {
-      border: 1px solid rgba(0,0,0,0.4);
+      border: 1px solid rgba(0,0,0,0.15);
       // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
       outline: 0;
    }
@@ -366,7 +366,8 @@ textarea {
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
    // background-color: darken(@bg-color, 20%);
-   border: 1px solid rgba(0,0,0,0.3);
+   border: 1px solid rgba(0,0,0,0.2);
+   border-bottom-width: 3px;
    border-radius: 2px;
    cursor: pointer;
    text-align: center;
@@ -381,8 +382,7 @@ textarea {
    */
 
    &:hover {
-      background-color: @alt-bg-color;
-      color: @alt-text-color;
+      background-color: rgba(0,0,0,0.05);
    }
    &:focus {
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -392,9 +392,8 @@ textarea {
    &:active, &.active {
       border: 1px solid rgba(0, 0, 0, 0.3);
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
-      // padding: 10px 8px 8px 10px;
       color: @active-text-color;
-      background-color: darken(@alt-bg-color, 5%);
+      // background-color: darken(@alt-bg-color, 5%);
    }
 
    &.primary {

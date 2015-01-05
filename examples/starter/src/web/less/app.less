@@ -20,9 +20,11 @@ a {
    text-decoration: none;
 }
 
+/*
 .view {
    background-color: @base-color;
 }
+*/
 
 /*
  * This hides elements with .transition-hide class while view is transitioning
@@ -143,11 +145,14 @@ a {
 
 .toolbar {
    overflow: auto;
-   border-bottom: 1px solid darken(@base-color, 9%);
+   border-bottom: 1px solid darken(@base-color, 10%);
    -webkit-box-shadow: 0 0 4px darken(@base-color, 8%);
    box-shadow: 0 0 4px darken(@base-color, 8%);
    width: 100%;
    // height: 45px;
+   
+   background-color: darken(@bg-color, 4%);
+   color: @text-color;
    
    // will only work if user-scalable=no in viewport meta tag
    position: fixed; 
@@ -156,14 +161,19 @@ a {
    left: 0;
    z-index: 110;
    
+   
+   .transition-transform(300ms, ease);
+   /*
    -moz-transition: -moz-transform 250ms ease;
    -webkit-transition: -webkit-transform 250ms ease;
    -o-transition: -o-transform 250ms ease;
    -ms-transition: -ms-transform 250ms ease;
    transition: transform 250ms ease;
+   */
    
    &.hide {
-      .translateY(-100%);
+      .translateY(-110%);
+      box-shadow: none;
    }
    
    padding: 0;
@@ -176,9 +186,14 @@ a {
    
    .title {
       // color: lighten(@selected-bg-color, 5%);
-      font-weight: bold;
+      // font-weight: bold;
       display: block;
       padding: 14px 3px;
+      
+      &.active {
+        background-color: transparent !important;
+        color: @selected-bg-color !important;
+      }
    }
    
    .title:first-child {
@@ -201,12 +216,13 @@ a {
       }
       
       &.active {
-         // background-color: @selected-bg-color-alt !important;
+         // uncomment if you only want to highlight icons
+         /* background-color: transparent !important;
+         color: @selected-bg-color !important;*/
       }
       
       &.right {
          border: none;
-         // border-left: 1px solid lighten(@alt-bg-color, 9%);
       }
       &.action.on {
          // background-color: lighten(@selected-bg-color, 10%);
@@ -225,7 +241,7 @@ a {
 
 
 section {
-   background-color: @bg-color;
+   background-color: lighten(@bg-color, 3%);
    margin-bottom: 20px;
    overflow: auto;
 }

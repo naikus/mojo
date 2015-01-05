@@ -388,6 +388,26 @@ window.SERVER_URL = "/";
               // message(val, msg, sticky);
            };
         });
+        
+        widget.alert = function (msg, callback, title, label) {
+          if(navigator.notification) {
+            navigator.notification.alert(msg, callback, title, label);
+          }else {
+            alert(msg);
+            if(callback) {
+              callback();
+            }
+          }
+        };
+
+        widget.confirm = function (msg, callback, title, strLabels) {
+          if(navigator.notification) {
+            navigator.notification.confirm(msg, callback, title, strLabels);
+          }else {
+            var val = confirm(msg);
+            callback(val ? 1 : 2);
+          }
+        };
 
         return widget;
      });

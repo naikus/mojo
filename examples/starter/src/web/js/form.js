@@ -66,7 +66,7 @@ Application.addRoute("/form", {
             
             // save button
             $("#btnSave").on(Events.tap, function() {
-               alert(JSON.stringify(formBinder.getModel(), null, " "));
+               Notification.alert(JSON.stringify(formBinder.getModel(), null, " "));
             });
          },
 

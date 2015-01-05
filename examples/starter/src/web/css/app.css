@@ -47,8 +47,8 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #404040;
-  color: #aaaaaa;
+  background-color: #f0f0f0;
+  color: #666666;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
@@ -65,7 +65,7 @@ body {
   display: none;
   /* Avoid flickering in webkit browsers, thanks stackoverflow */
   -webkit-backface-visibility: hidden;
-  background-color: #404040;
+  background-color: #f0f0f0;
 }
 .view {
   -moz-transform: translateX(100%);
@@ -99,11 +99,11 @@ body {
   -webkit-transform: translate3d(-60%, 0, 0);
   -o-transform: translateX(-60%);
   transform: translateX(-60%);
-  -moz-transition: -moz-transform 300ms ease;
-  -webkit-transition: -webkit-transform 300ms ease;
-  -o-transition: -o-transform 300ms ease;
-  -ms-transition: -ms-transform 300ms ease;
-  transition: transform 300ms ease;
+  -moz-transition: -moz-transform 350ms ease;
+  -webkit-transition: -webkit-transform 350ms ease;
+  -o-transition: -o-transform 350ms ease;
+  -ms-transition: -ms-transform 350ms ease;
+  transition: transform 350ms ease;
 }
 /*
 .view {
@@ -282,8 +282,8 @@ select {
   overflow: auto;
 }
 .alt-bg {
-  background-color: #333333;
-  color: #bbbbbb;
+  background-color: #404040;
+  color: #dddddd;
 }
 input,
 button,
@@ -292,15 +292,15 @@ textarea,
 .button {
   padding: 11px;
   font-size: 1em;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.07);
   border-radius: 2px;
   display: block;
   position: relative;
   width: 100%;
   margin: 0;
   margin-bottom: 12px;
-  background-color: #4d4d4d;
-  color: #aaaaaa;
+  background-color: #fdfdfd;
+  color: #666666;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -318,7 +318,7 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   outline: 0;
 }
 input[disabled],
@@ -326,7 +326,7 @@ button[disabled],
 select[disabled],
 textarea[disabled],
 .button[disabled] {
-  background-color: #272727 !important;
+  background-color: #d7d7d7 !important;
 }
 input.inline,
 button.inline,
@@ -347,7 +347,8 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom-width: 3px;
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
@@ -366,8 +367,7 @@ input[type=button]:hover,
 button:hover,
 input[type=reset]:hover,
 input[type=submit]:hover {
-  background-color: #333333;
-  color: #bbbbbb;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .button:focus,
 input[type=button]:focus,
@@ -390,15 +390,14 @@ input[type=reset].active,
 input[type=submit].active {
   border: 1px solid rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
-  color: #bbbbbb;
-  background-color: #262626;
+  color: #f0f0f0;
 }
 .button.primary,
 input[type=button].primary,
 button.primary,
 input[type=reset].primary,
 input[type=submit].primary {
-  background-color: #e658a0;
+  background-color: #3d9af7;
   color: #ffffff;
 }
 .button.primary:hover,
@@ -406,14 +405,14 @@ input[type=button].primary:hover,
 button.primary:hover,
 input[type=reset].primary:hover,
 input[type=submit].primary:hover {
-  background-color: #e34293;
+  background-color: #258df6;
 }
 .button.primary:focus,
 input[type=button].primary:focus,
 button.primary:focus,
 input[type=reset].primary:focus,
 input[type=submit].primary:focus {
-  box-shadow: 0 0 2px #ed84b9;
+  box-shadow: 0 0 2px #6eb3f9;
   outline: none;
 }
 .button.primary:active,
@@ -426,9 +425,9 @@ input[type=button].primary.active,
 button.primary.active,
 input[type=reset].primary.active,
 input[type=submit].primary.active {
-  border: 1px solid #791246;
+  border: 1px solid #05417c;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
-  background-color: #df2c87;
+  background-color: #0c80f5;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -452,7 +451,7 @@ input[type=reset][diabled].active,
 input[type=submit][diabled].active {
   box-shadow: none !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  color: #ffffff !important;
+  color: #bfbfbf !important;
 }
 label {
   display: block;
@@ -476,7 +475,7 @@ form .hint {
   padding: 3px 0;
 }
 .selected {
-  background-color: #272727;
+  background-color: #3d9af7;
   color: #ffffff;
 }
 .list {
@@ -490,7 +489,7 @@ form .hint {
   position: relative;
 }
 .list > li.selected {
-  background-color: #272727;
+  background-color: #3d9af7;
 }
 .widget.toggle,
 .widget.toggle > .thumb {
@@ -502,10 +501,10 @@ form .hint {
   position: relative;
   display: inline-block;
   min-width: 70px;
-  background-color: #272727;
+  background-color: #d7d7d7;
   height: 2.2em;
   overflow: hidden;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #cacaca;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -518,13 +517,13 @@ form .hint {
   position: absolute;
   height: 100%;
   display: block;
-  background-color: #4a4a4a;
+  background-color: #fafafa;
   left: 0px;
   transition: left 200ms ease;
-  border: 1px solid #737373;
+  border: 1px solid #ffffff;
 }
 .widget.toggle.on {
-  background-color: #0d0d0d;
+  background-color: #0c80f5;
   color: #ffffff;
 }
 .widget.toggle.on > .thumb {
@@ -571,7 +570,7 @@ form .hint {
   display: block;
 }
 .progress {
-  background-color: #0d0d0d;
+  background-color: #1a1a1a;
   /*box-shadow: 0 0 2px #000000 inset;*/
   overflow: auto;
   padding: 2px;
@@ -594,8 +593,8 @@ form .hint {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #0d0d0d !important;
-  color: #bbbbbb !important;
+  background-color: #6eb3f9 !important;
+  color: #f0f0f0 !important;
 }
 .tabstrip,
 .tab {
@@ -608,7 +607,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #404040;
+  border-bottom: 1px solid #f0f0f0;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -620,7 +619,7 @@ form .hint {
   position: relative;
 }
 .tabstrip > .tab > span {
-  border-right: 1px solid #272727;
+  border-right: 1px solid #d7d7d7;
   min-height: 20px;
   padding: 4px 10px;
   margin: 6px 0;
@@ -631,17 +630,17 @@ form .hint {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #272727;
-  color: #aaaaaa;
+  border-bottom: 3px solid #3d9af7;
+  color: #666666;
 }
 .tabstrip.alt-bg {
-  background-color: #333333;
+  background-color: #404040;
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #404040;
+  color: #6eb3f9;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #383838;
+  border-right: 1px solid #454545;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -663,15 +662,17 @@ form .hint {
 }
 html,
 body {
-  background-color: #404040;
+  background-color: #f6f6f6;
 }
 a {
-  color: #bbbbbb;
+  color: #dddddd;
   text-decoration: none;
 }
+/*
 .view {
-  background-color: #404040;
+   background-color: @base-color;
 }
+*/
 /*
  * This hides elements with .transition-hide class while view is transitioning
  */
@@ -687,10 +688,10 @@ a {
   padding: 15px 10px;
 }
 .form .header {
-  background-color: #2e2e2e;
+  background-color: #dedede;
   padding: 10px !important;
   margin: 0;
-  color: #aaaaaa;
+  color: #666666;
   border: none;
   font-weight: bold;
   overflow: auto;
@@ -731,10 +732,10 @@ a {
   opacity: 1;
 }
 .info {
-  background-color: #007bd3;
+  background-color: #6199ce;
 }
 .info-text {
-  color: #00223a;
+  color: #244c72;
 }
 .success {
   background-color: #94b75f;
@@ -775,36 +776,49 @@ a {
 }
 .toolbar {
   overflow: auto;
-  border-bottom: 1px solid #292929;
-  -webkit-box-shadow: 0 0 4px #2c2c2c;
-  box-shadow: 0 0 4px #2c2c2c;
+  border-bottom: 1px solid #dddddd;
+  -webkit-box-shadow: 0 0 4px #e2e2e2;
+  box-shadow: 0 0 4px #e2e2e2;
   width: 100%;
+  background-color: #e6e6e6;
+  color: #666666;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 110;
-  -moz-transition: -moz-transform 250ms ease;
-  -webkit-transition: -webkit-transform 250ms ease;
-  -o-transition: -o-transform 250ms ease;
-  -ms-transition: -ms-transform 250ms ease;
-  transition: transform 250ms ease;
+  -moz-transition: -moz-transform 300ms ease;
+  -webkit-transition: -webkit-transform 300ms ease;
+  -o-transition: -o-transform 300ms ease;
+  -ms-transition: -ms-transform 300ms ease;
+  transition: transform 300ms ease;
+  /*
+   -moz-transition: -moz-transform 250ms ease;
+   -webkit-transition: -webkit-transform 250ms ease;
+   -o-transition: -o-transform 250ms ease;
+   -ms-transition: -ms-transform 250ms ease;
+   transition: transform 250ms ease;
+   */
   padding: 0;
   margin: 0;
 }
 .toolbar.hide {
-  -moz-transform: translateY(-100%);
-  -webkit-transform: translate3d(0, -100%, 0);
-  -o-transform: translateY(-100%);
-  transform: translateY(-100%);
+  -moz-transform: translateY(-110%);
+  -webkit-transform: translate3d(0, -110%, 0);
+  -o-transform: translateY(-110%);
+  transform: translateY(-110%);
+  box-shadow: none;
 }
 .toolbar > ul {
   padding: 0;
   margin: 0;
 }
 .toolbar .title {
-  font-weight: bold;
   display: block;
   padding: 14px 3px;
+}
+.toolbar .title.active {
+  background-color: transparent !important;
+  color: #3d9af7 !important;
 }
 .toolbar .title:first-child {
   padding-left: 10px;
@@ -823,11 +837,15 @@ a {
 .toolbar .action.right {
   float: right;
 }
+.toolbar .action.active {
+  /* background-color: transparent !important;
+         color: @selected-bg-color !important;*/
+}
 .toolbar .action.right {
   border: none;
 }
 .toolbar .action.action.on {
-  background-color: #292929;
+  background-color: #363636;
 }
 .toolbar .action .icon {
   font-size: 1.2em;
@@ -836,15 +854,15 @@ a {
   display: none !important;
 }
 section {
-  background-color: #404040;
+  background-color: #f8f8f8;
   margin-bottom: 20px;
   overflow: auto;
 }
 section > header {
   overflow: auto;
   font-size: 1.3em;
-  color: #b4b4b4;
-  border-bottom: 1px solid #363636;
+  color: #707070;
+  border-bottom: 1px solid #e6e6e6;
 }
 /* --------------------------------------- Additional Views ----------------------------------------- */
 #aboutView h1 {
