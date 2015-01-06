@@ -166,10 +166,13 @@
       }
       
       function changeListener(e) {
-         updateModelValue(bindKey, e.target.value);
+         var elem = e.target, 
+               bindKey = elem.getAttribute(bindingAttr), 
+               keyInfo = getKey(bindKey);
+         updateModelValue(keyInfo.key, elem.value);
       }
       
-      function attachListeners(elem, bindKey) {
+      function attachListeners(elem) {
          var eName = elem.nodeName.toLowerCase(), type = eName.type;
          if((eName === "input" || eName === "textarea" || eName === "select") && 
                  (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {

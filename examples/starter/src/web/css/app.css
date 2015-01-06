@@ -388,9 +388,8 @@ input[type=button].active,
 button.active,
 input[type=reset].active,
 input[type=submit].active {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
-  color: #f0f0f0;
+  border-color: rgba(0, 0, 0, 0.3);
+  color: #444444;
 }
 .button.primary,
 input[type=button].primary,
@@ -425,8 +424,8 @@ input[type=button].primary.active,
 button.primary.active,
 input[type=reset].primary.active,
 input[type=submit].primary.active {
-  border: 1px solid #05417c;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
+  border-color: #075aad;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) inset;
   background-color: #0c80f5;
 }
 .button[disabled],
@@ -450,7 +449,7 @@ button[diabled].active,
 input[type=reset][diabled].active,
 input[type=submit][diabled].active {
   box-shadow: none !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
   color: #bfbfbf !important;
 }
 label {
@@ -593,8 +592,8 @@ form .hint {
   cursor: pointer;
 }
 .activable.active {
-  background-color: #6eb3f9 !important;
-  color: #f0f0f0 !important;
+  background-color: #dedede !important;
+  color: #444444 !important;
 }
 .tabstrip,
 .tab {

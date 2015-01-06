@@ -390,8 +390,8 @@ textarea {
       outline: 0;
    }
    &:active, &.active {
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+      border-color: rgba(0, 0, 0, 0.3);
+      // box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
       color: @active-text-color;
       // background-color: darken(@alt-bg-color, 5%);
    }
@@ -408,16 +408,15 @@ textarea {
       outline: none;
    }
    &.primary:active, &.primary.active {
-      border: 1px solid darken(@primary-color, 35%);
-      box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
+      border-color: darken(@primary-color, 25%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.3) inset;
       background-color: darken(@primary-color, 10%);
    }
 
    &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       box-shadow: none !important;
-      border: 1px solid rgba(0,0,0,0.1) !important;
+      border-color: rgba(0,0,0,0.1) !important;
       color: lighten(@text-color, 35%) !important;
-      // padding: 10px !important;
    }
 }
 label {
