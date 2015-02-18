@@ -136,6 +136,7 @@ body {
   transform: none;
 }
 .view.stack {
+  z-index: 98;
   -moz-transform: translateX(-60%);
   -webkit-transform: translate3d(-60%, 0, 0);
   -o-transform: translateX(-60%);
@@ -155,7 +156,7 @@ body {
    -o-transition: opacity 250ms ease;
    -ms-transition: opacity 250ms ease;
    transition: opacity 250ms ease;
-   
+
     &.pop {
        opacity: 0;
    }
@@ -180,7 +181,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
-   
+
    .transition-transform(300ms);
 
    &.in {
@@ -189,9 +190,9 @@ Alternate Android2.3.x-like transition effect for views. Beta!
       -o-transform: none;
       -ms-transform: none;
       transform: none;
-      opacity: 1;    
+      opacity: 1;
    }
-   
+
    &.showing {
       z-index: 99;
       display: block;
@@ -675,12 +676,13 @@ form .hint {
 }
 .tabstrip.alt-bg {
   background-color: #3f3b39;
+  border-bottom-color: rgba(0, 0, 0, 0.3);
 }
 .tabstrip.alt-bg > .tab.selected {
   color: #f68a4b;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right: 1px solid #44403e;
+  border-right-color: #44403e;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {

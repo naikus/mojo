@@ -40,13 +40,14 @@
    
    &.alt-bg {
       background-color: @alt-bg-color;
+      border-bottom-color: rgba(0,0,0,0.3);
       
       > .tab {
          &.selected {
             color: lighten(@selected-bg-color, 10%);
          }
          > span {
-             border-right: 1px solid lighten(@alt-bg-color, 2%);
+             border-right-color: lighten(@alt-bg-color, 2%);
          }
       }
    }
