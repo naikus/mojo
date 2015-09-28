@@ -528,6 +528,8 @@
          cancelable = data.cancelable === false ? false : true;   
          evt = document.createEvent("Events");
 
+      evt.data = data;
+      /*
       if(isTypeOf(props, "Object")) {
          for(prop in data) {
             if(prop !== "bubbles" && prop !== "cancelable") {
@@ -536,7 +538,8 @@
          }
       }else {
          evt.data = props;
-      }      
+      }
+      */
       evt.initEvent(type, bubbles, cancelable);
       return evt;      
    }

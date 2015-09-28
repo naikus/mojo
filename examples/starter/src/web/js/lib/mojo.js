@@ -1010,7 +1010,8 @@
       var model = options.model || {}, self = this, 
             bindingAttr = options.attr || "data-bind",
             boundElemMap = {}, 
-            formatters = options.formatters || {};
+            formatters = options.formatters || {},
+            converters = options.converters || {};
       
       
       function applyBindings() {
@@ -1066,15 +1067,18 @@
          });
       }
 
-      function updateModelValue(key, value) {
-         var keys = key.split("."), modelValue, partKey, tmpModel = model, formatter = formatters[key];
+      function updateModelValue(key, value, updateView) {
+         var keys = key.split("."), modelValue, partKey, tmpModel = model, 
+             formatter = formatters[key];
+     
          for(var i = 0, len = keys.length; i < len; i++) {
             partKey = keys[i];
             modelValue = tmpModel[partKey];
             if(i === len - 1) {
-               if(tmpModel[partKey] !== value) {
-                  tmpModel[partKey] = value;
-               }
+               // ?? This could be a problem
+               // if(modelValue !== value) {
+               tmpModel[partKey] = value;
+               // }
             }else {
                if(!modelValue) {
                   tmpModel[partKey] = {};
@@ -1083,15 +1087,22 @@
             }
          }
          
+         // console.log(tmpModel == model);
+         
          // update the view
-         applyBindingsForKey(key, formatter ? formatter(value) : value);
+         if(updateView) {
+            applyBindingsForKey(key, formatter ? formatter(value) : value);
+         }
       }
+      
+      function identity(arg) {return arg;}
       
       function changeListener(e) {
          var elem = e.target, 
                bindKey = elem.getAttribute(bindingAttr), 
-               keyInfo = getKey(bindKey);
-         updateModelValue(keyInfo.key, elem.value);
+               keyInfo = getKey(bindKey),
+               converter = converters[keyInfo.key] || identity;
+         updateModelValue(keyInfo.key, converter(elem.value));
       }
       
       function attachListeners(elem) {
@@ -1132,9 +1143,9 @@
             applyBindings();
          },
          
-         update: function(key, val) {
+         update: function(key, val, updateView) {
             if(typeof key === "string") {
-               updateModelValue(key, val);
+               updateModelValue(key, val, updateView === true);
             }else {
                updateModel(key); // key is actually a partial model object
             }

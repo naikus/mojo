@@ -26,16 +26,16 @@
 
 @import "colors.less";
 
-.translate(@x: 0, @y: 0) {
+.translate(@x: 0, @y: 0, @z: 0) {
    -moz-transform: translate(@x, @y);
    /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-   -webkit-transform: translate3d(@x, @y, 0);
+   -webkit-transform: translate3d(@x, @y, @z);
    // -webkit-transform: translate(@x, @y);
    -o-transform: translate(@x, @y);
-   transform: translate(@x, @y);
+   transform: translate3d(@x, @y, @z);
 }
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
