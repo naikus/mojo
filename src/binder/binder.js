@@ -223,7 +223,7 @@
          
          update: function(key, val, updateView) {
             if(typeof key === "string") {
-               updateModelValue(key, val, updateView === true);
+               updateModelValue(key, val, updateView === false ? false : true);
             }else {
                updateModel(key); // key is actually a partial model object
             }
