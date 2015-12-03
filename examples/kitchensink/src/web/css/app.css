@@ -168,11 +168,12 @@ body {
 /* ---------------------------- Slide transition for views ---------------------------- */
 /*
 .view {
-   .translateX(100%);
-   .transition-transform;
-
+   .translate(100%);
+   // .transition-transform;
+   .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
    &.pop {
-      .translateX(100%);
+      .translate(100%);
    }
 
    &.showing {
@@ -185,8 +186,9 @@ body {
    }
    &.stack {
       z-index: 98;
-      .translateX(-60%);
-      .transition-transform(350ms, ease);
+      .translate(-60%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(700ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
 */
@@ -266,11 +268,6 @@ Alternate Android2.3.x-like transition effect for views. Beta!
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-.no-select {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
 }
 html,
 body {

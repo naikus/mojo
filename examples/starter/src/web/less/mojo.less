@@ -57,12 +57,12 @@
    -o-transform: translateY(@y);
    transform: translateY(@y);
 }
-.transition-transform(@time: 200ms, @anim: ease) {
-   -moz-transition: -moz-transform @time @anim;
-   -webkit-transition: -webkit-transform @time @anim;
-   -o-transition: -o-transform @time @anim;
-   -ms-transition: -ms-transform @time @anim;
-   transition: transform @time @anim;
+.transition-transform(@time: 200ms, @anim: ease, @delay: 0ms) {
+   -moz-transition: -moz-transform @time @anim @delay;
+   -webkit-transition: -webkit-transform @time @anim @delay;
+   -o-transition: -o-transform @time @anim @delay;
+   -ms-transition: -ms-transform @time @anim @delay;
+   transition: transform @time @anim @delay;
 }
 
 
@@ -99,8 +99,6 @@ html, body {
 
 
 
-/* ---------------------------- Default transition effects for views ---------------------------- */
-
 .view {
    position: absolute;
    left: 0;
@@ -108,6 +106,8 @@ html, body {
 
    width: 100%;
    min-height: 100%;
+   
+   will-change: transform;
 
    display: none;
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
@@ -117,12 +117,50 @@ html, body {
 }
 
 
-.view {
-   .translateX(100%);
-   .transition-transform;
+/* --------------------------- Android 5.1 like transition for views ---------------------------- */
 
+.view {
+   .translate(0, 10%);
+   // .transition-transform;
+   .transition-transform(200ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
    &.pop {
-      .translateX(100%);
+      .translate(0, -10%);
+   }
+
+   &.showing {
+      display: block;
+   }
+   &.in {
+      // .translateX(0); Fixed position elements won't work with this
+      .translateNone;
+   }
+   
+   &.showing.in {
+     z-index: 99;
+   }
+   &.showing.pop {
+     z-index: 98;
+   }
+   
+   &.stack {
+      z-index: 98;
+      .translate(0, 10%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(100ms, cubic-bezier(0.19, 1, 0.22, 1));
+   }
+}
+
+/* ---------------------------- Slide transition for views ---------------------------- */
+
+/*
+.view {
+   .translate(100%);
+   // .transition-transform;
+   .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
+   &.pop {
+      .translate(100%);
    }
 
    &.showing {
@@ -135,10 +173,13 @@ html, body {
    }
    &.stack {
       z-index: 98;
-      .translateX(-60%);
-      .transition-transform(350ms, ease);
+      .translate(-60%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(700ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
+*/
+
 
 
 /*
@@ -226,12 +267,6 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    -webkit-box-sizing: border-box;
    -moz-box-sizing: border-box;
    box-sizing: border-box;
-}
-
-.no-select {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
 }
 
 html, body {
@@ -483,31 +518,34 @@ label {
    position: relative;
    display: inline-block;
    min-width: 70px;
-   background-color: darken(@bg-color, 10%);
-   height: 2.2em;
+   background-color: darken(@bg-color, 5%);
+   height: 2.25em;
    // border: 2px solid lighten(@bg-color, 2%);
    // border-radius: 30px;
-   // box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+   box-shadow: 0 0 3px rgba(0,0,0,0.05);
    overflow: hidden;
-   border: 1px solid darken(@bg-color, 15%);
+   border: 1px solid darken(@bg-color, 8%);
+   border-radius: 3px;
    
    .border-box;
    
    > .thumb {
         .border-box;
-        width: 50%;
+        width: 47%;
         position: absolute;
-        height: 100%;
+        height: 1.5em;
         display: block;
         // background-color: darken(@bg-color, 2%);
-        background-color: lighten(@bg-color, 4%);
+        background-color: lighten(@bg-color, 2%);
+        border-radius: 2px;
         
-        left: 0px;
+        left: 5px;
+        top: 5px;
         
         transition: left 200ms ease;
         // transition: -webkit-transform 500ms ease;
         
-        border: 1px solid lighten(@bg-color, 20%);
+        border: 1px solid darken(@bg-color, 10%);
         
         // border: 10px solid desaturate(lighten(@selected-bg-color, 10%), 15%);
         // border-radius: 40px;
@@ -520,7 +558,7 @@ label {
       //border-color: @selected-bg-color;
       
       > .thumb {
-          left: 52%;
+          left: 45%;
           // border-color: @selected-bg-color;
          // .translateX(100%);
       }

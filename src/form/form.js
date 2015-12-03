@@ -76,9 +76,12 @@
 (function($) {
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
 
-   $.extension("expandable", function(delay) {
-      var self = $(this.get(0)), expanded = false; 
-      delay = delay || 100;
+   $.extension("expandable", function(opts) {
+      var self = $(this.get(0)), options = opts || {}, 
+          onchange = options.onchange,
+          expanded = typeof(options.expanded) === "undefined" ? true : !!options.expanded,
+          delay = options.delay || 100,
+          widget;
 
       var trigger = $(self.children(".trigger")[0]);
       trigger.on(action, function() {
@@ -86,8 +89,11 @@
       });
 
       function setExpanded(bEx) {
-         expanded = bEx;
-         setTimeout(renderUI, delay);
+         var state = !!bEx;
+         if(expanded !== state) {
+           expanded = state;
+           setTimeout(renderUI, delay);
+         }
       }
 
       function renderUI() {
@@ -98,18 +104,21 @@
          }else {
             self.removeClass("on");
          }
+         if(onchange) onchange.call(widget);
       }
 
-      if(trigger.hasClass("on")) {
-         expanded = true;
-      }
-
-      return {
+      widget = {
          expand: setExpanded,
          isExpanded: function() {
             return expanded;
          }
       };
+      
+      if(expanded) {
+         self.addClass("on");
+      }
+      
+      return widget;
    });
 })(h5);
 
@@ -137,14 +146,14 @@
  */
 (function($) {
    $.extension("progress", function(options) {
-      var self = this, valueElem, value = options ? options.value || 0 : 0;
+      var self = this, widget, valueElem, value = options ? options.value || 0 : 0;
 
       self.addClass("progress");
       self.append("<div class='value selected'></div>");
 
       valueElem = self.find("div.value");
 
-      return {
+      widget = {
          setValue: function(numVal) {
             value = Number(numVal) || 0;
             valueElem.css("width", value + "%");
@@ -154,6 +163,11 @@
             return value;
          }
       };
+      
+      widget.setValue(value);
+      
+      return widget;
+      
    });
 })($);
 

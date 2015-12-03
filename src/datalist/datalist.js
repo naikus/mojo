@@ -138,7 +138,7 @@
          items = document.createDocumentFragment(); //not supported in IE 5.5
          for(i = 0, len = arrData.length; i < len; i++) {
             $li = $(document.createElement("li"));
-            $li = renderItem(widget, arrData[i], i, opts);
+            $li = renderItem(widget, $li, arrData[i], i, opts);
             items.appendChild($li.get(0));
             arrLis[arrLis.length] = $li;
          }

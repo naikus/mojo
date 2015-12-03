@@ -827,15 +827,7 @@
                  
          getCurrentRoute: function() {
             var route = stack.length ? stack[stack.length - 1] : null;
-            if(route) {
-               return {
-                  id: route.id,
-                  path: route.path,
-                  realPath: route.realPath,
-                  controller: route.controller
-               };
-            }
-            return null;
+            return route;
          },
          
          loadView: function(viewTemplateUrl, path, data, resultCallback) {
