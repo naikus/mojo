@@ -1,7 +1,8 @@
 Application.addRoute("/calendar", {
   id: "calendarView",
   factory: function(App, viewUi) {
-    var actYearsPrevious, actYearsNext, uiYears, uiMonths, uiDates, uiDays,
+    var Events = $.EventTypes, 
+        actYearsPrevious, actYearsNext, uiYears, uiMonths, uiDates, uiDays,
         months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         calData,

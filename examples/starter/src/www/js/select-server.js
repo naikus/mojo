@@ -2,21 +2,22 @@
 
 Application.addRoute("/select-server", {
   id: "selectServerView",
-  factory: function(app, viewUi) {
+  factory: function(App, viewUi) {
     var selectedServer = null,
+        Events = $.EventTypes,
         uiServerList,
         Storage = window.store,
         addServerFormBinder = $("#addServerForm").binder();
     
     function getServerList() {
-      var list = Storage.get("ST.serverList");
+      var list = Storage.get("App.serverList");
       if(!list) {
          list = [
            "http://localhost:8080",
            "http://172.18.0.133:8080",
            "http://172.18.0.4:8080"
          ];
-         Storage.set("ST.serverList", list);
+         Storage.set("App.serverList", list);
       }
       return list;
     }
@@ -28,7 +29,7 @@ Application.addRoute("/select-server", {
       
       var list = getServerList();
       list.push(serverUrl);
-      Storage.set("ST.serverList", list);
+      Storage.set("App.serverList", list);
       return serverUrl;
     }
     
@@ -41,7 +42,7 @@ Application.addRoute("/select-server", {
     }
     
     viewUi.on("toggleaddform", function() {
-      var action = app.getActionBarAction("showFormAction");
+      var action = App.ActionBar.getAction("showFormAction");
       if(action.hasClass("on")) {
         action.removeClass("on");
         viewUi.find(".content").removeClass("show-form");
@@ -57,7 +58,7 @@ Application.addRoute("/select-server", {
           type: "action",
           icon: "icon icon-arrow-left",
           handler: function() {
-            app.popView(selectedServer);
+            App.popView(selectedServer);
           }
         },
         {
@@ -102,7 +103,7 @@ Application.addRoute("/select-server", {
           data: getServerList()
         });
         uiServerList.on(Events.tap, function(event, item, model) {
-          app.popView(model);
+          App.popView(model);
         });
       },
       

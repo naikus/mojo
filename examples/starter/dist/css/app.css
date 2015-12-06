@@ -57,7 +57,96 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/* Default theme (gray blue) */
+/*#3395C2;*/
+/* Red theme */
+/*
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #dcdcdc;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #484848;
+// Text color to complement alternate background color
+@alt-text-color: #f0f0f0;
+// Default selected background color
+@selected-bg-color: #B84126;
+@selected-bg-color-alt: #c95237;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+*/
+/* Mint theme (green) */
+/* Android theme */
+/*
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #333;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #222;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #bbb;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7C53D;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F7C53D;
+@selected-bg-color-alt: #FFA100;
+// Default selected text color
+@selected-text-color: #222;
+*/
+/* Origin theme */
+/*
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #3F3B39; //#414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Default selected background color
+@selected-bg-color: #F46A1A; //#DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
+@active-text-color: #333;
+*/
 /* Default light theme */
+/*
+@base-color: #fafafa;
+// Background color for viewport views and other boxes
+@bg-color: #f8f8f8;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #565656;
+// Text color to complement the background color
+@text-color: #656565;
+// Text color to complement alternate background color
+@alt-text-color: @bg-color;
+// Default selected background color
+@selected-bg-color: #E5E5E5;
+@selected-bg-color-alt: #47b8f4;
+// Default selected text color
+@selected-text-color: @text-color;
+
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@selected-bg-color, 5%);
+@active-text-color: @text-color;
+
+@primary-action-color: #00CAD5; //#3FD9F4; //#48c9c7;
+@primary-text-color: @bg-color;
+
+@toolbar-bg-color: #666666;
+@toolbar-text-color: #fafafa;
+*/
 /* Alternate dark theme. Don't forget to change the chart colors too :) */
 /*
 @base-color: #293952;
@@ -70,28 +159,12 @@
 @selected-text-color: #fafafa;
 @active-bg-color: lighten(@selected-bg-color, 15%);
 @active-text-color: @text-color;
-@primary-color: #00a1ff;
+@primary-action-color: #00a1ff;
 @primary-text-color: #fff;
 @toolbar-bg-color: @base-color;
 @toolbar-text-color: @text-color;
 */
 /* Alternate light theme. Don't forget to change the chart colors too :) */
-/*
-@base-color: #F0F3F9;
-@bg-color: @base-color;
-@alt-bg-color: #737F9D;
-@text-color: #949BAD;
-@alt-text-color: #D7DBE6;
-@selected-bg-color: #75B8F1;
-@selected-bg-color-alt: @selected-bg-color;
-@selected-text-color: #ffffff;
-@active-bg-color: @selected-bg-color;
-@active-text-color: #fff;
-@primary-color: #1BD2C5;
-@primary-text-color: #fff;
-@toolbar-bg-color: #515B74;
-@toolbar-text-color: #fff;
-*/
 .translateNone,
 .transformNone {
   -moz-transform: none;
@@ -118,15 +191,14 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f8f8f8;
-  color: #656565;
+  background-color: #F0F3F9;
+  color: #949BAD;
 }
 /* Currently unused since does not work consistently in firefox and firefox mobile */
 .view-transitioning {
   height: 100%;
   overflow: hidden;
 }
-/* ---------------------------- Default transition effects for views ---------------------------- */
 .view {
   position: absolute;
   left: 0;
@@ -137,35 +209,35 @@ body {
   display: none;
   /* Avoid flickering in webkit browsers, thanks stackoverflow */
   -webkit-backface-visibility: hidden;
-  background-color: #f8f8f8;
+  background-color: #F0F3F9;
 }
+/* --------------------------- Android 5.1 like transition for views ---------------------------- */
 .view {
-  -moz-transform: translate(100%, 0);
-  /** 
+  -moz-transform: translate(0, 10%);
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-  -webkit-transform: translate3d(100%, 0, 0);
-  -o-transform: translate(100%, 0);
-  transform: translate3d(100%, 0, 0);
-  -moz-transition: -moz-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -webkit-transition: -webkit-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -o-transition: -o-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -ms-transition: -ms-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  transition: transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transform: translate3d(0, 10%, 0);
+  -o-transform: translate(0, 10%);
+  transform: translate3d(0, 10%, 0);
+  -moz-transition: -moz-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
 }
 .view.pop {
-  -moz-transform: translate(100%, 0);
-  /** 
+  -moz-transform: translate(0, -10%);
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-  -webkit-transform: translate3d(100%, 0, 0);
-  -o-transform: translate(100%, 0);
-  transform: translate3d(100%, 0, 0);
+  -webkit-transform: translate3d(0, -10%, 0);
+  -o-transform: translate(0, -10%);
+  transform: translate3d(0, -10%, 0);
 }
 .view.showing {
-  z-index: 99;
   display: block;
 }
 .view.in {
@@ -174,22 +246,55 @@ body {
   -o-transform: none;
   transform: none;
 }
+.view.showing.in {
+  z-index: 99;
+}
+.view.showing.pop {
+  z-index: 98;
+}
 .view.stack {
   z-index: 98;
-  -moz-transform: translate(-60%, 0);
-  /** 
+  -moz-transform: translate(0, 10%);
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-  -webkit-transform: translate3d(-60%, 0, 0);
-  -o-transform: translate(-60%, 0);
-  transform: translate3d(-60%, 0, 0);
-  -moz-transition: -moz-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -webkit-transition: -webkit-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -o-transition: -o-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -ms-transition: -ms-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  transition: transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transform: translate3d(0, 10%, 0);
+  -o-transform: translate(0, 10%);
+  transform: translate3d(0, 10%, 0);
+  -moz-transition: -moz-transform 300ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 300ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 300ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 300ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 300ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
 }
+/* ---------------------------- Slide transition for views ---------------------------- */
+/*
+.view {
+   .translate(100%);
+   // .transition-transform;
+   .transition-transform(450ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
+   &.pop {
+      .translate(100%);
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      // .translateX(0); Fixed position elements won't work with this
+      .translateNone;
+   }
+   &.stack {
+      z-index: 98;
+      .translate(-60%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(700ms, cubic-bezier(0.19, 1, 0.22, 1));
+   }
+}
+*/
 /*
 .view {
    opacity: 0;
@@ -199,7 +304,7 @@ body {
    -o-transition: opacity 250ms ease;
    -ms-transition: opacity 250ms ease;
    transition: opacity 250ms ease;
-   
+
     &.pop {
        opacity: 0;
    }
@@ -224,7 +329,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
-   
+
    .transition-transform(300ms);
 
    &.in {
@@ -233,9 +338,9 @@ Alternate Android2.3.x-like transition effect for views. Beta!
       -o-transform: none;
       -ms-transform: none;
       transform: none;
-      opacity: 1;    
+      opacity: 1;
    }
-   
+
    &.showing {
       z-index: 99;
       display: block;
@@ -367,8 +472,11 @@ select {
   overflow: auto;
 }
 .alt-bg {
-  background-color: #565656;
-  color: #f8f8f8;
+  background-color: #737F9D;
+  color: #D7DBE6;
+}
+.hidden {
+  display: none !important;
 }
 input,
 button,
@@ -377,7 +485,7 @@ textarea,
 .button {
   padding: 11px;
   font-size: 1em;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.07);
   border-radius: 2px;
   display: block;
   position: relative;
@@ -385,7 +493,7 @@ textarea,
   margin: 0;
   margin-bottom: 12px;
   background-color: #ffffff;
-  color: #656565;
+  color: #949BAD;
   -webkit-appearance: caret;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -404,7 +512,7 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border-bottom-color: #a7ddfa;
+  border-bottom-color: #d2e8fa;
   outline: 0;
 }
 input[disabled],
@@ -417,7 +525,7 @@ button.disabled,
 select.disabled,
 textarea.disabled,
 .button.disabled {
-  background-color: #dfdfdf !important;
+  background-color: #ccd6ea !important;
 }
 input.inline,
 button.inline,
@@ -447,7 +555,7 @@ input[type=submit] {
   -webkit-user-select: none;
   user-select: none;
   /*
-   > .icon {
+   > .fa {
       font-size: 1.1em;
       margin-right: 5px;
    }
@@ -458,8 +566,8 @@ input[type=button]:hover,
 button:hover,
 input[type=reset]:hover,
 input[type=submit]:hover {
-  background-color: #dfdfdf;
-  color: #f8f8f8;
+  background-color: #ccd6ea;
+  color: #D7DBE6;
 }
 .button:focus,
 input[type=button]:focus,
@@ -481,31 +589,29 @@ button.active,
 input[type=reset].active,
 input[type=submit].active {
   border-color: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
-  color: #656565;
-  background-color: #494949;
+  color: #fff;
 }
 .button.primary,
 input[type=button].primary,
 button.primary,
 input[type=reset].primary,
 input[type=submit].primary {
-  background-color: #00CAD5;
-  color: #f8f8f8;
+  background-color: #1BD2C5;
+  color: #fff;
 }
 .button.primary:hover,
 input[type=button].primary:hover,
 button.primary:hover,
 input[type=reset].primary:hover,
 input[type=submit].primary:hover {
-  background-color: #00b2bc;
+  background-color: #18bbb0;
 }
 .button.primary:focus,
 input[type=button].primary:focus,
 button.primary:focus,
 input[type=reset].primary:focus,
 input[type=submit].primary:focus {
-  box-shadow: 0 0 2px #09f2ff;
+  box-shadow: 0 0 2px #3ae6da;
   outline: none;
 }
 .button.primary:active,
@@ -518,9 +624,10 @@ input[type=button].primary.active,
 button.primary.active,
 input[type=reset].primary.active,
 input[type=submit].primary.active {
-  border-color: #002123;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
-  background-color: #009aa2;
+  border-color: #18bbb0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.08) inset;
+  background-color: #16aea3;
+  color: #fff;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -543,8 +650,45 @@ button[diabled].active,
 input[type=reset][diabled].active,
 input[type=submit][diabled].active {
   box-shadow: none !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  color: #bebebe !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #f9f9fa !important;
+}
+.button.secondary,
+input[type=button].secondary,
+button.secondary,
+input[type=reset].secondary,
+input[type=submit].secondary {
+  background-color: #F79204;
+  color: #5b6682;
+}
+.button.secondary:hover,
+input[type=button].secondary:hover,
+button.secondary:hover,
+input[type=reset].secondary:hover,
+input[type=submit].secondary:hover {
+  background-color: #de8304;
+}
+.button.secondary:focus,
+input[type=button].secondary:focus,
+button.secondary:focus,
+input[type=reset].secondary:focus,
+input[type=submit].secondary:focus {
+  box-shadow: 0 0 2px #fca832;
+  outline: none;
+}
+.button.secondary:active,
+input[type=button].secondary:active,
+button.secondary:active,
+input[type=reset].secondary:active,
+input[type=submit].secondary:active,
+.button.secondary.active,
+input[type=button].secondary.active,
+button.secondary.active,
+input[type=reset].secondary.active,
+input[type=submit].secondary.active {
+  border-color: #ac6603;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
+  background-color: #de8304;
 }
 label {
   display: block;
@@ -568,8 +712,15 @@ form .hint {
   padding: 3px 0;
 }
 .selected {
-  background-color: #E5E5E5;
-  color: #656565;
+  background-color: #75B8F1;
+  color: #ffffff;
+}
+.activable {
+  cursor: pointer;
+}
+.activable.active {
+  background-color: #75B8F1 !important;
+  color: #fff !important;
 }
 .list {
   margin: 0;
@@ -582,7 +733,7 @@ form .hint {
   position: relative;
 }
 .list > li.selected {
-  background-color: #E5E5E5;
+  background-color: #75B8F1;
 }
 .widget.toggle,
 .widget.toggle > .thumb {
@@ -594,10 +745,12 @@ form .hint {
   position: relative;
   display: inline-block;
   min-width: 70px;
-  background-color: #dfdfdf;
-  height: 2.2em;
+  background-color: #dee4f2;
+  height: 2.25em;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  border: 1px solid #d2d2d2;
+  border: 1px solid #d3dced;
+  border-radius: 3px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -606,21 +759,23 @@ form .hint {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  width: 50%;
+  width: 47%;
   position: absolute;
-  height: 100%;
+  height: 1.5em;
   display: block;
-  background-color: #ffffff;
-  left: 0px;
+  background-color: #f7f9fc;
+  border-radius: 2px;
+  left: 5px;
+  top: 5px;
   transition: left 200ms ease;
-  border: 1px solid #ffffff;
+  border: 1px solid #ccd6ea;
 }
 .widget.toggle.on {
-  background-color: #cccccc;
-  color: #656565;
+  background-color: #47a0ec;
+  color: #ffffff;
 }
 .widget.toggle.on > .thumb {
-  left: 52%;
+  left: 45%;
 }
 /*
 .slider {
@@ -663,15 +818,13 @@ form .hint {
   display: block;
 }
 .progress {
-  background-color: #303030;
+  background-color: #505a73;
   /*box-shadow: 0 0 2px #000000 inset;*/
   overflow: auto;
   padding: 2px;
   position: relative;
-  overflow: hidden;
 }
 .progress > .value {
-  background-color: #47b8f4;
   height: 4px;
   left: 0px;
   position: absolute;
@@ -684,12 +837,33 @@ form .hint {
   -ms-transition: width 700ms ease 50ms;
   transition: width 700ms ease 50ms;
 }
-.activable {
-  cursor: pointer;
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;
+  overflow: auto;
+  z-index: 199;
+  margin: 0;
+  /*
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  */
 }
-.activable.active {
-  background-color: #d8d8d8 !important;
-  color: #656565 !important;
+.messages > .message {
+  font-size: 0.9em;
+  margin: 0;
+  padding: 7px;
+  color: #fff;
+  opacity: 0;
+  -moz-transition: opacity 300ms ease;
+  -webkit-transition: opacity 300ms ease;
+  transition: opacity 300ms ease;
+}
+.messages > .message.show {
+  opacity: 1;
 }
 .tabstrip,
 .tab {
@@ -702,7 +876,7 @@ form .hint {
   margin: 0;
   padding: 0;
   width: 100%;
-  border-bottom: 1px solid #f8f8f8;
+  border-bottom: 1px solid #F0F3F9;
 }
 .tabstrip > .tab {
   list-style-type: none;
@@ -714,7 +888,7 @@ form .hint {
   position: relative;
 }
 .tabstrip > .tab > span {
-  border-right: 1px solid #dfdfdf;
+  border-right: 1px solid #ccd6ea;
   min-height: 20px;
   padding: 4px 10px;
   margin: 6px 0;
@@ -725,18 +899,18 @@ form .hint {
 }
 .tabstrip > .tab.selected {
   background: none;
-  border-bottom: 3px solid #E5E5E5;
-  color: #656565;
+  border-bottom: 3px solid #75B8F1;
+  color: #949BAD;
 }
 .tabstrip.alt-bg {
-  background-color: #565656;
+  background-color: #737F9D;
   border-bottom-color: rgba(0, 0, 0, 0.3);
 }
 .tabstrip.alt-bg > .tab.selected {
-  color: #ffffff;
+  color: #a3d0f6;
 }
 .tabstrip.alt-bg > .tab > span {
-  border-right-color: #5b5b5b;
+  border-right-color: #7984a1;
 }
 .tabstrip > .tab.active > span,
 .tabstrip > .tab:active > span {
@@ -747,6 +921,57 @@ form .hint {
 }
 .tab-content.current {
   display: block;
+}
+/*
+body.dialog-showing {
+  .viewport {
+    overflow-y: hidden;
+  }
+}
+*/
+.dialog-pane {
+  z-index: 299;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(30, 30, 32, 0.78);
+  display: none;
+}
+.dialog-pane.showing {
+  display: block;
+}
+.dialog-pane .dialog {
+  background-color: #b9c7e3;
+  color: #949BAD;
+  display: block;
+  max-width: 90% !important;
+  max-height: 90% !important;
+  z-index: 1;
+  border-radius: 2px;
+  left: auto;
+  margin: 11% auto;
+  -moz-transform: translateY(-300%);
+  -webkit-transform: translate3d(0, -300%, 0);
+  -o-transform: translateY(-300%);
+  transform: translate3d(0, -300%, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+.dialog-pane .dialog.hidden {
+  display: none;
+}
+.dialog-pane .dialog.in {
+  display: block;
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
 }
 * {
   /* prevent callout when holding tap on links (the native dialog that comes up) */
@@ -759,12 +984,12 @@ form .hint {
 html,
 body,
 .viewport {
-  background-color: #fafafa;
+  background-color: #F0F3F9;
   font-size: 1em;
   font-family: Raleway;
 }
 a {
-  color: #656565;
+  color: #949BAD;
   text-decoration: none;
 }
 .clear {
@@ -777,7 +1002,7 @@ a {
   font-size: 4em;
 }
 .text-light {
-  color: #898989;
+  color: #bcc1cc;
 }
 /*
 .view {
@@ -800,10 +1025,10 @@ a {
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 .form .header {
-  background-color: #e6e6e6;
+  background-color: #d6dfef;
   padding: 10px !important;
   margin: 0;
-  color: #656565;
+  color: #949BAD;
   border: none;
   font-weight: bold;
   overflow: auto;
@@ -822,7 +1047,7 @@ a {
   height: 50px;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 50px;
-  background-color: #fafafa;
+  background-color: #F0F3F9;
 }
 .info {
   background-color: #007BD3;
@@ -895,12 +1120,12 @@ a {
 }
 .toolbar {
   overflow: auto;
-  border-bottom: 2px solid #515151;
+  border-bottom: 2px solid #6d7a99;
   width: 100%;
   height: 48px;
   overflow: hidden;
-  background-color: #666666;
-  color: #fafafa;
+  background-color: #515B74;
+  color: #fff;
   position: fixed;
   top: 0;
   left: 0;
@@ -935,7 +1160,7 @@ a {
 }
 .toolbar .title.active {
   background-color: transparent !important;
-  color: #656565 !important;
+  color: #949BAD !important;
 }
 .toolbar .title:first-child {
   padding-left: 10px;
@@ -974,13 +1199,13 @@ a {
 }
 .toolbar .action.active {
   background-color: transparent !important;
-  color: #00CAD5 !important;
+  color: #fff !important;
 }
 .toolbar .action.right {
   border: none;
 }
 .toolbar .action.action.on {
-  color: #00CAD5;
+  color: #fff;
 }
 .toolbar .action .icon {
   font-size: 1.2em;
@@ -1026,7 +1251,7 @@ ul.horizontal li {
   user-select: none;
   will-change: transform;
   -moz-transform: translate(-100%, 0);
-  /** 
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
@@ -1052,9 +1277,9 @@ ul.horizontal li {
   transform: none;
 }
 #navContainer .nav {
-  border-right: 1px solid #e1e1e1;
-  background-color: #e9e9e9;
-  color: #656565;
+  border-right: 1px solid #cfd9ec;
+  background-color: #dae2f0;
+  color: #949BAD;
   top: 48px;
   width: 250px;
   position: absolute;
@@ -1064,7 +1289,7 @@ ul.horizontal li {
 #navContainer .nav > .user-info {
   border-bottom: 1px solid rgba(0, 0, 0, 0.03);
   padding: 12px 10px;
-  background-color: #e1e1e1;
+  background-color: #ccd6ea;
 }
 #navContainer .nav > .user-info > .label {
   font-weight: bold;
@@ -1139,10 +1364,10 @@ section.panel {
   font-size: 5em;
 }
 .alt-bg .tab-content .no-content {
-  color: #969696;
+  color: #bec4d2;
 }
 .alt-bg .tab-content .no-content .icon {
-  color: #707070;
+  color: #919ab2;
 }
 .margin-r {
   margin-right: 10px;
@@ -1160,10 +1385,10 @@ section.panel {
   padding-bottom: 5px;
 }
 .list-item .title {
-  color: #4b4b4b;
+  color: #778097;
 }
 .list-item .desc {
-  color: #7f7f7f;
+  color: #b1b6c3;
 }
 .list-item .span-9 {
   width: 66.6666%;
@@ -1305,9 +1530,9 @@ section.panel {
 }
 .calendar > .year-bar {
   overflow: auto;
-  background-color: #636363;
+  background-color: #828da8;
   color: #eee;
-  border-bottom: 1px solid #6d6d6d;
+  border-bottom: 1px solid #8e98b0;
 }
 .calendar > .year-bar > span {
   padding: 13px 10px;
@@ -1324,20 +1549,20 @@ section.panel {
   width: 25%;
   padding: 7px 0;
   text-align: center;
-  color: #7c7c7c;
+  color: #a0a8bd;
   font-size: 1em;
   font-weight: bold;
 }
 .calendar > .year-bar > .years > li.selected {
   background: transparent;
-  color: #d8d8d8;
+  color: #75B8F1;
 }
 .calendar > .months {
   padding: 10px 2%;
   margin: 0;
-  background-color: #565656;
-  color: #f8f8f8;
-  border-bottom: 1px solid #494949;
+  background-color: #737F9D;
+  color: #D7DBE6;
+  border-bottom: 1px solid #667291;
 }
 .calendar > .months > li,
 .calendar > .days > li,
@@ -1362,7 +1587,7 @@ section.panel {
 }
 .calendar > .days {
   padding: 5px;
-  background-color: #e4e4e4;
+  background-color: #d3dced;
 }
 .calendar > .dates {
   margin: 5px;
@@ -1378,8 +1603,8 @@ div.column,
   overflow: auto;
 }
 .time .selected {
-  background-color: #E5E5E5 !important;
-  color: #656565 !important;
+  background-color: #75B8F1 !important;
+  color: #ffffff !important;
 }
 .time .hours,
 .time .minutes,
@@ -1414,10 +1639,10 @@ div.column,
   width: auto;
 }
 .time .minutes li.highlite {
-  color: #77cbf7;
+  color: #a3d0f6;
 }
 .time .minutes li.highlite.selected {
-  color: #656565;
+  color: #ffffff;
 }
 /*
 .time .minutes li.highlite, .time .minutes li.highlite-alt {
@@ -1462,7 +1687,7 @@ div.column,
 #loginView #loginForm {
   will-change: transform;
   -moz-transform: translate(0, 300%);
-  /** 
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
@@ -1477,7 +1702,7 @@ div.column,
 }
 #loginView #loginForm.show {
   -moz-transform: translate(0, 0);
-  /** 
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
@@ -1496,7 +1721,7 @@ div.column,
   position: absolute;
   width: 100%;
   -moz-transform: translate(0, -185px);
-  /** 
+  /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
@@ -1524,42 +1749,6 @@ div.column,
 }
 #mainView .chart-container {
   overflow: auto;
-  /*
-    > .chart {
-      position: relative;
-      width: 65%;
-      min-height: 200px;
-      float: left;
-      
-      #issueChart {
-        position: absolute;
-        left: 0;
-        top: 0;
-        border: none;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .chart-label {
-        position: absolute;
-        left: 0;
-        top: 0;
-
-        text-align: center;
-        width: 100%;
-        padding-top: 25%;
-        font-size: 3.5em;
-      }      
-    }
-
-    
-    > .legend {
-      width: 35%;
-      float: right;
-      padding: 10px;
-      min-height: 200px;
-    }
-    */
 }
 #mainView .chart-container > .chart {
   position: relative;
@@ -1567,7 +1756,7 @@ div.column,
   overflow-x: hidden;
   min-height: 180px;
 }
-#mainView .chart-container > .chart #issueChart {
+#mainView .chart-container > .chart #sampleChart {
   position: absolute;
   left: 0;
   top: 0;
@@ -1575,37 +1764,8 @@ div.column,
   width: 100%;
   height: 100%;
 }
-#mainView .list .schedule-item {
-  overflow: auto;
-  border-left: 3px solid transparent;
-}
-#mainView .list .schedule-item.critical,
-#mainView .list .schedule-item.CRITICAL {
-  border-left-color: #D66B55;
-}
-#mainView .list .schedule-item.major,
-#mainView .list .schedule-item.MAJOR {
-  border-left-color: #F79204;
-}
-#mainView .list .schedule-item.normal,
-#mainView .list .schedule-item.NORMAL {
-  border-left-color: #007BD3;
-}
-#mainView .list .schedule-item p {
-  padding: 2px;
-  margin: 0;
-}
-#mainView .list .schedule-item p.title {
-  color: #585858;
-}
-#mainView .list .schedule-item p.desc {
-  color: #8b8b8b;
-}
-#mainView .list .schedule-item p.tags {
-  font-size: 0.8em;
-}
 #aboutView h1 {
   font-size: 7em;
-  color: #009aa2;
+  color: #15a59b;
   margin-bottom: 5px;
 }

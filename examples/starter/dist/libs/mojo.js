@@ -455,19 +455,19 @@
          viewPort.addClass("view-transitioning");
          
          setTimeout(function() {
-             controller.activate(params, data);
-				 if(currRoute) {
-					 currRoute.controller.deactivate();
-				 }
+            controller.activate(params, data);
+            if(currRoute) {
+              currRoute.controller.deactivate();
+            }
              
             // transitiion the current view out
-				requestAnimationFrame(function() {
-					if(currRoute) {
-						stackViewUi(currRoute.ui);
-					}
-					// transition in the new view
-					pushViewUi(ui);
-				});
+            requestAnimationFrame(function() {
+              if(currRoute) {
+                stackViewUi(currRoute.ui);
+              }
+              // transition in the new view
+              pushViewUi(ui);
+            });
          }, 50);
 
          stack.push(route);
@@ -708,11 +708,11 @@
             eType = "out";
          }else if(ui.hasClass("in")) {// if ui has transitioned in
             eType = "in";
+            viewPort.removeClass("view-transitioning");
          }else if(ui.hasClass("pop")) { // if view has been popped
             ui.removeClass("showing").removeClass("pop");
             eType = "out";
          }
-         viewPort.removeClass("view-transitioning");
          
          if(eType) {
             setTimeout(function() { // rendering performance

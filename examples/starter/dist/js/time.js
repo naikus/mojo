@@ -1,7 +1,8 @@
 Application.addRoute("/time", {
    id: "timeView",
-   factory: function(app, viewUi) {
-      var timeData, time,
+   factory: function(App, viewUi) {
+      var Events = $.EventTypes,
+            timeData, time,
             arrHours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
             // arrMin = [0, 10, 20, 30, 40, 50],
             arrMin = [],
@@ -53,7 +54,7 @@ Application.addRoute("/time", {
          if(min < 10) {min = "0" + min;}
          uiTimeBox.html(hrs + ":" + min + " Hrs");
          */
-         uiTimeBox.html(Utils.getReadableTime(hrs, min));
+         uiTimeBox.html($.Utils.getReadableTime(hrs, min));
       }
 
       function updateModel(hrs, min) {
@@ -140,7 +141,7 @@ Application.addRoute("/time", {
                    timeData.hours = time.getHours();
                    timeData.minutes = time.getMinutes();
                }
-               app.popView(timeData);
+               App.popView(timeData);
             });
          },
 

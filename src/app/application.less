@@ -1,5 +1,13 @@
 @import "colors.less";
 
+
+.rotate(@x: 0, @y: 0, @z: 0, @angle: 0deg) {
+  -moz-transform: rotate3d(@x, @y, @z, @angle);
+  -webkit-transform: rotate3d(@x, @y, @z, @angle);
+  -o-transform: rotate3d(@x, @y, @z, @angle);
+  transform: rotate3d(@x, @y, @z, @angle);
+}
+
 .translate(@x: 0, @y: 0, @z: 0) {
    -moz-transform: translate(@x, @y);
    /**
@@ -11,26 +19,30 @@
    -o-transform: translate(@x, @y);
    transform: translate3d(@x, @y, @z);
 }
+
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
    // -webkit-transform: translateX(@x);
    -webkit-transform: translate3d(@x, 0, 0);
    -o-transform: translateX(@x);
-   transform: translateX(@x);
+   transform: translate3d(@x, 0, 0);
 }
-.translateNone {
+
+.translateNone, .transformNone {
    -moz-transform: none;
    -webkit-transform: none;
    -o-transform: none;
    transform: none;
 }
+
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
    -webkit-transform: translate3d(0, @y, 0);
    // -webkit-transform: translateY(@y);
    -o-transform: translateY(@y);
-   transform: translateY(@y);
+   transform: translate3d(0, @y, 0);
 }
+
 .transition-transform(@time: 200ms, @anim: ease, @delay: 0ms) {
    -moz-transition: -moz-transform @time @anim @delay;
    -webkit-transition: -webkit-transform @time @anim @delay;
@@ -71,8 +83,6 @@ html, body {
 }
 
 
-
-
 .view {
    position: absolute;
    left: 0;
@@ -96,7 +106,7 @@ html, body {
 .view {
    .translate(0, 10%);
    // .transition-transform;
-   .transition-transform(200ms, cubic-bezier(0.19, 1, 0.22, 1));
+   .transition-transform(550ms, cubic-bezier(0.19, 1, 0.22, 1));
    
    &.pop {
       .translate(0, -10%);
@@ -121,7 +131,7 @@ html, body {
       z-index: 98;
       .translate(0, 10%);
       //.transition-transform(350ms, ease);
-      .transition-transform(100ms, cubic-bezier(0.19, 1, 0.22, 1));
+      .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
 
@@ -131,7 +141,7 @@ html, body {
 .view {
    .translate(100%);
    // .transition-transform;
-   .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
+   .transition-transform(450ms, cubic-bezier(0.19, 1, 0.22, 1));
    
    &.pop {
       .translate(100%);

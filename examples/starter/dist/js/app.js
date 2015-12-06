@@ -159,7 +159,7 @@ $.extension("once", function(eventType, callback) {
     });
     
     return {
-      getActionBarAction: function(id) {
+      getAction: function(id) {
         return actionBarContainer.find("#" + id);
       }
     };

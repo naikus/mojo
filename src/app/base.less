@@ -6,6 +6,12 @@
    box-sizing: border-box;
 }
 
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
 html, body {
    font-family: "Helvetica Neue", Helvetica, sans;
    font-size: 1em;
@@ -113,6 +119,7 @@ input,
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
 
+   -webkit-appearance: caret;
    .border-box;
 
    &::-moz-focus-inner {
@@ -121,12 +128,12 @@ input,
    }
 
    &:focus {
-      border: 1px solid rgba(0,0,0,0.15);
+      border-bottom-color: lighten(@selected-bg-color-alt, 20%);
       // box-shadow: 0 0 2px lighten(@active-bg-color, 10%);
       outline: 0;
    }
 
-   &[disabled] {
+   &[disabled], &.disabled {
       background-color: darken(@bg-color, 10%) !important;
    }
 
@@ -142,10 +149,10 @@ textarea {
    min-height: 100px;
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
-   border: 1px solid rgba(0,0,0,0.08);
-   border-bottom-width: 3px;
-   font-weight: bold;
+   // background-color: darken(@bg-color, 20%);
+   border: 1px solid rgba(0,0,0,0.3);
    border-radius: 2px;
+   border-bottom-width: 3px;
    cursor: pointer;
    text-align: center;
 
@@ -159,7 +166,8 @@ textarea {
    */
 
    &:hover {
-      background-color: rgba(0,0,0,0.05);
+      background-color: darken(@bg-color, 10%);
+      color: @alt-text-color;
    }
    &:focus {
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -175,7 +183,7 @@ textarea {
 
    &.primary {
       background-color: @primary-action-color;
-      color: @selected-text-color;
+      color: @primary-text-color;
    }
    &.primary:hover {
       background-color: darken(@primary-action-color, 5%);

@@ -1,11 +1,11 @@
 /* global Chart */
 /**
  * A custom doughnut chart based on chargjs.org doughnut
- * @author aniket@k2-inc.com
+ * @author aniketn3@gmail.com
  */
 Chart.types.Doughnut.extend({
     // Passing in a name registers this chart in the Chart namespace in the same way
-    name: "K2Doughnut",
+    name: "LabeledDoughnut",
     centerLabel: "",
     initialize: function(data){
       this.centerLabel = this.options.centerLabel;

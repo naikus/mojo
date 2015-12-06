@@ -1,4 +1,4 @@
-/* global Application, TechService, Events */
+/* global Application */
 Application.addRoute("/login", {
   id: "loginView",
   factory: function(App, viewUi) {    
@@ -6,6 +6,7 @@ Application.addRoute("/login", {
         loginBinder = loginForm.binder({
           model: {}
         }),
+        serverUrl = "/",
         usernameField, passwordField,
         Notification = App.Notification,
         Events = $.EventTypes;
@@ -25,16 +26,9 @@ Application.addRoute("/login", {
       loginForm.removeClass("show");
     }
     
-    function tryLogin() {
-      var currentUser = TechService.currentUser();
-      console.log(currentUser);
-      if(!currentUser) {
-        showForm();
-        return;
-      }
-      var uname = currentUser.username, 
-          passwd = currentUser.password;                       
-      authenticate(uname, passwd);
+    function tryLogin() {                      
+      // authenticate(uname, passwd);
+      showForm();
     }
     
     function authenticate(username, password) {
@@ -43,21 +37,7 @@ Application.addRoute("/login", {
         showForm();
         return;
       }
-      
-      TechService.authenticate(username, password, 
-          function() {
-            hideForm();
-            routeTo("/main", 200);
-          }, 
-          function(code, xhr) {
-            showForm();
-            if(code >= 400 && code < 500) {
-              Notification.error("Please check your account details and try again.");
-            }else {
-              Notification.error("There was an error communicating with the server");
-            }
-          }
-      );
+      App.showView("/main");
     }
     
     function login() {
@@ -86,7 +66,7 @@ Application.addRoute("/login", {
         
         $("#selectServer").on(Events.tap, function() {
           App.showView("/select-server", null, function(server) {
-            TechService.serverUrl(server);
+            serverUrl = server;
           });
         });
       },

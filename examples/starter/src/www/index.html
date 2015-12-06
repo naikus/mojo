@@ -26,6 +26,9 @@
     <!-- script src ="libs/base64.min.js"> </script -->
     <!-- script src="libs/iscroll-lite.js"> </script -->
 
+    <script src="libs/Chart.js"> </script>
+    <script src="libs/Chart.CustomDoughnut.js"> </script>
+    
     <!--[if lt IE 9]>
        <script src ="libs/json2.js"> </script>
        <script src ="libs/html5shiv.js"> </script>
@@ -59,6 +62,7 @@
     <script src ="libs/mojo.js"></script>
     
     <script src ="js/api-client.js"></script>
+    <script src ="js/utils.js"></script>
     <script src ="js/app.js"></script>
     <!-- script src ="js/sse.js"></script -->
   </head>
@@ -71,30 +75,23 @@
 
     <aside id="navContainer" class="nav-container">
       <div class="nav">
-        <div class="user-info pad-extra overflow" id="userProfileSummaryBinding">
-          <img data-bind="@src:avatar" class="box left" src="" alt="" />
-          <!-- img class="box left" src="images/avatar.png" alt="" / -->
-          <span data-bind="text:name" class="box left label"></span>
+        <div class="user-info pad-extra overflow">
+          <!-- img data-bind="@src:avatar" class="box left" src="" alt="" / -->
+          <img class="box left" src="images/avatar.png" alt="" />
+          <span data-bind="text:name" class="box left label">Hello Ninja!</span>
         </div>
         <ul id="mainNavListBinding" class="nav-list list">
-          <li class="activable" data-route="/issues">
-            <span class="inline-box title">Open Tickets</span>
-            <span data-bind="issues.CRITICAL" class="indicator error">0</span>
-            <!-- span data-bind="issues.major" class="indicator warn">0</span -->
+          <li class="activable">
+            <span class="inline-box title">Inbox</span>
+            <!-- span data-bind="inbox.unread" class="indicator error">0</span -->
+            <span class="indicator error">10</span>
           </li>
-          <li class="activable" data-route="/messages">
-            <span class="inline-box title">Messages</span>
-            <span data-bind="unreadMessages" class="indicator warn">15</span>
+          <li class="activable" data-route="/time">
+            <span class="inline-box title">Time</span>
           </li>
-          <li class="activable" data-route="/schedules">
-            <span class="inline-box title">Schedules</span>
+          <li class="activable" data-route="/calendar">
+            <span class="inline-box title">Calendar</span>
           </li>
-          <li class="activable" data-route="/main">
-            <span class="inline-box title">Dashboard</span>
-          </li>
-          <!-- li class="activable" data-route="/archive">
-            <span class="inline-box title">Archive</span>
-          </li -->
           <li class="activable" data-route="/about">
             <span class="inline-box title">About</span>
           </li>

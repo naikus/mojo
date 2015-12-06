@@ -24,7 +24,126 @@
  
  
 
+@alert-color: #9E5B5A;
+@error-color: #D66B55;
+@success-color: #94B75F;
+@warn-color: #F79204;
+@info-color: #007BD3;
+@invalid-color: #9B2D2D;
+
+
+/* Default theme (gray blue) */
+@base-color: #f7f7f7;
+// Background color for viewport views and other boxes
+@bg-color: #f0f0f0;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #373737;
+// Text color to complement the background color
+@text-color: #666;
+// Text color to complement alternate background color
+@alt-text-color: #eee;
+// Default selected background color
+@selected-bg-color: #1CA3CE; /*#3395C2;*/
+@selected-bg-color-alt: #3395C2;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #93cff2;
+@active-text-color: #666;
+// Default selected text color
+@selected-text-color: #fff;
+
+@primary-action-color: darken(#3395C2, 10%); //#F71875;  //magenta red
+@primary-text-color: #fff;
+@secondary-action-color: lighten(@alt-bg-color, 10%);
+@secondary-text-color: darken(@alt-bg-color, 10%);
+
+/* Red theme */
+/*
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #dcdcdc;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #484848;
+// Text color to complement alternate background color
+@alt-text-color: #f0f0f0;
+// Default selected background color
+@selected-bg-color: #B84126;
+@selected-bg-color-alt: #c95237;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+*/
+
+
+/* Mint theme (green) */
+@base-color: #f0f0f0;
+// Background color for viewport views and other boxes
+@bg-color: #eee;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #404040;
+// Text color to complement alternate background color
+@alt-text-color: #f4f4f4;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #A6CE39;
+@active-text-color: #303030;
+// Default selected background color
+@selected-bg-color: #779F16;
+@selected-bg-color-alt: #779F16;
+// Default selected text color
+@selected-text-color: #fff;
+
+/* Android theme */
+/*
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #333;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #222;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #bbb;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7C53D;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F7C53D;
+@selected-bg-color-alt: #FFA100;
+// Default selected text color
+@selected-text-color: #222;
+*/
+
+/* Origin theme */
+/*
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #3F3B39; //#414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Default selected background color
+@selected-bg-color: #F46A1A; //#DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
+@active-text-color: #333;
+*/
+
+
+
+
 @import "colors.less";
+
 
 .rotate(@x: 0, @y: 0, @z: 0, @angle: 0deg) {
   -moz-transform: rotate3d(@x, @y, @z, @angle);
@@ -35,7 +154,7 @@
 
 .translate(@x: 0, @y: 0, @z: 0) {
    -moz-transform: translate(@x, @y);
-   /** 
+   /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
@@ -44,6 +163,7 @@
    -o-transform: translate(@x, @y);
    transform: translate3d(@x, @y, @z);
 }
+
 .translateX(@x: 0) {
    -moz-transform: translateX(@x);
    // -webkit-transform: translateX(@x);
@@ -51,12 +171,14 @@
    -o-transform: translateX(@x);
    transform: translate3d(@x, 0, 0);
 }
+
 .translateNone, .transformNone {
    -moz-transform: none;
    -webkit-transform: none;
    -o-transform: none;
    transform: none;
 }
+
 .translateY(@y: 0) {
    -moz-transform: translateY(@y);
    -webkit-transform: translate3d(0, @y, 0);
@@ -64,6 +186,7 @@
    -o-transform: translateY(@y);
    transform: translate3d(0, @y, 0);
 }
+
 .transition-transform(@time: 200ms, @anim: ease, @delay: 0ms) {
    -moz-transition: -moz-transform @time @anim @delay;
    -webkit-transition: -webkit-transform @time @anim @delay;
@@ -90,7 +213,6 @@ html, body {
 
    width: 100%;
    min-height: 100%;
-   // overflow-y: auto;
    margin: 0;
    padding: 0;
 
@@ -105,10 +227,6 @@ html, body {
 }
 
 
-
-
-/* ---------------------------- Default transition effects for views ---------------------------- */
-
 .view {
    position: absolute;
    left: 0;
@@ -122,11 +240,48 @@ html, body {
    display: none;
    /* Avoid flickering in webkit browsers, thanks stackoverflow */
    // -webkit-perspective: 1000;
-   -webkit-backface-visibility: hidden;  
+   -webkit-backface-visibility: hidden;
    background-color: @bg-color;
 }
 
 
+/* --------------------------- Android 5.1 like transition for views ---------------------------- */
+
+.view {
+   .translate(0, 10%);
+   // .transition-transform;
+   .transition-transform(550ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
+   &.pop {
+      .translate(0, -10%);
+   }
+
+   &.showing {
+      display: block;
+   }
+   &.in {
+      // .translateX(0); Fixed position elements won't work with this
+      .translateNone;
+   }
+   
+   &.showing.in {
+     z-index: 99;
+   }
+   &.showing.pop {
+     z-index: 98;
+   }
+   
+   &.stack {
+      z-index: 98;
+      .translate(0, 10%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
+   }
+}
+
+/* ---------------------------- Slide transition for views ---------------------------- */
+
+/*
 .view {
    .translate(100%);
    // .transition-transform;
@@ -151,6 +306,8 @@ html, body {
       .transition-transform(700ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
+*/
+
 
 
 /*
@@ -162,7 +319,7 @@ html, body {
    -o-transition: opacity 250ms ease;
    -ms-transition: opacity 250ms ease;
    transition: opacity 250ms ease;
-   
+
     &.pop {
        opacity: 0;
    }
@@ -190,7 +347,7 @@ Alternate Android2.3.x-like transition effect for views. Beta!
    -ms-transform: scale(1.05, 1.05);
    transform: scale(1.05, 1.05);
    opacity: 0;
-   
+
    .transition-transform(300ms);
 
    &.in {
@@ -199,9 +356,9 @@ Alternate Android2.3.x-like transition effect for views. Beta!
       -o-transform: none;
       -ms-transform: none;
       transform: none;
-      opacity: 1;    
+      opacity: 1;
    }
-   
+
    &.showing {
       z-index: 99;
       display: block;
@@ -330,6 +487,10 @@ article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inl
    color: @alt-text-color;
 }
 
+.hidden {
+  display: none !important;
+}
+
 
 // form controls
 input,
@@ -337,10 +498,9 @@ input,
       select,
       textarea,
       .button {
-   // -webkit-appearance: caret;
    padding: @pad-default;
    font-size: 1em;
-   border: 1px solid rgba(0,0,0,0.05);
+   border: 1px solid rgba(0,0,0,0.07);
    border-radius: 2px;
    display: block;
    position: relative;
@@ -349,9 +509,8 @@ input,
    margin-bottom: 12px;
    background-color: lighten(@bg-color, 5%);
    color: @text-color;
-   
-   -webkit-appearance: caret;
 
+   -webkit-appearance: caret;
    .border-box;
 
    &::-moz-focus-inner {
@@ -391,7 +550,7 @@ textarea {
    .no-select;
 
    /*
-   > .icon {
+   > .fa {
       font-size: 1.1em;
       margin-right: 5px;
    }
@@ -408,35 +567,52 @@ textarea {
    }
    &:active, &.active {
       border-color: rgba(0, 0, 0, 0.3);
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
-      // padding: 10px 8px 8px 10px;
+      // box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
       color: @active-text-color;
-      background-color: darken(@alt-bg-color, 5%);
+      // background-color: darken(@alt-bg-color, 5%);
    }
 
    &.primary {
-      background-color: @primary-color;
+      background-color: @primary-action-color;
       color: @primary-text-color;
    }
    &.primary:hover {
-      background-color: darken(@primary-color, 5%);
+      background-color: darken(@primary-action-color, 5%);
    }
    &.primary:focus {
-      box-shadow: 0 0 2px lighten(@primary-color, 10%);
+      box-shadow: 0 0 2px lighten(@primary-action-color, 10%);
       outline: none;
    }
    &.primary:active, &.primary.active {
-      border-color: darken(@primary-color, 35%);
-      box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
-      background-color: darken(@primary-color, 10%);
+      border-color: darken(@primary-action-color, 5%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
+      background-color: darken(@primary-action-color, 8%);
+      color: @primary-text-color;
    }
 
    &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       box-shadow: none !important;
-      border: 1px solid rgba(0,0,0,0.1) !important;
+      border-color: rgba(0,0,0,0.1) !important;
       color: lighten(@text-color, 35%) !important;
-      // padding: 10px !important;
    }
+ 
+   &.secondary {
+      background-color: @secondary-action-color;
+      color: @secondary-text-color;
+   }
+   &.secondary:hover {
+      background-color: darken(@secondary-action-color, 5%);
+   }
+   &.secondary:focus {
+      box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
+      outline: none;
+   }
+   &.secondary:active, &.secondary.active {
+      border-color: darken(@secondary-action-color, 15%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
+      background-color: darken(@secondary-action-color, 5%);
+   }
+   
 }
 label {
    display: block;
@@ -465,6 +641,15 @@ label {
    background-color: @selected-bg-color;
    color: @selected-text-color;
 }
+
+.activable {
+    cursor: pointer;
+    &.active {
+      background-color: @active-bg-color !important;
+      color: @active-text-color !important;
+   }
+}
+
 
 .list {
    margin: 0;
@@ -501,31 +686,34 @@ label {
    position: relative;
    display: inline-block;
    min-width: 70px;
-   background-color: darken(@bg-color, 10%);
-   height: 2.2em;
+   background-color: darken(@bg-color, 5%);
+   height: 2.25em;
    // border: 2px solid lighten(@bg-color, 2%);
    // border-radius: 30px;
-   // box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+   box-shadow: 0 0 3px rgba(0,0,0,0.05);
    overflow: hidden;
-   border: 1px solid darken(@bg-color, 15%);
+   border: 1px solid darken(@bg-color, 8%);
+   border-radius: 3px;
    
    .border-box;
    
    > .thumb {
         .border-box;
-        width: 50%;
+        width: 47%;
         position: absolute;
-        height: 100%;
+        height: 1.5em;
         display: block;
         // background-color: darken(@bg-color, 2%);
-        background-color: lighten(@bg-color, 4%);
+        background-color: lighten(@bg-color, 2%);
+        border-radius: 2px;
         
-        left: 0px;
+        left: 5px;
+        top: 5px;
         
         transition: left 200ms ease;
         // transition: -webkit-transform 500ms ease;
         
-        border: 1px solid lighten(@bg-color, 20%);
+        border: 1px solid darken(@bg-color, 10%);
         
         // border: 10px solid desaturate(lighten(@selected-bg-color, 10%), 15%);
         // border-radius: 40px;
@@ -538,7 +726,7 @@ label {
       //border-color: @selected-bg-color;
       
       > .thumb {
-          left: 52%;
+          left: 45%;
           // border-color: @selected-bg-color;
          // .translateX(100%);
       }
@@ -611,10 +799,8 @@ label {
     overflow: auto;
     padding: 2px;
     position: relative;
-    overflow: hidden;
     
     > .value {
-        background-color: @selected-bg-color-alt;
         height: 4px;
         left: 0px;
         position: absolute;
@@ -630,15 +816,39 @@ label {
     }
 }
 
-.activable {
-    cursor: pointer;
-    &.active {
-      background-color: @active-bg-color !important;
-      color: @active-text-color !important;
-   }
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;
+  overflow: auto;
+
+  z-index: 199;
+  margin: 0;
+
+  /*
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  */
+
+  > .message {
+    font-size: 0.9em;
+    margin: 0;
+    padding: 7px;
+    color: #fff;
+
+    opacity: 0;
+    -moz-transition: opacity 300ms ease;
+    -webkit-transition: opacity 300ms ease;
+    transition: opacity 300ms ease;
+
+    &.show {
+      opacity: 1;
+    }
+  }
 }
-
-
 .tabstrip, .tab {
    .border-box;
 }
@@ -712,3 +922,54 @@ label {
 
 
 
+
+/*
+body.dialog-showing {
+  .viewport {
+    overflow-y: hidden;
+  }
+}
+*/
+.dialog-pane {
+  z-index: 299;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  
+  background-color: rgba(30, 30, 32, 0.78);
+  display: none;
+  
+  &.showing {
+    display: block;
+  }
+  
+  .dialog {
+    background-color: darken(@base-color, 15%);
+    color: @text-color;
+    
+    
+    display: block;
+    max-width: 90% !important;
+    max-height: 90% !important;
+    z-index: 1;
+    border-radius: 2px;
+
+    left: auto;
+    margin: 11% auto;
+
+    .translateY(-300%);
+    .transition-transform(400ms, ease, 0ms);
+    
+    &.hidden {
+      display: none;
+    }
+
+    &.in {
+      display: block;
+      .translateNone;
+    }
+  }  
+}
