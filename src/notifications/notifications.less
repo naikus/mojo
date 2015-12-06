@@ -1,0 +1,33 @@
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;
+  overflow: auto;
+
+  z-index: 199;
+  margin: 0;
+
+  /*
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  */
+
+  > .message {
+    font-size: 0.9em;
+    margin: 0;
+    padding: 7px;
+    color: #fff;
+
+    opacity: 0;
+    -moz-transition: opacity 300ms ease;
+    -webkit-transition: opacity 300ms ease;
+    transition: opacity 300ms ease;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+}

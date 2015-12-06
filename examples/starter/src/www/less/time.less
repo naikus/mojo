@@ -1,0 +1,70 @@
+/* ---------------------------------- Time View --------------------------------------------- */
+div.column, .span4 {
+   width: 33.333%;
+   overflow: auto;
+}
+
+.time {
+  .selected {
+    background-color: @selected-bg-color !important;
+    color: @selected-text-color !important;
+  }
+  
+}
+
+.time .hours, .time .minutes, .time .ampm {
+   background-color: lighten(@bg-color, 5%);
+}
+
+.time .label {
+   display: inline-block;
+   padding: 3px 0;
+}
+
+.time .hours, .time .minutes, .time .ampm {
+   padding: 10px;
+   margin-bottom: 15px;
+}
+.time .minutes {
+   margin-bottom: 30px;
+}
+.time .hours li, .time .minutes li, .time .ampm li {
+   border: none;
+   text-align: center;
+   font-weight: bold;
+   margin-bottom: 1px;
+   box-sizing: border-box;
+   padding: 15px 0;
+   width: 16.6%;
+}
+
+.time .ampm li {
+   width: auto;
+}
+
+.time .minutes li.highlite {
+   color: lighten(@selected-bg-color-alt, 10%);
+}
+.time .minutes li.highlite.selected {
+   color: @selected-text-color;
+}
+
+/*
+.time .minutes li.highlite, .time .minutes li.highlite-alt {
+   border-radius: 3px;
+}
+*/
+
+.time div.details {
+   width: 66.666%;
+   // border-top: 1px solid darken(@bg-color, 8%);
+   padding: 10px;
+}
+.time .timebox {
+   font-size: 2.5em;
+   margin: 0;
+   padding-bottom: 6px;
+   // text-shadow: 0 0 2px #fff;
+}
+
+

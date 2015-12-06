@@ -24,20 +24,24 @@ var config = {
       "src/datalist/datalist.js",
       "src/form/form.js",
       "src/activables/activables.js",
-      "src/tabstrip/tabstrip.js"
+      "src/notifications/notifications.js",
+      "src/tabstrip/tabstrip.js",
+      "src/dialog/dialog.js"
    ],
    
    mojoless: [
       "LICENSE",
       
-      //"src/app/colors.less",
+      "src/app/colors.less",
       "src/app/application.less",
       "src/app/base.less",
+      "src/activables/activables.less",
 
       "src/datalist/datalist.less",
       "src/form/form.less",
-      "src/activables/activables.less",
-      "src/tabstrip/tabstrip.less"
+      "src/notifications/notifications.less",
+      "src/tabstrip/tabstrip.less",
+      "src/dialog/dialog.less"
    ],
    
    src_dir: "src/",

@@ -2055,6 +2055,116 @@
 
 
 
+// A very simple notifications plugin
+(function ($) {
+  $.extension("notifications", function() {
+    var self = this,
+        Events = $.EventTypes,
+        timeoutId,
+        msgQueue = [],
+        running = false,
+        uuid = $.uuid,
+        widget = {
+          clear: function(id) {
+            if(id) {
+              self.remove("#" + id);
+              if(self.children().length === 0) {
+                self.addClass("hidden");
+              }
+              return;
+            }else {
+              msgQueue.splice(0, msgQueue.length);
+              self.html("");
+              self.addClass("hidden");
+            }
+          }
+        };
+
+    function clear() {
+      self.removeClass("show");
+      widget.clear();
+    }
+
+    function showMessages() {
+      var msg;
+      if(msgQueue.length) {
+        msg = msgQueue.shift();
+        self.prepend([
+          '<p data-sticky="', msg.sticky, '" id="', msg.id, '" class="message ', msg.type, '">',
+          msg.content,
+          '</p>'
+        ].join(""));
+        var m = self.find("#" + msg.id),
+            remove = function () {
+              widget.clear(msg.id);
+            };
+        setTimeout(function () {
+          m.addClass("show");
+          if(!msg.sticky) {
+            timeoutId = setTimeout(remove, (msg.type === "error" ? 6000 : 3000));
+          }
+          m.on(Events.tap, remove);
+          timeoutId = setTimeout(showMessages, 500);
+        }, 50);
+      }else {
+        if(self.children().length === 0) {
+          self.addClass("hidden");
+        }
+        running = false;
+      }
+    }
+
+    function notify() {
+      if(!running) {
+        running = true;
+        self.removeClass("hidden");
+        showMessages();
+      }
+    }
+
+    ["info", "error", "success", "warn"].forEach(function (val) {
+      widget[val] = function (msg, sticky) {
+        var msgId = "msg_" + uuid();
+        msgQueue.push({
+          id: msgId,
+          type: val,
+          content: msg,
+          sticky: !!sticky
+        });
+        notify();
+        return msgId;
+      };
+    });
+
+    widget.alert = function (msg, callback, title, label) {
+      if(navigator.notification) {
+        navigator.notification.alert(msg, callback, title, label);
+      }else {
+        alert(msg);
+        if(callback) {
+          callback();
+        }
+      }
+    };
+
+    widget.confirm = function (msg, callback, title, arrLabels) {
+      if(navigator.notification) {
+        navigator.notification.confirm(msg, callback, title, arrLabels);
+      }else {
+        var val = confirm(msg);
+        callback(val ? 1 : 2);
+      }
+    };
+
+    widget.vibrate = function(duration) {
+      if(navigator.vibrate) {
+         navigator.vibrate(duration || 40);
+      }
+    };
+
+    return widget;
+  });
+})(h5);
 (function($)   {
    var defaults = {
       ontabchange: function() {},
@@ -2154,3 +2264,97 @@
 
 
 
+
+// Simple application dialogs
+(function($) {
+  $.extension("dialogmanager", function() {
+    var dialogPane = this,
+        currDialogInfo = null,
+        dialogs = {},
+        noop = function() {},
+        body = $(document.body),
+        transitionEndEvent = $.Env.property("transitionend") || "transitionend";
+
+    var manager =  {
+      register: function(name, selector, options) {
+        var diag = $(selector),
+            diagElem = diag.get(0),
+            diagParent = diagElem.parentNode,
+            dialogInfo;
+
+        if(diagParent) {
+          diagParent.removeChild(diagElem);
+          diag.addClass("hidden").addClass("dialog");
+          dialogPane.append(diag);
+          dialogInfo = dialogs[name] = {
+            dialog: diag,
+            initialize: options.initialize || noop,
+            onshow: options.onshow || noop,
+            onhide: options.onhide || noop
+          };
+
+          diag.on(transitionEndEvent, function(e) {
+            if(diag.hasClass("in")) {
+              diag.dispatch("show");
+            }else {
+              diag.dispatch("hide");
+            }
+          });
+
+          dialogInfo.initialize(diag);
+        }
+      },
+
+      showDialog: function(name) {
+        var dialogInfo = dialogs[name];
+        if(!dialogInfo) {
+          throw new Error("Dialog not registered");
+        }
+
+        // if already showing dialog, hide it. We don't support multiple dialogs
+        if(currDialogInfo) {
+          return;
+        }
+
+        body.addClass("dialog-showing");
+
+        // show dialog pane
+        dialogPane.addClass("showing");
+
+        currDialogInfo = dialogInfo;
+        dialogInfo.dialog.removeClass("hidden");
+        dialogInfo.dialog.once("show", function() {
+          dialogInfo.onshow(dialogInfo.dialog);
+        });
+
+        setTimeout(function() {
+          currDialogInfo.dialog.addClass("in");
+        }, 50);
+      },
+
+      isDialogShowing: function() {
+        return !!currDialogInfo;
+      },
+
+      hideCurrentDialog: function(callback) {
+        body.removeClass("dialog-showing");
+        if(currDialogInfo) {
+          currDialogInfo.dialog.removeClass("showing");
+          currDialogInfo.dialog.once("hide", function() {
+            dialogPane.removeClass("showing");
+            currDialogInfo.dialog.addClass("hidden");
+            if(callback) {
+              callback(currDialogInfo.dialog);
+            }
+            currDialogInfo.onhide(currDialogInfo.dialog);
+            currDialogInfo = null;
+          });
+
+          currDialogInfo.dialog.removeClass("in");
+        }
+      }
+    };
+
+    return manager;
+  });
+})(h5);

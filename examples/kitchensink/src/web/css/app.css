@@ -22,6 +22,69 @@
  * THE SOFTWARE.
  */
 /* Default theme (gray blue) */
+/*#3395C2;*/
+/* Red theme */
+/*
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #dcdcdc;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #484848;
+// Text color to complement alternate background color
+@alt-text-color: #f0f0f0;
+// Default selected background color
+@selected-bg-color: #B84126;
+@selected-bg-color-alt: #c95237;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+*/
+/* Mint theme (green) */
+/* Android theme */
+/*
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #333;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #222;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #bbb;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7C53D;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F7C53D;
+@selected-bg-color-alt: #FFA100;
+// Default selected text color
+@selected-text-color: #222;
+*/
+/* Origin theme */
+/*
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #3F3B39; //#414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Default selected background color
+@selected-bg-color: #F46A1A; //#DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
+@active-text-color: #333;
+*/
+/* Default theme (gray blue) */
 /* Red theme */
 /*
 @base-color: #f4f4f4;
@@ -367,6 +430,9 @@ select {
   background-color: #3f3b39;
   color: #ffffff;
 }
+.hidden {
+  display: none !important;
+}
 input,
 button,
 select,
@@ -429,8 +495,9 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-bottom-width: 3px;
+  font-weight: bold;
   border-radius: 2px;
   cursor: pointer;
   text-align: center;
@@ -478,7 +545,7 @@ input[type=button].primary,
 button.primary,
 input[type=reset].primary,
 input[type=submit].primary {
-  background-color: #3395c2;
+  background-color: #28769a;
   color: #ffffff;
 }
 .button.primary:hover,
@@ -486,14 +553,14 @@ input[type=button].primary:hover,
 button.primary:hover,
 input[type=reset].primary:hover,
 input[type=submit].primary:hover {
-  background-color: #2e85ae;
+  background-color: #236685;
 }
 .button.primary:focus,
 input[type=button].primary:focus,
 button.primary:focus,
 input[type=reset].primary:focus,
 input[type=submit].primary:focus {
-  box-shadow: 0 0 2px #56abd2;
+  box-shadow: 0 0 2px #3395c2;
   outline: none;
 }
 .button.primary:active,
@@ -506,9 +573,10 @@ input[type=button].primary.active,
 button.primary.active,
 input[type=reset].primary.active,
 input[type=submit].primary.active {
-  border-color: #18475d;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) inset;
-  background-color: #28769a;
+  border-color: #236685;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.08) inset;
+  background-color: #205d79;
+  color: #ffffff;
 }
 .button[disabled],
 input[type=button][disabled],
@@ -534,6 +602,43 @@ input[type=submit][diabled].active {
   border-color: rgba(0, 0, 0, 0.1) !important;
   color: #9b9b9b !important;
 }
+.button.secondary,
+input[type=button].secondary,
+button.secondary,
+input[type=reset].secondary,
+input[type=submit].secondary {
+  background-color: #5a5451;
+  color: #242221;
+}
+.button.secondary:hover,
+input[type=button].secondary:hover,
+button.secondary:hover,
+input[type=reset].secondary:hover,
+input[type=submit].secondary:hover {
+  background-color: #4c4845;
+}
+.button.secondary:focus,
+input[type=button].secondary:focus,
+button.secondary:focus,
+input[type=reset].secondary:focus,
+input[type=submit].secondary:focus {
+  box-shadow: 0 0 2px #756d69;
+  outline: none;
+}
+.button.secondary:active,
+input[type=button].secondary:active,
+button.secondary:active,
+input[type=reset].secondary:active,
+input[type=submit].secondary:active,
+.button.secondary.active,
+input[type=button].secondary.active,
+button.secondary.active,
+input[type=reset].secondary.active,
+input[type=submit].secondary.active {
+  border-color: #322e2d;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
+  background-color: #4c4845;
+}
 label {
   display: block;
   padding: 3px 0;
@@ -558,6 +663,13 @@ form .hint {
 .selected {
   background-color: #f46a1a;
   color: #ffffff;
+}
+.activable {
+  cursor: pointer;
+}
+.activable.active {
+  background-color: #e5e5e5 !important;
+  color: #333333 !important;
 }
 .list {
   margin: 0;
@@ -674,12 +786,33 @@ form .hint {
   -ms-transition: width 700ms ease 50ms;
   transition: width 700ms ease 50ms;
 }
-.activable {
-  cursor: pointer;
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;
+  overflow: auto;
+  z-index: 199;
+  margin: 0;
+  /*
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  */
 }
-.activable.active {
-  background-color: #e5e5e5 !important;
-  color: #333333 !important;
+.messages > .message {
+  font-size: 0.9em;
+  margin: 0;
+  padding: 7px;
+  color: #fff;
+  opacity: 0;
+  -moz-transition: opacity 300ms ease;
+  -webkit-transition: opacity 300ms ease;
+  transition: opacity 300ms ease;
+}
+.messages > .message.show {
+  opacity: 1;
 }
 .tabstrip,
 .tab {
@@ -737,6 +870,57 @@ form .hint {
 }
 .tab-content.current {
   display: block;
+}
+/*
+body.dialog-showing {
+  .viewport {
+    overflow-y: hidden;
+  }
+}
+*/
+.dialog-pane {
+  z-index: 299;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(30, 30, 32, 0.78);
+  display: none;
+}
+.dialog-pane.showing {
+  display: block;
+}
+.dialog-pane .dialog {
+  background-color: #808080;
+  color: #424242;
+  display: block;
+  max-width: 90% !important;
+  max-height: 90% !important;
+  z-index: 1;
+  border-radius: 2px;
+  left: auto;
+  margin: 11% auto;
+  -moz-transform: translateY(-300%);
+  -webkit-transform: translate3d(0, -300%, 0);
+  -o-transform: translateY(-300%);
+  transform: translateY(-300%);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+.dialog-pane .dialog.hidden {
+  display: none;
+}
+.dialog-pane .dialog.in {
+  display: block;
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
 }
 /* --------------------------------------- Framework Overrides -------------------------------- */
 /*

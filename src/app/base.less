@@ -90,6 +90,10 @@ article, section, aside, div, img, p, ul, li, h1, h2, h3, h4, h5, h6, .box, .inl
    color: @alt-text-color;
 }
 
+.hidden {
+  display: none !important;
+}
+
 
 // form controls
 input,
@@ -138,9 +142,9 @@ textarea {
    min-height: 100px;
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
-   // background-color: darken(@bg-color, 20%);
-   border: 1px solid rgba(0,0,0,0.2);
+   border: 1px solid rgba(0,0,0,0.08);
    border-bottom-width: 3px;
+   font-weight: bold;
    border-radius: 2px;
    cursor: pointer;
    text-align: center;
@@ -170,20 +174,21 @@ textarea {
    }
 
    &.primary {
-      background-color: @primary-color;
+      background-color: @primary-action-color;
       color: @selected-text-color;
    }
    &.primary:hover {
-      background-color: darken(@primary-color, 5%);
+      background-color: darken(@primary-action-color, 5%);
    }
    &.primary:focus {
-      box-shadow: 0 0 2px lighten(@primary-color, 10%);
+      box-shadow: 0 0 2px lighten(@primary-action-color, 10%);
       outline: none;
    }
    &.primary:active, &.primary.active {
-      border-color: darken(@primary-color, 25%);
-      box-shadow: 0 0 5px rgba(0,0,0,0.3) inset;
-      background-color: darken(@primary-color, 10%);
+      border-color: darken(@primary-action-color, 5%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.08) inset;
+      background-color: darken(@primary-action-color, 8%);
+      color: @primary-text-color;
    }
 
    &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
@@ -191,6 +196,24 @@ textarea {
       border-color: rgba(0,0,0,0.1) !important;
       color: lighten(@text-color, 35%) !important;
    }
+ 
+   &.secondary {
+      background-color: @secondary-action-color;
+      color: @secondary-text-color;
+   }
+   &.secondary:hover {
+      background-color: darken(@secondary-action-color, 5%);
+   }
+   &.secondary:focus {
+      box-shadow: 0 0 2px lighten(@secondary-action-color, 10%);
+      outline: none;
+   }
+   &.secondary:active, &.secondary.active {
+      border-color: darken(@secondary-action-color, 15%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.4) inset;
+      background-color: darken(@secondary-action-color, 5%);
+   }
+   
 }
 label {
    display: block;

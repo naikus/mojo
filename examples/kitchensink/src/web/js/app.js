@@ -294,25 +294,9 @@ window.SERVER_URL = "/";
 
    
    // set the default user action event (tap in touch enabled browsers or fallback to click
-   var Events = {
-            tap: "tap",
-            taphold: "taphold",
-            touchstart: "touchstart",
-            touchend: "touchend",
-            touchmove: "touchmove"
-         },
+   var Events = $.EventTypes,
          doc = $(document),
          App = $.Application();
-         
-   if(! ("ontouchstart" in document.documentElement)) {
-      Events = {
-        tap: "click",
-        taphold: "mousedown",
-        touchstart: "mousedown",
-        touchend: "mouseup",
-        touchmove: "mousemove"
-      };
-   }
       
    /*
     * App global messages, plugin

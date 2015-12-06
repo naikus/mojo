@@ -1,0 +1,585 @@
+@import "fonts.less";
+@import "mojo.less";
+
+.scale(@x: 1, @y: 1) {
+   -moz-transform: scale(@x, @y);
+   -webkit-transform: scale(@x, @y);
+   -o-transform: scale(@x, @y);
+   -ms-transform: scale(@x, @y);
+   transform: scale(@x, @y);
+}
+
+* {
+  /* prevent callout when holding tap on links (the native dialog that comes up) */
+  -webkit-touch-callout: none;
+
+  /* prevent webkit from resizing text to fit */
+  -webkit-text-size-adjust: none;
+
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+html, body, .viewport {
+  background-color: @base-color;
+  font-size: 1em;
+  font-family: Raleway;
+}
+
+a {
+  color: @text-color;
+  text-decoration: none;
+}
+
+
+.clear {
+  clear: both;
+}
+
+.text-big {
+  font-size: 1.1em;
+}
+.text-huge {
+  font-size: 4em;
+}
+
+.text-light {
+  color: lighten(@text-color, 14%);
+}
+
+/*
+.view {
+   background-color: @base-color;
+}
+*/
+
+/*
+ * This hides elements with .transition-hide class while view is transitioning
+ */
+.view-transitioning .transition-hide {
+   display: none;
+}
+
+.list.pad-items > li {
+  padding: 10px;
+}
+.list.pad-items-extra > li {
+  padding: 15px 10px;
+}
+.list.bordered > li {
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.form .header {
+  background-color: darken(@bg-color, 7%);
+  padding: 10px !important;
+  margin: 0;
+  color: @text-color;
+  border: none;
+  font-weight: bold;
+  overflow: auto;
+}
+
+.no-separator > li, .alg-bg .no-separator li {
+  border: none !important;
+}
+
+.list li .label {
+  padding: 4px 4px 2px;
+}
+
+.list > li {
+  .thumb {
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 50px;
+    background-color: @base-color;
+  }
+}
+
+.info {
+  background-color: @info-color;
+}
+.info-text {
+  color: darken(@info-color, 30%);
+}
+.success {
+  background-color: @success-color;
+  color: #fff;
+}
+.success-text {
+  color: @success-color;
+}
+.error {
+  background-color: @error-color;
+  color: #fff;
+}
+.error-text {
+  color: @error-color;
+}
+.warn {
+  background-color: @warn-color;
+  color: #fff;
+}
+.warn-text {
+  color: @warn-color;
+}
+.indicate {
+  background-color: @error-color;
+}
+.indicate-alt {
+  color: @error-color;
+}
+
+.half {
+  width: 50%;
+}
+
+
+/* ------------------------------------------------ App Toolbar -----------------------------------------------*/
+.view {
+  padding-top: 48px; // since toolbar is 50px
+
+  &.no-toolbar {
+    padding-top: 0;
+  }
+}
+
+
+#loading {
+  z-index: 399;
+  width: 100%;
+  height: 100%;
+
+  // margin: 0 35%;
+  padding: 20px 0;
+
+  position: fixed;
+
+  bottom: 0;
+  left: 0;
+
+  text-align: center;
+  font-size: 1.3em;
+
+  background-color: rgba(0,0,0,0.09);
+  display: none;
+
+  > .icon {
+    margin-top: 300px;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    color: #ccc;
+    border-radius: 50px;
+    padding: 13px;
+    overflow: hidden;
+  }
+}
+#loading.show {
+   display: block;
+}
+
+
+.toolbar {
+  overflow: auto;
+  border-bottom: 2px solid darken(@alt-bg-color, 2%);
+  width: 100%;
+  height: 48px;
+  overflow: hidden;
+
+  background-color: @toolbar-bg-color;
+  color: @toolbar-text-color;
+
+  // will only work if user-scalable=no in viewport meta tag
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 110;
+
+  .transition-transform(300ms, ease);
+
+  &.hide {
+    box-shadow: none;
+    .translateY(-110%);
+  }
+
+  &.transparent {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  padding: 0;
+  margin: 0;
+
+  > ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
+  .title {
+    // color: lighten(@selected-bg-color, 5%);
+    // font-weight: bold;
+    display: block;
+    padding: 13px 3px;
+
+    &.active {
+      background-color: transparent !important;
+      color: @text-color !important;
+    }
+  }
+
+  .title:first-child {
+    padding-left: 10px;
+  }
+
+  .action {
+    float: left;
+    display: block;
+    // font-weight: bold;
+    padding: 12px 11px;
+    // border-right: 1px solid lighten(@alt-bg-color, 9%);
+    min-width: 45px;
+    height: 48px;
+    text-align: center;
+    position: relative;
+
+    .border-box;
+
+    &.indicator {
+      position: relative;
+
+      &:before {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        content: '!';
+        width: 15px;
+        height: 15px;
+        font-size: 0.7em;
+        font-weight: bold;
+        border-radius: 10px;
+        background-color: #d66b55;
+        z-index: 1;
+        padding: 1px;
+      }
+    }
+
+
+    &.right {
+      float: right;
+    }
+
+    &.active {
+      background-color: transparent !important;
+      color: @primary-color !important;
+    }
+
+    &.right {
+      border: none;
+      // border-left: 1px solid lighten(@alt-bg-color, 9%);
+    }
+    &.action.on {
+      // background-color: lighten(@selected-bg-color, 10%);
+      color: @primary-color;
+      // text-shadow: 0 0 3px lighten(@primary-color, 20%);
+    }
+
+    .icon {
+      font-size: 1.2em;
+      position: absolute;
+      top: 12px;
+      left: 11px;
+    }
+  }
+
+  .action {
+    .icon.rotate {
+      .rotate(0, 0, 1, 0deg);
+      .transition-transform(200ms, ease, 0ms);
+    }
+
+    &.on {
+      .icon.rotate {
+        .rotate(0, 0, 1, 45deg);
+      }
+    }
+  }
+}
+
+
+ul.horizontal {
+   overflow: auto;
+   list-style-type: none;
+}
+ul.horizontal li {
+   float: left;
+}
+
+#navContainer {
+  position: fixed;
+  font-size: 1.1em;
+  //font-weight: bold;
+  z-index: 111;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  .no-select;
+
+  will-change: transform;
+
+  .translate(-100%, 0, 0);
+  // .transition-transform(250ms, ease);
+  .transition-transform(500ms, cubic-bezier(0.19, 1, 0.22, 1));
+
+  &.show {
+    .translateNone;
+
+    #navigation {
+      .translateNone;
+    }
+  }
+
+  .nav {
+    border-right: 1px solid darken(@bg-color, 9%);
+    background-color: darken(@bg-color, 6%);
+    color: @text-color;
+    top: 48px;
+    width: 250px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    > .user-info {
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      padding: 12px 10px;
+      background-color: darken(@base-color, 10%);
+
+      > .label {
+        font-weight: bold;
+        margin-top: 12px;
+        width: 167px;
+        overflow: hidden;
+        text-overflow: ellipsis-word;
+      }
+      > img {
+        border: none;
+        // border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+      }
+    }
+
+    > ul {
+
+      > li {
+        padding: 8px;
+        padding-left: 20px;
+        &.active {}
+
+        .title {
+          padding: 5px;
+        }
+
+        .indicator {
+          padding: 4px 7px 5px;
+          width: 1em;
+          display: inline-block;
+          font-size: 0.8em;
+          border-radius: 50%;
+          text-align: center;
+          vertical-align: top;
+          margin-top: 5px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+
+
+section {
+  // background-color: lighten(@bg-color, 3%);
+  margin-bottom: 20px;
+  overflow: auto;
+}
+section > header {
+  overflow: auto;
+  font-size: 1em;
+  font-weight: bold;
+  // border-bottom: 1px solid darken(@selected-bg-color, 4%);
+  // margin-bottom: 10px;
+}
+
+section {
+  &.panel {
+    background-color: lighten(@bg-color, 10%);
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 3px;
+    
+    header {      
+    }
+  }
+}
+
+.expandable {
+  > .trigger {
+    .icon {
+      display: inline-block;
+      float: right;
+      
+      .transformNone;
+      .transition-transform;
+    }
+  }
+  
+  &.on {
+    > .trigger {
+      .icon {
+        .rotate(0, 0, 1, 180deg);
+      }
+    }
+  }
+}
+
+.tab-content {
+  .no-content {
+    text-align: center;
+
+    .icon {
+      margin-top: 30%;
+      display: inline-block;
+      font-size: 5em;
+    }
+  }
+}
+.alt-bg {
+  .tab-content {
+    .no-content {
+      color: lighten(@alt-bg-color, 25%);
+      .icon {
+        color: lighten(@alt-bg-color, 10%);
+      }
+    }
+  }
+}
+
+.margin-r {
+  margin-right: 10px;
+}
+
+
+.list-item {
+  overflow: auto;
+  padding: @pad-default;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  
+  p {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 5px;
+  }
+
+  .title {
+    color: darken(@text-color, 10%);
+  }
+  .desc {
+    color: lighten(@text-color, 10%);
+  }
+
+  .span-9 {
+    width: 66.6666%;
+  }
+  .span-3 {
+    width: 33.33333%;
+  }
+
+  .extra {
+    display: none;
+    clear: both;
+  }
+}
+
+
+.tag {
+  padding: 2px 4px;
+  text-align: center;
+  border-radius: 3px;
+  margin: 2px 2px;
+
+  &.Maintainance, &.Normal, &.normal, &.MINOR {
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: #13A0D3;
+    color: #fff;
+  }
+  &.Major, &.major, &.MAJOR {
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: #EF7B2D;
+    color: #fff;
+  }
+  &.Repair, &.critical, &.Critical, &.CRITICAL {
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: #D34C4C;
+    color: #fff;
+  }
+}
+
+
+
+.toolbar-logo {
+  border: none;
+  height: 32px;
+  margin: 9px 3px 5px;
+  width: 32px;
+}
+
+
+.no-content-message {
+  display: none;
+  .icon {
+    margin-top: 15px;
+    display: inline-block;
+    font-size: 6em;
+    color: #2FBFEF;
+    // text-shadow: 0 0 2px darken(#2FBFEF, 70%);
+  }
+}
+.content {
+  display: block;
+}
+
+.no-content {
+  .no-content-message {
+    display: block;
+  }
+  .content {
+    display: none;
+  }
+}
+
+
+/* --------------------------------------- Additional Views ------------------------------------- */
+@import "animation.less";
+@import "calendar.less";
+@import "time.less";
+@import "login.less";
+@import "select-server.less";
+@import "main.less";
+@import "issues.less";
+@import "issue.less";
+@import "about.less";
+@import "schedules.less";
+@import "messages.less";
+@import "diagnostics-result.less";
+@import "schedule-visit.less";

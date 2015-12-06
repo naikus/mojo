@@ -1,0 +1,50 @@
+/*
+body.dialog-showing {
+  .viewport {
+    overflow-y: hidden;
+  }
+}
+*/
+.dialog-pane {
+  z-index: 299;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  
+  background-color: rgba(30, 30, 32, 0.78);
+  display: none;
+  
+  &.showing {
+    display: block;
+  }
+  
+  .dialog {
+    background-color: darken(@base-color, 15%);
+    color: @text-color;
+    
+    
+    display: block;
+    max-width: 90% !important;
+    max-height: 90% !important;
+    z-index: 1;
+    border-radius: 2px;
+
+    left: auto;
+    margin: 11% auto;
+
+    .translateY(-300%);
+    .transition-transform(400ms, ease, 0ms);
+    
+    &.hidden {
+      display: none;
+    }
+
+    &.in {
+      display: block;
+      .translateNone;
+    }
+  }  
+}

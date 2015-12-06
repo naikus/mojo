@@ -1,0 +1,41 @@
+#loginView {
+  overflow: hidden;
+  
+  .content {
+    padding: 20px 50px;
+  }
+  .logo-container {
+    padding-bottom: 20px;
+    
+    img.logo {
+      width: 200px;
+      height: 200px;
+      border: none;
+      
+      opacity: 1;
+      will-change: scale;
+      .scale(0, 0);
+      .transition-transform(300ms, ease, 500ms);
+    }
+  }
+  
+  #loginForm {
+    will-change: transform;
+    .translate(0, 300%);
+    .transition-transform(400ms, ease);
+    &.show {
+      .translate(0, 0);
+    }
+  }
+  
+  
+  &.in {
+    .logo-container {
+      img.logo {
+        .scale(1, 1);
+      }
+    }
+  }
+  
+}
+
