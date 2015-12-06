@@ -1,0 +1,1611 @@
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(../fonts/Raleway.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(../fonts/Raleway.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Raleway Medium'), local('Raleway-Medium'), url(../fonts/Raleway-Medium.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Raleway Medium'), local('Raleway-Medium'), url(../fonts/Raleway-Medium.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Raleway Bold'), local('Raleway-Bold'), url(../fonts/Raleway-Bold.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Raleway Bold'), local('Raleway-Bold'), url(../fonts/Raleway-Bold.ttf) format('truetype');
+}
+/*!
+ * The MIT License
+ * 
+ * Copyright (c) 2011-2013 mojo Authors. All rights reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+/* Default light theme */
+/* Alternate dark theme. Don't forget to change the chart colors too :) */
+/*
+@base-color: #293952;
+@bg-color: #374761;
+@alt-bg-color: darken(#374761, 8%);
+@text-color: #B1C1DA;
+@alt-text-color: @text-color;
+@selected-bg-color: #197CD9;
+@selected-bg-color-alt: @selected-bg-color;
+@selected-text-color: #fafafa;
+@active-bg-color: lighten(@selected-bg-color, 15%);
+@active-text-color: @text-color;
+@primary-color: #00a1ff;
+@primary-text-color: #fff;
+@toolbar-bg-color: @base-color;
+@toolbar-text-color: @text-color;
+*/
+/* Alternate light theme. Don't forget to change the chart colors too :) */
+/*
+@base-color: #F0F3F9;
+@bg-color: @base-color;
+@alt-bg-color: #737F9D;
+@text-color: #949BAD;
+@alt-text-color: #D7DBE6;
+@selected-bg-color: #75B8F1;
+@selected-bg-color-alt: @selected-bg-color;
+@selected-text-color: #ffffff;
+@active-bg-color: @selected-bg-color;
+@active-text-color: #fff;
+@primary-color: #1BD2C5;
+@primary-text-color: #fff;
+@toolbar-bg-color: #515B74;
+@toolbar-text-color: #fff;
+*/
+.translateNone,
+.transformNone {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+a,
+img,
+button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  display: block;
+}
+.viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+  color: #656565;
+}
+/* Currently unused since does not work consistently in firefox and firefox mobile */
+.view-transitioning {
+  height: 100%;
+  overflow: hidden;
+}
+/* ---------------------------- Default transition effects for views ---------------------------- */
+.view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  will-change: transform;
+  display: none;
+  /* Avoid flickering in webkit browsers, thanks stackoverflow */
+  -webkit-backface-visibility: hidden;
+  background-color: #f8f8f8;
+}
+.view {
+  -moz-transform: translate(100%, 0);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(100%, 0, 0);
+  -o-transform: translate(100%, 0);
+  transform: translate3d(100%, 0, 0);
+  -moz-transition: -moz-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 450ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+}
+.view.pop {
+  -moz-transform: translate(100%, 0);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(100%, 0, 0);
+  -o-transform: translate(100%, 0);
+  transform: translate3d(100%, 0, 0);
+}
+.view.showing {
+  z-index: 99;
+  display: block;
+}
+.view.in {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+.view.stack {
+  z-index: 98;
+  -moz-transform: translate(-60%, 0);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(-60%, 0, 0);
+  -o-transform: translate(-60%, 0);
+  transform: translate3d(-60%, 0, 0);
+  -moz-transition: -moz-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 700ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+}
+/*
+.view {
+   opacity: 0;
+
+   -moz-transition: opacity 250ms ease;
+   -webkit-transition: opacity 250ms ease;
+   -o-transition: opacity 250ms ease;
+   -ms-transition: opacity 250ms ease;
+   transition: opacity 250ms ease;
+   
+    &.pop {
+       opacity: 0;
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      opacity: 1;
+   }
+}
+*/
+/*
+Alternate Android2.3.x-like transition effect for views. Beta!
+*/
+/*
+.view {
+   -moz-transform: scale(1.05, 1.05);
+   -webkit-transform: scale(1.05, 1.05);
+   -o-transform: scale(1.05, 1.05);
+   -ms-transform: scale(1.05, 1.05);
+   transform: scale(1.05, 1.05);
+   opacity: 0;
+   
+   .transition-transform(300ms);
+
+   &.in {
+      -moz-transform: none;
+      -webkit-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+      transform: none;
+      opacity: 1;    
+   }
+   
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+
+   &.stack {
+      -moz-transform: scale(0.95, 0.95);
+      -webkit-transform: scale(0.95, 0.95);
+      -o-transform: scale(0.95, 0.95);
+      transform: scale(0.95, 0.95);
+      opacity: 0;
+   }
+
+   &.pop {
+      opacity: 0;
+   }
+}
+*/
+/* Slightly different transition effect */
+/*
+.transition {
+   -moz-transition: -moz-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   -webkit-transition: -webkit-trasform 450ms cubic-bezier(0.23,1,0.32,1) 10ms;
+   transition: trasform 450ms ease;
+}
+*/
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, sans;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+}
+article,
+section,
+aside,
+div,
+img,
+p,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.box,
+.inline-box,
+input,
+textarea,
+select {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.box {
+  display: block !important;
+  overflow: auto;
+}
+.inline-box {
+  display: inline-block !important;
+  overflow: auto;
+}
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-small {
+  font-size: 0.9em;
+}
+.text-x-small,
+.hint {
+  font-size: 0.85em;
+}
+.no-select {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.pad {
+  padding: 11px;
+}
+.pad-v {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+.pad-h {
+  padding-left: 11px;
+  padding-right: 11px;
+}
+.pad-t {
+  padding-top: 11px;
+}
+.pad-b {
+  padding-bottom: 11px;
+}
+.pad-l {
+  padding-left: 11px;
+}
+.pad-r {
+  padding-right: 11px;
+}
+.pad-extra {
+  padding: 16px;
+}
+.overflow {
+  overflow: auto;
+}
+.alt-bg {
+  background-color: #565656;
+  color: #f8f8f8;
+}
+input,
+button,
+select,
+textarea,
+.button {
+  padding: 11px;
+  font-size: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  display: block;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  color: #656565;
+  -webkit-appearance: caret;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input::-moz-focus-inner,
+button::-moz-focus-inner,
+select::-moz-focus-inner,
+textarea::-moz-focus-inner,
+.button::-moz-focus-inner {
+  outline: 0;
+  border: 0;
+}
+input:focus,
+button:focus,
+select:focus,
+textarea:focus,
+.button:focus {
+  border-bottom-color: #a7ddfa;
+  outline: 0;
+}
+input[disabled],
+button[disabled],
+select[disabled],
+textarea[disabled],
+.button[disabled],
+input.disabled,
+button.disabled,
+select.disabled,
+textarea.disabled,
+.button.disabled {
+  background-color: #dfdfdf !important;
+}
+input.inline,
+button.inline,
+select.inline,
+textarea.inline,
+.button.inline {
+  display: inline-block;
+  width: auto;
+}
+a.button {
+  text-decoration: none;
+}
+textarea {
+  min-height: 100px;
+}
+.button,
+input[type=button],
+button,
+input[type=reset],
+input[type=submit] {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  border-bottom-width: 3px;
+  cursor: pointer;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /*
+   > .icon {
+      font-size: 1.1em;
+      margin-right: 5px;
+   }
+   */
+}
+.button:hover,
+input[type=button]:hover,
+button:hover,
+input[type=reset]:hover,
+input[type=submit]:hover {
+  background-color: #dfdfdf;
+  color: #f8f8f8;
+}
+.button:focus,
+input[type=button]:focus,
+button:focus,
+input[type=reset]:focus,
+input[type=submit]:focus {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: 0;
+}
+.button:active,
+input[type=button]:active,
+button:active,
+input[type=reset]:active,
+input[type=submit]:active,
+.button.active,
+input[type=button].active,
+button.active,
+input[type=reset].active,
+input[type=submit].active {
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+  color: #656565;
+  background-color: #494949;
+}
+.button.primary,
+input[type=button].primary,
+button.primary,
+input[type=reset].primary,
+input[type=submit].primary {
+  background-color: #00CAD5;
+  color: #f8f8f8;
+}
+.button.primary:hover,
+input[type=button].primary:hover,
+button.primary:hover,
+input[type=reset].primary:hover,
+input[type=submit].primary:hover {
+  background-color: #00b2bc;
+}
+.button.primary:focus,
+input[type=button].primary:focus,
+button.primary:focus,
+input[type=reset].primary:focus,
+input[type=submit].primary:focus {
+  box-shadow: 0 0 2px #09f2ff;
+  outline: none;
+}
+.button.primary:active,
+input[type=button].primary:active,
+button.primary:active,
+input[type=reset].primary:active,
+input[type=submit].primary:active,
+.button.primary.active,
+input[type=button].primary.active,
+button.primary.active,
+input[type=reset].primary.active,
+input[type=submit].primary.active {
+  border-color: #002123;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
+  background-color: #009aa2;
+}
+.button[disabled],
+input[type=button][disabled],
+button[disabled],
+input[type=reset][disabled],
+input[type=submit][disabled],
+.button[disabled]:hover,
+input[type=button][disabled]:hover,
+button[disabled]:hover,
+input[type=reset][disabled]:hover,
+input[type=submit][disabled]:hover,
+.button[disabled]:active,
+input[type=button][disabled]:active,
+button[disabled]:active,
+input[type=reset][disabled]:active,
+input[type=submit][disabled]:active,
+.button[diabled].active,
+input[type=button][diabled].active,
+button[diabled].active,
+input[type=reset][diabled].active,
+input[type=submit][diabled].active {
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #bebebe !important;
+}
+label {
+  display: block;
+  padding: 3px 0;
+}
+.form .para,
+form .para {
+  font-size: 0.95em;
+}
+.form label,
+form label {
+  font-weight: bold;
+}
+.form label > .hint,
+form label > .hint {
+  font-weight: normal;
+}
+.form .hint,
+form .hint {
+  display: inline-block;
+  padding: 3px 0;
+}
+.selected {
+  background-color: #E5E5E5;
+  color: #656565;
+}
+.list {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+.list > li {
+  list-style-type: none;
+  overflow: auto;
+  position: relative;
+}
+.list > li.selected {
+  background-color: #E5E5E5;
+}
+.widget.toggle,
+.widget.toggle > .thumb {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.widget.toggle {
+  position: relative;
+  display: inline-block;
+  min-width: 70px;
+  background-color: #dfdfdf;
+  height: 2.2em;
+  overflow: hidden;
+  border: 1px solid #d2d2d2;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.widget.toggle > .thumb {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 50%;
+  position: absolute;
+  height: 100%;
+  display: block;
+  background-color: #ffffff;
+  left: 0px;
+  transition: left 200ms ease;
+  border: 1px solid #ffffff;
+}
+.widget.toggle.on {
+  background-color: #cccccc;
+  color: #656565;
+}
+.widget.toggle.on > .thumb {
+  left: 52%;
+}
+/*
+.slider {
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
+}
+.slider > .value {
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
+}
+.slider > .thumb {
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
+}
+.slider > .thumb.active {
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
+}
+.slider.horizontal > .thumb {
+   height: 30px;
+}
+*/
+.expandable > .expandable-content {
+  display: none;
+  overflow: auto;
+}
+.expandable.on > .expandable-content {
+  display: block;
+}
+.progress {
+  background-color: #303030;
+  /*box-shadow: 0 0 2px #000000 inset;*/
+  overflow: auto;
+  padding: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.progress > .value {
+  background-color: #47b8f4;
+  height: 4px;
+  left: 0px;
+  position: absolute;
+  top: 0;
+  width: 0;
+  /*border: 1px solid rgba(255,255,255,0.2);*/
+  -moz-transition: width 700ms ease 50ms;
+  -webkit-transition: width 700ms ease 50ms;
+  -o-transition: width 700ms ease 50ms;
+  -ms-transition: width 700ms ease 50ms;
+  transition: width 700ms ease 50ms;
+}
+.activable {
+  cursor: pointer;
+}
+.activable.active {
+  background-color: #d8d8d8 !important;
+  color: #656565 !important;
+}
+.tabstrip,
+.tab {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.tabstrip {
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-bottom: 1px solid #f8f8f8;
+}
+.tabstrip > .tab {
+  list-style-type: none;
+  /* A display of table-cell with 10000px width will automatically adjust tab widths */
+  display: table-cell;
+  width: 10000px;
+  font-size: 0.95em;
+  text-align: center;
+  position: relative;
+}
+.tabstrip > .tab > span {
+  border-right: 1px solid #dfdfdf;
+  min-height: 20px;
+  padding: 4px 10px;
+  margin: 6px 0;
+  display: block;
+}
+.tabstrip > .tab:last-child > span {
+  border-right-width: 0;
+}
+.tabstrip > .tab.selected {
+  background: none;
+  border-bottom: 3px solid #E5E5E5;
+  color: #656565;
+}
+.tabstrip.alt-bg {
+  background-color: #565656;
+  border-bottom-color: rgba(0, 0, 0, 0.3);
+}
+.tabstrip.alt-bg > .tab.selected {
+  color: #ffffff;
+}
+.tabstrip.alt-bg > .tab > span {
+  border-right-color: #5b5b5b;
+}
+.tabstrip > .tab.active > span,
+.tabstrip > .tab:active > span {
+  border-right-color: transparent;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.current {
+  display: block;
+}
+* {
+  /* prevent callout when holding tap on links (the native dialog that comes up) */
+  -webkit-touch-callout: none;
+  /* prevent webkit from resizing text to fit */
+  -webkit-text-size-adjust: none;
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html,
+body,
+.viewport {
+  background-color: #fafafa;
+  font-size: 1em;
+  font-family: Raleway;
+}
+a {
+  color: #656565;
+  text-decoration: none;
+}
+.clear {
+  clear: both;
+}
+.text-big {
+  font-size: 1.1em;
+}
+.text-huge {
+  font-size: 4em;
+}
+.text-light {
+  color: #898989;
+}
+/*
+.view {
+   background-color: @base-color;
+}
+*/
+/*
+ * This hides elements with .transition-hide class while view is transitioning
+ */
+.view-transitioning .transition-hide {
+  display: none;
+}
+.list.pad-items > li {
+  padding: 10px;
+}
+.list.pad-items-extra > li {
+  padding: 15px 10px;
+}
+.list.bordered > li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+.form .header {
+  background-color: #e6e6e6;
+  padding: 10px !important;
+  margin: 0;
+  color: #656565;
+  border: none;
+  font-weight: bold;
+  overflow: auto;
+}
+.no-separator > li,
+.alg-bg .no-separator li {
+  border: none !important;
+}
+.list li .label {
+  padding: 4px 4px 2px;
+}
+.list > li .thumb {
+  display: block;
+  float: left;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  background-color: #fafafa;
+}
+.info {
+  background-color: #007BD3;
+}
+.info-text {
+  color: #00223a;
+}
+.success {
+  background-color: #94B75F;
+  color: #fff;
+}
+.success-text {
+  color: #94B75F;
+}
+.error {
+  background-color: #D66B55;
+  color: #fff;
+}
+.error-text {
+  color: #D66B55;
+}
+.warn {
+  background-color: #F79204;
+  color: #fff;
+}
+.warn-text {
+  color: #F79204;
+}
+.indicate {
+  background-color: #D66B55;
+}
+.indicate-alt {
+  color: #D66B55;
+}
+.half {
+  width: 50%;
+}
+/* ------------------------------------------------ App Toolbar -----------------------------------------------*/
+.view {
+  padding-top: 48px;
+}
+.view.no-toolbar {
+  padding-top: 0;
+}
+#loading {
+  z-index: 399;
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-size: 1.3em;
+  background-color: rgba(0, 0, 0, 0.09);
+  display: none;
+}
+#loading > .icon {
+  margin-top: 300px;
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  color: #ccc;
+  border-radius: 50px;
+  padding: 13px;
+  overflow: hidden;
+}
+#loading.show {
+  display: block;
+}
+.toolbar {
+  overflow: auto;
+  border-bottom: 2px solid #515151;
+  width: 100%;
+  height: 48px;
+  overflow: hidden;
+  background-color: #666666;
+  color: #fafafa;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 110;
+  -moz-transition: -moz-transform 300ms ease 0ms;
+  -webkit-transition: -webkit-transform 300ms ease 0ms;
+  -o-transition: -o-transform 300ms ease 0ms;
+  -ms-transition: -ms-transform 300ms ease 0ms;
+  transition: transform 300ms ease 0ms;
+  padding: 0;
+  margin: 0;
+}
+.toolbar.hide {
+  box-shadow: none;
+  -moz-transform: translateY(-110%);
+  -webkit-transform: translate3d(0, -110%, 0);
+  -o-transform: translateY(-110%);
+  transform: translate3d(0, -110%, 0);
+}
+.toolbar.transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+.toolbar > ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.toolbar .title {
+  display: block;
+  padding: 13px 3px;
+}
+.toolbar .title.active {
+  background-color: transparent !important;
+  color: #656565 !important;
+}
+.toolbar .title:first-child {
+  padding-left: 10px;
+}
+.toolbar .action {
+  float: left;
+  display: block;
+  padding: 12px 11px;
+  min-width: 45px;
+  height: 48px;
+  text-align: center;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.toolbar .action.indicator {
+  position: relative;
+}
+.toolbar .action.indicator:before {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  content: '!';
+  width: 15px;
+  height: 15px;
+  font-size: 0.7em;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: #d66b55;
+  z-index: 1;
+  padding: 1px;
+}
+.toolbar .action.right {
+  float: right;
+}
+.toolbar .action.active {
+  background-color: transparent !important;
+  color: #00CAD5 !important;
+}
+.toolbar .action.right {
+  border: none;
+}
+.toolbar .action.action.on {
+  color: #00CAD5;
+}
+.toolbar .action .icon {
+  font-size: 1.2em;
+  position: absolute;
+  top: 12px;
+  left: 11px;
+}
+.toolbar .action .icon.rotate {
+  -moz-transform: rotate3d(0, 0, 1, 0deg);
+  -webkit-transform: rotate3d(0, 0, 1, 0deg);
+  -o-transform: rotate3d(0, 0, 1, 0deg);
+  transform: rotate3d(0, 0, 1, 0deg);
+  -moz-transition: -moz-transform 200ms ease 0ms;
+  -webkit-transition: -webkit-transform 200ms ease 0ms;
+  -o-transition: -o-transform 200ms ease 0ms;
+  -ms-transition: -ms-transform 200ms ease 0ms;
+  transition: transform 200ms ease 0ms;
+}
+.toolbar .action.on .icon.rotate {
+  -moz-transform: rotate3d(0, 0, 1, 45deg);
+  -webkit-transform: rotate3d(0, 0, 1, 45deg);
+  -o-transform: rotate3d(0, 0, 1, 45deg);
+  transform: rotate3d(0, 0, 1, 45deg);
+}
+ul.horizontal {
+  overflow: auto;
+  list-style-type: none;
+}
+ul.horizontal li {
+  float: left;
+}
+#navContainer {
+  position: fixed;
+  font-size: 1.1em;
+  z-index: 111;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: transform;
+  -moz-transform: translate(-100%, 0);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -o-transform: translate(-100%, 0);
+  transform: translate3d(-100%, 0, 0);
+  -moz-transition: -moz-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+}
+#navContainer.show {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+#navContainer.show #navigation {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+#navContainer .nav {
+  border-right: 1px solid #e1e1e1;
+  background-color: #e9e9e9;
+  color: #656565;
+  top: 48px;
+  width: 250px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+#navContainer .nav > .user-info {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  padding: 12px 10px;
+  background-color: #e1e1e1;
+}
+#navContainer .nav > .user-info > .label {
+  font-weight: bold;
+  margin-top: 12px;
+  width: 167px;
+  overflow: hidden;
+  text-overflow: ellipsis-word;
+}
+#navContainer .nav > .user-info > img {
+  border: none;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+#navContainer .nav > ul > li {
+  padding: 8px;
+  padding-left: 20px;
+}
+#navContainer .nav > ul > li .title {
+  padding: 5px;
+}
+#navContainer .nav > ul > li .indicator {
+  padding: 4px 7px 5px;
+  width: 1em;
+  display: inline-block;
+  font-size: 0.8em;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: top;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+section {
+  margin-bottom: 20px;
+  overflow: auto;
+}
+section > header {
+  overflow: auto;
+  font-size: 1em;
+  font-weight: bold;
+}
+section.panel {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+.expandable > .trigger .icon {
+  display: inline-block;
+  float: right;
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+  -moz-transition: -moz-transform 200ms ease 0ms;
+  -webkit-transition: -webkit-transform 200ms ease 0ms;
+  -o-transition: -o-transform 200ms ease 0ms;
+  -ms-transition: -ms-transform 200ms ease 0ms;
+  transition: transform 200ms ease 0ms;
+}
+.expandable.on > .trigger .icon {
+  -moz-transform: rotate3d(0, 0, 1, 180deg);
+  -webkit-transform: rotate3d(0, 0, 1, 180deg);
+  -o-transform: rotate3d(0, 0, 1, 180deg);
+  transform: rotate3d(0, 0, 1, 180deg);
+}
+.tab-content .no-content {
+  text-align: center;
+}
+.tab-content .no-content .icon {
+  margin-top: 30%;
+  display: inline-block;
+  font-size: 5em;
+}
+.alt-bg .tab-content .no-content {
+  color: #969696;
+}
+.alt-bg .tab-content .no-content .icon {
+  color: #707070;
+}
+.margin-r {
+  margin-right: 10px;
+}
+.list-item {
+  overflow: auto;
+  padding: 11px;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+}
+.list-item p {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5px;
+}
+.list-item .title {
+  color: #4b4b4b;
+}
+.list-item .desc {
+  color: #7f7f7f;
+}
+.list-item .span-9 {
+  width: 66.6666%;
+}
+.list-item .span-3 {
+  width: 33.33333%;
+}
+.list-item .extra {
+  display: none;
+  clear: both;
+}
+.tag {
+  padding: 2px 4px;
+  text-align: center;
+  border-radius: 3px;
+  margin: 2px 2px;
+}
+.tag.Maintainance,
+.tag.Normal,
+.tag.normal,
+.tag.MINOR {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #13A0D3;
+  color: #fff;
+}
+.tag.Major,
+.tag.major,
+.tag.MAJOR {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #EF7B2D;
+  color: #fff;
+}
+.tag.Repair,
+.tag.critical,
+.tag.Critical,
+.tag.CRITICAL {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #D34C4C;
+  color: #fff;
+}
+.toolbar-logo {
+  border: none;
+  height: 32px;
+  margin: 9px 3px 5px;
+  width: 32px;
+}
+.no-content-message {
+  display: none;
+}
+.no-content-message .icon {
+  margin-top: 15px;
+  display: inline-block;
+  font-size: 6em;
+  color: #2FBFEF;
+}
+.content {
+  display: block;
+}
+.no-content .no-content-message {
+  display: block;
+}
+.no-content .content {
+  display: none;
+}
+/* --------------------------------------- Additional Views ------------------------------------- */
+@-moz-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    -moz-transform: scale(0.7, 0.7);
+  }
+  50% {
+    -moz-transform: scale(1.2, 1.2);
+  }
+  100% {
+    -moz-transform: scale(0.7, 0.7);
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+  }
+  100% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+}
+.spin {
+  -moz-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+.anim .spin {
+  -webkit-animation: 2s linear 0s normal none infinite spin;
+  -moz-animation: 2s linear 0s normal none infinite spin;
+  animation: 2s linear 0s normal none infinite spin;
+}
+.anim .pulse {
+  -webkit-animation: 1s linear 0s normal none infinite pulse;
+  -moz-animation: 1s linear 0s normal none infinite pulse;
+  animation: 1s linear 0s normal none infinite pulse;
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+  }
+  100% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+}
+/* ------------------------------------ Calendar View --------------------------------------- */
+.calendar {
+  /*
+  .selected {
+    background-color: #24A6C3 !important;
+    color: #fff !important;
+  }
+  */
+}
+.calendar > .year-bar {
+  overflow: auto;
+  background-color: #636363;
+  color: #eee;
+  border-bottom: 1px solid #6d6d6d;
+}
+.calendar > .year-bar > span {
+  padding: 13px 10px;
+  width: 16%;
+  text-align: center;
+  font-size: 1.1em;
+}
+.calendar > .year-bar > .years {
+  margin: 0;
+  width: 64%;
+  padding: 7px 2%;
+}
+.calendar > .year-bar > .years > li {
+  width: 25%;
+  padding: 7px 0;
+  text-align: center;
+  color: #7c7c7c;
+  font-size: 1em;
+  font-weight: bold;
+}
+.calendar > .year-bar > .years > li.selected {
+  background: transparent;
+  color: #d8d8d8;
+}
+.calendar > .months {
+  padding: 10px 2%;
+  margin: 0;
+  background-color: #565656;
+  color: #f8f8f8;
+  border-bottom: 1px solid #494949;
+}
+.calendar > .months > li,
+.calendar > .days > li,
+.calendar > .dates > li {
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  float: left;
+  padding: 14px 0 11px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.calendar > .months > li {
+  width: 16%;
+}
+.calendar > .days,
+.calendar > .dates {
+  padding: 0;
+  margin: 0;
+}
+.calendar > .days {
+  padding: 5px;
+  background-color: #e4e4e4;
+}
+.calendar > .dates {
+  margin: 5px;
+}
+.calendar > .days > li,
+.calendar > .dates > li {
+  width: 14.285714%;
+}
+/* ---------------------------------- Time View --------------------------------------------- */
+div.column,
+.span4 {
+  width: 33.333%;
+  overflow: auto;
+}
+.time .selected {
+  background-color: #E5E5E5 !important;
+  color: #656565 !important;
+}
+.time .hours,
+.time .minutes,
+.time .ampm {
+  background-color: #ffffff;
+}
+.time .label {
+  display: inline-block;
+  padding: 3px 0;
+}
+.time .hours,
+.time .minutes,
+.time .ampm {
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.time .minutes {
+  margin-bottom: 30px;
+}
+.time .hours li,
+.time .minutes li,
+.time .ampm li {
+  border: none;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1px;
+  box-sizing: border-box;
+  padding: 15px 0;
+  width: 16.6%;
+}
+.time .ampm li {
+  width: auto;
+}
+.time .minutes li.highlite {
+  color: #77cbf7;
+}
+.time .minutes li.highlite.selected {
+  color: #656565;
+}
+/*
+.time .minutes li.highlite, .time .minutes li.highlite-alt {
+   border-radius: 3px;
+}
+*/
+.time div.details {
+  width: 66.666%;
+  padding: 10px;
+}
+.time .timebox {
+  font-size: 2.5em;
+  margin: 0;
+  padding-bottom: 6px;
+}
+#loginView {
+  overflow: hidden;
+}
+#loginView .content {
+  padding: 20px 50px;
+}
+#loginView .logo-container {
+  padding-bottom: 20px;
+}
+#loginView .logo-container img.logo {
+  width: 200px;
+  height: 200px;
+  border: none;
+  opacity: 1;
+  will-change: scale;
+  -moz-transform: scale(0, 0);
+  -webkit-transform: scale(0, 0);
+  -o-transform: scale(0, 0);
+  -ms-transform: scale(0, 0);
+  transform: scale(0, 0);
+  -moz-transition: -moz-transform 300ms ease 500ms;
+  -webkit-transition: -webkit-transform 300ms ease 500ms;
+  -o-transition: -o-transform 300ms ease 500ms;
+  -ms-transition: -ms-transform 300ms ease 500ms;
+  transition: transform 300ms ease 500ms;
+}
+#loginView #loginForm {
+  will-change: transform;
+  -moz-transform: translate(0, 300%);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, 300%, 0);
+  -o-transform: translate(0, 300%);
+  transform: translate3d(0, 300%, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+#loginView #loginForm.show {
+  -moz-transform: translate(0, 0);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, 0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate3d(0, 0, 0);
+}
+#loginView.in .logo-container img.logo {
+  -moz-transform: scale(1, 1);
+  -webkit-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+#selectServerView .content {
+  position: absolute;
+  width: 100%;
+  -moz-transform: translate(0, -185px);
+  /** 
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, -185px, 0);
+  -o-transform: translate(0, -185px);
+  transform: translate3d(0, -185px, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+#selectServerView .content #addServerForm {
+  opacity: 0;
+  margin-bottom: 25px;
+}
+#selectServerView .content.show-form {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+#selectServerView .content.show-form #addServerForm {
+  opacity: 1;
+}
+#mainView .chart-container {
+  overflow: auto;
+  /*
+    > .chart {
+      position: relative;
+      width: 65%;
+      min-height: 200px;
+      float: left;
+      
+      #issueChart {
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .chart-label {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        text-align: center;
+        width: 100%;
+        padding-top: 25%;
+        font-size: 3.5em;
+      }      
+    }
+
+    
+    > .legend {
+      width: 35%;
+      float: right;
+      padding: 10px;
+      min-height: 200px;
+    }
+    */
+}
+#mainView .chart-container > .chart {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 180px;
+}
+#mainView .chart-container > .chart #issueChart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+#mainView .list .schedule-item {
+  overflow: auto;
+  border-left: 3px solid transparent;
+}
+#mainView .list .schedule-item.critical,
+#mainView .list .schedule-item.CRITICAL {
+  border-left-color: #D66B55;
+}
+#mainView .list .schedule-item.major,
+#mainView .list .schedule-item.MAJOR {
+  border-left-color: #F79204;
+}
+#mainView .list .schedule-item.normal,
+#mainView .list .schedule-item.NORMAL {
+  border-left-color: #007BD3;
+}
+#mainView .list .schedule-item p {
+  padding: 2px;
+  margin: 0;
+}
+#mainView .list .schedule-item p.title {
+  color: #585858;
+}
+#mainView .list .schedule-item p.desc {
+  color: #8b8b8b;
+}
+#mainView .list .schedule-item p.tags {
+  font-size: 0.8em;
+}
+#aboutView h1 {
+  font-size: 7em;
+  color: #009aa2;
+  margin-bottom: 5px;
+}

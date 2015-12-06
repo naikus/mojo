@@ -1,0 +1,21 @@
+<!-- ====================================== Login View ====================================== -->
+<article class="view  no-toolbar" id="loginView">
+  <div class="content pad">
+    <div class="logo-container text-center">
+      <img class="logo" src="images/k2_logo.png" alt="K2 Logo" />
+      <span class="box pad-v">LEVEL 2 SUPPORT (ST)</span>
+    </div>
+    <form id="loginForm">
+      <input data-bind="username" type="text" id="username"
+          placeholder="Username" />
+      <input data-bind="password" type="password" id="password" placeholder="Password" />
+      <span id="loginButton" class="button primary">
+        <i class="icon icon-unlock"></i> Login
+      </span>
+      <span id="selectServer" class="inline-box pad activable">
+        <i class="icon icon-globe"></i>
+      </span>
+    </form>
+  </div>
+  <script src="js/login.js"></script>
+</article>

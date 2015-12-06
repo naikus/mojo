@@ -1,0 +1,40 @@
+<article class="view main" id="mainView">
+  <div class="content no-select">
+    <section>
+      <header class="pad">Open Tickets</header>
+      <div class="chart-container">
+        <div class="chart">
+          <canvas id="issueChart"></canvas>
+        </div>
+        <div class="legend">
+          
+        </div>
+      </div>
+    </section>
+    <section id="recentSchedulesSection">
+      <header class="pad">Recent Schedules</header>
+      <div class="no-content-message text-center pad">
+        <span class="icon icon-ok-sign text-huge"></span>
+        <p>Hurray! No upcoming schedules!</p>
+        <!-- ul class="list pad-items-extra">
+          <li>
+            <i class="icon-calendarthree"> </i>
+            <span>No upcoming schedules at this eime</span>
+          </li>
+        </ul -->
+      </div>
+      <div id="recentScheduleList" class="content no-select">
+        <script id="scheduleItemTemplate" type="text/x-mojo-template">
+          <p class="title">{issue.summary}</p>
+          <p class="desc text-x-small">{customerAddress}</p>
+          <p class="tags">
+            <span class="inline-box tag {issue.type}">{issue.type}</span>
+            <span class="inline-box tag">{formattedDate}</span>
+          </p>
+        </script>
+        
+      </div>
+    </section>
+  </div>
+  <script src="js/main.js"></script>
+</article>
