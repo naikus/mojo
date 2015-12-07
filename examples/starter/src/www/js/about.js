@@ -1,3 +1,4 @@
+/* global Application */
 Application.addRoute("/about", {
   id: "aboutView",
   factory: function(App, viewUi) {

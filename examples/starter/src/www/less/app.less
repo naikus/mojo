@@ -276,7 +276,7 @@ a {
 
     &.active {
       background-color: transparent !important;
-      color: @primary-text-color !important;
+      color: @primary-action-color !important;
     }
 
     &.right {
@@ -358,9 +358,10 @@ ul.horizontal li {
     bottom: 0;
 
     > .user-info {
-      border-bottom: 1px solid rgba(0,0,0,0.03);
       padding: 12px 10px;
-      background-color: darken(@base-color, 10%);
+      border-bottom: 1px solid darken(@selected-bg-color, 7%);
+      background-color: darken(@selected-bg-color, 4%);
+      color: @selected-text-color;
 
       > .label {
         font-weight: bold;

@@ -91,7 +91,6 @@
             formatters = options.formatters || {},
             converters = options.converters || {};
       
-      
       function applyBindings() {
          forEach(boundElemMap, function(keyMap, modelKey) {
             var value = getValue(modelKey, model, formatters[modelKey]);
@@ -119,7 +118,7 @@
                applyBindingsForKey(k + prop, val);
             });
          }
-      }      
+      }
 
       /**
        * Partially updates the model from the specified model model
@@ -183,11 +182,17 @@
          updateModelValue(keyInfo.key, converter(elem.value));
       }
       
-      function attachListeners(elem) {
-         var eName = elem.nodeName.toLowerCase(), type = eName.type;
+      function attachListeners(elem, key) {
+         var eName = elem.nodeName.toLowerCase(), type = eName.type, el, val;
          if((eName === "input" || eName === "textarea" || eName === "select") && 
                  (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {
-            $(elem).on("input", changeListener).on("change", changeListener);
+            el = $(elem);
+            el.on("input", changeListener).on("change", changeListener);
+            // Read initial values from input controls?
+            /*
+            val = getValue(key);
+            if(!val) {}
+            */
          }
       }
       

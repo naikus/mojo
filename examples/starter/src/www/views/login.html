@@ -6,9 +6,10 @@
       <span class="box pad-v">LEVEL 2 SUPPORT (ST)</span>
     </div>
     <form id="loginForm">
-      <input data-bind="username" type="text" id="username"
+      <input data-bind="value:username" type="text" id="username" value="username"
           placeholder="Username" />
-      <input data-bind="password" type="password" id="password" placeholder="Password" />
+      <input data-bind="value:password" type="password" id="password" placeholder="Password" 
+          value="password" />
       <span id="loginButton" class="button primary">
         <i class="icon icon-unlock"></i> Login
       </span>

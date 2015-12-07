@@ -1,3 +1,4 @@
+/* global Application */
 Application.addRoute("/time", {
    id: "timeView",
    factory: function(App, viewUi) {

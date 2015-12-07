@@ -1,3 +1,4 @@
+/* global Application */
 Application.addRoute("/calendar", {
   id: "calendarView",
   factory: function(App, viewUi) {

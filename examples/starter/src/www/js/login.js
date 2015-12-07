@@ -3,9 +3,7 @@ Application.addRoute("/login", {
   id: "loginView",
   factory: function(App, viewUi) {    
     var loginForm = $("#loginForm"),
-        loginBinder = loginForm.binder({
-          model: {}
-        }),
+        loginBinder,
         serverUrl = "/",
         usernameField, passwordField,
         Notification = App.Notification,
@@ -54,6 +52,13 @@ Application.addRoute("/login", {
       initialize: function() {
         usernameField = $("#username");
         passwordField = $("#password");
+        
+        loginBinder = loginForm.binder({
+          model: {
+            username: usernameField.val(),
+            password: passwordField.val()
+          }
+        });
         
         $("#loginButton").on(Events.tap, function() {
           login();
