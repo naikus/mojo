@@ -247,7 +247,11 @@ $.extension("once", function(eventType, callback) {
     
       
     // infinite scroll on document to notify views
-    doc.on("scroll", function() {
+    // infinite scroll on document to notify views
+    function handleScroll() {
+      if(vPort.hasClass("view-transitioning")) {
+        return;
+      }
       var innerHeight = window.innerHeight,
           ui = App.getCurrentRoute().ui,
           contentHeight = ui.get(0).offsetHeight,
@@ -256,6 +260,9 @@ $.extension("once", function(eventType, callback) {
         console.log([contentHeight, scrollTop, innerHeight].join(" "));
         ui.dispatch("scrolledtobottom");
       }
+    }
+    doc.on("scroll", function() {
+      window.requestAnimationFrame(handleScroll);
     });
 
 
