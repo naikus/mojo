@@ -455,19 +455,19 @@
          viewPort.addClass("view-transitioning");
          
          setTimeout(function() {
-             controller.activate(params, data);
-				 if(currRoute) {
-					 currRoute.controller.deactivate();
-				 }
+            controller.activate(params, data);
+            if(currRoute) {
+              currRoute.controller.deactivate();
+            }
              
             // transitiion the current view out
-				requestAnimationFrame(function() {
-					if(currRoute) {
-						stackViewUi(currRoute.ui);
-					}
-					// transition in the new view
-					pushViewUi(ui);
-				});
+            requestAnimationFrame(function() {
+              if(currRoute) {
+                stackViewUi(currRoute.ui);
+              }
+              // transition in the new view
+              pushViewUi(ui);
+            });
          }, 50);
 
          stack.push(route);
@@ -708,11 +708,11 @@
             eType = "out";
          }else if(ui.hasClass("in")) {// if ui has transitioned in
             eType = "in";
+            viewPort.removeClass("view-transitioning");
          }else if(ui.hasClass("pop")) { // if view has been popped
             ui.removeClass("showing").removeClass("pop");
             eType = "out";
          }
-         viewPort.removeClass("view-transitioning");
          
          if(eType) {
             setTimeout(function() { // rendering performance
@@ -1005,7 +1005,6 @@
             formatters = options.formatters || {},
             converters = options.converters || {};
       
-      
       function applyBindings() {
          forEach(boundElemMap, function(keyMap, modelKey) {
             var value = getValue(modelKey, model, formatters[modelKey]);
@@ -1033,7 +1032,7 @@
                applyBindingsForKey(k + prop, val);
             });
          }
-      }      
+      }
 
       /**
        * Partially updates the model from the specified model model
@@ -1097,11 +1096,17 @@
          updateModelValue(keyInfo.key, converter(elem.value));
       }
       
-      function attachListeners(elem) {
-         var eName = elem.nodeName.toLowerCase(), type = eName.type;
+      function attachListeners(elem, key) {
+         var eName = elem.nodeName.toLowerCase(), type = eName.type, el, val;
          if((eName === "input" || eName === "textarea" || eName === "select") && 
                  (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {
-            $(elem).on("input", changeListener).on("change", changeListener);
+            el = $(elem);
+            el.on("input", changeListener).on("change", changeListener);
+            // Read initial values from input controls?
+            /*
+            val = getValue(key);
+            if(!val) {}
+            */
          }
       }
       

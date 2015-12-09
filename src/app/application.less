@@ -109,7 +109,8 @@ html, body {
    .transition-transform(550ms, cubic-bezier(0.19, 1, 0.22, 1));
    
    &.pop {
-      .translate(0, -10%);
+      //  .translate(0, -10%);
+      .translate(0, 10%);
    }
 
    &.showing {
@@ -123,15 +124,17 @@ html, body {
    &.showing.in {
      z-index: 99;
    }
+   /*
    &.showing.pop {
      z-index: 98;
    }
-   
+   */
    &.stack {
      z-index: 98;
-     .translate(0, 10%);
+     // .translate(0, 10%);
+     .translate(0, -10%);
      //.transition-transform(350ms, ease);
-     .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
+     .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
 

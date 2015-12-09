@@ -126,7 +126,8 @@
 */
 /* Android theme */
 /* Origin theme */
-.translateNone {
+.translateNone,
+.transformNone {
   -moz-transform: none;
   -webkit-transform: none;
   -o-transform: none;
@@ -171,7 +172,7 @@ body {
   -webkit-backface-visibility: hidden;
   background-color: #f2f2f2;
 }
-/* --------------------------- Android 5.1 like transition for views ---------------------------- */
+/* --------------------------- Simple transition for views ---------------------------- */
 .view {
   -moz-transform: translate(0, 10%);
   /**
@@ -181,21 +182,26 @@ body {
   -webkit-transform: translate3d(0, 10%, 0);
   -o-transform: translate(0, 10%);
   transform: translate3d(0, 10%, 0);
-  -moz-transition: -moz-transform 200ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -webkit-transition: -webkit-transform 200ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -o-transition: -o-transform 200ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -ms-transition: -ms-transform 200ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  transition: transform 200ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -moz-transition: -moz-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 550ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  /*
+   &.showing.pop {
+     z-index: 98;
+   }
+   */
 }
 .view.pop {
-  -moz-transform: translate(0, -10%);
+  -moz-transform: translate(0, 10%);
   /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-  -webkit-transform: translate3d(0, -10%, 0);
-  -o-transform: translate(0, -10%);
-  transform: translate3d(0, -10%, 0);
+  -webkit-transform: translate3d(0, 10%, 0);
+  -o-transform: translate(0, 10%);
+  transform: translate3d(0, 10%, 0);
 }
 .view.showing {
   display: block;
@@ -209,31 +215,28 @@ body {
 .view.showing.in {
   z-index: 99;
 }
-.view.showing.pop {
-  z-index: 98;
-}
 .view.stack {
   z-index: 98;
-  -moz-transform: translate(0, 10%);
+  -moz-transform: translate(0, -10%);
   /**
     * In older webkits on android, this causes the whole page to jump up and down
     * when typing, in input fields
     */
-  -webkit-transform: translate3d(0, 10%, 0);
-  -o-transform: translate(0, 10%);
-  transform: translate3d(0, 10%, 0);
-  -moz-transition: -moz-transform 100ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -webkit-transition: -webkit-transform 100ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -o-transition: -o-transform 100ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  -ms-transition: -ms-transform 100ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
-  transition: transform 100ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transform: translate3d(0, -10%, 0);
+  -o-transform: translate(0, -10%);
+  transform: translate3d(0, -10%, 0);
+  -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 400ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 400ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 400ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
 }
 /* ---------------------------- Slide transition for views ---------------------------- */
 /*
 .view {
    .translate(100%);
    // .transition-transform;
-   .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
+   .transition-transform(450ms, cubic-bezier(0.19, 1, 0.22, 1));
    
    &.pop {
       .translate(100%);
@@ -331,6 +334,11 @@ Alternate Android2.3.x-like transition effect for views. Beta!
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 html,
 body {
@@ -449,6 +457,7 @@ textarea,
   margin-bottom: 12px;
   background-color: #ffffff;
   color: #424242;
+  -webkit-appearance: caret;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -466,14 +475,19 @@ button:focus,
 select:focus,
 textarea:focus,
 .button:focus {
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom-color: #f5b671;
   outline: 0;
 }
 input[disabled],
 button[disabled],
 select[disabled],
 textarea[disabled],
-.button[disabled] {
+.button[disabled],
+input.disabled,
+button.disabled,
+select.disabled,
+textarea.disabled,
+.button.disabled {
   background-color: #d9d9d9 !important;
 }
 input.inline,
@@ -495,10 +509,9 @@ input[type=button],
 button,
 input[type=reset],
 input[type=submit] {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-bottom-width: 3px;
-  font-weight: bold;
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 2px;
+  border-bottom-width: 3px;
   cursor: pointer;
   text-align: center;
   -moz-user-select: none;
@@ -516,7 +529,8 @@ input[type=button]:hover,
 button:hover,
 input[type=reset]:hover,
 input[type=submit]:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #d9d9d9;
+  color: #ffffff;
 }
 .button:focus,
 input[type=button]:focus,
@@ -696,9 +710,8 @@ form .hint {
   min-width: 70px;
   background-color: #e5e5e5;
   height: 2.25em;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  border: 1px solid #dedede;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -716,8 +729,9 @@ form .hint {
   border-radius: 2px;
   left: 5px;
   top: 5px;
+  will-change: left;
   transition: left 200ms ease;
-  border: 1px solid #d9d9d9;
+  border: 1px solid rgba(0, 0, 0, 0.11);
 }
 .widget.toggle.on {
   background-color: #d1530a;
@@ -905,7 +919,7 @@ body.dialog-showing {
   -moz-transform: translateY(-300%);
   -webkit-transform: translate3d(0, -300%, 0);
   -o-transform: translateY(-300%);
-  transform: translateY(-300%);
+  transform: translate3d(0, -300%, 0);
   -moz-transition: -moz-transform 400ms ease 0ms;
   -webkit-transition: -webkit-transform 400ms ease 0ms;
   -o-transition: -o-transform 400ms ease 0ms;
