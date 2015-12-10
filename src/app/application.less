@@ -130,8 +130,6 @@ html, body {
    transition: transform -transform 300ms, cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
 
    &.pop {     
-      //  .translate(0, -10%);
-      // .transition-transform(250ms, cubic-bezier(0.19, 1, 0.22, 1));
       .translate(0, 10%);
       opacity: 0;
    }
@@ -140,7 +138,7 @@ html, body {
       display: block;
    }
    &.in {
-      // .translateX(0); Fixed position elements won't work with this
+      // .translateY(0); Fixed position elements won't work with this
       .translateNone;
    }
    
@@ -154,10 +152,8 @@ html, body {
    
    &.stack {
      // z-index: 98;
+     .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
      .translate(0, -2%);
-     // .scale(0.95, 0.95);
-     //.transition-transform(350ms, ease);
-     .transition-transform(400ms, cubic-bezier(0.19, 1, 0.22, 1));
    }
 }
 
