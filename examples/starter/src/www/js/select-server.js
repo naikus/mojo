@@ -1,9 +1,9 @@
-/* global Events, Notification, Application */
-
+/* global Application */
 Application.addRoute("/select-server", {
   id: "selectServerView",
   factory: function(App, viewUi) {
-    var selectedServer = null,
+    var Notification = App.Notification,
+        selectedServer = null,
         Events = $.EventTypes,
         uiServerList,
         Storage = window.store,
