@@ -87,7 +87,7 @@ Application.addRoute("/main", {
         },
         {
           type: "title",
-          title: "Dashboard"
+          title: "DASHBOARD"
         }
       ],
       

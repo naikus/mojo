@@ -111,7 +111,7 @@ Application.addRoute("/time", {
          actions: [{
            type: "title",
            icon: "icon-alarmclock",
-           title: "SCHEDULE TIME"
+           title: "SELECT TIME"
          }],
          initialize: function() {
             uiHours = $("#timeView ul.hours").datalist({
