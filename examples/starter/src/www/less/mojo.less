@@ -260,13 +260,48 @@ html, body {
    background-color: @bg-color;
 }
 
+/* ---------------------------- Custom transition ----------------------------------------------- */
+.view {
+   .translate(0, 20%);
+   // .transition-transform;
+   .transition-transform(600ms, cubic-bezier(0.19, 1, 0.22, 1));
+   
+   will-change: transform, opacity;
+   
+   &.pop {
+     .translate(0, 10%);
+     opacity: 0;
+   }
+
+   &.showing {
+      display: block;
+   }
+   &.in {
+      // .translateX(0); Fixed position elements won't work with this
+      .translateNone;
+   }
+   
+   &.showing.in {
+     z-index: 99;
+   }
+   &.showing.pop {
+     z-index: 98;
+   }
+   
+   &.stack {
+      z-index: 98;
+      .translate(0, -20%);
+      //.transition-transform(350ms, ease);
+      .transition-transform(100ms, cubic-bezier(0.19, 1, 0.22, 1));
+   }
+}
+
 
 /* --------------------------- Android 5.1-ish transition for views ---------------------------- */
 
+/*
 .view {
    .translate(0, 10%);
-   // .transition-transform;
-   // .transition-transform(550ms, cubic-bezier(0.19, 1, 0.22, 1));
    -moz-transition: -moz-transform 300ms, cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
    -webkit-transition: -webkit-transform 300ms, cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
    -o-transition: -o-transform 300ms, cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
@@ -295,11 +330,11 @@ html, body {
    }
    
    &.stack {
-     // z-index: 98;
      .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
      .translate(0, -2%);
    }
 }
+*/
 
 /* ---------------------------- Slide transition for views ---------------------------- */
 
@@ -559,7 +594,7 @@ textarea {
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
    // background-color: darken(@bg-color, 20%);
-   border: 1px solid rgba(0,0,0,0.3);
+   border: 1px solid rgba(0,0,0,0.08);
    border-radius: 2px;
    border-bottom-width: 3px;
    cursor: pointer;
@@ -584,7 +619,7 @@ textarea {
       outline: 0;
    }
    &:active, &.active {
-      border-color: rgba(0, 0, 0, 0.3);
+      border-color: rgba(0, 0, 0, 0.2);
       // box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
       color: @active-text-color;
       // background-color: darken(@alt-bg-color, 5%);

@@ -11,12 +11,12 @@ Application.addRoute("/main", {
           minorColor: "#a3c950",
           
           // dark theme
-          segmentStrokeColor: "#304060", 
-          centerLabelColor: "#e5eaf3"
+          // segmentStrokeColor: "#304060", 
+          // centerLabelColor: "#e5eaf3"
           
           // light theme
-          // segmentStrokeColor: "rgba(0,0,0,0.05)", 
-          // centerLabelColor: "rgba(81,91,116,0.8)"
+          segmentStrokeColor: "rgba(0,0,0,0.05)", 
+          centerLabelColor: "rgba(81,91,116,0.8)"
         };
     
     function initializeChart() {
