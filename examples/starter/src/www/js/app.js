@@ -196,7 +196,7 @@ $.extension("once", function(eventType, callback) {
       viewPort: vPort,
       loadFromPath: false,
       enableHashChange: false, //if set to true, drops the framerate in chrome by half :(
-      transitionDelay: 200,
+      transitionDelay: 150,
       // startView: "/"
       // transitionProperty: "opacity",
       routes: [
