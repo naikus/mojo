@@ -190,12 +190,13 @@ $.extension("once", function(eventType, callback) {
     }).on("ajaxend", function() {
       loading.removeClass("show");
     });
-
+        
     // initialize our app
     App.initialize({
       viewPort: vPort,
       loadFromPath: false,
       enableHashChange: false, //if set to true, drops the framerate in chrome by half :(
+      transitionDelay: 200,
       // startView: "/"
       // transitionProperty: "opacity",
       routes: [
@@ -207,14 +208,14 @@ $.extension("once", function(eventType, callback) {
         {path: "/about",              viewPath: "views/about.html"}
       ]
     });
-
-
+    
+    
     App.Notification = $("#notifications").notifications();
     App.DialogManager = $("#dialogPane").dialogmanager();
     App.Navigation = $("#navContainer").navigation(App);
     App.ActionBar = $("#globalActionBar").actionbar(App);
     
-    
+
 
     // Called on android when back button is pressed (android back button)
     doc.on("backbutton", function() {
