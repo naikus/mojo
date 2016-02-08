@@ -1726,6 +1726,13 @@
          });
       }
       
+      if(opt.timeout) {
+        req.timeout = opt.timeout;
+        req.ontimeout = function() {
+          opt.ontimeout ? opt.ontimeout() : opt.error("timeout");
+        };
+      }
+      
       req.onreadystatechange = function() {
          var state = req.readyState, code, err, data, handler;
          

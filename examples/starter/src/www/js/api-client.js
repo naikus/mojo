@@ -7,6 +7,7 @@
     baseUrl: "api",
     username: null,
     password: null,
+    timeout: 15000,
     headers: {
       "Content-Type": "application/json"
     }
@@ -168,6 +169,7 @@
         method: method,
         username: opts.username,
         password: opts.password,
+        timeout: opts.timeout,
         data: reqData,
         headers: headers,
         dataType: options.dataType || "json",
@@ -179,6 +181,10 @@
           // console.log(["ERROR", "method", apiMethod, JSON.stringify(code)].join(" "));
           // doc.dispatch("apierror", {api: options.apiMethod, data: code});
           (options.failure || noop)(code, xhr);
+        },
+        ontimeout: function() {
+          console.log(apiPath + " timed out");
+          (options.failure || noop)("timeout");
         }
       });
     }
