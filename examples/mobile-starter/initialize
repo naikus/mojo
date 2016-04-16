@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [ "$1" = "clean" ] ; then
+   echo "Cleaning..."
+   rm -rf cordova-app
+   rm -rf dist
+   echo "Done!"
+   exit
+fi
+
+mkdir -p dist
+
+cordova create cordova-app org.mojojs.starter StarterApp --link-to=dist
+
+# copy the existing config.xml (Note the app id and name in this file will take precedence over the
+# cordova 'create' command above)
+cp src/config.xml cordova-app
+
+# copy the resources directory (splash screen, app icon, etc.)
+cp -r src/res cordova-app/
+
+cd cordova-app
+
+# add the appropriate platform
+cordova platforms add $1
+
+cordova plugin add cordova-plugin-inappbrowser
+cordova plugin add cordova-plugin-statusbar
+cordova plugin add cordova-plugin-dialogs
+cordova plugin add cordova-plugin-vibration
+cordova plugin add cordova-plugin-network-information
+cordova plugin add cordova-plugin-whitelist
+
+
+# install local npm modules
+cd ..
+npm install

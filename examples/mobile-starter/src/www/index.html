@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self' 'unsafe-eval' 'unsafe-inline' https: http: data: gap:; 
+        style-src 'self' 'unsafe-inline'; 
+        media-src *" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="480" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta http-equiv="cleartype" content="on" />
+
+    <link rel="stylesheet" type="text/css" href="css/whhg.css" />
+    <!-- link rel="stylesheet" type="text/css" href="css/responsive.gs.12col.css" / -->
+
+    <!-- Combined mojo.less and app.less -->
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+
+    <script src ="libs/modernizr.custom.19045.js"> </script>
+    <!-- script src ="libs/base64.min.js"> </script -->
+    <!-- script src="libs/iscroll-lite.js"> </script -->
+    
+    <!--[if lt IE 9]>
+       <script src ="libs/json2.js"> </script>
+       <script src ="libs/html5shiv.js"> </script>
+    <![endif]-->
+
+    <!-- script src="libs/velocity.min.js"></script -->
+
+    <!-- for older safari browsers -->
+    <script>
+      if(typeof JSON === "undefined") {
+        (function script(src) {
+          var doc = document, s = doc.createElement("script"),
+              fs = doc.getElementsByTagName("script")[0];
+
+          s.src = src;
+          s.async = 1;
+          fs.parentNode.insertBefore(s, fs);
+          return script;
+        })("libs/json2.js")("libs/html5shiv.js");
+      }
+    </script>
+
+    <!-- script src ="libs/eventsource.js"></script -->
+
+    <script src ="libs/h5.js"></script>
+    <!--[if lt IE 9]>
+       <script src ="lib/event_ie.js"> </script>
+    <![endif]-->
+    <script src ="libs/mojo.js"></script>
+    
+    <script src ="js/api-client.js"></script>
+    <script src ="js/utils.js"></script>
+    <script src ="js/routes.js"></script>
+    <script src ="js/app.js"></script>
+    <!-- script src ="js/sse.js"></script -->
+  </head>
+
+  <!-- Don't keep body as the view-port on android devices cause the views don't scroll -->
+  <body>
+    <!-- All our views will be shown here -->
+    <div class="viewport" id="viewPort">
+    </div>
+
+    <aside id="navContainer" class="nav-container">
+      <div class="nav">
+        <div class="user-info pad-extra overflow">
+          <!-- img data-bind="@src:avatar" class="box left" src="" alt="" / -->
+          <img class="box left" src="images/avatar.png" alt="" />
+          <span data-bind="text:name" class="box left label">Hello Ninja!</span>
+        </div>
+        <ul id="mainNavListBinding" class="nav-list list">
+          <li class="activable">
+            <span class="inline-box title">Inbox</span>
+            <!-- span data-bind="inbox.unread" class="indicator error">0</span -->
+            <span class="indicator error">10</span>
+          </li>
+          <li class="activable" data-action="logout">
+            <span class="inline-box title">Logout</span>
+            <!-- span class="inline-box title icon-exit"></span -->
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <div id="globalActionBar" class="no-select toolbar hide"></div>
+    <div id="notifications" class="no-select messages hidden"></div>
+    <div class="text-center spinner anim" id="loading">
+      <span class="slider slide"></span>
+      <!-- span class="inline-box icon text-center spin">
+        <span class="icon-refreshalt"></span>
+      </span -->
+    </div>
+    
+    <div id="dialogPane" class="dialog-pane"></div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+  </body>
+</html>

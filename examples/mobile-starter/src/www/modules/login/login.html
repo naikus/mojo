@@ -1,0 +1,23 @@
+<!-- ====================================== Login View ====================================== -->
+<article class="view  no-toolbar" id="loginView">
+  <div class="content pad">
+    <div class="logo-container text-center">
+      <img class="logo" src="images/logo.png" alt="Logo" />
+    </div>
+    <form id="loginForm">
+      <input data-bind="value:username" type="text" id="username"
+          placeholder="Username" />
+      <input data-bind="value:password" type="password" id="password" placeholder="Password" />
+      <span id="loginButton" class="button primary">
+        <i class="icon icon-unlock"></i> Login
+      </span>
+      <span id="selectServer" class="inline-box pad activable">
+        <i class="icon icon-globe"></i>
+      </span>
+      <span class="inline-box pad">
+        New? <span class="link activable">Register</span>
+      </span>
+    </form>
+  </div>
+  <script src="modules/login/login.js"></script>
+</article>

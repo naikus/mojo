@@ -1,0 +1,48 @@
+#loginView {
+  overflow: hidden;
+  
+  .content {
+    padding: 40px 50px;
+  }
+  .logo-container {
+    padding-bottom: 40px;
+    
+    img.logo {
+      width: 160px;
+      height: 160px;
+      border: none;
+      border-radius: 3px;
+      
+      opacity: 1;
+      // will-change: scale;
+      // .scale(0, 0);
+      // .transition-transform(300ms, ease, 500ms);
+    }
+  }
+  
+  #loginForm {
+    will-change: transform;
+    .translate(0, 300%);
+    .transition-transform(400ms, ease);
+    &.show {
+      .translate(0, 0);
+    }
+  }
+  
+  .link {
+    color: #1993db;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  
+  /*
+  &.in {
+    .logo-container {
+      img.logo {
+        .scale(1, 1);
+      }
+    }
+  }
+  */
+}
+

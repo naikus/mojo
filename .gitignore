@@ -7,3 +7,5 @@
 /examples/starter/node_modules/
 /examples/starter/dist/
 /examples/starter/.netbeans.xml
+/examples/mobile-starter/node_modules/
+/examples/mobile-starter/dist/

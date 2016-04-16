@@ -1,5 +1,9 @@
 .activable {
     cursor: pointer;
+    -moz-transition: background-color 150ms ease;
+    -webkit-transition: background-color 150ms ease;
+    -ms-transition: background-color 150ms ease;
+    transition: background-color 150ms ease;
     &.active {
       background-color: @active-bg-color !important;
       color: @active-text-color !important;
