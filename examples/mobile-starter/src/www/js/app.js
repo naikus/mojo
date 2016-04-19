@@ -128,7 +128,7 @@ $.extension("once", function(eventType, callback) {
           itemClass: "",
           render: function(actionBar, li, i, action) {
             action.id = action.id || "action_" + $.uuid();
-            li.attr("id", action.id);
+            li.attr("data-id", action.id);
             li.addClass("activable")
                 .addClass(action.cssClass || "")
                 .addClass(action.type || "action")
@@ -143,12 +143,8 @@ $.extension("once", function(eventType, callback) {
         handler.call(null, item, action);
       }
     });
-    
-    App.getViewPort().on("beforeviewtransitionout", function() {
-      actionBar.setItems([]);
-    });
 
-    App.getViewPort().on("viewtransitionin", function() {
+    App.getViewPort().on("beforeviewtransitionin", function() {
       var route = App.getCurrentRoute(), 
           controller = route.controller,
           actions = typeof controller.getActions === "function" ?
