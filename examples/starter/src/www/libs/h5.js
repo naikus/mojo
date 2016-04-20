@@ -1158,7 +1158,7 @@
          if(!arguments.length) {
             for(i = 0; i < len; i++) {
                 e = elems[i];
-                e.parentNode.removeChild(e);
+                (e.parentNode && e.parentNode.removeChild(e));
             }
             // this.h5Elements = [];
          }else if(elems.length) {
@@ -1729,7 +1729,7 @@
       if(opt.timeout) {
         req.timeout = opt.timeout;
         req.ontimeout = function() {
-          opt.ontimeout ? opt.ontimeout() : opt.error("timeout");
+          (opt.ontimeout ? opt.ontimeout() : opt.error("timeout"));
         };
       }
       
