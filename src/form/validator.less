@@ -1,0 +1,10 @@
+input, select, textarea {
+  &.invalid {
+    //background: lighten(@selected-bg-color, 35%);
+    box-shadow: 0 0 1px @error-color inset;
+    color: @error-color;
+    border: 1px solid lighten(@error-color, 30%);
+  }
+}
+.v-message {
+}
