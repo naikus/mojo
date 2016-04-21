@@ -1,38 +1,31 @@
-.widget.toggle, .widget.toggle > .thumb {
-   .border-box;
-}
-
 .widget.toggle {
    position: relative;
    display: inline-block;
-   min-width: 70px;
+   min-width: 60px;
    background-color: darken(@bg-color, 5%);
-   height: 2.25em;
-   // border: 2px solid lighten(@bg-color, 2%);
-   // border-radius: 30px;
-   // box-shadow: 0 0 3px rgba(0,0,0,0.05);
+   height: 32px;
    overflow: hidden;
-   border: 1px solid rgba(0,0,0,0.05);
-   border-radius: 3px;
+   border: 1px solid rgba(0,0,0,0.1);
+   border-radius: 30px;
    
    .border-box;
    
    > .thumb {
         .border-box;
-        width: 47%;
+        width: 28px;
         position: absolute;
-        height: 1.5em;
+        height: 28px;
         display: block;
         // background-color: darken(@bg-color, 2%);
         background-color: lighten(@bg-color, 2%);
-        border-radius: 2px;
+        border-radius: 50%;
         
-        left: 5px;
-        top: 5px;
+        left: 1px;
+        top: 1px;
         
-        will-change: left;
-        transition: left 200ms ease;
-        // transition: -webkit-transform 500ms ease;
+        // will-change: left;
+        will-change: transform;
+        .transition-transform(300ms);
         
         border: 1px solid rgba(0,0,0,0.11);
         // border: 10px solid desaturate(lighten(@selected-bg-color, 10%), 15%);
@@ -40,15 +33,15 @@
         // box-shadow: 0 0 5px rgba(0,0,0,0.2);
    }
    
-   &.on {
+   &[data-on] {
       background-color: darken(@selected-bg-color, 10%);
       color: @selected-text-color;
       //border-color: @selected-bg-color;
       
       > .thumb {
-          left: 45%;
-          // border-color: @selected-bg-color;
-         // .translateX(100%);
+         // left: 45%;
+         // border-color: @selected-bg-color;
+         .translateX(27px);
       }
    }
    

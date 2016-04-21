@@ -6,69 +6,43 @@
    
    function renderUI(elem, state) {
       if(state) {
-         elem.addClass("on");
+         elem.setAttribute("data-on", "true");
       }else {
-         elem.removeClass("on");
+         elem.removeAttribute("data-on");
       }
    }
-         
-   $.extension("toggle", function(values) {
-      var self = this, state, len = self.count(), eventHelper = $.eventHelper();      
-      function doToggle(el, i) {
-         var val = !state[i];
-         state[i] = val;
-         renderUI(el, val);
-         eventHelper.dispatch({type: "change", target: self, value: val, index: i});
-      }
-      
-      if(values && values.length) {
-         if(values.length < len) {
-            values.length = len;
+   
+   $.extension("toggle", function() {
+     var elem = this.get(0), 
+         dataOn = elem.hasAttribute("data-on"),
+         isOn = dataOn ? true : false;
+        
+     $(elem).on(action, function() {
+       doToggle();
+     });
+     
+     function doToggle() {
+       isOn = !isOn;
+       renderUI(elem, isOn);
+     }
+        
+     return {
+       toggle: function() {
+         doToggle();
+       },
+       setOn: function(bOn) {
+         var on = !!bOn;
+         if(isOn !== on) {
+           isOn = on;
+           renderUI(elem, isOn);
          }
-         state = $.map(values, function(v, i) {
-            return !!v;
-         });
-      }else {
-         state = new Array(len);
-      }
-      
-      self.forEach(function(elem, i) {
-         var el = $(elem);
-         renderUI(el, state[i]);
-         el.on(action, function() {
-            doToggle(el, i);
-         });
-      });
-      
-      return {
-         on: function(type, handler) {
-             eventHelper.on(type, handler);
-             return self;
-         },
-         
-         toggle: function(index) {
-            if(index >= state.length || index < 0) {
-               return;
-            }
-            var el = $(self.get(index));
-            doToggle(el, index);            
-         },
-         
-         setOn: function(index) {
-            if(index >= state.length || index < 0) {
-               return;
-            }
-            var val = state[index];
-            if(!val) {
-               doToggle($(self.get(index)), index);
-            }
-         },
-         
-         isOn: function(index) {
-            return !!state[index];
-         }
-      };
+       },
+       isOn: function() {
+         return isOn;
+       }
+     };
    });
+   
 })(h5);
 
 
