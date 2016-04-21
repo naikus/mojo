@@ -1,7 +1,8 @@
 /* global h5 */
+/* global h5 */
 (function($) {
   var defaults = {};
-  var validators = {
+  var defaultValidators = {
     pattern: (function() {
       var regExps = {};
       return function(field) {
@@ -16,13 +17,24 @@
       return !!field.val();
     },
     number: function(field) {
-      var val = field.val();
-      return !isNaN(Number(val));
+      var fld = field.get(0), 
+          value = Number(fld.value),
+          min = fld.min, 
+          max = fld.max;
+      if(isNaN(value)) {
+        return false;
+      }
+      min = min ? Number(min) : Number.NEGATIVE_INFINITY;
+      max = max ? Number(max) : Number.POSITIVE_INFINITY;
+      if(isNaN(min)) {min = Number.NEGATIVE_INFINITY;}
+      if(isNaN(max)) {max = Number.POSITIVE_INFINITY;}
+      return value >= min && value <= max;
     }
   };
   
   $.extension("validator", function(opts) {
     var options = $.shallowCopy({}, defaults, opts),
+        validators = options.validators || {},
         form = this,
         formElements = form.get(0).elements,
         formFields = $.map(formElements, function(e) {return $(e);}),
@@ -54,9 +66,10 @@
 
     function validation(id, e) {
       var field = this, vNames = validatorNames[id], vName, v;
+      if(!vNames) {return;}
       for(var i = 0, len = vNames.length; i < len; i += 1) {
         vName = vNames[i];
-        v = validators[vName];
+        v = validators[vName] || defaultValidators[vName];
         if(! v) {
           console.log("Validator not found " + vName);
           continue;
@@ -76,13 +89,14 @@
           validationRenderer,
           validationHandler;
           
-      if(!vDef) {
-        return;
-      }
       // Assign an id to the field for efficient message rendering
       if(!(fid = field.attr("id"))) {
-        fid = $.uuid();
+        fid = "field_" + $.uuid();
         field.attr("id", fid);
+      }
+      
+      if(!vDef) {
+        return;
       }
       
       validatorNames[fid] = vDef.split(",");
@@ -107,6 +121,12 @@
       },
       isValid: function() {
         return form.find(".invalid").count() === 0;
+      },
+      validate: function() {
+        formFields.forEach(function(f) {
+          validation.call(f, f.get(0).id);
+        });
+        return this.isValid();
       }
     };
   });
