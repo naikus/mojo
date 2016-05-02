@@ -1,3 +1,6 @@
+/*
+ * Simple data binder 
+ */
 ;(function($) {
    var forEach = $.forEach, 
       getTypeOf = $.getTypeOf,
@@ -76,7 +79,27 @@
          for(var i = 0, len = arrElems.length; i < len; i++) {
             arrElems[i].innerHTML = value;
          }
-      }
+      },
+      
+      cssclass: (function() {
+        var actions = {
+          add: function(elem, value) {
+            elem.addClass(value);
+          },
+          remove: function(elem, value) {
+            elem.removeClass(value);
+          },
+          set: function(elem, value) {
+            elem.get(0).className = value;
+          }
+        };
+        return function(arrElems, value, act) {
+          var action = actions[act] || actions.set;
+          for(var i = 0, len = arrElems.length; i < len; i++) {
+            action($(arrElems[i]), value);
+          }
+        };
+      })()
    };
    
    $.binder = {
@@ -101,15 +124,14 @@
       function applyBindingsForKey(modelKey, value) {
          var keyMap = boundElemMap[modelKey] || {};
          forEach(keyMap, function(arrElems, typeKey) {
-            var attr, binder;
-            if(typeKey.indexOf("@") === 0) {
-               // we have attribute setter
-               attr = typeKey.substring(1);
-               binders.attr(arrElems, value, attr);
-            }else {
-               binder = binders[typeKey] || binders.text;
-               binder(arrElems, value);
-            }
+            var binderInfo = typeKey.split("@"), 
+                binderName = binderInfo[0] || typeKey, 
+                extra = binderInfo[1], 
+                binder;
+            
+            console.log(binderName + "@" + extra + ":" + modelKey);
+            binder = binders[typeKey] || binders.text;
+            binder(arrElems, value, extra);
          });
          
          if($.getTypeOf(value) === "Object") {
@@ -199,7 +221,7 @@
       /* Structure of bound element map
       var boundElemMap = {
          "user.firstname": {
-            "@title": [],
+            "attr@title": [],
             "text": [],
             "html": []
          }
@@ -241,5 +263,4 @@
       
    });
 })(h5);
-
 

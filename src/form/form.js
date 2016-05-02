@@ -5,19 +5,25 @@
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
    
    function renderUI(elem, state) {
-      if(state) {
-         elem.setAttribute("data-on", "true");
-      }else {
-         elem.removeAttribute("data-on");
+      var e = elem.get(0);
+      if(!e) {
+        console.log("Toggle element not found");
+        return;
       }
+      if(state) {
+         e.setAttribute("data-on", "true");
+      }else {
+         e.removeAttribute("data-on");
+      }
+      elem.dispatch("change", {isOn: state});
    }
    
    $.extension("toggle", function() {
-     var elem = this.get(0), 
-         dataOn = elem.hasAttribute("data-on"),
+     var elem = this,
+         dataOn = elem.get(0).hasAttribute("data-on"),
          isOn = dataOn ? true : false;
         
-     $(elem).on(action, function() {
+     elem.on(action, function() {
        doToggle();
      });
      
@@ -27,6 +33,9 @@
      }
         
      return {
+       on: function() {
+         elem.on.apply(elem, arguments);
+       },
        toggle: function() {
          doToggle();
        },
