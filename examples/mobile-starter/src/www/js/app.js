@@ -160,7 +160,7 @@ $.extension("once", function(eventType, callback) {
     
     return {
       getAction: function(id) {
-        return actionBarContainer.find("#" + id);
+        return actionBarContainer.find("[data-id=" + id + "]");
       }
     };
   });
