@@ -3,7 +3,8 @@ Application.addRoute("/main", {
   id: "mainView",
   factory: function (App, viewUi) {
     var Notification = App.Notification,
-        Navigation = App.Navigation;
+        Navigation = App.Navigation, 
+        repeat;
     
     return {
       getActions: function() {
@@ -25,6 +26,16 @@ Application.addRoute("/main", {
           // logout and reload the window
           // window.location.reload();
         });
+        
+        repeat = $("#repeat").repeat({});
+        repeat.onItem($.EventTypes.tap, function(e, data) {
+          var el = $(data.element);
+          if(el.hasClass("selected")) {
+            el.removeClass("selected");
+          }else {
+            el.addClass("selected");
+          }
+        });
                 
         var self = this;
         viewUi.on("transitionin", function() {
@@ -35,6 +46,14 @@ Application.addRoute("/main", {
       },
       
       onTransitionIn: function() {
+        var items = [];
+        for(var i = 0; i < 10; i += 1) {
+          items.push({
+            fname: "Firstname_" + i,
+            lname: "Lastname_" + i
+          });
+        }
+        repeat.setItems(items);
       },
       
       onTransitionOut: function() {

@@ -10,9 +10,11 @@
     </section>
     <section id="recentSchedulesSection">
       <header class="pad">Section B</header>
-      <div class="text-center">
-        <span class="icon icon-ok-sign text-huge"></span>
-      </div>
+      <ul class="list pad-items-extra bordered" id="repeat">
+        <li class="activable" data-template>
+          {item.fname} {item.lname}
+        </li>
+      </ul>
     </section>
   </div>
   <script src="modules/dashboard/main.js"></script>

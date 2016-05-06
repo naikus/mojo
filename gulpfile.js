@@ -22,11 +22,12 @@ var config = {
       "src/binder/binder.js",
       "src/template/template.js",
       "src/datalist/datalist.js",
+      "src/datalist/repeat.js",
       "src/form/form.js",
-      "src/form/validator.js",
+      // "src/form/validator.js",
       "src/activables/activables.js",
       "src/notifications/notifications.js",
-      "src/tabstrip/tabstrip.js",
+      // "src/tabstrip/tabstrip.js",
       "src/dialog/dialog.js"
    ],
    
@@ -40,9 +41,9 @@ var config = {
 
       "src/datalist/datalist.less",
       "src/form/form.less",
-      "src/form/validator.less",
+      // "src/form/validator.less",
       "src/notifications/notifications.less",
-      "src/tabstrip/tabstrip.less",
+      // "src/tabstrip/tabstrip.less",
       "src/dialog/dialog.less"
    ],
    

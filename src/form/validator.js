@@ -1,5 +1,4 @@
 /* global h5 */
-/* global h5 */
 (function($) {
   var defaults = {};
   var defaultValidators = {
@@ -66,6 +65,7 @@
 
     function validation(id, e) {
       var field = this, vNames = validatorNames[id], vName, v;
+      if(field.get(0).hasAttribute("novalidate")) {return;}
       if(!vNames) {return;}
       for(var i = 0, len = vNames.length; i < len; i += 1) {
         vName = vNames[i];

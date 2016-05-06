@@ -902,6 +902,9 @@
 
 
 
+/*
+ * Simple data binder 
+ */
 ;(function($) {
    var forEach = $.forEach, 
       getTypeOf = $.getTypeOf,
@@ -980,7 +983,27 @@
          for(var i = 0, len = arrElems.length; i < len; i++) {
             arrElems[i].innerHTML = value;
          }
-      }
+      },
+      
+      cssclass: (function() {
+        var actions = {
+          add: function(elem, value) {
+            elem.addClass(value);
+          },
+          remove: function(elem, value) {
+            elem.removeClass(value);
+          },
+          set: function(elem, value) {
+            elem.get(0).className = value;
+          }
+        };
+        return function(arrElems, value, act) {
+          var action = actions[act] || actions.set;
+          for(var i = 0, len = arrElems.length; i < len; i++) {
+            action($(arrElems[i]), value);
+          }
+        };
+      })()
    };
    
    $.binder = {
@@ -1005,15 +1028,14 @@
       function applyBindingsForKey(modelKey, value) {
          var keyMap = boundElemMap[modelKey] || {};
          forEach(keyMap, function(arrElems, typeKey) {
-            var attr, binder;
-            if(typeKey.indexOf("@") === 0) {
-               // we have attribute setter
-               attr = typeKey.substring(1);
-               binders.attr(arrElems, value, attr);
-            }else {
-               binder = binders[typeKey] || binders.text;
-               binder(arrElems, value);
-            }
+            var binderInfo = typeKey.split("@"), 
+                binderName = binderInfo[0] || typeKey, 
+                extra = binderInfo[1], 
+                binder;
+            
+            console.log(binderName + "@" + extra + ":" + modelKey);
+            binder = binders[typeKey] || binders.text;
+            binder(arrElems, value, extra);
          });
          
          if($.getTypeOf(value) === "Object") {
@@ -1103,7 +1125,7 @@
       /* Structure of bound element map
       var boundElemMap = {
          "user.firstname": {
-            "@title": [],
+            "attr@title": [],
             "text": [],
             "html": []
          }
@@ -1145,7 +1167,6 @@
       
    });
 })(h5);
-
 
 
 /**
@@ -1762,25 +1783,172 @@
 
 
 /*
+ * <ul id="list">
+ *  <li id="repeat_{$index}" class="list-item activable item_{$index}" data-template>
+ *    {firstName} {lastName}
+ *  </li>
+ * </ul>
+ * 
+ * <script>
+ *  var list = $("#list").repeat({
+ *    items: ["one", "two", "three", "four", "five"]
+ *  });
+ *  list.on("selectionchange", (e) => {
+ *    var items = e.currentSelection;
+ *  });
+ * </script>
+ */
+(function($) {
+  var isTypeOf = $.isTypeOf,
+      forEach = $.forEach,
+      indexOf = Array.prototype.indexOf,
+      uuid = $.uuid,
+      // ACTION = "ontouchstart" in document.documentElement ? "tap" : "click",
+      defaults = {};
+      
+  function asModel(arrItems) {
+    return $.map(arrItems || [], function(item, i) {
+      return {
+        key: item.key || "repeat_" + uuid(),
+        data: item
+      };
+    });
+  }
+      
+  $.extension("repeat", function(opts) {
+    var root = this,
+        // element = root.get(0),
+        options = $.shallowCopy({}, defaults, opts),
+        templateElem = root.find("[data-template]"),
+        items = asModel(options.items),
+        renderer = options.render,
+        template,
+        widget;
+        
+    // remove the template elem
+    if(templateElem.get(0)) {
+      templateElem.get(0).removeAttribute("data-template");
+      template = $.template(templateElem.outerhtml());
+      templateElem.remove();
+    }else {
+      template = $.template("{item}");
+    }
+    
+    function renderItem(item, index) {
+      var itemElem = $(template.process({
+        $index: index,
+        item: item.data
+      }));
+      
+      itemElem.attr("id", item.key);
+      
+      if(renderer) {
+        renderer(itemElem, index, item.data);
+      }
+      return itemElem.get(0);
+    }
+    
+    function render() {
+      var frag = document.createDocumentFragment();
+      forEach(items, function(item, i) {
+        var itemElem = renderItem(item, i);
+        frag.appendChild(itemElem);
+      });
+      root.html('').append(frag);
+    }
+    
+    function getItemFromEvent(e) {
+      var t = e.target, parent = t.parentNode, tmpElem, rootElem = root.get(0);
+      if(t === rootElem) {
+        return null;
+      }
+
+      if(parent === rootElem) {
+        tmpElem = t;
+      }else {
+        while(parent && parent !== rootElem) {
+          tmpElem = parent;
+          parent = parent.parentNode;
+        }
+      }
+      return parent === rootElem ? tmpElem : null;
+    }
+        
+    widget = {
+      element: root,
+      
+      onItem: function(event, callback) {
+        root.on(event, function(e) {
+          var itemElem = getItemFromEvent(e);
+          if(!itemElem) {
+            return;
+          }
+          var idx = indexOf.call(root.children(), itemElem);
+          callback(e, {
+            item: items[idx].data,
+            index: idx,
+            element: itemElem
+          });
+        });
+        return this;
+      },
+      
+      size: function() {
+        return items.length;
+      },
+      
+      setItems: function(arrItems) {
+        items = asModel(arrItems);
+        render();
+      },
+      
+      getItems: function() {
+        return items.slice(0);
+      },
+      
+      appendItem: function(itms) {
+        if($.isArray(itms)) {
+          itms = [itms];
+        }
+        itms = asModel(itms);
+        var idx, frag = document.createDocumentFragment();
+        for(var i = 0, len = itms.length; i < len; i += 1) {
+          idx = items.push(itms[i]);
+          frag.appendChild(renderItem(itms[i], idx));
+        }
+        root.append(frag);
+      }
+    };
+    
+    return widget;
+  });
+})(h5);
+/*
  * Simple CSS based toggle control
  */
 (function($, undefined) {
    var action = "ontouchstart" in document.documentElement ? "tap" : "click";
    
    function renderUI(elem, state) {
-      if(state) {
-         elem.setAttribute("data-on", "true");
-      }else {
-         elem.removeAttribute("data-on");
+      var e = elem.get(0);
+      if(!e) {
+        console.log("Toggle element not found");
+        return;
       }
+      if(state) {
+         e.setAttribute("data-on", "true");
+      }else {
+         e.removeAttribute("data-on");
+      }
+      elem.dispatch("change", {isOn: state});
    }
    
    $.extension("toggle", function() {
-     var elem = this.get(0), 
-         dataOn = elem.hasAttribute("data-on"),
+     var elem = this,
+         dataOn = elem.get(0).hasAttribute("data-on"),
          isOn = dataOn ? true : false;
         
-     $(elem).on(action, function() {
+     elem.on(action, function() {
        doToggle();
      });
      
@@ -1790,6 +1958,9 @@
      }
         
      return {
+       on: function() {
+         elem.on.apply(elem, arguments);
+       },
        toggle: function() {
          doToggle();
        },
@@ -1941,139 +2112,6 @@
 */
 
 
-/* global h5 */
-/* global h5 */
-(function($) {
-  var defaults = {};
-  var defaultValidators = {
-    pattern: (function() {
-      var regExps = {};
-      return function(field) {
-        var ptrn = field.attr("pattern"), regExp = regExps[ptrn];
-        if(!regExp) {
-          regExp = regExps[ptrn] = new RegExp(ptrn);
-        }        
-        return regExp.test(field.val());
-      };
-    })(),
-    required: function(field) {
-      return !!field.val();
-    },
-    number: function(field) {
-      var fld = field.get(0), 
-          value = Number(fld.value),
-          min = fld.min, 
-          max = fld.max;
-      if(isNaN(value)) {
-        return false;
-      }
-      min = min ? Number(min) : Number.NEGATIVE_INFINITY;
-      max = max ? Number(max) : Number.POSITIVE_INFINITY;
-      if(isNaN(min)) {min = Number.NEGATIVE_INFINITY;}
-      if(isNaN(max)) {max = Number.POSITIVE_INFINITY;}
-      return value >= min && value <= max;
-    }
-  };
-  
-  $.extension("validator", function(opts) {
-    var options = $.shallowCopy({}, defaults, opts),
-        validators = options.validators || {},
-        form = this,
-        formElements = form.get(0).elements,
-        formFields = $.map(formElements, function(e) {return $(e);}),
-        messageElem = $("<span class='box v-message error-text hint'></span>"),
-        validatorNames = {};
-        
-    function render(messageElem, e) {
-      var id = this.attr("id"), fieldId = messageElem.attr("data-for"), title;
-      if(!this.hasClass("invalid")) {
-        if(fieldId === id) {
-          messageElem.attr("data-for", null).remove();
-        }
-        return;
-      }
-      title = this.attr("title");
-      if(id !== fieldId) {
-        messageElem.remove()
-            .attr("data-for", id)
-            .html(title);
-        
-        var target = $(this.get(0).parentNode).children("[data-v-msg]");
-        if(target.length) {
-          $(target).append(messageElem);
-        }else {
-          this.before(messageElem);
-        }
-      }
-    }
-
-    function validation(id, e) {
-      var field = this, vNames = validatorNames[id], vName, v;
-      if(!vNames) {return;}
-      for(var i = 0, len = vNames.length; i < len; i += 1) {
-        vName = vNames[i];
-        v = validators[vName] || defaultValidators[vName];
-        if(! v) {
-          console.log("Validator not found " + vName);
-          continue;
-        }
-        if(!v(field)) {
-          field.addClass("invalid");
-          break;
-        }else {
-          field.removeClass("invalid");
-        }
-      }
-    }
-        
-    formFields.forEach(function(field, i) {
-      var vDef = field.attr("data-v"),
-          fid,
-          validationRenderer,
-          validationHandler;
-          
-      // Assign an id to the field for efficient message rendering
-      if(!(fid = field.attr("id"))) {
-        fid = "field_" + $.uuid();
-        field.attr("id", fid);
-      }
-      
-      if(!vDef) {
-        return;
-      }
-      
-      validatorNames[fid] = vDef.split(",");
-      validationHandler = validation.bind(field, fid);
-      validationRenderer = render.bind(field, messageElem);
-      field.on("input", validationHandler).on("change", validationHandler);
-      field.on("input", validationRenderer).on("focus", validationRenderer);
-    });
-    
-    return {
-      clear: function(/* id, id */) {
-        if(arguments.length) {
-          for(var i = 0, len = arguments.length; i < len; i += 1) {
-            form.find("#" + arguments[i]).removeClass("invalid");
-          }
-        }else {
-          formFields.forEach(function(f) {
-            f.removeClass("invalid");
-          });
-        }
-        messageElem.remove();
-      },
-      isValid: function() {
-        return form.find(".invalid").count() === 0;
-      },
-      validate: function() {
-        formFields.forEach(function(f) {
-          validation.call(f, f.get(0).id);
-        });
-        return this.isValid();
-      }
-    };
-  });
-})(h5);
 /*
  * A working solution for activable elements
  * Requires .activable and .activable.active classes to change appearance
@@ -2267,106 +2305,6 @@
     return widget;
   });
 })(h5);
-(function($)   {
-   var defaults = {
-      ontabchange: function() {},
-      selectedIndex: 0
-   }, 
-   action = "ontouchstart" in document.documentElement ? "tap" : "click";
-   
-   $.extension("tabstrip", function(options)  {
-      var widget,
-         // these are our final options
-         opts = $.shallowCopy({}, defaults, options),
-         // our plugin is bound to an HTML ul element
-         tabs = [], 
-         
-         self = this,
-         
-         // selected tab's DOM element
-         selectedTabInfo;
-         
-      function selectTab(tabInfo) {
-         var oldInfo = selectedTabInfo, 
-                 oldTab = oldInfo ? oldInfo.tab : null,
-                 tab = tabInfo ? tabInfo.tab : null,
-                 retVal;
-         
-         if(!tabInfo || tabInfo === selectedTabInfo) {
-            return;
-         }
-         
-         selectedTabInfo = tabInfo;
-         retVal = opts.ontabchange.call(widget, tab, oldTab);
-         
-         if(retVal !== false) {
-            if(oldInfo) {
-               oldTab.removeClass("selected");
-               oldInfo.content.removeClass("current");
-            }
-            
-            tab.addClass("selected");
-            tabInfo.content.addClass("current");
-         }else {
-            selectedTabInfo = oldInfo;
-         }
-      }
-      
-      function indexOf(tabInfo) {
-         for(var i = 0, len = tabs.length; i < len; i++) {
-            if(tabInfo === tabs[i]) {
-               return i;
-            }
-         }
-         return -1;
-      }
-      
-      // our widget API object
-      widget = {
-         getSelectedIndex: function()  {
-            try {
-               return indexOf(selectedTabInfo);
-            }catch(e) {
-               for(var i = 0, len = tabs.length; i < len && tabs[i] !== selectedTabInfo; i++);
-               return i === len ? -1 : i;
-            }
-         },
-         
-         selectTab: function(idx)   {
-            var tab = tabs[idx];
-            if(tab) {
-               selectTab(tab);
-            }
-         },
-         toString: function() {
-            return "tabstrip " + self.selector;
-         }
-      };
-      
-      // initialization code
-      $.forEach(this.children(".tab"), function(elem) {
-         var tb = $(elem), tabInfo;
-         
-         tabs[tabs.length] = tabInfo = {
-            tab: tb,
-            content: $(tb.attr("data-ref"))
-         };
-         tb.on(action, function() {
-            selectTab(tabInfo);
-         });
-      });
-      
-      // by default select the tab as specified by selectedIndex
-      selectTab(tabs[opts.selectedIndex || 0]);
-      
-      return widget;
-   });
-})(h5);
-
-
-
-
-
 // Simple application dialogs
 (function($) {
   $.extension("dialogmanager", function() {
