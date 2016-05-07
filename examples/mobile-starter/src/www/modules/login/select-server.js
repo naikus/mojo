@@ -13,9 +13,7 @@ Application.addRoute("/select-server", {
       var list = JSON.parse(Storage.getItem("App.serverList"));
       if(!list) {
          list = [
-           "http://localhost:8080",
-           "http://172.18.0.133:8080",
-           "http://172.18.0.4:8080"
+           "http://localhost:8080"
          ];
          Storage.setItem("App.serverList", JSON.stringify(list));
       }
@@ -92,17 +90,16 @@ Application.addRoute("/select-server", {
           $("#serverUrl").get(0).blur();
           addServerFormBinder.update("serverUrl", "");
           serverUrl = addServerToList(serverUrl);
-          uiServerList.insertItemAt(serverUrl, 0);
+          uiServerList.appendItem(serverUrl);
           
           toggleAddForm();
         });
         
-        uiServerList = $("#serverList").datalist({
-          selectable: false,
-          itemClass: "activable",
-          data: getServerList()
+        uiServerList = $("#serverList").repeat({
+          items: getServerList()
         });
-        uiServerList.on(Events.tap, function(event, item, model) {
+        uiServerList.onItem(Events.tap, function(event, data) {
+          var model = data.item;
           App.popView(model);
         });
       },

@@ -119,11 +119,13 @@
       },
       
       getItems: function() {
-        return items.slice(0);
+        return $.map(items, function(itm, i) {
+          return itm.data;
+        });
       },
       
       appendItem: function(itms) {
-        if($.isArray(itms)) {
+        if(!$.isArray(itms)) {
           itms = [itms];
         }
         itms = asModel(itms);
@@ -135,6 +137,8 @@
         root.append(frag);
       }
     };
+    
+    render();
     
     return widget;
   });

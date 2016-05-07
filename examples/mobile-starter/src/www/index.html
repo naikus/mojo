@@ -24,44 +24,6 @@
     <link rel="stylesheet" type="text/css" href="css/app.css" />
 
     <script src ="libs/modernizr.custom.19045.js"> </script>
-    <!-- script src ="libs/base64.min.js"> </script -->
-    <!-- script src="libs/iscroll-lite.js"> </script -->
-    
-    <!--[if lt IE 9]>
-       <script src ="libs/json2.js"> </script>
-       <script src ="libs/html5shiv.js"> </script>
-    <![endif]-->
-
-    <!-- script src="libs/velocity.min.js"></script -->
-
-    <!-- for older safari browsers -->
-    <script>
-      if(typeof JSON === "undefined") {
-        (function script(src) {
-          var doc = document, s = doc.createElement("script"),
-              fs = doc.getElementsByTagName("script")[0];
-
-          s.src = src;
-          s.async = 1;
-          fs.parentNode.insertBefore(s, fs);
-          return script;
-        })("libs/json2.js")("libs/html5shiv.js");
-      }
-    </script>
-
-    <!-- script src ="libs/eventsource.js"></script -->
-
-    <script src ="libs/h5.js"></script>
-    <!--[if lt IE 9]>
-       <script src ="lib/event_ie.js"> </script>
-    <![endif]-->
-    <script src ="libs/mojo.js"></script>
-    
-    <script src ="js/api-client.js"></script>
-    <script src ="js/utils.js"></script>
-    <script src ="js/routes.js"></script>
-    <script src ="js/app.js"></script>
-    <!-- script src ="js/sse.js"></script -->
   </head>
 
   <!-- Don't keep body as the view-port on android devices cause the views don't scroll -->
@@ -77,21 +39,26 @@
           <img class="box left" src="images/avatar.png" alt="" />
           <span data-bind="text:name" class="box left label">Hello Ninja!</span>
         </div>
-        <ul id="mainNavListBinding" class="nav-list list">
-          <li class="activable">
-            <span class="inline-box title">Inbox</span>
-            <!-- span data-bind="inbox.unread" class="indicator error">0</span -->
-            <span class="indicator error">10</span>
-          </li>
-          <li class="activable" data-action="logout">
-            <span class="inline-box title">Logout</span>
-            <!-- span class="inline-box title icon-exit"></span -->
+        <ul class="nav-list list">
+          <li class="activable" 
+              data-route="{item.route}" 
+              data-action="{item.action}"
+              data-template>
+            <span class="inline-box icon {item.icon}"></span>
+            <span class="inline-box title">{item.title}</span>
+            {item.extra}
           </li>
         </ul>
       </div>
     </aside>
 
-    <div id="globalActionBar" class="no-select toolbar hide"></div>
+    <div id="globalActionBar" class="no-select toolbar hide">
+      <ul>
+        <li class="activable" data-template>
+          <span class="icon {item.icon}"></span> {item.title}
+        </li>
+      </ul>
+    </div>
     <div id="notifications" class="no-select messages hidden"></div>
     <div class="text-center spinner anim" id="loading">
       <span class="slider slide"></span>
@@ -101,6 +68,33 @@
     </div>
     
     <div id="dialogPane" class="dialog-pane"></div>
+    
+    <!-- for older safari browsers -->
+    <script>
+      function addScript(src) {
+        var doc = document, s = doc.createElement("script"),
+            fs = doc.getElementsByTagName("script")[0];
+
+        s.src = src;
+        s.async = 1;
+        fs.parentNode.insertBefore(s, fs);
+        return addScript;
+      }
+    </script>
+    <script src="libs/store2.js"></script>
+
+    <!-- script src ="libs/eventsource.js"></script -->
+
+    <script src ="libs/h5.js"></script>
+    <!--[if lt IE 9]>
+       <script src ="lib/event_ie.js"> </script>
+    <![endif]-->
+    <script src ="libs/mojo.js"></script>
+    
+    <script src ="js/api-client.js"></script>
+    <script src ="js/utils.js"></script>
+    <script src ="js/routes.js"></script>
+    <script src ="js/app.js"></script>
 
     <script type="text/javascript" src="cordova.js"></script>
   </body>

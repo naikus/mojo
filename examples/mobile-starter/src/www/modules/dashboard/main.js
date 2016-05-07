@@ -5,6 +5,13 @@ Application.addRoute("/main", {
     var Notification = App.Notification,
         Navigation = App.Navigation, 
         repeat;
+
+    var navItems = [
+      {icon: "icon-alarm", title: "ALARMS", route: "/main"},
+      {icon: "icon-album-cover", title: "ALBUMS", route: "/main"},
+      {icon: "icon-amd", title: "AMD", route: "/main"},
+      {icon: "icon-exit", title: "LOGOUT", action: function() {App.popView(null, "/login");}}
+    ];
     
     return {
       getActions: function() {
@@ -21,11 +28,7 @@ Application.addRoute("/main", {
       },
       
       initialize: function () {
-        Navigation.registerAction("logout", function() {
-          App.popView(null, "/login");
-          // logout and reload the window
-          // window.location.reload();
-        });
+        Navigation.setItems(navItems);
         
         repeat = $("#repeat").repeat({});
         repeat.onItem($.EventTypes.tap, function(e, data) {
@@ -46,13 +49,7 @@ Application.addRoute("/main", {
       },
       
       onTransitionIn: function() {
-        var items = [];
-        for(var i = 0; i < 10; i += 1) {
-          items.push({
-            fname: "Firstname_" + i,
-            lname: "Lastname_" + i
-          });
-        }
+        var items = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
         repeat.setItems(items);
       },
       

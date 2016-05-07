@@ -55,40 +55,19 @@ $.extension("once", function(eventType, callback) {
   $.extension("navigation", function(App) {
     var self = this,
         EventTypes = $.EventTypes,
-        nav = self.find(".nav-list").datalist({
-          itemClass: "activable",
-          selectable: false,
-          template: $.template([
-            // '<div id="{id}" class="nav-item">',
-              '<span class="inline-box title">{title}</span>',
-              '{summary}'
-            // '</div>'
-          ].join(""))
-        }),
-        actions = {
-          back: function(toView) {
-            App.popView(null, toView);
-          },
-          toggle: function() {
-            if(self.hasClass("show")) {
-              self.removeClass("show");
-            }else {
-              self.addClass("show");
-            }
-          }
-        };
+        nav = self.find(".nav-list").repeat();
 
-    nav.on(EventTypes.tap, function(e, li, model) {
+    nav.onItem(EventTypes.tap, function(e, data) {
+      var li = $(data.element), model = data.item;
       window.setTimeout(function() {
         var route = li.attr("data-route");
         if(route) {
           App.showView(route);
           return;
         }
-        var action = li.attr("data-action");
-        var handler = actions[action];
+        var handler = model.action;
         if(handler) {
-          handler(li, model);
+          handler(model, li);
         }
       }, 300);
     });
@@ -102,10 +81,14 @@ $.extension("once", function(eventType, callback) {
 
     return {
       toggle: function() {
-        actions.toggle();
+        if(self.hasClass("show")) {
+          self.removeClass("show");
+        }else {
+          self.addClass("show");
+        }
       },
-      registerAction: function(name, handler) {
-        actions[name] = handler;
+      setItems: function(items) {
+        nav.setItems(items);
       },
       isShowing: function() {
         return self.hasClass("show");
@@ -120,27 +103,24 @@ $.extension("once", function(eventType, callback) {
   $.extension("actionbar", function(App) {
     // Global toolbar
     var EventTypes = $.EventTypes, 
-        actTemplate = $.template('<span class="icon {icon}"></span> {title}'),
+        // actTemplate = $.template('<span class="icon {icon}"></span> {title}'),
         actionBarContainer = this,
-        actionBar = actionBarContainer.datalist({
-          selectable: false,
-          listClass: "",
-          itemClass: "",
-          render: function(actionBar, li, i, action) {
+        actionBar = actionBarContainer.find("ul").repeat({
+          render: function(li, i, action) {
             action.id = action.id || "action_" + $.uuid();
-            li.attr("data-id", action.id);
-            li.addClass("activable")
-                .addClass(action.cssClass || "")
+            li.attr("data-id", action.id)
                 .addClass(action.type || "action")
                 .addClass(action.alignment || "left");
-            return actTemplate.process(action);
+            if(action.cssClass) {
+              li.addClass(action.cssClass);
+            }
           }
         });
         
-    actionBar.on(EventTypes.tap, function(e, item, action) {
-      var handler = action.handler;
+    actionBar.onItem(EventTypes.tap, function(e, data) {
+      var element = data.element, action = data.item, handler = action.handler;
       if(typeof handler === "function") {
-        handler.call(null, item, action);
+        handler.call(null, element, action);
       }
     });
 
