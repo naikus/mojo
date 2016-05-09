@@ -50,7 +50,7 @@ Application.addRoute("/main", {
       
       onTransitionIn: function() {
         var items = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
-        repeat.setItems(items);
+        repeat.prependItem(items, true);
       },
       
       onTransitionOut: function() {

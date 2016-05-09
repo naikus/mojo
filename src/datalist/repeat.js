@@ -135,6 +135,26 @@
           frag.appendChild(renderItem(itms[i], idx));
         }
         root.append(frag);
+      },
+      
+      prependItem: function(itms, preserveOrder) {
+        if(!$.isArray(itms)) {
+          itms = [itms];
+        }
+        itms = asModel(itms);
+        var idx, frag = document.createDocumentFragment(), 
+            method = preserveOrder ? 
+                function(itm) {
+                  frag.appendChild(itm);
+                } :
+                function(itm, fc) {
+                  frag.insertBefore(itm, fc);
+                };
+        for(var i = 0, len = itms.length; i < len; i += 1) {
+          idx = items.unshift(itms[i]);
+          method(renderItem(itms[i], idx), frag.firstChild);
+        }
+        root.prepend(frag);
       }
     };
     
