@@ -107,10 +107,10 @@
     });
     
     return {
-      clear: function(/* id, id */) {
+      clear: function(/* name... */) {
         if(arguments.length) {
           for(var i = 0, len = arguments.length; i < len; i += 1) {
-            form.find("#" + arguments[i]).removeClass("invalid");
+            form.find("[name=" + arguments[i] + "]").removeClass("invalid");
           }
         }else {
           formFields.forEach(function(f) {
@@ -127,6 +127,11 @@
           validation.call(f, f.get(0).id);
         });
         return this.isValid();
+      },
+      setInvalid: function(/* name... */) {
+        for(var i = 0, len = arguments.length; i < len; i += 1) {
+          form.find("[name=" + arguments[i] + "]").addClass("invalid");
+        }
       }
     };
   });
