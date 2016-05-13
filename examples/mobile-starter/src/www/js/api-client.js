@@ -197,6 +197,8 @@
       };
     });
 
+    // expose the low level apiCall method
+    ret.call = apiCall;
 
     ret.asParams = function(objData) {
       var paramArray = [];

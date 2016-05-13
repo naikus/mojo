@@ -46,13 +46,13 @@
          }
       }
       if(!val && i < len) { // this means some object in the chain is null and we still have keys left
-         return formatter ? formatter(val) : "";
+         return formatter ? formatter.call(obj, val) : "";
       }
       val = val || tmp;
       if(typeof val === "function") {
          val = val.call(par);
       }
-      return formatter ? formatter(val) : val;
+      return formatter ? formatter.call(obj, val) : val;
    }
 
    

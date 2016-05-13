@@ -21,7 +21,7 @@ var config = {
 
       "src/binder/binder.js",
       "src/template/template.js",
-      "src/datalist/datalist.js",
+      // "src/datalist/datalist.js",
       "src/datalist/repeat.js",
       "src/form/form.js",
       // "src/form/validator.js",
