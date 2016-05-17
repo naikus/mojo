@@ -1394,6 +1394,9 @@
    var state = {/* id, x, y, target */}, EventTypes = $.EventTypes;
    
    function clearState() {
+      if(arguments.length) {
+        console.log("Clearing state because of event " + arguments[0]);
+      }
       state.id = state.x = state.y = state.moved = state.target = undefined;
    }
    
@@ -1443,11 +1446,13 @@
       type: "tap",
       setup: function() {
          $(document).on(EventTypes.touchstart, handler).on(EventTypes.touchmove, handler)
-            .on(EventTypes.touchend, handler).on(EventTypes.touchcancel, handler);
+            .on(EventTypes.touchend, handler).on(EventTypes.touchcancel, handler)
+            .on("_tapcancel", clearState);
       },
       destroy: function() {
          $(document).un(EventTypes.touchstart, handler).un(EventTypes.touchmove, handler)
-            .un(EventTypes.touchend, handler).un(EventTypes.touchcancel, handler);
+            .un(EventTypes.touchend, handler).un(EventTypes.touchcancel, handler)
+            .un("_tapcancel", clearState);
       }
    });
 })(h5);
@@ -1508,6 +1513,7 @@
             state.y = te.pageY;
             timer = setTimeout(function() {
                if(!state.moved) {
+                  $(document).dispatch("_tapcancel");
                   $(target).dispatch("taphold");
                }
             }, 700);

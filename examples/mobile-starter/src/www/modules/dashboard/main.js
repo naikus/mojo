@@ -39,6 +39,10 @@ Application.addRoute("/main", {
             el.addClass("selected");
           }
         });
+        repeat.onItem($.EventTypes.taphold, function(e, data) {
+          Notification.info("Taphold");
+          Notification.alert("Taphold");
+        });
                 
         var self = this;
         viewUi.on("transitionin", function() {
