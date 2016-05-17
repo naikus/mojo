@@ -1383,7 +1383,7 @@
   }
   
   $.EventTypes = Events;
-  console.log($.EventTypes);
+  // console.log($.EventTypes);
   
 })(h5);
 
@@ -1395,7 +1395,7 @@
    
    function clearState() {
       if(arguments.length) {
-        console.log("Clearing state because of event " + arguments[0]);
+        console.log("Clearing state because of event " + arguments[0].type);
       }
       state.id = state.x = state.y = state.moved = state.target = undefined;
    }
@@ -1406,7 +1406,8 @@
    }
    
    function handler(te) {
-      var type = te.type, touch, touches = te.touches, cTouches = te.changedTouches, target = te.target;
+      var type = te.type, touch, touches = te.touches, cTouches = te.changedTouches, 
+          target = te.target;
       switch(type) {
          case EventTypes.touchstart:
             if(touches.length !== 1) {
@@ -1433,7 +1434,11 @@
             if(touch.identifier === state.id && !state.moved &&
                   // !hasMoved(state.x, state.y, touch.pageX, touch.pageY) &&
                   state.target === target) {
+               // Since iOS Safari dispatches a taphold if event handler has native alert
+               $(document).dispatch("_tapholdcancel");
+               
                $(target).dispatch("tap");
+               clearState();
             }
             break;
          case EventTypes.touchcancel:
@@ -1508,12 +1513,14 @@
          case EventTypes.touchstart:
             if(te.touches.length !== 1) {
                return;
-            }            
+            }
             state.x = te.pageX;
             state.y = te.pageY;
             timer = setTimeout(function() {
                if(!state.moved) {
+                  // Since iOS Safari dispatches a taphold if event handler has native alert
                   $(document).dispatch("_tapcancel");
+                  
                   $(target).dispatch("taphold");
                }
             }, 700);
@@ -1540,7 +1547,10 @@
       setup: function() {
          $(document).on(EventTypes.touchstart, handler).on(EventTypes.touchmove, handler)
             .on(EventTypes.touchend, handler)
-            .on(EventTypes.touchcancel, handler);
+            .on(EventTypes.touchcancel, handler)
+            .on("_tapholdcancel", function() {
+                clearTimeout(timer);
+            });
       },
       destroy: function() {
          $(document).un(EventTypes.touchstart, handler).un(EventTypes.touchmove, handler)
