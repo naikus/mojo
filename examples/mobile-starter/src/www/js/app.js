@@ -39,15 +39,36 @@
 })();
 
 
-
 $.extension("once", function(eventType, callback) {
   var self = this, onceCall = function onceCall() {
     self.un(eventType, onceCall);
     callback.apply(self, arguments);
   };
   this.on(eventType, onceCall);
+  return this;
 });
 
+
+$.extension("toggleClass", function(name) {
+  this.forEach(function(e) {
+    var el = $(e);
+    if(el.hasClass(name)) {
+      el.removeClass(name);
+    }else {
+      el.addClass(name);
+    }
+  });
+  return this;
+});
+
+$.extension("removeAttr", function(name) {
+  this.forEach(function(el){
+    if(el.hasAttribute(name)){
+      el.removeAttribute(name);
+    }
+  });
+  return this;
+});
 
 
 // Global navigation
@@ -112,7 +133,9 @@ $.extension("once", function(eventType, callback) {
                 .addClass(action.type || "action")
                 .addClass(action.alignment || "left");
             if(action.cssClass) {
-              li.addClass(action.cssClass);
+              action.cssClass.split(" ").forEach(function(c) {
+                li.addClass(c);
+              });
             }
           }
         });
@@ -209,7 +232,6 @@ $.extension("once", function(eventType, callback) {
     
     
       
-    // infinite scroll on document to notify views
     // infinite scroll on document to notify views
     function handleScroll() {
       if(vPort.hasClass("view-transitioning")) {

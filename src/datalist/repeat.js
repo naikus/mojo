@@ -1,3 +1,6 @@
+// @TODO Append prepend repeat elements exactly at the position where data-template was.
+// Hint: Consider previous or next sibling
+
 /*
  * <ul id="list">
  *  <li id="repeat_{$index}" class="list-item activable item_{$index}" data-template>
@@ -47,7 +50,8 @@
       template = $.template(templateElem.outerhtml());
       templateElem.remove();
     }else {
-      template = $.template("{item}");
+      console.warn("Template element not found for this repeat, using default span element");
+      template = $.template("<span>{item}</span>");
     }
     
     function renderItem(item, index) {
@@ -57,6 +61,7 @@
       }));
       
       itemElem.attr("id", item.key);
+      itemElem.attr("data-repeat-item", "");
       
       if(renderer) {
         renderer(itemElem, index, item.data);
@@ -70,7 +75,9 @@
         var itemElem = renderItem(item, i);
         frag.appendChild(itemElem);
       });
-      root.html('').append(frag);
+      // root.html('').append(frag);
+      // @TODO Implement this! Currently fails with onItem event
+      root.remove('[data-repeat-item]').append(frag);
     }
     
     function getItemFromEvent(e) {
@@ -99,12 +106,14 @@
           if(!itemElem) {
             return;
           }
-          var idx = indexOf.call(root.children(), itemElem);
-          callback(e, {
-            item: items[idx].data,
-            index: idx,
-            element: itemElem
-          });
+          var idx = indexOf.call(root.find("[data-repeat-item]").h5Elements, itemElem);
+          if(idx !== -1) {
+            callback(e, {
+              item: items[idx].data,
+              index: idx,
+              element: itemElem
+            });
+          }
         });
         return this;
       },
@@ -124,7 +133,7 @@
         });
       },
       
-      appendItem: function(itms) {
+      appendItems: function(itms) {
         if(!$.isArray(itms)) {
           itms = [itms];
         }
@@ -137,7 +146,7 @@
         root.append(frag);
       },
       
-      prependItem: function(itms, preserveOrder) {
+      prependItems: function(itms, preserveOrder) {
         if(!$.isArray(itms)) {
           itms = [itms];
         }

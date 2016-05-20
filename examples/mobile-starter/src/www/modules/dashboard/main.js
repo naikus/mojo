@@ -39,11 +39,12 @@ Application.addRoute("/main", {
             el.addClass("selected");
           }
         });
+        
+        /*
         repeat.onItem($.EventTypes.taphold, function(e, data) {
           Notification.info("Taphold");
-          Notification.alert("Taphold");
         });
-                
+        */      
         var self = this;
         viewUi.on("transitionin", function() {
           self.onTransitionIn();
@@ -54,7 +55,8 @@ Application.addRoute("/main", {
       
       onTransitionIn: function() {
         var items = ["One", "Two", "Three", "Four", "Five", "Six", "Seven"];
-        repeat.prependItem(items, true);
+        // repeat.prependItems(items, true);
+        repeat.appendItems(items, true);
       },
       
       onTransitionOut: function() {
