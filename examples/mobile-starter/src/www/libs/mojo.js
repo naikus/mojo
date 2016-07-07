@@ -1326,6 +1326,9 @@
 
 
 
+// @TODO Append prepend repeat elements exactly at the position where data-template was.
+// Hint: Consider previous or next sibling
+
 /*
  * <ul id="list">
  *  <li id="repeat_{$index}" class="list-item activable item_{$index}" data-template>
@@ -1458,6 +1461,14 @@
         });
       },
       
+      getItemAt: function(idx) {
+        var len = items.length;
+        if(idx < len && idx >= 0) {
+          return items[idx].data;
+        }
+        return null;
+      },
+      
       appendItems: function(itms) {
         if(!$.isArray(itms)) {
           itms = [itms];
@@ -1497,6 +1508,7 @@
     return widget;
   });
 })(h5);
+
 /*
  * Simple CSS based toggle control
  */

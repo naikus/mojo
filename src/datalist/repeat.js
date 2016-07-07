@@ -133,6 +133,14 @@
         });
       },
       
+      getItemAt: function(idx) {
+        var len = items.length;
+        if(idx < len && idx >= 0) {
+          return items[idx].data;
+        }
+        return null;
+      },
+      
       appendItems: function(itms) {
         if(!$.isArray(itms)) {
           itms = [itms];

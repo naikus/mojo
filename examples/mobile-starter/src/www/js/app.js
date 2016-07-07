@@ -50,12 +50,12 @@ $.extension("once", function(eventType, callback) {
 
 
 $.extension("toggleClass", function(name) {
-  this.forEach(function(e) {
-    var el = $(e);
-    if(el.hasClass(name)) {
-      el.removeClass(name);
-    }else {
-      el.addClass(name);
+  this.forEach(function(el){
+    var elem = $(el);
+    if(elem.hasClass(name)){
+      elem.removeClass(name);
+    }else{
+      elem.addClass(name);
     }
   });
   return this;
@@ -76,12 +76,13 @@ $.extension("removeAttr", function(name) {
   $.extension("navigation", function(App) {
     var self = this,
         EventTypes = $.EventTypes,
-        nav = self.find(".nav-list").repeat();
+        nav = self.find(".nav"),
+        navList = self.find(".nav-list").repeat();
 
-    nav.onItem(EventTypes.tap, function(e, data) {
-      var li = $(data.element), model = data.item;
-      window.setTimeout(function() {
-        var route = li.attr("data-route");
+    navList.onItem(EventTypes.tap, function(e, data) {
+      var li = $(data.element), model = data.item,
+          route = li.get(0).getAttribute("data-route");
+      hide(function() {
         if(route) {
           App.showView(route);
           return;
@@ -90,26 +91,41 @@ $.extension("removeAttr", function(name) {
         if(handler) {
           handler(model, li);
         }
-      }, 300);
+      });
     });
 
     // hide main menu if container is tapped
     self.on(EventTypes.tap, function(e) {
-      window.setTimeout(function() {
-        self.removeClass("show");
-      }, 50);
+      hide();
     });
 
+    function show() {
+      self.addClass("show");
+      setTimeout(function() {
+        requestAnimationFrame(function() {nav.addClass("in");});
+      }, 50);
+    }
+    
+    function hide(callback) {
+      nav.removeClass("in");
+      setTimeout(function() {
+        requestAnimationFrame(function() {self.removeClass("show");});
+        if(callback) {
+          callback();
+        }
+      }, 300);
+    }
+    
     return {
       toggle: function() {
         if(self.hasClass("show")) {
-          self.removeClass("show");
+          requestAnimationFrame(hide);
         }else {
-          self.addClass("show");
+          requestAnimationFrame(show);
         }
       },
       setItems: function(items) {
-        nav.setItems(items);
+        navList.setItems(items);
       },
       isShowing: function() {
         return self.hasClass("show");
@@ -137,15 +153,42 @@ $.extension("removeAttr", function(name) {
                 li.addClass(c);
               });
             }
+            if(typeof action.render === "function") {
+              action.render.call(action, li);
+            }
           }
         });
         
+        
     actionBar.onItem(EventTypes.tap, function(e, data) {
+      $.StopEvent(e);
       var element = data.element, action = data.item, handler = action.handler;
       if(typeof handler === "function") {
         handler.call(null, element, action);
       }
     });
+
+    // On iOS and other devices to prevent the click event
+    var doc = $(document);
+    doc.on("deviceready", function() {
+      if(window.device.platform === "iOS") {
+        doc.capture("focus", function(e) {
+          var target = e.target, name = target.nodeName;
+          name = name ? name.toLowerCase() : name;
+          if(name === "input" || name === "select" || name === "textarea") {
+            (!actionBarContainer.hasClass("absolute") && actionBarContainer.addClass("absolute"));
+          }
+        }).capture("blur", function(e) {
+          actionBarContainer.removeClass("absolute");
+        });
+      }
+    });
+    
+    
+    App.getViewPort().on("beforeviewtransitionout", function() {
+      HideKeyboard();
+    });
+    
 
     App.getViewPort().on("beforeviewtransitionin", function() {
       var route = App.getCurrentRoute(), 
@@ -238,9 +281,15 @@ $.extension("removeAttr", function(name) {
         return;
       }
       var innerHeight = window.innerHeight,
-          ui = App.getCurrentRoute().ui,
-          contentHeight = ui.get(0).offsetHeight,
+          currRoute = App.getCurrentRoute(),
+          ui, contentHeight, scrollTop;
+      
+      if(!currRoute) {return;}
+      
+      ui = App.getCurrentRoute().ui;
+      contentHeight = ui.get(0).offsetHeight;
           scrollTop = document.body.scrollTop;
+      
       if(contentHeight - scrollTop === innerHeight) {
         console.log([contentHeight, scrollTop, innerHeight].join(" "));
         ui.dispatch("scrolledtobottom");
