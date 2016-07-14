@@ -473,18 +473,18 @@
         return;
       }
 
-      currRoute = stack.pop();
-
       if(toPath) {
         route = getRouteOnStack(toPath);
         if(route) {
+          currRoute = stack.pop();
           while(route !== stack[stack.length - 1]) {
             stack.pop();
           }
         }else {
-          throw new Error("Route " + route.path + " is not on stack");
+          throw new Error("Route " + toPath + " is not on stack");
         }
       }else {
+        currRoute = stack.pop();
         route = stack[stack.length - 1];
       }
 
