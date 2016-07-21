@@ -137,7 +137,8 @@
          if($.getTypeOf(value) === "Object") {
             var k = modelKey + ".";
             $.forEach(value, function(val, prop) {
-               applyBindingsForKey(k + prop, val);
+               var key = k + prop, formatter = formatters[key];
+               applyBindingsForKey(key, formatter ? formatter(val) : val);
             });
          }
       }

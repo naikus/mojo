@@ -124,10 +124,10 @@ gulp.task("copy-files", ["build"], function() {
    
    return eventStream.merge(
       gulp.src(config.dist_dir + "mojo.js")
-            .pipe(gulp.dest(example + "/src/web/js/lib")),
+            .pipe(gulp.dest(example + "/src/www/libs")),
    
       gulp.src(config.dist_dir + "mojo.less")
-            .pipe(gulp.dest(example + "/src/web/less"))
+            .pipe(gulp.dest(example + "/src/www/less"))
    );
  
 });
