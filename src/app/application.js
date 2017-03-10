@@ -15,7 +15,7 @@
         var handlers = handlerMap[evt] || (handlerMap[evt] = []);
         handlers.push(handler);
       },
-      
+
       un: function(evt, handler) {
         var handlers = handlerMap[evt] || (handlerMap[evt] = []);
         for(var i = 0, len = handlers.length; i < len; i++) {
@@ -25,7 +25,7 @@
           }
         }
       },
-      
+
       dispatch: function(evt) {
         var handlers = handlerMap[evt.type];
         if(!handlers) {
@@ -129,7 +129,7 @@
         }
       }
     },
-    
+
     addTest: function(name, testFunc, bForce) {
       if(!tests[name] || bForce) {
         tests[name] = testFunc;
@@ -141,14 +141,14 @@
 
 /*
  * A URI template that can be used to match URS with parameter substitution
- * e.g. Given a URI template: 
+ * e.g. Given a URI template:
  * <pre>
- * 
+ *
  * var t = $.UriTemplate("/catlogue/:catId/product/:prodId/name");
  * t.matches("/catalogue/1/product/23/name"); // will return true
  * t.match("/catalogue/1/product/23/name"); // returns {catId: "1", prodId: "23"}
  * t.expand({catId: 2, prodId: 40}); // will return "/catalogue/2/product/40/name"
- * 
+ *
  * </pre>
  */
 (function($) {
@@ -210,7 +210,7 @@
       matches: function(uri) {
         return genPattern.test(uri);
       },
-      
+
       match: function(uri) {
         var res = genPattern.exec(uri), params = {};
         if(res) {
@@ -221,11 +221,11 @@
         }
         throw new Error(uriPattern + " does not match " + uri);
       },
-      
+
       expand: function(paramMap) {
         return expander(paramMap);
       },
-      
+
       toString: function() {
         return uriPattern;
       }
@@ -252,7 +252,7 @@
         application,
         setTimeout = window.setTimeout,
         // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
-        transitionProp, 
+        transitionProp,
         DEFAULT_TRANSITION_DELAY = 100,
         transitionDelay = DEFAULT_TRANSITION_DELAY,
         useHash = true,
@@ -321,7 +321,7 @@
      * Finds the first matching route for the given URL
      * @param {String} url
      * @param {Array} arrRoutesOrCfg An array of routes or routeconfigs
-     * @returns {Object} Route or routeconfig 
+     * @returns {Object} Route or routeconfig
      */
     function getMatching(url, arrRoutesOrCfg) {
       var match;
@@ -391,6 +391,7 @@
       var currRoute = stack.length ? stack[stack.length - 1] : null;
 
       if(currRoute === route) {
+        viewPort.removeClass("view-transitioning");
         if(currRoute.realPath !== path) {
           currRoute.realPath = path;
           controller.update(params);
@@ -417,7 +418,7 @@
         currRoute.onresult = resultCallback;
       }
       // indicate that both views are transitioning
-      viewPort.addClass("view-transitioning");
+      // viewPort.addClass("view-transitioning");
 
       setTimeout(function() {
         if(currRoute) {
@@ -434,7 +435,7 @@
           pushViewUi(ui);
         });
       }, transitionDelay);
-      
+
       stack.push(route);
     }
 
@@ -477,7 +478,7 @@
       // appendView(ui);
 
       // indicate that this view is transitioning
-      viewPort.addClass("view-transitioning");
+      // viewPort.addClass("view-transitioning");
 
       if(typeof resultCallback === "function") {
         resultCallback(data);
@@ -490,7 +491,7 @@
       setTimeout(function() {
         currRoute.controller.deactivate();
         route.controller.activate(params, data);
-        
+
         requestAnimationFrame(function() {
           popViewUi(currRoute.ui);
           unstackViewUi(ui);
@@ -530,8 +531,9 @@
      * Experimental!!!
      * @param {String} templateUrl The url of the html template that will reigster new routes (one or more)
      * @param {Function} callback The callback function to call if the view loads successfully
+     * @param {Function} errCallback The callback function to call if there was an error
      */
-    function loader(templateUrl, callback) {
+    function loader(templateUrl, callback, errCallback) {
       var cache = loader.templateCache = loader.templateCache || {};
 
       if(cache[templateUrl]) {
@@ -613,7 +615,8 @@
           if(!externalScripts && callback) {
             done();
           }
-        }
+        },
+        error: errCallback
       });
     }
 
@@ -777,6 +780,14 @@
     application = {
       addRoute: addRoute,
       showView: function(path, data, resultCallback) {
+        if(this.isViewTransitioning()) {
+          console.log("View transitioning in progress. Not showing");
+          return;
+        }
+
+        // indicate that both views are transitioning
+        viewPort.addClass("view-transitioning");
+
         // console.log(path + ", " + window.location.hash);
         // path check is because we may also load from <a href="#/somepath"></a>
         if(useHash && ("#" + path !== window.location.hash)) {
@@ -789,20 +800,34 @@
           // check if configured
           var cfg = getMatching(path, routeConfigs);
           if(!cfg) {
+            viewPort.removeClass("view-transitioning");
             throw new Error("View not found at " + path);
           }
 
-          loader(cfg.viewPath, function() {
-            pushView(path, data, resultCallback);
-          });
+          loader(cfg.viewPath,
+              function() {
+                pushView(path, data, resultCallback);
+              },
+              function(err) {
+                viewPort.removeClass("view-transitioning");
+                console.log("Error loading view from " + cfg.viewPath);
+                console.log(err);
+              }
+          );
         }else {
           pushView(path, data, resultCallback, route);
         }
       },
-      
+
       popView: function(result, toPath) {
+        if(this.isViewTransitioning()) {
+          console.log("View transitioning in progress. Not popping");
+          return;
+        }
         var len = stack.length;
         if(len >= 2) {
+          // indicate that both views are transitioning
+          viewPort.addClass("view-transitioning");
           var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
           if(route) {
             if(useHash) {
@@ -813,12 +838,12 @@
           popView(result, toPath);
         }
       },
-      
+
       getCurrentRoute: function() {
         var route = stack.length ? stack[stack.length - 1] : null;
         return route;
       },
-      
+
       loadView: function(viewTemplateUrl, path, data, resultCallback) {
         var route = getMatching(path, routes), app = this;
         if(!route) {
@@ -829,11 +854,15 @@
           this.showView(path, data, resultCallback);
         }
       },
-      
+
       getViewPort: function() {
         return viewPort;
       },
-      
+
+      isViewTransitioning: function() {
+        return viewPort.hasClass("view-transitioning");
+      },
+
       initialize: function(options) {
         viewPort = options.viewPort;
         transitionProp = "transitionProperty" in options ? options.transitionProperty : "transform";

@@ -28,6 +28,7 @@
 
           diag.on(transitionEndEvent, function(e) {
             if(diag.hasClass("in")) {
+              diag.addClass("ready");
               diag.dispatch("show");
             }else {
               diag.dispatch("hide");
@@ -46,6 +47,7 @@
 
         // if already showing dialog, hide it. We don't support multiple dialogs
         if(currDialogInfo) {
+          console.log("Dialog already showing", currDialogInfo);
           return;
         }
 
@@ -56,7 +58,8 @@
 
         currDialogInfo = dialogInfo;
         dialogInfo.dialog.removeClass("hidden");
-        dialogInfo.dialog.once("show", function() {
+        dialogInfo.dialog.on("show", function h() {
+          dialogInfo.dialog.un("show", h);
           dialogInfo.onshow(dialogInfo.dialog);
         });
 
@@ -70,20 +73,28 @@
       },
 
       hideCurrentDialog: function(callback) {
-        body.removeClass("dialog-showing");
+        var dialog;
         if(currDialogInfo) {
-          currDialogInfo.dialog.removeClass("showing");
-          currDialogInfo.dialog.once("hide", function() {
+          dialog = currDialogInfo.dialog;
+          if(!dialog.hasClass("ready")) {
+            console.log("Dialog not ready, not closing.");
+            return;
+          }
+          dialog.on("hide", function h() {
+            dialog.un("hide", h);
+            body.removeClass("dialog-showing");
+            dialog.removeClass("ready");
             dialogPane.removeClass("showing");
-            currDialogInfo.dialog.addClass("hidden");
+            dialog.addClass("hidden");
             if(callback) {
-              callback(currDialogInfo.dialog);
+              callback(dialog);
             }
-            currDialogInfo.onhide(currDialogInfo.dialog);
+            currDialogInfo.onhide(dialog);
             currDialogInfo = null;
           });
-
-          currDialogInfo.dialog.removeClass("in");
+          setTimeout(function() {
+            dialog.removeClass("in");
+          }, 50);
         }
       }
     };

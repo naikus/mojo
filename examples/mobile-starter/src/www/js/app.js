@@ -48,7 +48,6 @@ $.extension("once", function(eventType, callback) {
   return this;
 });
 
-
 $.extension("toggleClass", function(name) {
   this.forEach(function(el){
     var elem = $(el);
@@ -105,7 +104,7 @@ $.extension("removeAttr", function(name) {
         requestAnimationFrame(function() {nav.addClass("in");});
       }, 50);
     }
-    
+
     function hide(callback) {
       nav.removeClass("in");
       setTimeout(function() {
@@ -115,7 +114,7 @@ $.extension("removeAttr", function(name) {
         }
       }, 300);
     }
-    
+
     return {
       toggle: function() {
         if(self.hasClass("show")) {
@@ -139,7 +138,7 @@ $.extension("removeAttr", function(name) {
 (function($, undefined) {
   $.extension("actionbar", function(App) {
     // Global toolbar
-    var EventTypes = $.EventTypes, 
+    var EventTypes = $.EventTypes,
         // actTemplate = $.template('<span class="icon {icon}"></span> {title}'),
         actionBarContainer = this,
         actionBar = actionBarContainer.find("ul").repeat({
@@ -158,14 +157,15 @@ $.extension("removeAttr", function(name) {
             }
           }
         });
-        
-        
+
     actionBar.onItem(EventTypes.tap, function(e, data) {
       $.StopEvent(e);
-      var element = data.element, action = data.item, handler = action.handler;
-      if(typeof handler === "function") {
-        handler.call(null, element, action);
-      }
+      setTimeout(function() {
+        var element = data.element, action = data.item, handler = action.handler;
+        if(typeof handler === "function") {
+          handler.call(null, element, action);
+        }
+      }, 100);
     });
 
     // On iOS and other devices to prevent the click event
@@ -183,19 +183,13 @@ $.extension("removeAttr", function(name) {
         });
       }
     });
-    
-    
-    App.getViewPort().on("beforeviewtransitionout", function() {
-      HideKeyboard();
-    });
-    
 
     App.getViewPort().on("beforeviewtransitionin", function() {
-      var route = App.getCurrentRoute(), 
+      var route = App.getCurrentRoute(),
           controller = route.controller,
           actions = typeof controller.getActions === "function" ?
               controller.getActions() : controller.actions;
-              
+
       actionBar.setItems(actions);
       if(actions && actions.length) {
         actionBarContainer.removeClass("hide");
@@ -203,7 +197,7 @@ $.extension("removeAttr", function(name) {
         actionBarContainer.addClass("hide");
       }
     });
-    
+
     return {
       getAction: function(id) {
         return actionBarContainer.find("[data-id=" + id + "]");
@@ -213,6 +207,13 @@ $.extension("removeAttr", function(name) {
 })(h5);
 
 
+function HideKeyboard() {
+  // $("#hideKeyboard").get(0).focus();
+  var elem = document.activeElement;
+  if(elem && elem !== document.body && typeof elem.blur === "function") {
+    elem.blur();
+  }
+}
 
 
 /* ------------------------------- Application Code And Initialization ---------------------------------------- */
@@ -221,10 +222,10 @@ $.extension("removeAttr", function(name) {
   // set the default user action event (tap in touch enabled browsers or fallback to click
   var doc = $(document), App = $.Application();
   window.Application = App;
-  
+
   // enable touch activable using the mojo activables plugin
   doc.activables();
-  
+
   // initialize our application on ready ------------------------------------------------------------
   $.ready(function() {
     var vPort = $("#viewPort");
@@ -236,7 +237,7 @@ $.extension("removeAttr", function(name) {
     }).on("ajaxend", function() {
       loading.removeClass("show");
     });
-        
+
     // initialize our app
     App.initialize({
       viewPort: vPort,
@@ -247,12 +248,15 @@ $.extension("removeAttr", function(name) {
       // transitionProperty: "opacity",
       routes: window.APP_ROUTES
     });
-    
+
     App.Notification = $("#notifications").notifications();
     App.DialogManager = $("#dialogPane").dialogmanager();
     App.Navigation = $("#navContainer").navigation(App);
     App.ActionBar = $("#globalActionBar").actionbar(App);
-    
+
+    App.getViewPort().on("beforeviewtransitionout", function() {
+      HideKeyboard();
+    });
 
 
     // Called on android when back button is pressed (android back button)
@@ -261,8 +265,8 @@ $.extension("removeAttr", function(name) {
         App.Navigation.toggle();
         return;
       }
-      
-      var route = App.getCurrentRoute(), 
+
+      var route = App.getCurrentRoute(),
           controller = route.controller,
           path = route.path;
 
@@ -272,9 +276,9 @@ $.extension("removeAttr", function(name) {
         App.popView();
       }
     });
-    
-    
-      
+
+
+
     // infinite scroll on document to notify views
     function handleScroll() {
       if(vPort.hasClass("view-transitioning")) {
@@ -283,13 +287,13 @@ $.extension("removeAttr", function(name) {
       var innerHeight = window.innerHeight,
           currRoute = App.getCurrentRoute(),
           ui, contentHeight, scrollTop;
-      
+
       if(!currRoute) {return;}
-      
+
       ui = App.getCurrentRoute().ui;
       contentHeight = ui.get(0).offsetHeight;
           scrollTop = document.body.scrollTop;
-      
+
       if(contentHeight - scrollTop === innerHeight) {
         console.log([contentHeight, scrollTop, innerHeight].join(" "));
         ui.dispatch("scrolledtobottom");

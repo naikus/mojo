@@ -1,8 +1,8 @@
 /*
- * Simple data binder 
+ * Simple data binder
  */
 ;(function($) {
-   var forEach = $.forEach, 
+   var forEach = $.forEach,
       getTypeOf = $.getTypeOf,
       binders;
 
@@ -11,13 +11,13 @@
          arrElems[i].textContent = value;
       }
    }
-   
+
    function setContentIE(arrElems, value) {
       for(var i = 0, len = arrElems.length; i < len; i++) {
          arrElems[i].innerText = value;
       }
    }
-   
+
    function getKey(theKey) {
       var idx = theKey.indexOf(":"), type, key;
       if(idx === -1) {
@@ -33,7 +33,7 @@
          key: key
       };
    }
-   
+
    function getValue(key, obj, formatter) {
       var i, len, val, keys = key.split("."), tmp = obj, par;
       for(i = 0, len = keys.length; i < len; i++) {
@@ -55,14 +55,14 @@
       return formatter ? formatter.call(obj, val) : val;
    }
 
-   
+
    binders = {
       attr: function(arrElems, value, attr) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
             arrElems[i].setAttribute(attr, value);
          }
       },
-      
+
       value: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
             var elem = $(arrElems[i]);
@@ -71,74 +71,52 @@
             }
          }
       },
-      
+
       // use appropriate function for textContent
       text: ("textContent" in document.documentElement ? setContentStandard : setContentIE),
-      
+
       html: function(arrElems, value) {
          for(var i = 0, len = arrElems.length; i < len; i++) {
             arrElems[i].innerHTML = value;
          }
-      },
-      
-      cssclass: (function() {
-        var actions = {
-          add: function(elem, value) {
-            elem.addClass(value);
-          },
-          remove: function(elem, value) {
-            elem.removeClass(value);
-          },
-          set: function(elem, value) {
-            elem.get(0).className = value;
-          }
-        };
-        return function(arrElems, value, act) {
-          var action = actions[act] || actions.set;
-          for(var i = 0, len = arrElems.length; i < len; i++) {
-            action($(arrElems[i]), value);
-          }
-        };
-      })()
+      }
    };
-   
-   $.binder = {
-      
-   };
-   
+
+   $.binder = {};
+
    $.extension("binder", function(options) {
       options = options || {};
-      var model = options.model || {}, self = this, 
+      var model = options.model || {}, self = this,
             bindingAttr = options.attr || "data-bind",
-            boundElemMap = {}, 
+            boundElemMap = {},
             formatters = options.formatters || {},
             converters = options.converters || {};
-      
+
       function applyBindings() {
          forEach(boundElemMap, function(keyMap, modelKey) {
             var value = getValue(modelKey, model, formatters[modelKey]);
             applyBindingsForKey(modelKey, value);
          });
       }
-      
+
       function applyBindingsForKey(modelKey, value) {
          var keyMap = boundElemMap[modelKey] || {};
          forEach(keyMap, function(arrElems, typeKey) {
-            var binderInfo = typeKey.split("@"), 
-                binderName = binderInfo[0] || typeKey, 
-                extra = binderInfo[1], 
+            var binderInfo = typeKey.split("@"),
+                binderName = binderInfo[0] || typeKey,
+                extra = binderInfo[1],
                 binder;
-            
+
             console.log(binderName + "@" + extra + ":" + modelKey);
-            binder = binders[typeKey] || binders.text;
+            binder = binders[binderName] || binders.text;
             binder(arrElems, value, extra);
          });
-         
+
          if($.getTypeOf(value) === "Object") {
             var k = modelKey + ".";
             $.forEach(value, function(val, prop) {
                var key = k + prop, formatter = formatters[key];
-               applyBindingsForKey(key, formatter ? formatter(val) : val);
+               applyBindingsForKey(key, formatter ? formatter.call(value, val) : val);
             });
          }
       }
@@ -156,21 +134,19 @@
          forEach(mdl, function(value, key) {
             var actKey = parentKey + key, type = getTypeOf(value), formatter = formatters[actKey];
             if(type === "Object") {
-               applyBindingsForKey(actKey, formatter ? formatter(value) : value);
+               applyBindingsForKey(actKey, formatter ? formatter.call(pModel,value) : value);
                updateModel(value, key, pModel[key] || (pModel[key] = {}));
             }else {
-               if(pModel[key] !== value) {
-                  pModel[key] = value; //update our model
-                  applyBindingsForKey(actKey,  formatter ? formatter(value) : value);
-               }
+               pModel[key] = value; //update our model
+               applyBindingsForKey(actKey,  formatter ? formatter.call(pModel, value) : value);
             }
          });
       }
 
       function updateModelValue(key, value, updateView) {
-         var keys = key.split("."), modelValue, partKey, tmpModel = model, 
+         var keys = key.split("."), modelValue, partKey, tmpModel = model,
              formatter = formatters[key];
-     
+
          for(var i = 0, len = keys.length; i < len; i++) {
             partKey = keys[i];
             modelValue = tmpModel[partKey];
@@ -186,28 +162,28 @@
                tmpModel = tmpModel[partKey];
             }
          }
-         
+
          // console.log(tmpModel == model);
-         
+
          // update the view
          if(updateView) {
-            applyBindingsForKey(key, formatter ? formatter(value) : value);
+            applyBindingsForKey(key, formatter ? formatter.call(model, value) : value);
          }
       }
-      
+
       function identity(arg) {return arg;}
-      
+
       function changeListener(e) {
-         var elem = e.target, 
-               bindKey = elem.getAttribute(bindingAttr), 
+         var elem = e.target,
+               bindKey = elem.getAttribute(bindingAttr),
                keyInfo = getKey(bindKey),
                converter = converters[keyInfo.key] || identity;
          updateModelValue(keyInfo.key, converter(elem.value));
       }
-      
+
       function attachListeners(elem, key) {
          var eName = elem.nodeName.toLowerCase(), type = eName.type, el, val;
-         if((eName === "input" || eName === "textarea" || eName === "select") && 
+         if((eName === "input" || eName === "textarea" || eName === "select") &&
                  (type !== "submit" && type !== "reset" || type !== "image" && type !== "button")) {
             el = $(elem);
             el.on("input", changeListener).on("change", changeListener);
@@ -218,7 +194,7 @@
             */
          }
       }
-      
+
       /* Structure of bound element map
       var boundElemMap = {
          "user.firstname": {
@@ -230,25 +206,25 @@
       */
       // search for all bound elements
       self.find("[" + bindingAttr + "]").forEach(function(elem) {
-         var bindKey = elem.getAttribute(bindingAttr), 
+         var bindKey = elem.getAttribute(bindingAttr),
                keyInfo = getKey(bindKey),
-               keyMap = boundElemMap[keyInfo.key] || (boundElemMap[keyInfo.key] = {}), 
+               keyMap = boundElemMap[keyInfo.key] || (boundElemMap[keyInfo.key] = {}),
                arrElems = keyMap[keyInfo.type] || (keyMap[keyInfo.type] = []);
-               
-         // console.log(boundElemMap);               
+
+         // console.log(boundElemMap);
          arrElems[arrElems.length] = elem;
-         
+
          attachListeners(elem, keyInfo.key);
       });
-      
+
       applyBindings(model);
-      
+
       return {
          apply: function(mdl) {
             model = mdl || {};
             applyBindings();
          },
-         
+
          update: function(key, val, updateView) {
             if(typeof key === "string") {
                updateModelValue(key, val, updateView === false ? false : true);
@@ -256,12 +232,12 @@
                updateModel(key); // key is actually a partial model object
             }
          },
-         
+
          getModel: function() {
             return model;
          }
       };
-      
+
    });
 })(h5);
 
