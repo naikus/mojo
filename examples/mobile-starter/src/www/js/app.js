@@ -79,7 +79,8 @@ $.extension("removeAttr", function(name) {
         navList = self.find(".nav-list").repeat();
 
     navList.onItem(EventTypes.tap, function(e, data) {
-      var li = $(data.element), model = data.item,
+      var li = $(data.element),
+          model = data.item,
           route = li.get(0).getAttribute("data-route");
       hide(function() {
         if(route) {
@@ -101,14 +102,14 @@ $.extension("removeAttr", function(name) {
     function show() {
       self.addClass("show");
       setTimeout(function() {
-        requestAnimationFrame(function() {nav.addClass("in");});
+        nav.addClass("in");
       }, 50);
     }
 
     function hide(callback) {
       nav.removeClass("in");
+      self.removeClass("show");
       setTimeout(function() {
-        requestAnimationFrame(function() {self.removeClass("show");});
         if(callback) {
           callback();
         }
@@ -118,9 +119,9 @@ $.extension("removeAttr", function(name) {
     return {
       toggle: function() {
         if(self.hasClass("show")) {
-          requestAnimationFrame(hide);
+          hide();
         }else {
-          requestAnimationFrame(show);
+          show();
         }
       },
       setItems: function(items) {

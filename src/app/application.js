@@ -64,13 +64,13 @@
       tests = {
         transition: function() {
           var support,
-                  transitionend = [
-                    "transitionend", "webkitTransitionEnd", "transitionend",
-                    "oTransitionEnd", "MSTransitionEnd"
-                  ];
+              transitionend = [
+                "transitionend", "webkitTransitionEnd", "transitionend",
+                "oTransitionEnd", "MSTransitionEnd", "MSTransitionEnd"
+              ];
 
           for(var i = 0, len = prefixes.length; i < len; i++) {
-            var pfx = prefixes[i], pt = pfx + "Transition";
+            var pfx = prefixes[i], pt = pfx ? pfx + "Transition" : "transition";
             if(typeof style[pt] !== "undefined") {
               support = true;
               props.transition = pt;
@@ -89,7 +89,7 @@
           var support;
 
           for(var i = 0, len = prefixes.length; i < len; i++) {
-            var pfx = prefixes[i], pt = pfx + "Transform";
+            var pfx = prefixes[i], pt = pfx ? pfx + "Transform" : "transform";
             if(typeof style[pt] !== "undefined") {
               support = true;
               props.transform = pt;
@@ -253,6 +253,7 @@
         setTimeout = window.setTimeout,
         // the transition property that we are tracking (e.g. transform, opacity, position, etc.)
         transitionProp,
+        transitionInProgress = false,
         DEFAULT_TRANSITION_DELAY = 100,
         transitionDelay = DEFAULT_TRANSITION_DELAY,
         useHash = true,
@@ -391,6 +392,7 @@
       var currRoute = stack.length ? stack[stack.length - 1] : null;
 
       if(currRoute === route) {
+        transitionInProgress = false;
         viewPort.removeClass("view-transitioning");
         if(currRoute.realPath !== path) {
           currRoute.realPath = path;
@@ -418,7 +420,7 @@
         currRoute.onresult = resultCallback;
       }
       // indicate that both views are transitioning
-      // viewPort.addClass("view-transitioning");
+      viewPort.addClass("view-transitioning");
 
       setTimeout(function() {
         if(currRoute) {
@@ -444,6 +446,7 @@
 
       // no routes on stack
       if(stack.length <= 1) {
+        transitionInProgress = false;
         console.log("Can't pop view, last in stack.");
         return;
       }
@@ -456,6 +459,7 @@
             stack.pop();
           }
         }else {
+          transitionInProgress = false;
           throw new Error("Route " + toPath + " is not on stack");
         }
       }else {
@@ -477,19 +481,19 @@
       // Experimental!!!
       // appendView(ui);
 
-      // indicate that this view is transitioning
-      // viewPort.addClass("view-transitioning");
-
-      if(typeof resultCallback === "function") {
-        resultCallback(data);
-        route.onresult = null;
-      }
-
       // make this view visible
       ui.addClass("showing");
 
+      // indicate that this view is transitioning
+      viewPort.addClass("view-transitioning");
+
       setTimeout(function() {
         currRoute.controller.deactivate();
+
+        if(typeof resultCallback === "function") {
+          resultCallback(data);
+          route.onresult = null;
+        }
         route.controller.activate(params, data);
 
         requestAnimationFrame(function() {
@@ -674,6 +678,7 @@
         ui.removeClass("showing");
         eType = "out";
       }else if(ui.hasClass("in")) {// if ui has transitioned in
+        transitionInProgress = false;
         eType = "in";
         viewPort.removeClass("view-transitioning");
       }else if(ui.hasClass("pop")) { // if view has been popped
@@ -780,13 +785,14 @@
     application = {
       addRoute: addRoute,
       showView: function(path, data, resultCallback) {
-        if(this.isViewTransitioning()) {
+        if(transitionInProgress) {
           console.log("View transitioning in progress. Not showing");
           return;
         }
 
         // indicate that both views are transitioning
-        viewPort.addClass("view-transitioning");
+        // viewPort.addClass("view-transitioning");
+        transitionInProgress = true;
 
         // console.log(path + ", " + window.location.hash);
         // path check is because we may also load from <a href="#/somepath"></a>
@@ -800,7 +806,8 @@
           // check if configured
           var cfg = getMatching(path, routeConfigs);
           if(!cfg) {
-            viewPort.removeClass("view-transitioning");
+            // viewPort.removeClass("view-transitioning");
+            transitionInProgress = false;
             throw new Error("View not found at " + path);
           }
 
@@ -809,7 +816,8 @@
                 pushView(path, data, resultCallback);
               },
               function(err) {
-                viewPort.removeClass("view-transitioning");
+                transitionInProgress = false;
+                // viewPort.removeClass("view-transitioning");
                 console.log("Error loading view from " + cfg.viewPath);
                 console.log(err);
               }
@@ -820,14 +828,16 @@
       },
 
       popView: function(result, toPath) {
-        if(this.isViewTransitioning()) {
+        if(transitionInProgress) {
           console.log("View transitioning in progress. Not popping");
           return;
         }
         var len = stack.length;
         if(len >= 2) {
           // indicate that both views are transitioning
-          viewPort.addClass("view-transitioning");
+          // viewPort.addClass("view-transitioning");
+          transitionInProgress = true;
+
           var route = toPath ? getRouteOnStack(toPath) : stack[len - 2];
           if(route) {
             if(useHash) {
@@ -860,7 +870,7 @@
       },
 
       isViewTransitioning: function() {
-        return viewPort.hasClass("view-transitioning");
+        return transitionInProgress;
       },
 
       initialize: function(options) {
