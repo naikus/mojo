@@ -507,11 +507,10 @@
       // Experimental!!!
       // appendView(ui);
 
-      // make this view visible
-      ui.addClass("showing");
-
       // indicate that this view is transitioning
       viewPort.addClass("view-transitioning");
+      // make this view visible
+      ui.addClass("showing");
 
       setTimeout(function() {
         currRoute.controller.deactivate();
@@ -704,7 +703,6 @@
         ui.removeClass("showing");
         eType = "out";
       }else if(ui.hasClass("in")) {// if ui has transitioned in
-        transitionInProgress = false;
         eType = "in";
         viewPort.removeClass("view-transitioning");
       }else if(ui.hasClass("pop")) { // if view has been popped
@@ -714,6 +712,7 @@
 
       if(eType) {
         setTimeout(function() { // rendering performance
+          if(eType === "in") {transitionInProgress = false;}
           dispatchViewTransitionEvent(eType, ui, route);
           // Experimental!!!
           /*
@@ -721,7 +720,7 @@
            removeView(ui);
            }
            */
-        }, 50);
+        }, 150);
       }
     }
 
@@ -1810,9 +1809,6 @@
           clear: function(id) {
             if(id) {
               self.remove("#" + id);
-              if(self.children().length === 0) {
-                self.addClass("hidden");
-              }
               return;
             }else {
               msgQueue.splice(0, msgQueue.length);
@@ -1839,14 +1835,17 @@
         var m = self.find("#" + msg.id),
             remove = function () {
               widget.clear(msg.id);
+              showMessages();
             };
         setTimeout(function () {
           m.addClass("show");
           if(!msg.sticky) {
             timeoutId = setTimeout(remove, (msg.type === "error" ? 6000 : 3000));
+          }else {
+            timeoutId = setTimeout(showMessages, 500);
           }
           m.on(Events.tap, remove);
-          timeoutId = setTimeout(showMessages, 500);
+          // timeoutId = setTimeout(showMessages, 500);
         }, 50);
       }else {
         if(self.children().length === 0) {

@@ -481,11 +481,10 @@
       // Experimental!!!
       // appendView(ui);
 
-      // make this view visible
-      ui.addClass("showing");
-
       // indicate that this view is transitioning
       viewPort.addClass("view-transitioning");
+      // make this view visible
+      ui.addClass("showing");
 
       setTimeout(function() {
         currRoute.controller.deactivate();
@@ -678,7 +677,6 @@
         ui.removeClass("showing");
         eType = "out";
       }else if(ui.hasClass("in")) {// if ui has transitioned in
-        transitionInProgress = false;
         eType = "in";
         viewPort.removeClass("view-transitioning");
       }else if(ui.hasClass("pop")) { // if view has been popped
@@ -688,6 +686,7 @@
 
       if(eType) {
         setTimeout(function() { // rendering performance
+          if(eType === "in") {transitionInProgress = false;}
           dispatchViewTransitionEvent(eType, ui, route);
           // Experimental!!!
           /*
@@ -695,7 +694,7 @@
            removeView(ui);
            }
            */
-        }, 50);
+        }, 150);
       }
     }
 

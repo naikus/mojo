@@ -11,9 +11,6 @@
           clear: function(id) {
             if(id) {
               self.remove("#" + id);
-              if(self.children().length === 0) {
-                self.addClass("hidden");
-              }
               return;
             }else {
               msgQueue.splice(0, msgQueue.length);
@@ -40,14 +37,17 @@
         var m = self.find("#" + msg.id),
             remove = function () {
               widget.clear(msg.id);
+              showMessages();
             };
         setTimeout(function () {
           m.addClass("show");
           if(!msg.sticky) {
             timeoutId = setTimeout(remove, (msg.type === "error" ? 6000 : 3000));
+          }else {
+            timeoutId = setTimeout(showMessages, 500);
           }
           m.on(Events.tap, remove);
-          timeoutId = setTimeout(showMessages, 500);
+          // timeoutId = setTimeout(showMessages, 500);
         }, 50);
       }else {
         if(self.children().length === 0) {
