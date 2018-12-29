@@ -4,7 +4,8 @@ var gulp = require("gulp"),
     concat = require("gulp-concat"),
     uglify = require("gulp-uglify"),
     less = require("gulp-less"),
-    eventStream = require("event-stream"),
+    // eventStream = require("event-stream"),
+    mergestream = require("merge-stream"),
     connect = require("gulp-connect");
 
 
@@ -40,7 +41,7 @@ gulp.task("default", function() {
 
 
 gulp.task("jshint", function() {
-  return gulp.src(["src/js", "!src/js/lib"])
+  return gulp.src(["src/www/js", "!src/www/js/lib"])
       .pipe(jshint())
       .pipe(jshint.reporter("default"));
 });
@@ -60,9 +61,8 @@ gulp.task("clean", function(cb) {
 });
 
 
-gulp.task("build", ["clean"], function() {
-  gulp.start("jshint", "lessc");
-
+gulp.task("build", gulp.series("clean", "jshint", "lessc", function() {
+  // gulp.start("jshint", "lessc");
   var src = config.src.dir, dist = config.dist.app_dir;
   config.src.assets.forEach(function(ass) {
     gulp.src(src + ass + "**/*")
@@ -73,7 +73,7 @@ gulp.task("build", ["clean"], function() {
     src + "*.{html, js, css, png}"
   ]).pipe(gulp.dest(dist));
 
-});
+}));
 
 
 gulp.task("server", function() {

@@ -1,0 +1,1589 @@
+/*!
+ * The MIT License
+ * 
+ * Copyright (c) 2011-2013 mojo Authors. All rights reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+/* Default theme (gray blue) */
+/*#3395C2;*/
+/* Red theme */
+/*
+@base-color: #f4f4f4;
+// Background color for viewport views and other boxes
+@bg-color: #dcdcdc;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #2c2c2c;
+// Text color to complement the background color
+@text-color: #484848;
+// Text color to complement alternate background color
+@alt-text-color: #f0f0f0;
+// Default selected background color
+@selected-bg-color: #B84126;
+@selected-bg-color-alt: #c95237;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: lighten(@selected-bg-color, 10%);
+@active-text-color: #303030;
+// Default selected text color
+@selected-text-color: #f0f0f0;
+*/
+/* Mint theme (green) */
+/* Android theme */
+/*
+@base-color: #333;
+// Background color for viewport views and other boxes
+@bg-color: #333;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #222;
+// Text color to complement the background color
+@text-color: #f4f4f4;
+// Text color to complement alternate background color
+@alt-text-color: #bbb;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: #F7C53D;
+@active-text-color: #222;
+// Default selected background color
+@selected-bg-color: #F7C53D;
+@selected-bg-color-alt: #FFA100;
+// Default selected text color
+@selected-text-color: #222;
+*/
+/* Origin theme */
+/*
+@base-color: #A6A6A6;
+// Background color for viewport views and other boxes
+@bg-color: #F2F2F2;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #3F3B39; //#414141;
+// Text color to complement the background color
+@text-color: #424242;
+// Text color to complement alternate background color
+@alt-text-color: #FFFFFF;
+// Default selected background color
+@selected-bg-color: #F46A1A; //#DE6300;
+@selected-bg-color-alt: #ef8511;
+// Default selected text color
+@selected-text-color: #fff;
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@bg-color, 5%); // #Fdbc66;
+@active-text-color: #333;
+*/
+/* Default light theme */
+/*
+@base-color: #fafafa;
+// Background color for viewport views and other boxes
+@bg-color: #f8f8f8;
+// Background color for overlays, inlays etc.
+@alt-bg-color: #565656;
+// Text color to complement the background color
+@text-color: #656565;
+// Text color to complement alternate background color
+@alt-text-color: @bg-color;
+// Default selected background color
+@selected-bg-color: #E5E5E5;
+@selected-bg-color-alt: #47b8f4;
+// Default selected text color
+@selected-text-color: @text-color;
+
+// Active background color, when an element becomes active i.e. :active class
+@active-bg-color: darken(@selected-bg-color, 5%);
+@active-text-color: @text-color;
+
+@primary-action-color: #00CAD5; //#3FD9F4; //#48c9c7;
+@primary-text-color: @bg-color;
+@secondary-action-color: #444;
+@secondary-text-color: #e7e7e7;
+
+@toolbar-bg-color: #666666;
+@toolbar-text-color: #fafafa;
+*/
+/* Dark theme */
+/* Alternate light theme. Don't forget to change the chart colors too :) */
+/*
+@base-color: #F6f6f6;
+@bg-color: #F6F6F8;
+@alt-bg-color: #4D576D;
+@text-color: #839DA6;
+@alt-text-color: #FFF;
+@selected-bg-color: #B2E1E5;
+@selected-bg-color-alt: #83C2C7;
+@selected-text-color: #689799;
+@active-bg-color: @selected-bg-color;
+@active-text-color: @selected-text-color;
+@primary-action-color: #FB8238;
+@primary-text-color: #FFF;
+@secondary-action-color: #444;
+@secondary-text-color: #e7e7e7;
+@toolbar-bg-color: darken(@alt-bg-color, 5%); // #363D4C;
+@toolbar-text-color: @alt-text-color; // #FFF;
+*/
+.translateNone,
+.transformNone {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+a,
+img,
+button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  display: block;
+}
+.viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #374761;
+  color: #B1C1DA;
+}
+/* Currently unused since does not work consistently in firefox and firefox mobile */
+.view-transitioning {
+  height: 100%;
+  overflow: hidden;
+}
+.view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  will-change: transform;
+  display: none;
+  /* Avoid flickering in webkit browsers, thanks stackoverflow */
+  -webkit-backface-visibility: hidden;
+  background-color: #374761;
+}
+/* --------------------------- Android 5.1-ish transition for views ---------------------------- */
+/*
+.view {
+   opacity: 0;
+   .translate(0, 10%);
+   -moz-transition: -moz-transform 300ms cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
+   -webkit-transition: -webkit-transform 300ms cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
+   -o-transition: -o-transform 300ms cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
+   -ms-transition: -ms-transform 300ms cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
+   transition: transform -transform 300ms cubic-bezier(0.19, 1, 0.22, 1), opacity 200ms ease;
+
+   &.pop {
+      .translate(0, 10%);
+      opacity: 0;
+   }
+
+   &.showing {
+      display: block;
+   }
+   &.in {
+      // .translateY(0); Fixed position elements won't work with this
+      .transformNone;
+      opacity: 1;
+   }
+
+   &.showing.in {
+     z-index: 99;
+   }
+
+   &.showing.pop {
+     z-index: 99;
+   }
+
+   &.stack {
+     // .transition-transform(300ms, cubic-bezier(0.19, 1, 0.22, 1));
+     .translate(0, -1%);
+     opacity: 1;
+   }
+}
+*/
+/* ---------------------------- Slide transition for views ---------------------------- */
+.view {
+  -moz-transform: translate(100%, 0);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(100%, 0, 0);
+  -o-transform: translate(100%, 0);
+  -ms-transform: translate(100%, 0);
+  transform: translate3d(100%, 0, 0);
+  -moz-transition: -moz-transform 600ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 600ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 600ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 600ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 600ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  /*
+   &.pop {
+      .translate(100%);
+   }
+   */
+}
+.view.showing {
+  z-index: 99;
+  display: block;
+}
+.view.in {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+.view.stack {
+  z-index: 98;
+  -moz-transform: translate(-60%, 0);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(-60%, 0, 0);
+  -o-transform: translate(-60%, 0);
+  -ms-transform: translate(-60%, 0);
+  transform: translate3d(-60%, 0, 0);
+  -moz-transition: -moz-transform 750ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 750ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 750ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 750ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 750ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+}
+/* -------------------- Another fancy transition slide and scale ----------------------------- */
+/*
+.view {
+   .scaleAndTranslate(100%);
+   .transition-transform(600ms, cubic-bezier(0.19, 1, 0.22, 1));
+
+   &.pop {
+      .translate(100%);
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      .translateNone;
+   }
+   &.stack {
+      z-index: 98;
+      .scaleAndTranslate(-70%, 0, 0, 0.8, 0.8);
+      .transition-transform(750ms, cubic-bezier(0.19, 1, 0.22, 1));
+   }
+}
+*/
+/*
+.view {
+   opacity: 0;
+
+   -moz-transition: opacity 250ms ease;
+   -webkit-transition: opacity 250ms ease;
+   -o-transition: opacity 250ms ease;
+   -ms-transition: opacity 250ms ease;
+   transition: opacity 250ms ease;
+
+    &.pop {
+       opacity: 0;
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+   &.in {
+      opacity: 1;
+   }
+}
+*/
+/*
+Alternate Android2.3.x-like transition effect for views. Beta!
+*/
+/*
+.view {
+   .scale(1.05, 1.05);
+   opacity: 0;
+
+   .transition-transform(300ms);
+
+   &.in {
+      -moz-transform: none;
+      -webkit-transform: none;
+      -o-transform: none;
+      -ms-transform: none;
+      transform: none;
+      opacity: 1;
+   }
+
+   &.showing {
+      z-index: 99;
+      display: block;
+   }
+
+   &.stack {
+      -moz-transform: scale(0.95, 0.95);
+      -webkit-transform: scale(0.95, 0.95);
+      -o-transform: scale(0.95, 0.95);
+      transform: scale(0.95, 0.95);
+      opacity: 0;
+   }
+
+   &.pop {
+      opacity: 0;
+   }
+}
+*/
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, sans;
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+}
+article,
+section,
+aside,
+div,
+img,
+p,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.box,
+.inline-box,
+input,
+textarea,
+select {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.box {
+  display: block !important;
+  overflow: auto;
+}
+.inline-box {
+  display: inline-block !important;
+  overflow: auto;
+}
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-small {
+  font-size: 0.9em;
+}
+.text-x-small,
+.hint {
+  font-size: 0.85em;
+}
+.no-select {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.pad {
+  padding: 11px;
+}
+.pad-v {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+.pad-h {
+  padding-left: 11px;
+  padding-right: 11px;
+}
+.pad-t {
+  padding-top: 11px;
+}
+.pad-b {
+  padding-bottom: 11px;
+}
+.pad-l {
+  padding-left: 11px;
+}
+.pad-r {
+  padding-right: 11px;
+}
+.pad-extra {
+  padding: 16px;
+}
+.overflow {
+  overflow: auto;
+}
+.alt-bg {
+  background-color: #2a364a;
+  color: #B1C1DA;
+}
+.hidden {
+  display: none !important;
+}
+input,
+button,
+select,
+textarea,
+.button {
+  padding: 11px;
+  font-size: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 2px;
+  display: block;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 12px;
+  background-color: #405371;
+  color: #B1C1DA;
+  -webkit-appearance: caret;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input::-moz-focus-inner,
+button::-moz-focus-inner,
+select::-moz-focus-inner,
+textarea::-moz-focus-inner,
+.button::-moz-focus-inner {
+  outline: 0;
+  border: 0;
+}
+input:focus,
+button:focus,
+select:focus,
+textarea:focus,
+.button:focus {
+  border-bottom-color: #adcdeb;
+  outline: 0;
+}
+input[disabled],
+button[disabled],
+select[disabled],
+textarea[disabled],
+.button[disabled],
+input.disabled,
+button.disabled,
+select.disabled,
+textarea.disabled,
+.button.disabled {
+  background-color: #252f40 !important;
+}
+input.inline,
+button.inline,
+select.inline,
+textarea.inline,
+.button.inline {
+  display: inline-block;
+  width: auto;
+}
+a.button {
+  text-decoration: none;
+}
+textarea {
+  min-height: 100px;
+}
+.button,
+input[type=button],
+button,
+input[type=reset],
+input[type=submit] {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  border-bottom-width: 3px;
+  cursor: pointer;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /*
+   > .fa {
+      font-size: 1.1em;
+      margin-right: 5px;
+   }
+   */
+}
+.button:hover,
+input[type=button]:hover,
+button:hover,
+input[type=reset]:hover,
+input[type=submit]:hover {
+  background-color: #252f40;
+  color: #B1C1DA;
+}
+.button:focus,
+input[type=button]:focus,
+button:focus,
+input[type=reset]:focus,
+input[type=submit]:focus {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  outline: 0;
+}
+.button:active,
+input[type=button]:active,
+button:active,
+input[type=reset]:active,
+input[type=submit]:active,
+.button.active,
+input[type=button].active,
+button.active,
+input[type=reset].active,
+input[type=submit].active {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #B1C1DA;
+}
+.button.primary,
+input[type=button].primary,
+button.primary,
+input[type=reset].primary,
+input[type=submit].primary {
+  background-color: #FB387D;
+  color: #fff;
+}
+.button.primary:hover,
+input[type=button].primary:hover,
+button.primary:hover,
+input[type=reset].primary:hover,
+input[type=submit].primary:hover {
+  background-color: #fa1f6d;
+}
+.button.primary:focus,
+input[type=button].primary:focus,
+button.primary:focus,
+input[type=reset].primary:focus,
+input[type=submit].primary:focus {
+  box-shadow: 0 0 2px #fc6a9e;
+  outline: none;
+}
+.button.primary:active,
+input[type=button].primary:active,
+button.primary:active,
+input[type=reset].primary:active,
+input[type=submit].primary:active,
+.button.primary.active,
+input[type=button].primary.active,
+button.primary.active,
+input[type=reset].primary.active,
+input[type=submit].primary.active {
+  border-color: #fa1f6d;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.08) inset;
+  background-color: #fa1063;
+  color: #fff;
+}
+.button[disabled],
+input[type=button][disabled],
+button[disabled],
+input[type=reset][disabled],
+input[type=submit][disabled],
+.button[disabled]:hover,
+input[type=button][disabled]:hover,
+button[disabled]:hover,
+input[type=reset][disabled]:hover,
+input[type=submit][disabled]:hover,
+.button[disabled]:active,
+input[type=button][disabled]:active,
+button[disabled]:active,
+input[type=reset][disabled]:active,
+input[type=submit][disabled]:active,
+.button[diabled].active,
+input[type=button][diabled].active,
+button[diabled].active,
+input[type=reset][diabled].active,
+input[type=submit][diabled].active {
+  box-shadow: none !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #ffffff !important;
+}
+.button.secondary,
+input[type=button].secondary,
+button.secondary,
+input[type=reset].secondary,
+input[type=submit].secondary {
+  background-color: #405371;
+  color: #fff;
+}
+.button.secondary:hover,
+input[type=button].secondary:hover,
+button.secondary:hover,
+input[type=reset].secondary:hover,
+input[type=submit].secondary:hover {
+  background-color: #374761;
+}
+.button.secondary:focus,
+input[type=button].secondary:focus,
+button.secondary:focus,
+input[type=reset].secondary:focus,
+input[type=submit].secondary:focus {
+  box-shadow: 0 0 2px #526b92;
+  outline: none;
+}
+.button.secondary:active,
+input[type=button].secondary:active,
+button.secondary:active,
+input[type=reset].secondary:active,
+input[type=submit].secondary:active,
+.button.secondary.active,
+input[type=button].secondary.active,
+button.secondary.active,
+input[type=reset].secondary.active,
+input[type=submit].secondary.active {
+  border-color: #242f40;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) inset;
+  background-color: #374761;
+}
+label {
+  display: block;
+  padding: 3px 0;
+}
+.form .para,
+form .para {
+  font-size: 0.95em;
+}
+.form label,
+form label {
+  font-weight: bold;
+}
+.form label > .hint,
+form label > .hint {
+  font-weight: normal;
+}
+.form .hint,
+form .hint {
+  display: inline-block;
+  padding: 3px 0;
+}
+.selected {
+  background-color: #5C9BD6;
+  color: #fff;
+}
+.activable {
+  cursor: pointer;
+  -moz-transition: background-color 150ms ease;
+  -webkit-transition: background-color 150ms ease;
+  -ms-transition: background-color 150ms ease;
+  transition: background-color 150ms ease;
+}
+.activable.active {
+  background-color: #212a3a !important;
+  color: #B1C1DA !important;
+}
+.list {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+.list > li {
+  list-style-type: none;
+  overflow: auto;
+  position: relative;
+}
+.list > li.selected {
+  background-color: #5C9BD6;
+}
+[data-template] {
+  display: none;
+}
+.widget.switch {
+  position: relative;
+  display: inline-block;
+  min-width: 60px;
+  background-color: #2e3b51;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.widget.switch > .thumb {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 28px;
+  position: absolute;
+  height: 28px;
+  display: block;
+  background-color: #3b4c68;
+  border-radius: 50%;
+  left: 1px;
+  top: 1px;
+  will-change: transform;
+  -moz-transition: -moz-transform 300ms ease 0ms;
+  -webkit-transition: -webkit-transform 300ms ease 0ms;
+  -o-transition: -o-transform 300ms ease 0ms;
+  -ms-transition: -ms-transform 300ms ease 0ms;
+  transition: transform 300ms ease 0ms;
+  border: 1px solid rgba(0, 0, 0, 0.11);
+}
+.widget.switch[data-on] {
+  background-color: #3382cc;
+  color: #fff;
+}
+.widget.switch[data-on] > .thumb {
+  -moz-transform: translateX(27px);
+  -webkit-transform: translate3d(27px, 0, 0);
+  -o-transform: translateX(27px);
+  -ms-transform: translateX(27px);
+  transform: translate3d(27px, 0, 0);
+}
+/*
+.slider {
+   position: relative;
+   height: 5px;
+   background-color: darken(@bg-color, 10%);
+   border: 1px solid darken(@bg-color, 20%);
+}
+.slider > .value {
+   height: 5px;
+   width: 0;
+   background-color: @selected-bg-color;
+}
+.slider > .thumb {
+   display: block;
+   position: absolute;
+   transition: left 100ms ease;
+   left: 0;
+   right: 45%;
+   top: -11px;
+   width: 25px;
+   height: 25px;
+   background-color: lighten(@bg-color, 2%);
+   border: 1px solid darken(@bg-color, 10%);
+   border-radius: 30px;
+}
+.slider > .thumb.active {
+   background-color: @active-bg-color;
+   border: 1px solid darken(@active-bg-color, 10%);
+}
+.slider.horizontal > .thumb {
+   height: 30px;
+}
+*/
+.expandable > .expandable-content {
+  display: none;
+  overflow: auto;
+}
+.expandable.on > .expandable-content {
+  display: block;
+}
+.progress {
+  background-color: #0e1319;
+  /*box-shadow: 0 0 2px #000000 inset;*/
+  overflow: auto;
+  padding: 2px;
+  position: relative;
+}
+.progress > .value {
+  height: 4px;
+  left: 0px;
+  position: absolute;
+  top: 0;
+  width: 0;
+  /*border: 1px solid rgba(255,255,255,0.2);*/
+  -moz-transition: width 700ms ease 50ms;
+  -webkit-transition: width 700ms ease 50ms;
+  -o-transition: width 700ms ease 50ms;
+  -ms-transition: width 700ms ease 50ms;
+  transition: width 700ms ease 50ms;
+}
+/* --------------------------------------- Css for ui messages --------------------------------------------- */
+.messages {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 30px;
+  overflow: auto;
+  z-index: 199;
+  margin: 0;
+  /*
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
+  */
+}
+.messages > .message {
+  font-size: 0.9em;
+  margin: 0;
+  padding: 7px;
+  color: #fff;
+  opacity: 0;
+  -moz-transition: opacity 300ms ease;
+  -webkit-transition: opacity 300ms ease;
+  transition: opacity 300ms ease;
+}
+.messages > .message.show {
+  opacity: 1;
+}
+/*
+body.dialog-showing {
+  .viewport {
+    overflow-y: hidden;
+  }
+}
+*/
+.dialog-pane {
+  z-index: 299;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(30, 30, 32, 0.78);
+  display: none;
+}
+.dialog-pane.showing {
+  display: block;
+}
+.dialog-pane .dialog {
+  background-color: #10161f;
+  color: #B1C1DA;
+  display: block;
+  max-width: 90% !important;
+  max-height: 90% !important;
+  z-index: 1;
+  border-radius: 2px;
+  left: auto;
+  margin: 11% auto;
+  -moz-transform: translateY(-300%);
+  -webkit-transform: translate3d(0, -300%, 0);
+  -o-transform: translateY(-300%);
+  -ms-transform: translateY(-300%);
+  transform: translate3d(0, -300%, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+.dialog-pane .dialog.hidden {
+  display: none;
+}
+.dialog-pane .dialog.in {
+  display: block;
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+@-moz-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    -moz-transform: scale(0.7, 0.7);
+  }
+  50% {
+    -moz-transform: scale(1.2, 1.2);
+  }
+  100% {
+    -moz-transform: scale(0.7, 0.7);
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+  50% {
+    -webkit-transform: scale(1.2, 1.2);
+  }
+  100% {
+    -webkit-transform: scale(0.7, 0.7);
+  }
+}
+@-moz-keyframes slide {
+  0% {
+    -moz-transform: translate3d(0, 0, 0);
+  }
+  50% {
+    -moz-transform: translate3d(400%, 0, 0);
+  }
+  100% {
+    -moz-transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes slide {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  50% {
+    -webkit-transform: translate3d(400%, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+.spin {
+  -moz-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+.anim .spin {
+  -webkit-animation: 2s linear 0s normal none infinite spin;
+  -moz-animation: 2s linear 0s normal none infinite spin;
+  animation: 2s linear 0s normal none infinite spin;
+}
+.anim .pulse {
+  -webkit-animation: 1s linear 0s normal none infinite pulse;
+  -moz-animation: 1s linear 0s normal none infinite pulse;
+  animation: 1s linear 0s normal none infinite pulse;
+}
+.anim .slide {
+  -webkit-animation: 4s linear 0s normal none infinite slide;
+  -moz-animation: 4s linear 0s normal none infinite slide;
+  animation: 4s linear 0s normal none infinite slide;
+}
+* {
+  /* prevent callout when holding tap on links (the native dialog that comes up) */
+  -webkit-touch-callout: none;
+  /* prevent webkit from resizing text to fit */
+  -webkit-text-size-adjust: none;
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html,
+body,
+.viewport {
+  background-color: #293952;
+  font-size: 1em;
+  font-family: sans-serif;
+}
+a {
+  color: #B1C1DA;
+  text-decoration: none;
+}
+.clear {
+  clear: both;
+}
+.text-big {
+  font-size: 1.1em;
+}
+.text-huge {
+  font-size: 4em;
+}
+.text-light {
+  color: #e1e7f1;
+}
+/*
+.view {
+   background-color: @base-color;
+}
+*/
+/*
+ * This hides elements with .transition-hide class while view is transitioning
+ */
+.view-transitioning .transition-hide {
+  display: none;
+}
+.list.pad-items > li {
+  padding: 10px;
+}
+.list.pad-items-extra > li {
+  padding: 15px 10px;
+}
+.list.bordered > li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+.form .header {
+  background-color: #2a364a;
+  padding: 10px !important;
+  margin: 0;
+  color: #B1C1DA;
+  border: none;
+  font-weight: bold;
+  overflow: auto;
+}
+.no-separator > li,
+.alg-bg .no-separator li {
+  border: none !important;
+}
+.list li .label {
+  padding: 4px 4px 2px;
+}
+.list > li .thumb {
+  display: block;
+  float: left;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  background-color: #293952;
+}
+.info {
+  background-color: #007BD3;
+}
+.info-text {
+  color: #00223a;
+}
+.success {
+  background-color: #94B75F;
+  color: #fff;
+}
+.success-text {
+  color: #94B75F;
+}
+.error {
+  background-color: #D66B55;
+  color: #fff;
+}
+.error-text {
+  color: #D66B55;
+}
+.warn {
+  background-color: #F79204;
+  color: #fff;
+}
+.warn-text {
+  color: #F79204;
+}
+.indicate {
+  background-color: #D66B55;
+}
+.indicate-alt {
+  color: #D66B55;
+}
+.half {
+  width: 50%;
+}
+/* ------------------------------------------------ App Toolbar -----------------------------------------------*/
+.view {
+  padding-top: 48px;
+}
+.view.no-toolbar {
+  padding-top: 0;
+}
+#loading {
+  /*
+  z-index: 399;
+  width: 100%;
+  height: 100%;
+  // margin: 0 35%;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-size: 1.3em;
+  background-color: rgba(0,0,0,0.09);
+  display: none;
+  > .icon {
+    margin-top: 300px;
+    width: 50px;
+    height: 50px;
+    background-color: @alt-bg-color;
+    color: @alt-text-color;
+    border-radius: 50px;
+    padding: 13px;
+    overflow: hidden;
+  }
+  */
+  z-index: 399;
+  display: none;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0px;
+  height: 4px;
+  background-color: #1b2330;
+}
+#loading > .slider {
+  width: 20%;
+  height: 4px;
+  background-color: #FB387D;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#loading.show {
+  display: block;
+}
+.toolbar {
+  overflow: auto;
+  width: 100%;
+  height: 48px;
+  overflow: hidden;
+  background-color: #252f40;
+  color: #B1C1DA;
+  border-bottom: 1px solid #212a3a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 110;
+  -moz-transition: -moz-transform 300ms ease 0ms;
+  -webkit-transition: -webkit-transform 300ms ease 0ms;
+  -o-transition: -o-transform 300ms ease 0ms;
+  -ms-transition: -ms-transform 300ms ease 0ms;
+  transition: transform 300ms ease 0ms;
+  padding: 0;
+  margin: 0;
+}
+.toolbar.hide {
+  box-shadow: none;
+  -moz-transform: translateY(-110%);
+  -webkit-transform: translate3d(0, -110%, 0);
+  -o-transform: translateY(-110%);
+  -ms-transform: translateY(-110%);
+  transform: translate3d(0, -110%, 0);
+}
+.toolbar.transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+.toolbar > ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.toolbar .title {
+  display: block;
+  padding: 13px 3px;
+}
+.toolbar .title.active {
+  background-color: transparent !important;
+  color: #B1C1DA !important;
+}
+.toolbar .title:first-child {
+  padding-left: 10px;
+}
+.toolbar .action {
+  float: left;
+  display: block;
+  padding: 12px 11px;
+  min-width: 45px;
+  height: 48px;
+  text-align: center;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.toolbar .action.indicator {
+  position: relative;
+}
+.toolbar .action.indicator:before {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  content: '!';
+  width: 15px;
+  height: 15px;
+  font-size: 0.7em;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: #d66b55;
+  z-index: 1;
+  padding: 1px;
+}
+.toolbar .action.right {
+  float: right;
+}
+.toolbar .action.active {
+  background-color: transparent !important;
+  color: #FB387D !important;
+}
+.toolbar .action.right {
+  border: none;
+}
+.toolbar .action.action.on {
+  color: #FB387D;
+}
+.toolbar .action .icon {
+  font-size: 1.2em;
+  position: absolute;
+  top: 12px;
+  left: 11px;
+}
+.toolbar .action .icon.rotate {
+  -moz-transform: rotate3d(0, 0, 1, 0deg);
+  -webkit-transform: rotate3d(0, 0, 1, 0deg);
+  -o-transform: rotate3d(0, 0, 1, 0deg);
+  -ms-transform: rotate3d(0, 0, 1, 0deg);
+  transform: rotate3d(0, 0, 1, 0deg);
+  -moz-transition: -moz-transform 200ms ease 0ms;
+  -webkit-transition: -webkit-transform 200ms ease 0ms;
+  -o-transition: -o-transform 200ms ease 0ms;
+  -ms-transition: -ms-transform 200ms ease 0ms;
+  transition: transform 200ms ease 0ms;
+}
+.toolbar .action.on .icon.rotate {
+  -moz-transform: rotate3d(0, 0, 1, 45deg);
+  -webkit-transform: rotate3d(0, 0, 1, 45deg);
+  -o-transform: rotate3d(0, 0, 1, 45deg);
+  -ms-transform: rotate3d(0, 0, 1, 45deg);
+  transform: rotate3d(0, 0, 1, 45deg);
+}
+ul.horizontal {
+  overflow: auto;
+  list-style-type: none;
+}
+ul.horizontal li {
+  float: left;
+}
+#navContainer {
+  position: fixed;
+  font-size: 1.1em;
+  z-index: 111;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: transform;
+  -moz-transform: translate(-100%, 0);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -o-transform: translate(-100%, 0);
+  -ms-transform: translate(-100%, 0);
+  transform: translate3d(-100%, 0, 0);
+  -moz-transition: -moz-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -webkit-transition: -webkit-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -o-transition: -o-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  -ms-transition: -ms-transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+  transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1) 0ms;
+}
+#navContainer.show {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+#navContainer.show #navigation {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+#navContainer .nav {
+  border-right: 1px solid #263244;
+  background-color: #2c394d;
+  color: #B1C1DA;
+  top: 48px;
+  width: 250px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+#navContainer .nav > .user-info {
+  padding: 12px 10px;
+  border-bottom: 1px solid #3f89cf;
+  background-color: #4c91d2;
+  color: #fff;
+}
+#navContainer .nav > .user-info > .label {
+  font-weight: bold;
+  margin-top: 12px;
+  width: 167px;
+  overflow: hidden;
+  text-overflow: ellipsis-word;
+}
+#navContainer .nav > .user-info > img {
+  border: none;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+#navContainer .nav > ul > li {
+  padding: 8px;
+  padding-left: 20px;
+}
+#navContainer .nav > ul > li .title {
+  padding: 5px;
+}
+#navContainer .nav > ul > li .icon {
+  padding: 3px;
+}
+section {
+  margin-bottom: 20px;
+  overflow: auto;
+}
+section > header {
+  overflow: auto;
+  font-size: 1em;
+  font-weight: bold;
+}
+section.panel {
+  background-color: #495f82;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+.expandable > .trigger .icon {
+  display: inline-block;
+  float: right;
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+  -moz-transition: -moz-transform 200ms ease 0ms;
+  -webkit-transition: -webkit-transform 200ms ease 0ms;
+  -o-transition: -o-transform 200ms ease 0ms;
+  -ms-transition: -ms-transform 200ms ease 0ms;
+  transition: transform 200ms ease 0ms;
+}
+.expandable.on > .trigger .icon {
+  -moz-transform: rotate3d(0, 0, 1, 180deg);
+  -webkit-transform: rotate3d(0, 0, 1, 180deg);
+  -o-transform: rotate3d(0, 0, 1, 180deg);
+  -ms-transform: rotate3d(0, 0, 1, 180deg);
+  transform: rotate3d(0, 0, 1, 180deg);
+}
+.tab-content .no-content {
+  text-align: center;
+}
+.tab-content .no-content .icon {
+  margin-top: 30%;
+  display: inline-block;
+  font-size: 5em;
+}
+.alt-bg .tab-content .no-content {
+  color: #58729c;
+}
+.alt-bg .tab-content .no-content .icon {
+  color: #3d4e6b;
+}
+.margin-r {
+  margin-right: 10px;
+}
+.list-item {
+  overflow: auto;
+  padding: 11px;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+}
+.list-item p {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5px;
+}
+.list-item .title {
+  color: #8ea6ca;
+}
+.list-item .desc {
+  color: #d4dcea;
+}
+.list-item .span-9 {
+  width: 66.6666%;
+}
+.list-item .span-3 {
+  width: 33.33333%;
+}
+.list-item .extra {
+  display: none;
+  clear: both;
+}
+.tag {
+  padding: 2px 4px;
+  text-align: center;
+  border-radius: 3px;
+  margin: 2px 2px;
+}
+.tag.Maintainance,
+.tag.Normal,
+.tag.normal,
+.tag.MINOR {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #13A0D3;
+  color: #fff;
+}
+.tag.Major,
+.tag.major,
+.tag.MAJOR {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #EF7B2D;
+  color: #fff;
+}
+.tag.Repair,
+.tag.critical,
+.tag.Critical,
+.tag.CRITICAL {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #D34C4C;
+  color: #fff;
+}
+.toolbar-logo {
+  border: none;
+  height: 32px;
+  margin: 9px 3px 5px;
+  width: 32px;
+}
+.no-content-message {
+  display: none;
+}
+.no-content-message .icon {
+  margin-top: 15px;
+  display: inline-block;
+  font-size: 6em;
+  color: #2FBFEF;
+}
+.content {
+  display: block;
+}
+.no-content .no-content-message {
+  display: block;
+}
+.no-content .content {
+  display: none;
+}
+/* --------------------------------------- Additional Views ------------------------------------- */
+#loginView {
+  overflow: hidden;
+  /*
+  &.in {
+    .logo-container {
+      img.logo {
+        .scale(1, 1);
+      }
+    }
+  }
+  */
+}
+#loginView .content {
+  padding: 40px 50px;
+}
+#loginView .logo-container {
+  padding-bottom: 40px;
+}
+#loginView .logo-container img.logo {
+  width: 160px;
+  height: 160px;
+  border: none;
+  border-radius: 3px;
+  opacity: 1;
+}
+#loginView #loginForm {
+  will-change: transform;
+  -moz-transform: translate(0, 300%);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, 300%, 0);
+  -o-transform: translate(0, 300%);
+  -ms-transform: translate(0, 300%);
+  transform: translate3d(0, 300%, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+#loginView #loginForm.show {
+  -moz-transform: translate(0, 0);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, 0, 0);
+  -o-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate3d(0, 0, 0);
+}
+#loginView .link {
+  color: #1993db;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+#selectServerView .content {
+  position: absolute;
+  width: 100%;
+  -moz-transform: translate(0, -185px);
+  /**
+    * In older webkits on android, this causes the whole page to jump up and down
+    * when typing, in input fields
+    */
+  -webkit-transform: translate3d(0, -185px, 0);
+  -o-transform: translate(0, -185px);
+  -ms-transform: translate(0, -185px);
+  transform: translate3d(0, -185px, 0);
+  -moz-transition: -moz-transform 400ms ease 0ms;
+  -webkit-transition: -webkit-transform 400ms ease 0ms;
+  -o-transition: -o-transform 400ms ease 0ms;
+  -ms-transition: -ms-transform 400ms ease 0ms;
+  transition: transform 400ms ease 0ms;
+}
+#selectServerView .content #addServerForm {
+  opacity: 0;
+  margin-bottom: 25px;
+}
+#selectServerView .content.show-form {
+  -moz-transform: none;
+  -webkit-transform: none;
+  -o-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+#selectServerView .content.show-form #addServerForm {
+  opacity: 1;
+}
